@@ -1,0 +1,1349 @@
+﻿AltNameGene,GeneMasterName,ForNLP,ForGeneCancerAssociation,DisplayAltNameGene,PrimaryKey,Test,Z_Ambry,Z_Invitae,Z_Fulgent,Z_ASK2ME,Z_Disease Type
+ABCC9,ABCC9,,,,167,gene good,,,,,Cardiomyophathy
+ACTC,ACTC,,,,168,,,,,,Cardiomyophathy
+ACTN2,ACTN2,,,,169,gene good,,,,,Cardiomyophathy
+APC,APC,1,1,1,170,gene good,1,1,1,1,Cancer
+hAPC,APC,1,1,,171,gene good,,,,,Cancer
+ATM,ATM,1,1,1,172,gene good,1,1,1,1,Cancer
+hATM,ATM,1,1,,173,gene good,,,,,Cancer
+A-T mutation,ATM,1,1,,174,gene good,,,,,Cancer
+BARD1,BARD1,1,1,1,175,,1,1,1,1,Cancer
+hBARD1,BARD1,1,1,,176,,,,,,Cancer
+BMPR1A,BMPR1A,1,1,1,177,gene good,1,1,1,1,Cancer
+hBMPR1A,BMPR1A,1,1,,178,gene good,,,,,Cancer
+BRCA,BRCA1,1,1,1,179,,,,,,Cancer
+hBRCA,BRCA1,1,1,,180,,,,,,Cancer
+BRCA1,BRCA1,1,1,1,181,gene good,1,1,1,1,Cancer
+17q-linked,BRCA1,1,1,1,182,gene good,,,,,Cancer
+hBRCA1,BRCA1,1,1,,183,gene good,,,,,Cancer
+BRCA2,BRCA2,1,1,1,185,gene good,1,1,1,1,Cancer
+hBRCA2,BRCA2,1,1,,186,gene good,,,,,Cancer
+FANCJ,BRIP1,1,,1,187,gene good,,,,,Cancer
+BRIP1,BRIP1,1,1,1,188,gene good,1,1,1,1,Cancer
+hBRIP1,BRIP1,1,1,,189,gene good,,,,,Cancer
+epithelial cadherin,CDH1,1,1,1,190,gene good,,,,,Cancer
+CDH1,CDH1,1,1,1,191,gene good,1,1,1,1,Cancer
+e-cadherin,CDH1,1,1,,192,gene good,,,,,Cancer
+epithelial-cadherin,CDH1,1,1,,193,gene good,,,,,Cancer
+cadherin,CDH1,1,1,,194,gene good,,,,,Cancer
+hCDH1,CDH1,1,1,,195,gene good,,,,,Cancer
+CDK4,CDK4,1,1,1,196,gene good,1,1,1,1,Cancer
+hCDK4,CDK4,1,1,,197,gene good,,,,,Cancer
+CDKN1B,CDKN1B,1,1,1,198,gene good,1,1,1,,Cancer
+P14,CDKN2A,,,1,199,gene good,,,,,Cancer
+ARF,CDKN2A,,,1,200,gene good,,,,,Cancer
+CMM2,CDKN2A,,,1,201,gene good,,,,,Cancer
+INK4A,CDKN2A,,,1,202,gene good,,,,,Cancer
+MLM,CDKN2A,,,1,203,gene good,,,,,Cancer
+MTS1,CDKN2A,,,1,204,gene good,,,,,Cancer
+CDK4I,CDKN2A,,,1,205,gene good,,,,,Cancer
+CDKN2A,CDKN2A,1,1,1,206,gene good,1,1,1,1,Cancer
+P16,CDKN2A,,,1,207,gene good,,,,,Cancer
+TP16,CDKN2A,,,1,208,gene good,,,,,Cancer
+P19,CDKN2A,,,1,209,gene good,,,,,Cancer
+P14ARF,CDKN2A,,,,210,gene good,,,,,Cancer
+CDKN2,CDKN2A,,,,211,gene good,,,,,Cancer
+INK4,CDKN2A,,,,212,gene good,,,,,Cancer
+P16INK4A,CDKN2A,,,,213,gene good,,,,,Cancer
+P16INK4,CDKN2A,,,,214,gene good,,,,,Cancer
+MTS-1,CDKN2A,,,,215,gene good,,,,,Cancer
+P16-INK4A,CDKN2A,,,,216,gene good,,,,,Cancer
+P19ARF,CDKN2A,,,,217,gene good,,,,,Cancer
+hCDKN2A/p14,CDKN2A,1,1,,218,,,,,,Cancer
+CDKN2A/p14,CDKN2A,1,1,,219,,,,,1,Cancer
+hCDKN2A/p16,CDKN2A,1,1,,220,,,,,,Cancer
+CDKN2A/p16,CDKN2A,1,1,,221,,,,,1,Cancer
+p16,CDKN2A,1,1,,222,,,,,,Cancer
+CHEK1,CHEK1,1,1,1,223,,,,,,Cancer
+CHEK2,CHEK2,1,1,1,224,,1,1,1,1,Cancer
+Checkpoint kinase 2,CHEK2,1,1,1,225,,,,,,Cancer
+CHK2,CHEK2,1,1,,226,,,,,,Cancer
+hCHEK2,CHEK2,1,1,,227,,,,,,Cancer
+cell cycle checkpoint kinase 2,CHEK2,1,1,,228,,,,,,Cancer
+CSRP3,CSRP3,,,,229,gene good,,,,,Cardiomyophathy
+CTF1,CTF1,,,,230,,,,,,Cardiomyophathy
+DES,DES,,,,231,gene good,,,,,Cardiomyophathy
+DSC2,DSC2,,,,232,gene good,,,,,Cardiomyophathy
+DSG2,DSG2,,,,233,gene good,,,,,Cardiomyophathy
+DSP,DSP,,,,234,gene good,,,,,Cardiomyophathy
+EMD,EMD,,,,235,gene good,,,,,Cardiomyophathy
+EPCAM,EPCAM,1,1,1,236,gene good,1,1,1,1,Cancer
+Epithelial cell adhesion molecule,EPCAM,1,1,,237,gene good,,,,,Cancer
+hEPCAM,EPCAM,1,1,,238,gene good,,,,,Cancer
+GLA,GLA,,,,239,gene good,,,,,Cardiomyophathy
+GREM1,GREM1,1,1,1,240,gene good,1,1,1,1,Cancer
+hGREM1,GREM1,1,1,,241,gene good,,,,,Cancer
+HOXB13,HOXB13,1,1,,242,gene good,1,1,1,1,Cancer
+LAMP2,LAMP2,,,,243,gene good,,,,,Cardiomyophathy
+LDB3,LDB3,,,,244,gene good,,,,,Cardiomyophathy
+LMNA,LMNA,,,,245,gene good,,,,,Cardiomyophathy
+MMR,Lynch Gene,1,1,1,246,gene good,,,,,Cancer
+DNA Mismatch Repair gene,Lynch Gene,1,1,1,247,gene good,,,,,Cancer
+mismatch repair mmr genes,Lynch Gene,1,1,,248,gene good,,,,,Cancer
+mismatch repair,Lynch Gene,1,1,,249,gene good,,,,,Cancer
+mismatch repair (mmr) genes,Lynch Gene,1,1,,250,gene good,,,,,Cancer
+Mismatch Repair genes,Lynch Gene,1,1,,251,gene good,,,,,Cancer
+dna mismatch-repair,Lynch Gene,1,1,,252,gene good,,,,,Cancer
+dna mismatch repair mmr,Lynch Gene,1,1,,253,gene good,,,,,Cancer
+DNA mismatch repair,Lynch Gene,1,1,,254,gene good,,,,,Cancer
+DNA-mismatch repair,Lynch Gene,1,1,,255,gene good,,,,,Cancer
+Mismatch Repair gene,Lynch Gene,1,1,,256,gene good,,,,,Cancer
+Menin,MEN1,1,1,1,257,gene good,,,,,Cancer
+MEN1,MEN1,1,1,1,258,gene good,1,1,1,,Cancer
+MLH1,MLH1,1,1,1,259,gene good,1,1,1,1,Cancer
+Mutl Homolog,MLH1,1,1,1,260,gene good,,,,,Cancer
+hMLH1,MLH1,1,1,,261,gene good,,,,,Cancer
+MLH3,MLH3,1,1,1,262,gene good,1,,1,,Cancer
+MSH2,MSH2,1,1,1,263,gene good,1,1,1,1,Cancer
+hMSH2,MSH2,1,1,,264,gene good,,,,,Cancer
+MSH6,MSH6,1,1,1,265,gene good,1,1,1,1,Cancer
+hMSH6,MSH6,1,1,,266,gene good,,,,,Cancer
+MSI,MSI,1,1,1,267,,,,,,Cancer
+Microsatellite Instability,MSI,1,1,1,268,,,,,,Cancer
+msi-h,MSI,1,1,,269,,,,,,Cancer
+microsatellite-stable,MSI,1,1,,270,,,,,,Cancer
+MUTYH Biallelic,MUTYH,1,1,1,271,gene good,,,,,Cancer
+MYH,MUTYH,1,1,1,272,gene good,,,,,Cancer
+MUTYH Monoallelic,MUTYH,1,1,1,273,gene good,,,,,Cancer
+MUTYH,MUTYH,1,1,1,274,gene good,1,1,1,1,Cancer
+hMUTYH Monoallelic,MUTYH,1,1,,275,gene good,,,,,Cancer
+hMUTYH Biallelic,MUTYH,1,1,,276,gene good,,,,,Cancer
+hmutyh,MUTYH,1,1,,277,gene good,,,,,Cancer
+MYBPC3,MYBPC3,,,,278,gene good,,,,,Cardiomyophathy
+MYH7,MYH7,,,,279,gene good,,,,,Cardiomyophathy
+MYL2,MYL2,,,,280,gene good,,,,,Cardiomyophathy
+MYL3,MYL3,,,,281,gene good,,,,,Cardiomyophathy
+NBS1,NBN,1,1,1,282,gene good,,,,,Cancer
+NBN,NBN,1,1,1,283,gene good,1,1,1,1,Cancer
+NBN/NBS1,NBN,1,1,,284,gene good,,,,,Cancer
+hNBN,NBN,1,1,,285,gene good,,,,,Cancer
+NF1,NF1,1,1,1,286,gene good,1,1,1,1,Cancer
+NF2,NF2,1,1,1,287,gene good,1,1,1,,Cancer
+FANCN,PALB2,,,1,288,gene good,,,,,Cancer
+Partner and Localizer Of BRCA2,PALB2,,,1,289,gene good,,,,,Cancer
+PALB2,PALB2,1,1,,290,gene good,1,1,1,1,Cancer
+hPALB2,PALB2,1,1,,291,gene good,,,,,Cancer
+PKP2,PKP2,,,,292,gene good,,,,,Cardiomyophathy
+PLN,PLN,,,,293,gene good,,,,,Cardiomyophathy
+PMS1,PMS1,1,1,1,294,gene good,,,,,Cancer
+hPMS1,PMS1,1,1,,295,gene good,,,,,Cancer
+PMS2,PMS2,1,1,1,296,gene good,1,1,1,1,Cancer
+hPMS2,PMS2,1,1,,297,gene good,,,,,Cancer
+POLD1,POLD1,1,1,1,298,gene good,1,1,1,1,Cancer
+hPOLD1,POLD1,1,1,,299,gene good,,,,,Cancer
+POLE,POLE,1,1,1,300,gene good,1,1,1,1,Cancer
+hPOLE,POLE,1,1,,301,gene good,,,,,Cancer
+PRKAG2,PRKAG2,,,,302,gene good,,,,,Cardiomyophathy
+PTEN,PTEN,1,1,1,303,gene good,1,1,1,1,Cancer
+hPTEN,PTEN,1,1,,304,gene good,,,,,Cancer
+RAD50,RAD50,1,1,1,305,gene good,1,1,1,1,Cancer
+hRAD50,RAD50,1,1,,306,gene good,,,,,Cancer
+RAD51,RAD51,1,1,1,307,gene good,,,,,Cancer
+RAD51C,RAD51C,1,1,1,308,gene good,1,1,1,1,Cancer
+hRAD51C,RAD51C,1,1,,309,gene good,,,,,Cancer
+RAD51D,RAD51D,1,1,1,310,,1,1,1,1,Cancer
+hRAD51D,RAD51D,1,1,,311,,,,,,Cancer
+RET,RET,1,1,1,312,gene good,1,1,1,,Cancer
+SDHA,SDHA,1,1,1,313,gene good,1,1,1,,Cancer
+SDHAF2,SDHAF2,1,1,1,314,gene good,1,1,1,,Cancer
+SDHB,SDHB,1,1,1,315,gene good,1,1,1,,Cancer
+SDHC,SDHC,1,1,1,316,gene good,1,1,1,,Cancer
+SDHD,SDHD,1,1,1,317,gene good,1,1,1,,Cancer
+SGCD,SGCD,,,,318,gene good,,,,,Cardiomyophathy
+SMAD4,SMAD4,1,1,1,319,gene good,1,1,1,9,Cancer
+hSMAD4,SMAD4,1,1,,320,gene good,,,,,Cancer
+STK11,STK11,1,1,1,321,gene good,1,1,1,1,Cancer
+hSTK11,STK11,1,1,,322,gene good,,,,,Cancer
+TAZ,TAZ,,,,323,gene good,,,,,Cardiomyophathy
+TCAP,TCAP,,,,324,gene good,,,,,Cardiomyophathy
+TMEM43,TMEM43,,,,325,gene good,,,,,Cardiomyophathy
+TNNI3,TNNI3,,,,326,gene good,,,,,Cardiomyophathy
+TNNT2,TNNT2,,,,327,gene good,,,,,Cardiomyophathy
+TP53,TP53,1,1,1,328,gene good,1,1,1,1,Cancer
+P53,TP53,1,1,,329,gene good,,,,,Cancer
+TPM1,TPM1,,,,330,gene good,,,,,Cardiomyophathy
+VCL,VCL,,,,331,gene good,,,,,Cardiomyophathy
+VHL,VHL,1,1,1,332,gene good,1,1,1,,Cancer
+adenomatous polyposis coli,APC,,,,333,gene good,,,,,Cancer
+APC_HUMAN,APC,,,,334,gene good,,,,,Cancer
+DP2,APC,,,,335,gene good,,,,,Cancer
+DP2.5,APC,,,,336,gene good,,,,,Cancer
+DP3,APC,,,,337,gene good,,,,,Cancer
+FAP,APC,,,1,338,gene good,,,,,Cancer
+FPC,APC,,,,339,gene good,,,,,Cancer
+GS,APC,,,,340,gene good,,,,,Cancer
+PPP1R46,APC,,,,341,gene good,,,,,Cancer
+WNT signaling pathway regulator,APC,,,,342,gene good,,,,,Cancer
+AT mutated,ATM,,,,343,gene good,,,,,Cancer
+AT protein,ATM,,,,344,gene good,,,,,Cancer
+AT1,ATM,,,,345,gene good,,,,,Cancer
+ATA,ATM,,,,346,gene good,,,,,Cancer
+ataxia telangiectasia mutated,ATM,,,1,347,gene good,,,,,Cancer
+ataxia telangiectasia mutated protein,ATM,,,,348,gene good,,,,,Cancer
+"ataxia telangiectasia mutated (includes complementation groups A, C and D)",ATM,,,,349,gene good,,,,,Cancer
+ATD,ATM,,,,350,gene good,,,,,Cancer
+ATC,ATM,,,,351,gene good,,,,,Cancer
+ATDC,ATM,,,,352,gene good,,,,,Cancer
+ATE,ATM,,,,353,gene good,,,,,Cancer
+ATM_HUMAN,ATM,,,,354,gene good,,,,,Cancer
+human phosphatidylinositol 3-kinase homolog,ATM,,,,355,gene good,,,,,Cancer
+serine-protein kinase ATM,ATM,,,,356,gene good,,,,,Cancer
+TEL1,ATM,,,,357,gene good,,,,,Cancer
+TELO1,ATM,,,,358,gene good,,,,,Cancer
+BRCA1 Associated RING Domain 1,BARD1,,,,359,,,,,,Cancer
+RING-Type E3 Ubiquitin Transferase BARD1,BARD1,,,,360,,,,,,Cancer
+BARD-1,BARD1,,,,361,,,,,,Cancer
+EC 2.3.2.27,BARD1,,,,362,,,,,,Cancer
+"Protein Phosphatase 1, Regulatory Subunit 46",APC,,,,363,gene good,,,,,Cancer
+Deleted In Polyposis 2.5,APC,,,,364,gene good,,,,,Cancer
+Adenomatosis Polyposis Coli Tumor Suppressor,APC,,,1,365,gene good,,,,,Cancer
+Truncated Adenomatosis Polyposis Coli,APC,,,1,366,gene good,,,,,Cancer
+BTPS2,APC,,,,367,gene good,,,,,Cancer
+EC 2.7.11.1,ATM,,,,368,gene good,,,,,Cancer
+ATM Serine/Threonine Kinase,ATM,,,,369,gene good,,,,,Cancer
+ACVRLK3,BMPR1A,,,,371,gene good,,,,,Cancer
+ALK3,BMPR1A,,,,372,gene good,,,,,Cancer
+BMR1A_HUMAN,BMPR1A,,,,373,gene good,,,,,Cancer
+bone morphogenetic protein receptor type IA,BMPR1A,,,,374,gene good,,,,,Cancer
+CD292,BMPR1A,,,,375,gene good,,,,,Cancer
+SKR5,BMPR1A,,,,376,gene good,,,,,Cancer
+serine/threonine-protein kinase receptor R5,BMPR1A,,,,377,gene good,,,,,Cancer
+Activin Receptor-Like Kinase 3,BMPR1A,,,,378,gene good,,,,,Cancer
+BMP Type-1A Receptor,BMPR1A,,,,379,gene good,,,,,Cancer
+EC 2.7.11.30,BMPR1A,,,,380,gene good,,,,,Cancer
+BMPR-1A,BMPR1A,,,,381,gene good,,,,,Cancer
+ALK-3,BMPR1A,,,,382,gene good,,,,,Cancer
+"Activin A Receptor, Type II-Like Kinase 3",BMPR1A,,,,383,gene good,,,,,Cancer
+CD292 Antigen,BMPR1A,,,,384,gene good,,,,,Cancer
+EC 2.7.11,BMPR1A,,,,385,gene good,,,,,Cancer
+BRCA1_HUMAN,BRCA1,,,,387,gene good,,,,,Cancer
+BRCC1,BRCA1,,,,388,gene good,,,,,Cancer
+breast cancer 1 gene,BRCA1,,,,389,gene good,,,,,Cancer
+"breast cancer 1, early onset gene",BRCA1,,,,390,gene good,,,,,Cancer
+breast cancer type 1 susceptibility gene,BRCA1,,,,391,gene good,,,,,Cancer
+breast cancer type 1 susceptibility protein,BRCA1,,,,392,gene good,,,,,Cancer
+IRIS,BRCA1,,,,393,gene good,,,,,Cancer
+PPP1R53,BRCA1,,,,394,gene good,,,,,Cancer
+PSCP,BRCA1,,,,395,gene good,,,,,Cancer
+RNF53,BRCA1,,,,396,gene good,,,,,Cancer
+"BRCA1, DNA Repair Associated",BRCA1,,,,397,gene good,,,,,Cancer
+"Protein Phosphatase 1, Regulatory Subunit 53",BRCA1,,,,398,gene good,,,,,Cancer
+"BRCA1/BRCA2-Containing Complex, Subunit 1",BRCA1,,,,399,gene good,,,,,Cancer
+"Fanconi Anemia, Complementation Group S",BRCA1,,,,400,gene good,,,,,Cancer
+RING Finger Protein 53,BRCA1,,,,401,gene good,,,,,Cancer
+Breast And Ovarian Cancer Susceptibility Protein 1,BRCA1,,,,402,gene good,,,,,Cancer
+RING-Type E3 Ubiquitin Transferase BRCA1,BRCA1,,,,403,gene good,,,,,Cancer
+EC 2.3.2.27,BRCA1,,,,404,gene good,,,,,Cancer
+EC 6.3.2,BRCA1,,,,405,gene good,,,,,Cancer
+BROVCA1,BRCA1,,,,406,gene good,,,,,Cancer
+BRCAI,BRCA1,,,,407,gene good,,,,,Cancer
+FANCS,BRCA1,,,,408,gene good,,,,,Cancer
+PNCA4,BRCA1,,,,409,gene good,,,,,Cancer
+"BRCA2_HUMAN
+BRCC2",BRCA2,,,,410,gene good,,,,,Cancer
+breast cancer 2 gene,BRCA2,,,,411,gene good,,,,,Cancer
+"breast cancer 2, early onset gene",BRCA2,,,,412,gene good,,,,,Cancer
+breast cancer type 2 susceptibility protein,BRCA2,,,,414,gene good,,,,,Cancer
+breast cancer type 2 susceptibility gene,BRCA2,,,,415,gene good,,,,,Cancer
+FACD,BRCA2,,,,416,gene good,,,,,Cancer
+FAD,BRCA2,,,,417,gene good,,,,,Cancer
+FAD1,BRCA2,,,,418,gene good,,,,,Cancer
+FANCB,BRCA2,,,1,419,gene good,,,1,,Cancer
+"BRCA2, DNA Repair Associated",BRCA2,,,,421,gene good,,,,,Cancer
+"BRCA1/BRCA2-Containing Complex, Subunit 2",BRCA2,,,,422,gene good,,,,,Cancer
+Fanconi Anemia Group D1 Protein,BRCA2,,,,423,gene good,,,,,Cancer
+"Breast And Ovarian Cancer Susceptibility Gene, Early Onset",BRCA2,,,,424,gene good,,,,,Cancer
+Breast And Ovarian Cancer Susceptibility Protein 2,BRCA2,,,,425,gene good,,,,,Cancer
+"Fanconi Anemia, Complementation Group D1",BRCA2,,,,426,gene good,,,,,Cancer
+Truncated Breast Cancer 2,BRCA2,,,,427,gene good,,,,,Cancer
+Breast Cancer 2 Tumor Suppressor,BRCA2,,,,428,gene good,,,,,Cancer
+BROVCA2,BRCA2,,,,429,gene good,,,,,Cancer
+XRCC11,BRCA2,,,,430,gene good,,,,,Cancer
+BRCC2,BRCA2,,,,431,gene good,,,,,Cancer
+PNCA2,BRCA2,,,,432,gene good,,,,,Cancer
+FANCD,BRCA2,,,1,433,gene good,,,,,Cancer
+GLM3,BRCA2,,,,434,gene good,,,,,Cancer
+BACH1,BRIP1,1,,1,435,gene good,,,,,Cancer
+BRCA1-Interacting Protein C-Terminal Helicase 1,BRIP1,,,,436,gene good,,,,,Cancer
+BRCA1-Associated C-Terminal Helicase 1,BRIP1,,,,438,gene good,,,,,Cancer
+BRCA1/BRCA2-Associated Helicase 1,BRIP1,,,,439,gene good,,,,,Cancer
+ATP-Dependent RNA Helicase BRIP1,BRIP1,,,,440,gene good,,,,,Cancer
+BRCA1-Binding Helicase-Like Protein BACH1,BRIP1,,,,441,gene good,,,,,Cancer
+Fanconi Anemia Group J Protein,BRIP1,,,,442,gene good,,,,,Cancer
+EC 3.6.4.13,BRIP1,,,,443,gene good,,,,,Cancer
+EC 3.6.1,BRIP1,,,,444,gene good,,,,,Cancer
+Arc-1,CDH1,,,,445,gene good,,,,,Cancer
+CADH1_HUMAN,CDH1,,,,446,gene good,,,,,Cancer
+"cadherin 1, type 1",CDH1,,,,447,gene good,,,,,Cancer
+"Calcium-Dependent Adhesion Protein, Epithelial",CDH1,,,1,448,gene good,,,,,Cancer
+CAM 120/80,CDH1,,,,449,gene good,,,,,Cancer
+CD324,CDH1,,,,450,gene good,,,,,Cancer
+CDHE,CDH1,,,,451,gene good,,,,,Cancer
+Cell-CAM 120/80,CDH1,,,,452,gene good,,,,,Cancer
+ECAD,CDH1,,,,453,gene good,,,,,Cancer
+LCAM,CDH1,,,,454,gene good,,,,,Cancer
+liver cell adhesion molecule,CDH1,,,,455,gene good,,,,,Cancer
+UVO,CDH1,,,,456,gene good,,,,,Cancer
+uvomorulin,CDH1,,,,457,gene good,,,,,Cancer
+"cadherin 1, type 1, E-cadherin (epithelial)",CDH1,,,,458,gene good,,,,,Cancer
+CD324 Antigen,CDH1,,,,459,gene good,,,,,Cancer
+multiple tumor suppressor 1,CDKN2A,,,,464,gene good,,,,,Cancer
+cyclin-dependent kinase 4 inhibitor A,CDKN2A,,,,465,gene good,,,,,Cancer
+cyclin-dependent kinase inhibitor 2A,CDKN2A,,,,466,gene good,,,,,Cancer
+cyclin-dependent kinase inhibitor 2A isoform p12,CDKN2A,,,,467,gene good,,,,,Cancer
+cyclin-dependent kinase inhibitor 2A isoform p14ARF,CDKN2A,,,,468,gene good,,,,,Cancer
+cyclin-dependent kinase inhibitor 2A isoform p16INK4a,CDKN2A,,,,469,gene good,,,,,Cancer
+cyclin-dependent kinase inhibitor 2A isoform p16gamma,CDKN2A,,,,470,gene good,,,,,Cancer
+Cell Cycle Negative Regulator Beta,CDKN2A,,,,471,gene good,,,,,Cancer
+Alternative Reading Frame,CDKN2A,,,,472,gene good,,,,,Cancer
+CMM3,CDK4,,,,473,gene good,,,,,Cancer
+PSK-J3,CDK4,,,,474,gene good,,,,,Cancer
+Cyclin Dependent Kinase 4,CDK4,,,,475,gene good,,,,,Cancer
+Cell Division Protein Kinase 4,CDK4,,,,476,gene good,,,,,Cancer
+EC 2.7.11.22,CDK4,,,,477,gene good,,,,,Cancer
+Cyclin-Dependent Kinase 4,CDK4,,,,478,gene good,,,,,Cancer
+EC 2.7.11,CDK4,,,,479,gene good,,,,,Cancer
+CDS1,CHEK2,,,,480,,,,,,Cancer
+Cds1 kinase,CHEK2,,,,481,,,,,,Cancer
+Checkpoint-Like Protein CHK2,CHEK2,,,,482,,,,,,Cancer
+CHK2 checkpoint homolog (S. pombe),CHEK2,,,,483,,,,,,Cancer
+Chk2 protein kinase,CHEK2,,,,484,,,,,,Cancer
+CHK2_HUMAN,CHEK2,,,,485,,,,,,Cancer
+hCds1 protein,CHEK2,,,,486,,,,,,Cancer
+hCHK2,CHEK2,,,,487,,,,,,Cancer
+HuCds1,CHEK2,,,,488,,,,,,Cancer
+RAD53,CHEK2,,,,489,,,,,,Cancer
+Serine/Threonine-Protein Kinase CHK2,CHEK2,,,,490,,,,,,Cancer
+HCds1,CHEK2,,,,491,,,,,,Cancer
+"CHK2 (Checkpoint, S.Pombe) Homolog",CHEK2,,,,492,,,,,,Cancer
+EC 2.7.11.1,CHEK2,,,,493,,,,,,Cancer
+EC 2.7.11,CHEK2,,,,494,,,,,,Cancer
+PP1425,CHEK2,,,,495,,,,,,Cancer
+LFS2,CHEK2,,,,496,,,,,,Cancer
+17-1A,EPCAM,,,,497,gene good,,,,,Cancer
+323/A3,EPCAM,,,,498,gene good,,,,,Cancer
+CD326,EPCAM,,,,499,gene good,,,,,Cancer
+CO-17A,EPCAM,,,,500,gene good,,,,,Cancer
+EGP-2,EPCAM,,,,501,gene good,,,,,Cancer
+EGP34,EPCAM,,,,502,gene good,,,,,Cancer
+EGP40,EPCAM,,,,503,gene good,,,,,Cancer
+Ep-CAM,EPCAM,,,,504,gene good,,,,,Cancer
+epithelial cell adhesion molecule precursor,EPCAM,,,,505,gene good,,,,,Cancer
+epithelial glycoprotein 314,EPCAM,,,,506,gene good,,,,,Cancer
+ESA,EPCAM,,,,507,gene good,,,,,Cancer
+GA733-2,EPCAM,,,,508,gene good,,,,,Cancer
+HEA125,EPCAM,,,,509,gene good,,,,,Cancer
+human epithelial glycoprotein-2,EPCAM,,,,510,gene good,,,,,Cancer
+KS1/4,EPCAM,,,,511,gene good,,,,,Cancer
+KSA,EPCAM,,,,512,gene good,,,,,Cancer
+Ly74,EPCAM,,,,513,gene good,,,,,Cancer
+M4S1,EPCAM,,,,514,gene good,,,,,Cancer
+MH99,EPCAM,,,,515,gene good,,,,,Cancer
+MIC18,EPCAM,,,,516,gene good,,,,,Cancer
+MK-1,EPCAM,,,,517,gene good,,,,,Cancer
+MOC31,EPCAM,,,,518,gene good,,,,,Cancer
+TACST-1,EPCAM,,,,519,gene good,,,,,Cancer
+TACSTD1,EPCAM,,,,520,gene good,,,,,Cancer
+TROP1,EPCAM,,,,521,gene good,,,,,Cancer
+tumor-associated calcium signal transducer 1,EPCAM,,,,522,gene good,,,,,Cancer
+Major Gastrointestinal Tumor-Associated Protein GA733-2,EPCAM,,,,523,gene good,,,,,Cancer
+Adenocarcinoma-Associated Antigen,EPCAM,,,,524,gene good,,,,,Cancer
+"Membrane Component, Chromosome 4, Surface Marker (35kD Glycoprotein)",EPCAM,,,,525,gene good,,,,,Cancer
+Antigen Identified By Monoclonal Antibody AUA1,EPCAM,,,,526,gene good,,,,,Cancer
+Epithelial Cell Surface Antigen,EPCAM,,,,527,gene good,,,,,Cancer
+Epithelial Glycoprotein,EPCAM,,,,528,gene good,,,,,Cancer
+KS 1/4 Antigen,EPCAM,,,,529,gene good,,,,,Cancer
+HEGP314,EPCAM,,,,530,gene good,,,,,Cancer
+HNPCC8,EPCAM,,,,531,gene good,,,,,Cancer
+DIAR5,EPCAM,,,,532,gene good,,,,,Cancer
+M1S2,EPCAM,,,,533,gene good,,,,,Cancer
+EGP,EPCAM,,,,534,gene good,,,,,Cancer
+PSGD,HOXB13,,,,535,gene good,,,,,Cancer
+C15DUPq,GREM1,,,,536,gene good,,,,,Cancer
+CKTSF1B1,GREM1,,,,537,gene good,,,,,Cancer
+CRAC1,GREM1,,,,538,gene good,,,,,Cancer
+CRCS4,GREM1,,,,539,gene good,,,,,Cancer
+DAND2,GREM1,,,,540,gene good,,,,,Cancer
+DRM,GREM1,,,,541,gene good,,,,,Cancer
+DUP15q,GREM1,,,,542,gene good,,,,,Cancer
+GREMLIN,GREM1,,,,543,gene good,,,,,Cancer
+HMPS,GREM1,,,,544,gene good,,,,,Cancer
+HMPS1,GREM1,,,,545,gene good,,,,,Cancer
+IHG-2,GREM1,,,,546,gene good,,,,,Cancer
+MPSH,GREM1,,,,547,gene good,,,,,Cancer
+PIG2,GREM1,,,,548,gene good,,,,,Cancer
+"Gremlin 1, DAN Family BMP Antagonist",GREM1,,,,549,gene good,,,,,Cancer
+"Cysteine Knot Superfamily 1, BMP Antagonist 1",GREM1,,,,550,gene good,,,,,Cancer
+Down-Regulated In Mos-Transformed Cells Protein,GREM1,,,,551,gene good,,,,,Cancer
+Cell Proliferation-Inducing Gene 2 Protein,GREM1,,,,552,gene good,,,,,Cancer
+Colorectal Adenoma And Carcinoma 1,GREM1,,,,553,gene good,,,,,Cancer
+DAN Domain Family Member 2,GREM1,,,,554,gene good,,,,,Cancer
+"Gremlin 1, Cysteine Knot Superfamily, Homolog (Xenopus Laevis)",GREM1,,,,555,gene good,,,,,Cancer
+Increased In High Glucose Protein 2,GREM1,,,,556,gene good,,,,,Cancer
+Increased In High Glucose-2,GREM1,,,,557,gene good,,,,,Cancer
+Gremlin 1-Like Protein,GREM1,,,,558,gene good,,,,,Cancer
+Gremlin 1,GREM1,,,,559,gene good,,,,,Cancer
+Gremlin-1,GREM1,,,,560,gene good,,,,,Cancer
+Homeobox Protein Hox-B13,HOXB13,,,,561,gene good,,,,,Cancer
+HXB13_HUMAN,HOXB13,,,,562,gene good,,,,,Cancer
+Homeobox B13,HOXB13,,,,563,gene good,,,,,Cancer
+Homeo Box B13,HOXB13,,,1,564,gene good,,,,,Cancer
+COCA2,MLH1,,,,565,gene good,,,,,Cancer
+FCC2,MLH1,,,,566,gene good,,,,,Cancer
+HNPCC,MLH1,,,,567,gene good,,,,,Cancer
+HNPCC2,MLH1,,,,568,gene good,,,,,Cancer
+MLH1_HUMAN,MLH1,,,,569,gene good,,,,,Cancer
+"mutL (E. coli) homolog 1 (colon cancer, nonpolyposis type 2)",MLH1,,,,570,gene good,,,,,Cancer
+"mutL homolog 1, colon cancer, nonpolyposis type 2 (E. coli)",MLH1,,,,571,gene good,,,,,Cancer
+MutL protein homolog 1,MLH1,,,,572,gene good,,,,,Cancer
+MutL Homolog 1,MLH1,,,,573,gene good,,,,,Cancer
+DNA Mismatch Repair Protein Mlh1,MLH1,,,,574,gene good,,,,,Cancer
+COCA1,MSH2,,,,575,gene good,,,,,Cancer
+HNPCC,MSH2,,,,576,gene good,,,,,Cancer
+HNPCC1,MSH2,,,,577,gene good,,,,,Cancer
+MSH2_HUMAN,MSH2,,,,578,gene good,,,,,Cancer
+"mutS (E. coli) homolog 2 (colon cancer, nonpolyposis type 1)",MSH2,,,,579,gene good,,,,,Cancer
+mutS (E. coli) homolog 2,MSH2,,,,580,gene good,,,,,Cancer
+"mutS homolog 2, colon cancer, nonpolyposis type 1 (E. coli)",MSH2,,,,581,gene good,,,,,Cancer
+MutS Homolog 2,MSH2,,,1,582,gene good,,,,,Cancer
+FCC1,MSH2,,,,583,gene good,,,,,Cancer
+LCFS2,MSH2,,,,584,gene good,,,,,Cancer
+MutS Protein Homolog 2,MSH2,,,,585,gene good,,,,,Cancer
+DNA Mismatch Repair Protein MSH2,MSH2,,,,586,gene good,,,,,Cancer
+DNA Mismatch Repair Protein MSH6,MSH6,,,,587,gene good,,,,,Cancer
+G/T mismatch-binding protein,MSH6,,,,588,gene good,,,,,Cancer
+GTBP,MSH6,,,,589,gene good,,,,,Cancer
+GTMBP,MSH6,,,,590,gene good,,,,,Cancer
+HNPCC5,MSH6,,,,591,gene good,,,,,Cancer
+MSH6_HUMAN,MSH6,,,,592,gene good,,,,,Cancer
+mutS (E. coli) homolog 6,MSH6,,,,593,gene good,,,,,Cancer
+MutS-alpha 160 kDa subunit,MSH6,,,,594,gene good,,,,,Cancer
+mutS homolog 6 (E. coli),MSH6,,,,595,gene good,,,,,Cancer
+P160,MSH6,,,,596,gene good,,,,,Cancer
+MutS Protein Homolog 6,MSH6,,,,597,gene good,,,,,Cancer
+Sperm-Associated Protein,MSH6,,,,598,gene good,,,,,Cancer
+HSAP,MSH6,,,,599,gene good,,,,,Cancer
+hMYH,MUTYH,,,,600,gene good,,,,,Cancer
+MUTYH_HUMAN,MUTYH,,,,601,gene good,,,,,Cancer
+mutY homolog,MUTYH,,,1,602,gene good,,,,,Cancer
+mutY homolog (E. coli),MUTYH,,,,603,gene good,,,,,Cancer
+mutY (E. coli) homolog,MUTYH,,,,604,gene good,,,,,Cancer
+EC 3.2.2,MUTYH,,,,605,gene good,,,,,Cancer
+MutY-Like Protein,MUTYH,,,,606,gene good,,,,,Cancer
+Adenine DNA Glycosylase,MUTYH,,,,607,gene good,,,,,Cancer
+A/G-Specific Adenine DNA Glycosylase,MUTYH,,,,608,gene good,,,,,Cancer
+MutY DNA Glycosylase,MUTYH,,,,609,gene good,,,,,Cancer
+AT-V1,NBN,,,,610,gene good,,,,,Cancer
+AT-V2,NBN,,,,611,gene good,,,,,Cancer
+ATV,NBN,,,,612,gene good,,,,,Cancer
+NBN_HUMAN,NBN,,,,614,gene good,,,,,Cancer
+NBS,NBN,,,,615,gene good,,,,,Cancer
+p95 protein of the MRE11/RAD50 complex,NBN,,,,616,gene good,,,,,Cancer
+Nijmegen breakage syndrome 1,NBN,,,,617,gene good,,,,,Cancer
+Nibrin,NBN,,,1,618,gene good,,,,,Cancer
+Cell Cycle Regulatory Protein P95,NBN,,,,619,gene good,,,,,Cancer
+P95,NBN,,,,620,gene good,,,,,Cancer
+PNCA3,PALB2,,,,621,gene good,,,,,Cancer
+"Fanconi Anemia, Complementation Group N",PALB2,,,,622,gene good,,,,,Cancer
+DNA mismatch repair gene homologue,PMS2,,,,623,gene good,,,,,Cancer
+HNPCC4,PMS2,,,,624,gene good,,,,,Cancer
+MLH4,PMS2,,,,625,gene good,,,,,Cancer
+PMS2-C terminal -like,PMS2,,,,626,gene good,,,,,Cancer
+PMS2 postmeiotic segregation increased 2 (S. cerevisiae),PMS2,,,,627,gene good,,,,,Cancer
+PMS2_HUMAN,PMS2,,,,628,gene good,,,,,Cancer
+PMS2CL,PMS2,,,,629,gene good,,,,,Cancer
+PMSL2,PMS2,,,,630,gene good,,,,,Cancer
+postmeiotic segregation increased (S. cerevisiae) 2,PMS2,,,,631,gene good,,,,,Cancer
+"PMS1 Homolog 2, Mismatch Repair System Component",PMS2,,,1,632,gene good,,,,,Cancer
+"PMS1 Homolog 2, Mismatch Repair Protein",PMS2,,,,633,gene good,,,,,Cancer
+PMS1 Protein Homolog 2,PMS2,,,,634,gene good,,,,,Cancer
+Postmeiotic Segregation Increased 2 Nirs Variant 6,PMS2,,,,635,gene good,,,,,Cancer
+Mismatch Repair Endonuclease PMS2,PMS2,,,,636,gene good,,,,,Cancer
+EC 3.1.-.-,PMS2,,,,637,gene good,,,,,Cancer
+CDC2,POLD1,,,,638,gene good,,,,,Cancer
+CRCS10,POLD1,,,,639,gene good,,,,,Cancer
+MDPL,POLD1,,,,640,gene good,,,,,Cancer
+POLD,POLD1,,,,641,gene good,,,,,Cancer
+"DNA Polymerase Delta 1, Catalytic Subunit",POLD1,,,1,642,gene good,,,,,Cancer
+"Polymerase (DNA) Delta 1, Catalytic Subunit",POLD1,,,,643,gene good,,,,,Cancer
+DNA Polymerase Subunit Delta P125,POLD1,,,,644,gene good,,,,,Cancer
+EC 2.7.7.7,POLD1,,,,645,gene good,,,,,Cancer
+"Polymerase (DNA Directed), Delta 1, Catalytic Subunit (125kD)",POLD1,,,,646,gene good,,,,,Cancer
+CDC2 Homolog (S. Cerevisiae),POLD1,,,,647,gene good,,,,,Cancer
+CDC2 Homolog,POLD1,,,,648,gene good,,,,,Cancer
+EC 3.1.11.-,POLD1,,,,649,gene good,,,,,Cancer
+CRCS12,POLE,,,,650,gene good,,,,,Cancer
+FILS,POLE,,,,651,gene good,,,,,Cancer
+POLE1,POLE,,,,652,gene good,,,,,Cancer
+"DNA Polymerase Epsilon, Catalytic Subunit",POLE,,,,653,gene good,,,,,Cancer
+DNA Polymerase Epsilon Catalytic Subunit A,POLE,,,,654,gene good,,,,,Cancer
+DNA Polymerase II Subunit A,POLE,,,,655,gene good,,,,,Cancer
+EC 2.7.7.7,POLE,,,,656,gene good,,,,,Cancer
+EC 2.7.7,POLE,,,,657,gene good,,,,,Cancer
+"Polymerase (DNA Directed), Epsilon, Catalytic Subunit",POLE,,,,658,gene good,,,,,Cancer
+"Polymerase (DNA Directed), Epsilon",POLE,,,,659,gene good,,,,,Cancer
+DNA Polymerase Epsilon Catalytic Subunit Protein,POLE,,,,660,gene good,,,,,Cancer
+MMAC1,PTEN,,,,661,gene good,,,,,Cancer
+mutated in multiple advanced cancers 1,PTEN,,,,662,gene good,,,,,Cancer
+phosphatase and tensin homolog (mutated in multiple advanced cancers 1),PTEN,,,,663,gene good,,,,,Cancer
+phosphatase and tensin homolog deleted on chromosome 10,PTEN,,,,664,gene good,,,,,Cancer
+protein-tyrosine phosphatase PTEN,PTEN,,,,665,gene good,,,,,Cancer
+PTEN-MMAC1 protein,PTEN,,,,666,gene good,,,,,Cancer
+PTEN1,PTEN,,,,667,gene good,,,,,Cancer
+PTEN_HUMAN,PTEN,,,,668,gene good,,,,,Cancer
+TEP1,PTEN,,,,669,gene good,,,,,Cancer
+TEP1 phosphatase,PTEN,,,,670,gene good,,,,,Cancer
+Phosphatase And Tensin Homolog,PTEN,,,,671,gene good,,,,,Cancer
+"Phosphatidylinositol 3,4,5-Trisphosphate 3-Phosphatase And Dual-Specificity Protein Phosphatase PTEN",PTEN,,,,672,gene good,,,,,Cancer
+"Phosphatidylinositol-3,4,5-Trisphosphate 3-Phosphatase And Dual-Specificity Protein Phosphatase PTEN",PTEN,,,,673,gene good,,,,,Cancer
+MMAC1 Phosphatase And Tensin Homolog Deleted On Chromosome 10,PTEN,,,,674,gene good,,,,,Cancer
+Mitochondrial Phosphatase And Tensin Protein Alpha,PTEN,,,,675,gene good,,,,,Cancer
+Phosphatase And Tensin-Like Protein,PTEN,,,1,676,gene good,,,,,Cancer
+Mitochondrial PTENalpha,PTEN,,,,677,gene good,,,,,Cancer
+EC 3.1.3.16,PTEN,,,,678,gene good,,,,,Cancer
+EC 3.1.3.48,PTEN,,,,679,gene good,,,,,Cancer
+EC 3.1.3.67,PTEN,,,,680,gene good,,,,,Cancer
+PTENbeta,PTEN,,,,682,gene good,,,,,Cancer
+GLM2,PTEN,,,,683,gene good,,,,,Cancer
+MHAM,PTEN,,,,684,gene good,,,,,Cancer
+DEC,PTEN,,,,685,gene good,,,,,Cancer
+BZS,PTEN,,,,686,gene good,,,,,Cancer
+CWS1,PTEN,,,,687,gene good,,,,,Cancer
+NBSLD,RAD50,,,,688,gene good,,,,,Cancer
+RAD502,RAD50,,,,689,gene good,,,,,Cancer
+RAD50 Double Strand Break Repair Protein,RAD50,,,,690,gene good,,,,,Cancer
+"RAD50 Homolog, Double Strand Break Repair Protein",RAD50,,,1,691,gene good,,,,,Cancer
+RAD50 (S. Cerevisiae) Homolog,RAD50,,,,692,gene good,,,,,Cancer
+DNA Repair Protein RAD50,RAD50,,,,693,gene good,,,,,Cancer
+EC 3.6.3.27,RAD50,,,,694,gene good,,,,,Cancer
+EC 3.6.1.15,RAD50,,,,695,gene good,,,,,Cancer
+EC 3.6.-.-,RAD50,,,,696,gene good,,,,,Cancer
+EC 3.6.3,RAD50,,,,697,gene good,,,,,Cancer
+BROVCA3,RAD51C,,,,698,gene good,,,,,Cancer
+FANCO,RAD51C,,,,699,gene good,,,,,Cancer
+R51H3,RAD51C,,,,700,gene good,,,,,Cancer
+RAD51L2,RAD51C,,,,701,gene good,,,,,Cancer
+RAD51 Paralog C,RAD51C,,,,702,gene good,,,,,Cancer
+RAD51-Like Protein 2,RAD51C,,,,703,gene good,,,,,Cancer
+DNA Repair Protein RAD51 Homolog 3,RAD51C,,,1,704,gene good,,,,,Cancer
+RAD51 (S. Cerevisiae) Homolog C,RAD51C,,,,705,gene good,,,,,Cancer
+RAD51 Homolog C (S. Cerevisiae),RAD51C,,,,706,gene good,,,,,Cancer
+Yeast RAD51 Homolog 3,RAD51C,,,,707,gene good,,,,,Cancer
+RAD51 Homolog C,RAD51C,,,1,708,gene good,,,,,Cancer
+BROVCA4,RAD51D,,,,709,,,,,,Cancer
+R51H3,RAD51D,,,,710,,,,,,Cancer
+RAD51L3,RAD51D,,,,711,,,,,,Cancer
+DNA Repair Protein RAD51 Homolog 4,RAD51D,,,1,713,,,,,,Cancer
+RAD51 Paralog D,RAD51D,,,1,714,,,,,,Cancer
+Recombination Repair Protein,RAD51D,,,,715,,,,,,Cancer
+RAD51-Like Protein D,RAD51D,,,,716,,,,,,Cancer
+RAD51 Homolog D,RAD51D,,,,717,,,,,,Cancer
+TRAD,RAD51D,,,,718,,,,,,Cancer
+RAD51 Homolog D (S. Cerevisiae),RAD51D,,,,719,,,,,,Cancer
+RAD51 (S. Cerevisiae)-Like 3,RAD51D,,,,720,,,,,,Cancer
+RAD51-Like 3 (S. Cerevisiae),RAD51D,,,,721,,,,,,Cancer
+DPC4,SMAD4,,,,722,gene good,,,,,Cancer
+JIP,SMAD4,,,,723,gene good,,,,,Cancer
+"MAD (mothers against decapentaplegic, Drosophila) homolog 4",SMAD4,,,1,724,gene good,,,,,Cancer
+"MAD, mothers against decapentaplegic homolog 4",SMAD4,,,,725,gene good,,,,,Cancer
+"MAD, mothers against decapentaplegic homolog 4 (Drosophila)",SMAD4,,,,726,gene good,,,,,Cancer
+MADH4,SMAD4,,,,727,gene good,,,,,Cancer
+"Mothers against decapentaplegic, Drosophila, homolog of, 4",SMAD4,,,1,728,gene good,,,,,Cancer
+"SMAD, mothers against DPP homolog 4 (Drosophila)",SMAD4,,,1,729,gene good,,,,,Cancer
+SMAD4_HUMAN,SMAD4,,,,730,gene good,,,,,Cancer
+SMAD Family Member 4,SMAD4,,,,731,gene good,,,,,Cancer
+Deletion Target In Pancreatic Carcinoma 4,SMAD4,,,1,732,gene good,,,,,Cancer
+MAD Homolog 4,SMAD4,,,,733,gene good,,,,,Cancer
+Mothers Against Decapentaplegic Homolog 4,SMAD4,,,,735,gene good,,,,,Cancer
+Deleted In Pancreatic Carcinoma Locus 4,SMAD4,,,,736,gene good,,,,,Cancer
+"SMAD, Mothers Against DPP Homolog 4",SMAD4,,,,737,gene good,,,,,Cancer
+Mothers Against DPP Homolog 4,SMAD4,,,,738,gene good,,,,,Cancer
+SMAD 4,SMAD4,,,,739,gene good,,,,,Cancer
+MYHRS,SMAD4,,,,740,gene good,,,,,Cancer
+LKB1,STK11,,,,741,gene good,,,,,Cancer
+PJS,STK11,,,,742,gene good,,,,,Cancer
+STK11_HUMAN,STK11,,,,743,gene good,,,,,Cancer
+serine/threonine kinase 11 (Peutz-Jeghers syndrome),STK11,,,,744,gene good,,,,,Cancer
+Serine/threonine-protein kinase 11,STK11,,,1,745,gene good,,,,,Cancer
+Serine/Threonine Kinase 11,STK11,,,,746,gene good,,,,,Cancer
+Polarization-Related Protein LKB1,STK11,,,,747,gene good,,,,,Cancer
+Renal Carcinoma Antigen NY-REN-19,STK11,,,,748,gene good,,,,,Cancer
+Liver Kinase B1,STK11,,,,749,gene good,,,,,Cancer
+EC 2.7.11.1,STK11,,,,750,gene good,,,,,Cancer
+HLKB1,STK11,,,,751,gene good,,,,,Cancer
+Serine/Threonine-Protein Kinase STK11,STK11,,,,752,gene good,,,,,Cancer
+Serine/Threonine-Protein Kinase LKB11,STK11,,,,753,gene good,,,,,Cancer
+cellular tumor antigen p53,TP53,,,,755,gene good,,,,,Cancer
+P53 tumor suppressor,TP53,,,,757,gene good,,,,,Cancer
+P53_HUMAN,TP53,,,,758,gene good,,,,,Cancer
+phosphoprotein p53,TP53,,,,759,gene good,,,,,Cancer
+transformation-related protein 53,TP53,,,1,760,gene good,,,,,Cancer
+TRP53,TP53,,,,761,gene good,,,,,Cancer
+tumor protein p53 (Li-Fraumeni syndrome),TP53,,,,762,gene good,,,,,Cancer
+tumor suppressor p53,TP53,,,1,763,gene good,,,,,Cancer
+Tumor Protein P53,TP53,,,,764,gene good,,,,,Cancer
+Antigen NY-CO-13,TP53,,,,766,gene good,,,,,Cancer
+Mutant Tumor Protein 53,TP53,,,,767,gene good,,,,,Cancer
+Li-Fraumeni Syndrome,TP53,,,,768,gene good,,,,,Cancer
+Tumor Supressor P53,TP53,,,,769,gene good,,,,,Cancer
+Tumor Protein 53,TP53,,,,770,gene good,,,,,Cancer
+BCC7,TP53,,,,771,gene good,,,,,Cancer
+LFS1,TP53,,,,772,gene good,,,,,Cancer
+FANCD1,BRCA2,1,1,1,773,gene good,,,,,Cancer
+DNA-mismatch-repair,Lynch Gene,1,1,1,833,gene good,,,,1,Cancer
+HNPCC,Lynch Gene,1,1,1,836,gene good,,,,,Cancer
+lynch syndrome,Lynch Gene,1,1,1,837,gene good,,,,,Cancer
+retinoblastoma 1,RB1,1,1,1,838,,,,,,Cancer
+retinoblastoma-1,RB1,1,1,1,839,,,,,,Cancer
+RB1,RB1,1,1,1,840,,1,1,1,,Cancer
+CHEK2/1100delC,CHEK2,,,,841,,,,,1,Cancer
+MUTYH-Biallelic,MUTYH-Biallelic,,,,842,gene good,,,,1,Cancer
+"MUTYH-Biallelic/Compound Heterozygous
+MUTYH-Biallelic/Compound Heterozygous","MUTYH-Biallelic/Compound Heterozygous
+MUTYH-Biallelic/Compound Heterozygous",,,,843,,,,,1,Cancer
+MUTYH-Biallelic/G396D,MUTYH-Biallelic/G396D,,,,844,,,,,1,Cancer
+MUTYH-Monoallelic,MUTYH,,,,845,,,,,1,Cancer
+NBN/657del5,NBN,,1,,846,,,,,1,Cancer
+ataxia-telangiectasia (A-T) gene,ATM,,,,847,gene good,,,,,Cancer
+LKB1,LKB1,1,1,1,848,,,,,0,Cancer
+BAP1,BAP1,,,,849,gene good,1,1,1,,Cancer
+MITF,MITF,,,,850,gene good,1,1,1,,Cancer
+BLM,BLM,,,,851,gene good,1,1,1,,Cancer
+DICER1,DICER1,,,,852,gene good,1,1,1,,Cancer
+FANCC,FANCC,,,,853,,1,,1,,Cancer
+FH,FH,,,,854,gene good,1,1,1,,Cancer
+GALNT12,GALNT12,,,,856,,1,,1,,Cancer
+MAX,MAX,,,,857,,1,1,1,,Cancer
+MET,MET,,,,858,gene good,1,1,1,,Cancer
+MRE11A,MRE11,,,,859,,,,,,Cancer
+SMARCA4,SMARCA4,,,,860,gene good,1,1,1,,Cancer
+TMEM127,TMEM127,,,,861,,1,1,1,,Cancer
+TSC1,TSC1,,,,862,gene good,1,1,1,,Cancer
+TSC2,TSC2,,,,863,gene good,1,1,1,,Cancer
+XRCC2,XRCC2,,,,864,gene good,1,,1,,Cancer
+ALK,ALK,,,,865,,1,1,1,,Cancer
+PHOX2B,PHOX2B,,,,866,,1,1,1,,Cancer
+PRKAR1A,PRKAR1A,,,,867,gene good,1,1,1,,Cancer
+PTCH1,PTCH1,,,,868,gene good,1,1,1,,Cancer
+SMARCB1,SMARCB1,,,,869,gene good,1,1,1,,Cancer
+SUFU,SUFU,,,,870,gene good,1,1,1,9,Cancer
+POT1,POT1,,,,871,gene good,1,1,1,,Cancer
+SMARCE1,SMARCE1,,,,872,gene good,1,1,1,,Cancer
+AIP,AIP,,,,873,,1,1,1,,Cancer
+NTHL1,NTHL1,,,,874,gene good,1,1,1,,Cancer
+AXIN2,AXIN2,,,,875,gene good,1,1,1,,Cancer
+CDC73,CDC73,,,,876,gene good,1,1,1,,Cancer
+CTNNA1,CTNNA1,,,,877,gene good,1,1,1,,Cancer
+PIK3CA,PIK3CA,,,,878,,,,,,Cancer
+FANCA,FANCA,,,,879,,,,1,,Cancer
+FANCE,FANCE,,,,880,,,,1,,Cancer
+FANCF,FANCF,,,,881,,,,1,,Cancer
+FANCG,FANCG,,,,882,,,,1,,Cancer
+FANCI,FANCI,,,,883,,,,1,,Cancer
+FANCL,FANCL,,,,884,,,,1,,Cancer
+KIT,KIT,,,,885,gene good,1,1,1,,Cancer
+PDGFRA,PDGFRA,,,,886,gene good,1,1,1,,Cancer
+SLX4,SLX4,,,,887,gene good,,,1,,Cancer
+PRSS1,PRSS1,,,,888,,1,,1,,Cancer
+MSH3,MSH3,,,,889,,1,1,,,Cancer
+RPS20,RPS20,,,,890,,1,,,,Cancer
+CASR,CASR,,,,891,gene good,1,1,1,,Cancer
+WT1,WT1,,,,892,gene good,,1,1,,Cancer
+FANCD2,FANCD2,,,,893,,,,1,,Cancer
+BUB1B,BUB1B,,,,894,,,,1,,Cancer
+CEBPA,CEBPA,,,,895,gene good,,1,1,,Cancer
+DIS3L2,DIS3L2,,,,896,gene good,,1,1,,Cancer
+EGFR,EGFR,,,,897,gene good,1,1,,,Cancer
+ERCC4,ERCC4,,,,898,gene good,,,1,,Cancer
+FANCM,FANCM,,,,899,,,,1,,Cancer
+GATA2,GATA2,,,,900,gene good,,1,1,,Cancer
+HRAS,HRAS,,,,901,gene good,,1,1,,Cancer
+RECQL4,RECQL4,,,,902,,,1,1,,Cancer
+RUNX1,RUNX1,,,,903,gene good,,1,1,,Cancer
+WRN,WRN,,,,904,gene good,,1,1,,Cancer
+TERC,TERC,,,,905,gene good,,1,1,,Cancer
+TERT,TERT,,,,906,gene good,1,1,1,,Cancer
+GPC3,GPC3,,,,907,gene good,,1,1,,Cancer
+CDKN1C,CDKN1C,,,,908,gene good,,1,1,,Cancer
+SPINK1,SPINK1,,,,909,gene good,1,,,,Cancer
+CTFR,CTFR,,,,910,,,,,,Cancer
+CTRC,CTRC,,,,911,,1,,,,Cancer
+CPA1,CPA1,,,,912,,1,,,,Cancer
+ATR,ATR,,,,913,gene good,,,1,,Cancer
+CYLD,CYLD,,,,914,gene good,,,1,,Cancer
+DDB2,DDB2,,,,915,gene good,,,1,,Cancer
+ERCC2,ERCC2,,,,916,gene good,,,1,,Cancer
+ERCC3,ERCC3,,,,917,gene good,,,1,,Cancer
+ERCC5,ERCC5,,,,918,gene good,,,1,,Cancer
+EXT1,EXT1,,,,919,,,,1,,Cancer
+EXT2,EXT2,,,,920,gene good,,,1,,Cancer
+FAH,FAH,,,,921,,,,,,Cancer
+LDLR,LDLR,,,,922,,,,,,Cancer
+LDLRAP1,LDLRAP1,,,,923,gene good,,,,,Cancer
+MRE11,MRE11,,,,924,gene good,1,,1,,Cancer
+NTRK1,NTRK1,,,,925,gene good,,,,,Cancer
+PCSK9,PCSK9,,,,926,gene good,,,,,Cancer
+RAD51B,RAD51B,,,,927,,,,,,Cancer
+RHBDF2,RHBDF2,,,,928,gene good,,,,,Cancer
+SBDS,SBDS,,,,929,gene good,,,,,Cancer
+XPA,XPA,,,,930,gene good,,,1,,Cancer
+XPC1,XPC1,,,,931,,,,,,Cancer
+RNF43,RNF43,,,,932,gene good,,,,,Cancer
+ACD,ACD,,,,933,,,,,,Cancer
+ETV6,ETV6,,,,934,,,,,,Cancer
+PARK2,PARK2,,,,935,,,,,,Cancer
+PMS3,PMS3,,,,936,,,,,,Cancer
+RECQL,RECQL,,,,937,gene good,1,,,9,Cancer
+"bone morphogenetic protein receptor, type IA",BMPR1A,,,,938,gene good,,,,,Cancer
+"bone morphogenetic protein receptor, type IA precursor",BMPR1A,,,,939,gene good,,,,,Cancer
+BRCA1 gene,BRCA1,,,,940,gene good,,,,,Cancer
+breast cancer 1,BRCA1,,,,941,gene good,,,,,Cancer
+"breast cancer 1, early onset",BRCA1,,,,942,gene good,,,,,Cancer
+brca 2 gene,BRCA2,,,,943,gene good,,,,,Cancer
+BRCA2_HUMAN,BRCA2,,,,944,gene good,,,,,Cancer
+breast cancer 2,BRCA2,,,,945,gene good,,,,,Cancer
+"breast cancer 2, early onset",BRCA2,,,,946,gene good,,,,,Cancer
+"cadherin 1, E-cadherin",CDH1,,,,947,gene good,,,,,Cancer
+"cadherin 1, type 1, E-cadherin",CDH1,,,,948,gene good,,,,,Cancer
+CDKN4,CDKN1B,,,,949,gene good,,,,,Cancer
+CDN1B_HUMAN,CDKN1B,,,,950,gene good,,,,,Cancer
+cyclin-dependent kinase inhibitor 1B,CDKN1B,,,,951,gene good,,,,,Cancer
+"cyclin-dependent kinase inhibitor 1B (p27, Kip1)",CDKN1B,,,,952,gene good,,,,,Cancer
+KIP1,CDKN1B,,,,953,gene good,,,,,Cancer
+P27KIP1,CDKN1B,,,,956,gene good,,,,,Cancer
+CDK4 inhibitor p16-INK4,CDKN2A,,,,957,gene good,,,,,Cancer
+CHK2 checkpoint homolog,CHEK2,,,,958,,,,,,Cancer
+MEAI,MEN1,,,,959,gene good,,,,,Cancer
+MEN1_HUMAN,MEN1,,,,960,gene good,,,,,Cancer
+multiple endocrine neoplasia I,MEN1,,,1,961,gene good,,,,,Cancer
+"mutL homolog 1, colon cancer, nonpolyposis type 2",MLH1,,,,962,gene good,,,,,Cancer
+HNPCC7,MLH3,,,,963,gene good,,,,,Cancer
+"mutS homolog 2, colon cancer, nonpolyposis type 1",MSH2,,,,964,gene good,,,,,Cancer
+mutS homolog 6,MSH6,,,1,965,gene good,,,,,Cancer
+Neurofibromatosis-related protein NF-1,NF1,,,,966,gene good,,,,,Cancer
+Neurofibromatosis Type 1 Protein,NF1,,,1,967,gene good,,,,,Cancer
+neurofibromin 1,NF1,,,,968,gene good,,,,,Cancer
+NF1-GAP-Related Protein,NF1,,,,969,gene good,,,,,Cancer
+NF1 GRP,NF1,,,,970,gene good,,,,,Cancer
+NF1 Protein,NF1,,,,971,gene good,,,,,Cancer
+NF1_HUMAN,NF1,,,,972,gene good,,,,,Cancer
+ACN,NF2,,,,973,gene good,,,,,Cancer
+BANF,NF2,,,,974,gene good,,,,,Cancer
+MERL_HUMAN,NF2,,,,975,gene good,,,,,Cancer
+merlin,NF2,,,,976,gene good,,,,,Cancer
+moesin-ezrin-radixin-like protein,NF2,,,,977,gene good,,,,,Cancer
+SCH,NF2,,,,978,gene good,,,,,Cancer
+schwannomerlin,NF2,,,,979,gene good,,,,,Cancer
+schwannomin,NF2,,,,980,gene good,,,,,Cancer
+HNPCC3,PMS1,,,,981,gene good,,,,,Cancer
+MLH2,PMS1,,,,982,gene good,,,,,Cancer
+PMSL1,PMS1,,,,983,gene good,,,,,Cancer
+PMS2 postmeiotic segregation increased 2,PMS2,,,,984,gene good,,,,,Cancer
+postmeiotic segregation increased 2,PMS2,,,,985,gene good,,,,,Cancer
+IMAGEI,POLE,,,,986,gene good,,,,,Cancer
+BRCC5,RAD51,,,,987,gene good,,,,,Cancer
+DNA repair protein RAD51 homolog 1,RAD51,,,1,988,gene good,,,,,Cancer
+HRAD51,RAD51,,,,989,gene good,,,,,Cancer
+HsRAD51,RAD51,,,,990,gene good,,,,,Cancer
+RAD51 homolog,RAD51,,,,991,gene good,,,,,Cancer
+RAD51_HUMAN,RAD51,,,,992,gene good,,,,,Cancer
+RAD51A,RAD51,,,,993,gene good,,,,,Cancer
+RECA,RAD51,,,,994,gene good,,,,,Cancer
+RecA-like protein,RAD51,,,,995,gene good,,,,,Cancer
+"RecA, E. coli, homolog of",RAD51,,,,996,gene good,,,,,Cancer
+recombination protein A,RAD51,,,,997,gene good,,,,,Cancer
+cadherin family member 12,RET,,,,998,gene good,,,,,Cancer
+cadherin-related family member 16,RET,,,1,999,gene good,,,,,Cancer
+CDHF12,RET,,,,1000,gene good,,,,,Cancer
+CDHR16,RET,,,,1001,gene good,,,,,Cancer
+HSCR1,RET,,,,1002,gene good,,,,,Cancer
+hydroxyaryl-protein kinase,RET,,,,1003,gene good,,,,,Cancer
+MEN2A,RET,,,,1004,gene good,,,,,Cancer
+MEN2B,RET,,,,1005,gene good,,,,,Cancer
+MTC1,RET,,,,1006,gene good,,,,,Cancer
+PTC,RET,,,,1007,gene good,,,,,Cancer
+rearranged during transfection,RET,,,,1008,gene good,,,,,Cancer
+RET-ELE1,RET,,,,1009,gene good,,,,,Cancer
+ret proto-oncogene,RET,,,,1010,gene good,,,,,Cancer
+RET/PTC,RET,,,,1011,gene good,,,,,Cancer
+RET51,RET,,,,1012,gene good,,,,,Cancer
+RET_HUMAN,RET,,,,1013,gene good,,,,,Cancer
+CMD1GG,SDHA,,,,1014,gene good,,,,,Cancer
+DHSA_HUMAN,SDHA,,,,1015,gene good,,,,,Cancer
+flavoprotein subunit of complex II,SDHA,,,,1016,gene good,,,,,Cancer
+FP,SDHA,,,,1017,gene good,,,,,Cancer
+SDH1,SDHA,,,,1018,gene good,,,,,Cancer
+SDH2,SDHA,,,,1019,gene good,,,,,Cancer
+SDHF,SDHA,,,,1020,gene good,,,,,Cancer
+"succinate dehydrogenase flavoprotein subunit, mitochondrial",SDHA,,,,1021,gene good,,,,,Cancer
+succinate dehydrogenase complex flavoprotein subunit,SDHA,,,,1022,gene good,,,,,Cancer
+"succinate dehydrogenase complex subunit A, flavoprotein",SDHA,,,,1023,gene good,,,,,Cancer
+"succinate dehydrogenase complex, subunit A, flavoprotein",SDHA,,,1,1024,gene good,,,,,Cancer
+C11orf79,SDHAF2,,,,1025,gene good,,,,,Cancer
+FLJ20487,SDHAF2,,,,1026,gene good,,,,,Cancer
+hSDH5,SDHAF2,,,,1027,gene good,,,,,Cancer
+PGL2,SDHAF2,,,,1028,gene good,,,,,Cancer
+SDH assembly factor 2,SDHAF2,,,,1029,gene good,,,,,Cancer
+SDH5,SDHAF2,,,,1030,gene good,,,,,Cancer
+SDHF2_HUMAN,SDHAF2,,,,1031,gene good,,,,,Cancer
+"succinate dehydrogenase assembly factor 2, mitochondrial",SDHAF2,,,,1032,gene good,,,,,Cancer
+"succinate dehydrogenase subunit 5, mitochondrial",SDHAF2,,,,1033,gene good,,,,,Cancer
+DHSB_HUMAN,SDHB,,,,1034,gene good,,,,,Cancer
+FLJ92337,SDHB,,,,1035,gene good,,,,,Cancer
+IP,SDHB,,,,1036,gene good,,,,,Cancer
+iron-sulfur subunit of complex II,SDHB,,,,1037,gene good,,,,,Cancer
+PGL4,SDHB,,,,1038,gene good,,,,,Cancer
+SDH,SDHB,,,,1039,gene good,,,,,Cancer
+SDH1,SDHB,,,,1040,gene good,,,,,Cancer
+SDH2,SDHB,,,,1041,gene good,,,,,Cancer
+SDHIP,SDHB,,,,1042,gene good,,,,,Cancer
+"succinate dehydrogenase iron-sulfur subunit, mitochondrial",SDHB,,,,1043,gene good,,,,,Cancer
+"succinate dehydrogenase iron-sulfur subunit, mitochondrial precursor",SDHB,,,,1044,gene good,,,,,Cancer
+"succinate dehydrogenase complex subunit B, iron sulfur",SDHB,,,,1045,gene good,,,,,Cancer
+"succinate dehydrogenase complex, subunit B, iron sulfur",SDHB,,,1,1046,gene good,,,,,Cancer
+C560_HUMAN,SDHC,,,,1047,gene good,,,,,Cancer
+CYB560,SDHC,,,,1048,gene good,,,,,Cancer
+CYBL,SDHC,,,,1049,gene good,,,,,Cancer
+cytochrome B large subunit of complex II,SDHC,,,,1050,gene good,,,,,Cancer
+integral membrane protein CII-3,SDHC,,,1,1051,gene good,,,,,Cancer
+integral membrane protein CII-3b,SDHC,,,,1052,gene good,,,,,Cancer
+PGL3,SDHC,,,,1053,gene good,,,,,Cancer
+QPs-1,SDHC,,,,1054,gene good,,,,,Cancer
+QPS1,SDHC,,,,1055,gene good,,,,,Cancer
+SDH3,SDHC,,,,1056,gene good,,,,,Cancer
+"succinate dehydrogenase complex, subunit C, integral membrane protein, 15kDa",SDHC,,,,1057,gene good,,,,,Cancer
+"succinate dehydrogenase cytochrome b560 subunit, mitochondrial",SDHC,,,,1058,gene good,,,,,Cancer
+succinate-ubiquinone oxidoreducatase cytochrome B large subunit,SDHC,,,1,1059,gene good,,,,,Cancer
+succinate-ubiquinone oxidoreductase cytochrome B large subunit,SDHC,,,,1060,gene good,,,,,Cancer
+CBT1,SDHD,,,,1061,gene good,,,,,Cancer
+CII-4,SDHD,,,,1062,gene good,,,,,Cancer
+cybS,SDHD,,,,1063,gene good,,,,,Cancer
+DHSD_HUMAN,SDHD,,,,1064,gene good,,,,,Cancer
+PGL,SDHD,,,,1065,gene good,,,,,Cancer
+PGL1,SDHD,,,,1066,gene good,,,,,Cancer
+QPs3,SDHD,,,,1067,gene good,,,,,Cancer
+SDH4,SDHD,,,,1068,gene good,,,,,Cancer
+"succinate dehydrogenase [ubiquinone] cytochrome b small subunit, mitochondrial",SDHD,,,,1069,gene good,,,,,Cancer
+"succinate dehydrogenase complex subunit D, integral membrane protein",SDHD,,,1,1070,gene good,,,,,Cancer
+"succinate dehydrogenase complex, subunit D, integral membrane protein",SDHD,,,,1071,gene good,,,,,Cancer
+succinate dehydrogenase ubiquinone cytochrome B small subunit,SDHD,,,,1072,gene good,,,,,Cancer
+succinate-ubiquinone oxidoreductase cytochrome b small subunit,SDHD,,,,1073,gene good,,,,,Cancer
+succinate-ubiquinone reductase membrane anchor subunit,SDHD,,,,1074,gene good,,,,,Cancer
+elongin binding protein,VHL,,,,1075,gene good,,,,,Cancer
+pVHL,VHL,,,,1076,gene good,,,,,Cancer
+VHL1,VHL,,,,1077,gene good,,,,,Cancer
+VHL_HUMAN,VHL,,,,1078,gene good,,,,,Cancer
+"von Hippel-Lindau tumor suppressor, E3 ubiquitin protein ligase",VHL,,,,1079,gene good,,,,,Cancer
+ATM-Biallellic,ATM-Biallelic,,,,1080,gene good,,,,,Cancer
+BLM-Biallellic,BLM-Biallelic,,,,1081,gene good,,,,,Cancer
+BRCA1-Biallellic,BRCA1-Biallelic,,,,1082,gene good,,,,,Cancer
+BRCA2-Biallellic,BRCA2-Biallelic,,,,1083,gene good,,,,,Cancer
+BRIP1-Biallellic,BRIP1-Biallelic,,,,1084,gene good,,,,,Cancer
+BUB1B-Biallellic,BUB1B-Biallelic,,,,1085,gene good,,,,,Cancer
+CASR-Biallellic,CASR-Biallelic,,,,1086,gene good,,,,,Cancer
+CDKN1B-Biallellic,CDKN1B-Biallelic,,,,1087,gene good,,,,,Cancer
+CEP57-Biallellic,CEP57-Biallelic,,,,1088,gene good,,,,,Cancer
+CFTR-Biallellic,CFTR-Biallelic,,,,1089,gene good,,,,,Cancer
+CTC1-Biallellic,CTC1-Biallelic,,,,1090,gene good,,,,,Cancer
+DDB2-Biallelic,DDB2-Biallelic,,,,1091,gene good,,,,,Cancer
+DIS3L2-Biallellic,DIS3L2-Biallelic,,,,1092,gene good,,,,,Cancer
+EPCAM-Biallelic,EPCAM-Biallelic,,,,1093,gene good,,,,,Cancer
+ERCC2-Biallelic,ERCC2-Biallelic,,,,1094,gene good,,,,,Cancer
+ERCC3-Biallelic,ERCC3-Biallelic,,,,1095,gene good,,,,,Cancer
+ERCC4-Biallelic,ERCC4-Biallelic,,,,1096,gene good,,,,,Cancer
+ERCC4-Biallelic,ERCC4-Biallelic,,,,1097,gene good,,,,,Cancer
+ERCC4-Biallellic,ERCC4-Biallelic,,,,1098,gene good,,,,,Cancer
+ERCC5-Biallelic,ERCC5-Biallelic,,,,1099,gene good,,,,,Cancer
+FANCA-Biallellic,FANCA-Biallelic,,,,1100,gene good,,,,,Cancer
+FANCC-Biallellic,FANCC-Biallelic,,,,1101,gene good,,,,,Cancer
+FANCD2-Biallellic,FANCD2-Biallelic,,,,1102,gene good,,,,,Cancer
+FANCE-Biallellic,FANCE-Biallelic,,,,1103,gene good,,,,,Cancer
+FANCF-Biallellic,FANCF-Biallelic,,,,1104,gene good,,,,,Cancer
+FANCG-Biallellic,FANCG-Biallelic,,,,1105,gene good,,,,,Cancer
+FANCL-Biallellic,FANCL-Biallelic,,,,1106,gene good,,,,,Cancer
+FANCM-Biallellic,FANCM-Biallelic,,,,1107,gene good,,,,,Cancer
+FH-Biallellic,FH-Biallelic,,,,1108,gene good,,,,,Cancer
+GPC3-Biallellic,GPC3-Biallelic,,,,1109,gene good,,,,,Cancer
+LDLRAP1-Biallelic,LDLRAP1-Biallelic,,,,1110,gene good,,,,,Cancer
+LMNA-Biallelic,LMNA-Biallelic,,,,1111,gene good,,,,,Cancer
+MLH1-Biallelic,MLH1-Biallelic,,,,1112,gene good,,,,,Cancer
+MRE11-Biallellic,MRE11-Biallelic,,,,1113,gene good,,,,,Cancer
+MSH2-Biallelic,MSH2-Biallelic,,,,1114,gene good,,,,,Cancer
+MSH3-Biallellic,MSH3-Biallelic,,,,1115,gene good,,,,,Cancer
+MSH6-Biallelic,MSH6-Biallelic,,,,1116,gene good,,,,,Cancer
+NBN-Biallellic,NBN-Biallelic,,,,1117,gene good,,,,,Cancer
+NHP2-Biallellic,NHP2-Biallelic,,,,1118,gene good,,,,,Cancer
+NOP10-Biallellic,NOP10-Biallelic,,,,1119,gene good,,,,,Cancer
+NTHL1-Biallellic,NTHL1-Biallelic,,,,1120,gene good,,,,,Cancer
+PALB2-Biallellic,PALB2-Biallelic,,,,1121,gene good,,,,,Cancer
+PMS2-Biallelic,PMS2-Biallelic,,,,1122,gene good,,,,,Cancer
+RAD50-Biallellic,RAD50-Biallelic,,,,1123,gene good,,,,,Cancer
+RAD51-Biallellic,RAD51-Biallelic,,,,1124,gene good,,,,,Cancer
+RAD51C-Biallellic,RAD51C-Biallelic,,,,1125,gene good,,,,,Cancer
+RECQL4-Biallellic,RECQL4-Biallelic,,,,1126,gene good,,,,,Cancer
+RECQL4-Biallellic,RECQL4-Biallelic,,,,1127,gene good,,,,,Cancer
+RECQL4-Biallellic,RECQL4-Biallelic,,,,1128,gene good,,,,,Cancer
+SDHA-Biallellic,SDHA-Biallelic,,,,1129,gene good,,,,,Cancer
+SDHB-Biallellic,SDHB-Biallelic,,,,1130,gene good,,,,,Cancer
+SLX4-Biallellic,SLX4-Biallelic,,,,1131,gene good,,,,,Cancer
+SPINK1-Biallellic,SPINK1-Biallelic,,,,1132,gene good,,,,,Cancer
+VHL-Biallellic,VHL-Biallelic,,,,1133,gene good,,,,,Cancer
+WRN-Biallellic,WRN-Biallelic,,,,1134,gene good,,,,,Cancer
+XPA-Biallelic,XPA-Biallelic,,,,1135,gene good,,,,,Cancer
+XRCC2-Biallelic,XRCC2-Biallelic,,,,1136,gene good,,,,,Cancer
+POLE-Biallelic,POLE-Biallelic,,,,1137,,,,,,Cancer
+SIL1,SIL1,,,,1138,,,,,,Cancer
+IL1B,IL1B,,,,1139,,,,,,Cancer
+IL1RN,IL1RN,,,,1140,,,,,,Cancer
+KRAS,KRAS,,,,1141,,,,,,Cancer
+BCS1L,BCS1L,,,,1142,,,,,,Cancer
+COX10,COX10,,,,1143,,,,,,Cancer
+COX15,COX15,,,,1144,,,,,,Cancer
+FOXRED1,FOXRED1,,,,1145,,,,,,Cancer
+NDUFA10,NDUFA10,,,,1146,,,,,,Cancer
+NDUFA12,NDUFA12,,,,1147,,,,,,Cancer
+NDUFA2,NDUFA2,,,,1148,,,,,,Cancer
+NDUFA9,NDUFA9,,,,1149,,,,,,Cancer
+NDUFAF2,NDUFAF2,,,,1150,,,,,,Cancer
+NDUFAF6,NDUFAF6,,,,1151,,,,,,Cancer
+NDUFS3,NDUFS3,,,,1152,,,,,,Cancer
+NDUFS4,NDUFS4,,,,1153,,,,,,Cancer
+NDUFS7,NDUFS7,,,,1154,,,,,,Cancer
+NDUFS8,NDUFS8,,,,1155,,,,,,Cancer
+SURF1,SURF1,,,,1156,,,,,,Cancer
+CCND1,CCND1,,,,1157,,,,,,Cancer
+RPL11,RPL11,,,,1158,,,,,,Cancer
+RPL26,RPL26,,,,1159,,,,,,Cancer
+RPL35A,RPL35A,,,,1160,,,,,,Cancer
+RPL5,RPL5,,,,1161,,,,,,Cancer
+RPS10,RPS10,,,,1162,,,,,,Cancer
+RPS19,RPS19,,,,1163,,,,,,Cancer
+RPS24,RPS24,,,,1164,,,,,,Cancer
+RPS26,RPS26,,,,1165,,,,,,Cancer
+RPS7,RPS7,,,,1166,,,,,,Cancer
+CFTR,CFTR,,,,1167,,1,,,,Cancer
+CEP57,CEP57,,,,1168,,,,,,Cancer
+CTC1,CTC1,,,,1169,,,,1,,Cancer
+NHP2,NHP2,,,,1170,,,,1,,Cancer
+NOP10,NOP10,,,,1171,,,,1,,Cancer
+MLH1-Biallelic,MLH1-Biallelic,,,,1172,,,,,,Cancer
+PMS2-Biallelic,PMS2-Biallelic,,,,1173,,,,,,Cancer
+JUP,JUP,,,,1174,,,,,,Cancer
+TTC37,TTC37,,,,1175,,,,,,Cancer
+SKIV2L,SKIV2L,,,,1176,,,,,,Cancer
+AR,AR,,,,1177,,,,,,Cancer
+CTNND1,CTNND1,,,,1178,,,,,,Cancer
+SCN5A,SCN5A,,,,1179,,,,,,Cancer
+GJB6,GJB6,,,,1180,,,,,,Cancer
+FOXP3,FOXP3,,,,1181,,,,,,Cancer
+XK,XK,,,,1182,,,,,,Cancer
+DKC1,DKC1,,,,1183,,,,1,,Cancer
+ENG,ENG,,,,1184,,,,,,Cancer
+EZH2,EZH2,,,,1185,,,,1,,Cancer
+FANCB,FANCB,,,,1186,,,,1,,Cancer
+GATA1,GATA1,,,,1187,,,,,,Cancer
+GATA1,GATA1,,,,1188,,,,,,Cancer
+MC1R,MC1R,,,,1189,,,,1,,Cancer
+PTCH2,PTCH2,,,,1190,,,,1,,Cancer
+PTCH2,PTCH2,,,,1191,,,,1,,Cancer
+SPRED1,SPRED1,,,,1192,,,,,,Cancer
+ATRX,ATRX,,,,1194,,,,,,Cancer
+RAD54L,RAD54L,,,,1195,,,,,,Cancer
+CDK12,CDK12,,,,1197,,,,,,Cancer
+DMC1,DMC1,,,,1198,,,,,,Cancer
+PPP2R2A,PPP2R2A,,,,1199,,,,,,Cancer
+RAD52,RAD52,,,,1200,,,,,,Cancer
+EME1,EME1,,,,1202,,,,,,Cancer
+ATRX,ATRX,,,,1203,,,,,,Cancer
+CDK12,CDK12,,,,1204,,,,,,Cancer
+DMC1,DMC1,,,,1205,,,,,,Cancer
+EME1,EME1,,,,1206,,,,,,Cancer
+EME2,EME2,,,,1207,,,,,,Cancer
+FAM175A ,ABRAXAS1,,,,1208,,,,,,Cancer
+FLCN,FLCN,,,,1209,,1,1,1,,Cancer
+GEN1,GEN1,,,,1210,,,,,,Cancer
+MUS81,MUS81,,,,1211,,,,,,Cancer
+PPP2R2A,PPP2R2A,,,,1212,,,,,,Cancer
+RAD52,RAD52,,,,1213,,,,,,Cancer
+RAD54L,RAD54L,,,,1214,,,,,,Cancer
+RBBP8,RBBP8,,,,1215,,,,,,Cancer
+SLX1A,SLX1A,,,,1216,,,,,,Cancer
+XRCC3,XRCC3,,,,1217,,,,,,Cancer
+TP53BP1,TP53BP1,,,,1218,,,,,,Cancer
+XPC,XPC,,,,1219,,,,1,,Cancer
+WWP1,WWP1,,,,1220,,,,,,Cancer
+FOXE1,FOXE1,,,,1224,,,,,,Cancer
+HABP2,HABP2,,,,1225,,,,,,Cancer
+MRE11A,MRE11A,,,,1226,,,,,,Cancer
+MSR1,MSR1,,,,1227,,,,,,Cancer
+NKX2-1,NKX2-1,,,,1228,,,,,,Cancer
+SEC23B,SEC23B,,,,1229,,,,,,Cancer
+SRGAP1,SRGAP1,,,,1230,,,,,,Cancer
+ABRAXAS1,ABRAXAS1,,,,1231,,1,,,,Cancer
+EGLN1,EGLN1,,,,1232,,1,,1,,Cancer
+KIF1B,KIF1B,,,,1233,,1,,1,,Cancer
+LZTR1,LZTR1,,,,1234,,1,,1,,Cancer
+PALLD,PALLD,,,,1235,,1,,,,Cancer
+CCDC98,ABRAXAS1,,,,1236,,,,,,Cancer
+SIH002,PALLD,,,,1237,,,,,,Cancer
+PNCA1,PALLD,,,,1238,,,,,,Cancer
+MYN,PALLD,,,,1239,,,,,,Cancer
+CGI151,PALLD,,,,1240,,,,,,Cancer
+CGI-151,PALLD,,,,1241,,,,,,Cancer
+BTBD29,LZTR1,,,,1242,,,,,,Cancer
+leucine-zipper-like transcriptional regulator 1,LZTR1,,,,1243,,,,,,Cancer
+LZTR-1,LZTR1,,,,1244,,,,,,Cancer
+NS10,LZTR1,,,,1245,,,,,,Cancer
+SWNTS2,LZTR1,,,,1246,,,,,,Cancer
+CMT2,KIF1B,,,,1247,,,,,,Cancer
+CMT2A,KIF1B,,,,1248,,,,,,Cancer
+HMSNII,KIF1B,,,,1249,,,,,,Cancer
+KIAA0591,KIF1B,,,,1250,,,,,,Cancer
+KIAA1488,KIF1B,,,,1251,,,,,,Cancer
+KIF1B_HUMAN,KIF1B,,,,1252,,,,,,Cancer
+KLP,KIF1B,,,,1253,,,,,,Cancer
+ECYT3,EGLN1,,,,1254,,,,,,Cancer
+ZMYND6,EGLN1,,,,1255,,,,,,Cancer
+zinc finger MYND domain-containing protein 6,EGLN1,,,,1256,,,,,,Cancer
+prolyl hydroxylase domain-containing protein 2,EGLN1,,,,1257,,,,,,Cancer
+PHD2,EGLN1,,,,1258,,,,,,Cancer
+hypoxia-inducible factor prolyl hydroxylase 2,EGLN1,,,,1259,,,,,,Cancer
+HPH2,EGLN1,,,,1260,,,,,,Cancer
+"HPH-2
+HIFPH2",EGLN1,,,,1261,,,,,,Cancer
+egl nine homolog 1,EGLN1,,,,1262,,,,,,Cancer
+EGLN1_HUMAN,EGLN1,,,,1263,,,,,,Cancer
+"HIF-prolyl hydroxylase 2
+egl nine homolog 1 (C. elegans)",EGLN1,,,,1264,,,,,,Cancer
+egl nine-like protein 1,EGLN1,,,,1265,,,,,,Cancer
+HIF-PH2,EGLN1,,,,1266,,,,,,Cancer
+HIF prolyl hydroxylase 2,EGLN1,,,,1267,,,,,,Cancer
+egl-9 family hypoxia-inducible factor 1,EGLN1,,,,1268,,,,,,Cancer
+HIF PH2,EGLN1,,,,1269,,,,,,Cancer
+ERCC1,ERCC1,,,,1270,,,,1,,Cancer
+FAN1,FAN1,,,,1271,,,,1,,Cancer
+POLH,POLH,,,,1272,,,,1,,Cancer
+SLC45A2,SLC45A2,,,,1273,,,,1,,Cancer
+TINF2,TINF2,,,,1274,,,,1,,Cancer
+TYR,TYR,,,,1275,,,,1,,Cancer
+WRAP53,WRAP53,,,,1276,,,,1,,Cancer
+MAP3K6,MAP3K6,,,,1277,,,,,,Cancer
+PTCSC3,PTCSC3,,,,1278,,,,,,Cancer
+PTCSC2,PTCSC2,,,,1279,,,,,,Cancer
+PTCSC1,PTCSC1,,,,1280,,,,,,Cancer
+FBXO24,FBXO24,,,,1281,,,,,,Cancer
+DOT1L,DOT1L,,,,1283,,,,,,Cancer
+INSR,INSR,,,,1284,,,,,,Cancer
+EHBP1,EHBP1,,,,1285,,,,,,Cancer
+ELAC2,ELAC2,,,,1286,,,,,,Cancer
+FAT4,FAT4,,,,1287,,,,,,Cancer
+FGFR3,FGFR3,,,,1288,,,,,,Cancer
+FLT3,FLT3,,,,1289,,,,,,Cancer
+HPC1,HPC1,,,,1290,,,,,,Cancer
+IGF2R,IGF2R,,,,1291,,,,,,Cancer
+TRRAP,TRRAP,,,,1293,,,,,,Cancer
+MYD88,MYD88,,,,1294,,,,,,Cancer
+NTRK,NTRK,,,,1296,,,,,,Cancer
+PCAP,PCAP,,,,1297,,,,,,Cancer
+PMS2P1,PMS2P1,,,,1298,,,,,,Cancer
+RINT1,RINT1,,,,1299,,,,,,Cancer
+MCPH1,MCPH1,,,,1300,,,,,,Cancer
+ARA9,AIP,,,,1301,,,,,,Cancer
+FKBP16,AIP,,,,1302,,,,,,Cancer
+XAP2,AIP,,,,1303,,,,,,Cancer
+PITA1,AIP,,,,1304,,,,,,Cancer
+XAP-2,AIP,,,,1305,,,,,,Cancer
+FKBP37,AIP,,,,1306,,,,,,Cancer
+SMTPHN,AIP,,,,1307,,,,,,Cancer
+CD246,ALK,,,,1308,,,,,,
+NBLST3,ALK,,,,1309,,,,,,
+CAR,CASR,,,,1310,,,,,,Cancer
+FHH,CASR,,,,1311,,,,,,Cancer
+PCAR1,CASR,,,,1312,,,,,,Cancer
+hCasR,CASR,,,,1313,,,,,,Cancer
+GPRC2A,CASR,,,,1314,,,,,,Cancer
+HYPOC1,CASR,,,,1315,,,,,,Cancer
+FIH,CASR,,,,1316,,,,,,Cancer
+HHC,CASR,,,,1317,,,,,,Cancer
+EIG8,CASR,,,,1318,,,,,,Cancer
+NSHPT,CASR,,,,1319,,,,,,Cancer
+HHC1,CASR,,,,1320,,,,,,Cancer
+HYX,CDC73,,,,1321,,,,,,Cancer
+FIHP,CDC73,,,,1322,,,,,,Cancer
+HPTJT,CDC73,,,,1323,,,,,,Cancer
+HRPT1,CDC73,,,,1324,,,,,,Cancer
+HRPT2,CDC73,,,,1325,,,,,,Cancer
+C1orf28,CDC73,,,,1326,,,,,,Cancer
+CEBP,CEBPA,,,,1327,,,,,,Cancer
+C/EBP-alpha,CEBPA,,,,1328,,,,,,Cancer
+BWS,CDKN1C,,,,1329,,,,,,Cancer
+WBS,CDKN1C,,,,1330,,,,,,Cancer
+p57,CDKN1C,,,,1331,,,,,,Cancer
+BWCR,CDKN1C,,,,1332,,,,,,Cancer
+KIP2,CDKN1C,,,,1333,,,,,,Cancer
+p57Kip2,CDKN1C,,,,1334,,,,,,Cancer
+CF,CFTR,,,,1335,,,,,,Cancer
+MRP7,CFTR,,,,1336,,,,,,Cancer
+ABC35,CFTR,,,,1337,,,,,,Cancer
+ABCC7,CFTR,,,,1338,,,,,,Cancer
+CFTR/MRP,CFTR,,,,1339,,,,,,Cancer
+TNR-CFTR,CFTR,,,,1340,,,,,,Cancer
+dJ760C5.1,CFTR,,,,1341,,,,,,Cancer
+CAP,CAP1,,,,1342,,,,,,Cancer
+CAP1-PEN,CAP1,,,,1343,,,,,,Cancer
+FAM6A,DIS3L2,,,,1344,,,,,,Cancer
+PRLMNS,DIS3L2,,,,1345,,,,,,Cancer
+hDIS3L2,DIS3L2,,,,1346,,,,,,Cancer
+ERBB,EGFR,,,,1347,,,,,,Cancer
+HER1,EGFR,,,,1348,,,,,,Cancer
+mENA,EGFR,,,,1349,,,,,,Cancer
+ERBB1,EGFR,,,,1350,,,,,,Cancer
+PIG61,EGFR,,,,1351,,,,,,Cancer
+NISBD2,EGFR,,,,1352,,,,,,Cancer
+ANKRD26,ANKRD26,,,,1354,,,,,,
+ARMC5,ARMC5,,,,1355,,,,,,
+ASXL1,ASXL1,,,,1356,,,,,,
+PHOXB2,PHOXB2,,,,1357,,,,,,
+TRIM37,TRIM37,,,,1358,,,,,,
+10q23del,BMPR1A,,,,1359,,,,,,
+10q23del,PTEN,,,,1360,,,,,,
+ABRA1,ABRAXAS1,,,,1361,,,,,,
+ACRDYS1,PRKAR1A,,,,1362,,,,,,
+ADOHR,PRKAR1A,,,,1363,,,,,,
+ALK1,ALK,,,,1364,,,,,,
+AML1,RUNX1,,,,1365,,,,,,
+AML1-EVI-1,RUNX1,,,,1366,,,,,,
+AMLCR1,RUNX1,,,,1367,,,,,,
+AUTS9,MET,,,,1368,,,,,,
+aviD,DICER1,,,,1369,,,,,,
+AWT1,WT1,,,,1370,,,,,,
+BAF190,SMARCA4,,,,1371,,,,,,
+BAF190A,SMARCA4,,,,1372,,,,,,
+BAF47,SMARCB1,,,,1373,,,,,,
+BAF57,SMARCE1,,,,1374,,,,,,
+BCDS1,CDH1,,,,1375,,,,,,
+BCNS,PTCH1,,,,1376,,,,,,
+BerEp4,EPCAM,,,,1377,,,,,,
+Ber-Ep4,EPCAM,,,,1378,,,,,,
+BHD,FLCN,,,,1379,,,,,,
+bHLHd4,MAX,,,,1380,,,,,,
+bHLHe32,MITF,,,,1381,,,,,,
+BMFS5,TP53,,,,1382,,,,,,
+"BRCA2_HUMAN
+BRCC2",BRCA2,,,,1383,,,,,,
+BRG1,SMARCA4,,,,1384,,,,,,
+BS,BLM,,,,1385,,,,,,
+C1orf12,EGLN1,,,,1386,,,,,,
+CAP102,CTNNA1,,,,1387,,,,,,
+C-BAS/HAS,HRAS,,,,1388,,,,,,
+CBF2alpha,RUNX1,,,,1389,,,,,,
+CBFA2,RUNX1,,,,1390,,,,,,
+CCHS,PHOX2B,,,,1391,,,,,,
+CD117,KIT,,,,1392,,,,,,
+CD140A,PDGFRA,,,,1393,,,,,,
+C-HA-RAS1,HRAS,,,,1394,,,,,,
+C-H-RAS,HRAS,,,,1395,,,,,,
+C-Kit,KIT,,,,1396,,,,,,
+c-Met,MET,,,,1397,,,,,,
+CMM10,POT1,,,,1398,,,,,,
+CMM8,MITF,,,,1399,,,,,,
+CMM9,TERT,,,,1400,,,,,,
+CMT2A1,KIF1B,,,,1401,,,,,,
+CNC,PRKAR1A,,,,1402,,,,,,
+CNC1,PRKAR1A,,,,1403,,,,,,
+COMMAD,MITF,,,,1404,,,,,,
+CPA,CPA1,,,,1405,,,,,,
+CRCS1,GALNT12,,,,1406,,,,,,
+CSS3,SMARCB1,,,,1407,,,,,,
+CSS4,SMARCA4,,,,1408,,,,,,
+CSS5,SMARCE1,,,,1409,,,,,,
+CTLO,HRAS,,,,1410,,,,,,
+CWS2,SDHB,,,,1411,,,,,,
+DCML,GATA2,,,,1412,,,,,,
+DCR1,DICER1,,,,1413,,,,,,
+DENND8B,FLCN,,,,1414,,,,,,
+DESMD,APC,,,,1415,,,,,,
+DFNB97,MET,,,,1416,,,,,,
+DGSX,GPC3,,,,1417,,,,,,
+Dicer,DICER1,,,,1418,,,,,,
+Dicer1e,DICER1,,,,1419,,,,,,
+DKCA1,TERC,,,,1420,,,,,,
+DKCA2,TERT,,,,1421,,,,,,
+DKCB4,TERT,,,,1422,,,,,,
+DUP,MSH3,,,,1423,,,,,,
+EGP314,EPCAM,,,,1424,,,,,,
+ERRP,EGFR,,,,1425,,,,,,
+EST2,TERT,,,,1426,,,,,,
+EVI-1,RUNX1,,,,1427,,,,,,
+FA3,FANCC,,,,1428,,,,,,
+FAC,FANCC,,,,1429,,,,,,
+FACC,FANCC,,,,1430,,,,,,
+FANCU,XRCC2,,,,1431,,,,,,
+FAP3,NTHL1,,,,1432,,,,,,
+FAP4,MSH3,,,,1433,,,,,,
+FLCL,FLCN,,,,1434,,,,,,
+FMRD,FH,,,,1435,,,,,,
+GalNAc-T12,GALNT12,,,,1436,,,,,,
+GLM9,POT1,,,,1437,,,,,,
+GLOW,DICER1,,,,1438,,,,,,
+GTR2-2,GPC3,,,,1439,,,,,,
+GUD,WT1,,,,1440,,,,,,
+HALAH,EGLN1,,,,1441,,,,,,
+HAMSV,HRAS,,,,1442,,,,,,
+HERNA,DICER1,,,,1443,,,,,,
+hEST2,TERT,,,,1444,,,,,,
+HGFR,MET,,,,1445,,,,,,
+HIFPH2,EGLN1,,,,1446,,,,,,
+"HIF-prolyl hydroxylase 2
+egl nine homolog 1 (C. elegans)",EGLN1,,,,1447,,,,,,
+HLRCC,FH,,,,1448,,,,,,
+hNTH1,NTHL1,,,,1449,,,,,,
+HPC9,HOXB13,,,,1450,,,,,,
+HPH-2,EGLN1,,,,1451,,,,,,
+HPOT1,POT1,,,,1452,,,,,,
+HRAS1,HRAS,,,,1453,,,,,,
+H-RASIDX,HRAS,,,,1454,,,,,,
+HRCA1,VHL,,,,1455,,,,,,
+HsFH,FH,,,,1456,,,,,,
+hSNF2b,SMARCA4,,,,1457,,,,,,
+hSNFS,SMARCB1,,,,1458,,,,,,
+hTR,TERC,,,,1459,,,,,,
+hTRT,TERT,,,,1460,,,,,,
+ILFS3,RINT1,,,,1461,,,,,,
+IMD21,GATA2,,,,1462,,,,,,
+INI1,SMARCB1,,,,1463,,,,,,
+INI-1,SMARCB1,,,,1464,,,,,,
+JBTS32,SUFU,,,,1465,,,,,,
+K12H4.8-LIKE,DICER1,,,,1466,,,,,,
+LAM,TSC1,,,,1467,,,,,,
+LAM,TSC2,,,,1468,,,,,,
+LRCC,FH,,,,1469,,,,,,
+MASTC,KIT,,,,1470,,,,,,
+MC2DN1,SDHA,,,,1471,,,,,,
+MC2DN4,SDHB,,,,1472,,,,,,
+MCL,FH,,,,1473,,,,,,
+MCUL1,FH,,,,1474,,,,,,
+MDPT2,CTNNA1,,,,1475,,,,,,
+MEN1B,CDKN1B,,,,1476,,,,,,
+MEN4,CDKN1B,,,,1477,,,,,,
+MGRISCE1,BLM,,,,1478,,,,,,
+MI,MITF,,,,1479,,,,,,
+MITF-A,MITF,,,,1480,,,,,,
+MLH-1,MLH1,,,,1481,,,,,,
+MMRCS1,MLH1,,,,1482,,,,,,
+MMRCS2,MSH2,,,,1483,,,,,,
+MMRCS3,MSH6,,,,1484,,,,,,
+MMRCS4,PMS2,,,,1485,,,,,,
+MNG1,DICER1,,,,1486,,,,,,
+MONOMAC,GATA2,,,,1487,,,,,,
+MRD15,SMARCB1,,,,1488,,,,,,
+MRD16,SMARCA4,,,,1489,,,,,,
+MRP1,MSH3,,,,1490,,,,,,
+MSH-2,MSH2,,,,1491,,,,,,
+MSH-6,MSH6,,,,1492,,,,,,
+MXR7,GPC3,,,,1493,,,,,,
+NBCCS,PTCH1,,,,1494,,,,,,
+NBLST1,KIF1B,,,,1495,,,,,,
+NBLST2,PHOX2B,,,,1496,,,,,,
+NBPhox,PHOX2B,,,,1497,,,,,,
+NDAXOA,SDHA,,,,1498,,,,,,
+NFE1B,GATA2,,,,1499,,,,,,
+NFNS,NF1,,,,1500,,,,,,
+NPHS4,WT1,,,,1501,,,,,,
+NS2,LZTR1,,,,1502,,,,,,
+NTH1,NTHL1,,,,1503,,,,,,
+OCI-5,GPC3,,,,1504,,,,,,
+OCTS3,NTHL1,,,,1505,,,,,,
+OF,BRIP1,,,,1506,,,,,,
+OSRC,RB1,,,,1507,,,,,,
+p105-Rb,RB1,,,,1508,,,,,,
+p110-RB1,RB1,,,,1509,,,,,,
+p21ras,HRAS,,,,1510,,,,,,
+PBT,KIT,,,,1511,,,,,,
+PCTT,SPINK1,,,,1512,,,,,,
+PDGFR2,PDGFRA,,,,1513,,,,,,
+PDGFR-2,PDGFRA,,,,1514,,,,,,
+PEBP2aB,RUNX1,,,,1515,,,,,,
+PEBP2alpha,RUNX1,,,,1516,,,,,,
+PFBMFT1,TERT,,,,1517,,,,,,
+PFBMFT2,TERC,,,,1518,,,,,,
+PGL5,SDHA,,,,1519,,,,,,
+PKR1,PRKAR1A,,,,1520,,,,,,
+PMS-2,PMS2,,,,1521,,,,,,
+PMX2B,PHOX2B,,,,1522,,,,,,
+POF17,XRCC2,,,,1523,,,,,,
+pp110,RB1,,,,1524,,,,,,
+PPNAD1,PRKAR1A,,,,1525,,,,,,
+PPP1R130,RB1,,,,1526,,,,,,
+PPP1R144,SMARCB1,,,,1527,,,,,,
+PPP1R160,TSC2,,,,1528,,,,,,
+pRb,RB1,,,,1529,,,,,,
+PRKAR1,PRKAR1A,,,,1530,,,,,,
+PRO1280,SUFU,,,,1531,,,,,,
+PSTI,SPINK1,,,,1532,,,,,,
+PTC1,PTCH1,,,,1533,,,,,,
+PTCH,PTCH1,,,,1534,,,,,,
+RASH1,HRAS,,,,1535,,,,,,
+RB,RB1,,,,1536,,,,,,
+RCA1,VHL,,,,1537,,,,,,
+RCCP2,MET,,,,1538,,,,,,
+RDT,SMARCB1,,,,1539,,,,,,
+RecQ1,RECQL,,,,1540,,,,,,
+RECQ2,BLM,,,,1541,,,,,,
+RECQ3,WRN,,,,1542,,,,,,
+RECQ4,RECQL4,,,,1543,,,,,,
+RECQL1,RECQL,,,,1544,,,,,,
+RECQL2,BLM,,,,1545,,,,,,
+RECQL2,WRN,,,,1546,,,,,,
+RECQL3,BLM,,,,1547,,,,,,
+RECQL3,WRN,,,,1548,,,,,,
+RINT-1,RINT1,,,,1549,,,,,,
+RMSE2,DICER1,,,,1550,,,,,,
+RTPS1,SMARCB1,,,,1551,,,,,,
+RTPS2,SMARCA4,,,,1552,,,,,,
+S20,RPS20,,,,1553,,,,,,
+SCARNA19,TERC,,,,1554,,,,,,
+SCFR,KIT,,,,1555,,,,,,
+SCG2,MEN1,,,,1556,,,,,,
+SDYS,GPC3,,,,1557,,,,,,
+Sfh1p,SMARCB1,,,,1558,,,,,,
+SGB,GPC3,,,,1559,,,,,,
+SGBS,GPC3,,,,1560,,,,,,
+SGBS1,GPC3,,,,1561,,,,,,
+SM20,EGLN1,,,,1562,,,,,,
+SNF2,SMARCA4,,,,1563,,,,,,
+SNF2-beta,SMARCA4,,,,1564,,,,,,
+SNF2L4,SMARCA4,,,,1565,,,,,,
+SNF2LB,SMARCA4,,,,1566,,,,,,
+SNF5,SMARCB1,,,,1567,,,,,,
+SNF5L1,SMARCB1,,,,1568,,,,,,
+Snr1,SMARCB1,,,,1569,,,,,,
+SPGF50,XRCC2,,,,1570,,,,,,
+Spink3,SPINK1,,,,1571,,,,,,
+SUFUH,SUFU,,,,1572,,,,,,
+SUFUXL,SUFU,,,,1573,,,,,,
+SWI2,SMARCA4,,,,1574,,,,,,
+SWNTS1,SMARCB1,,,,1575,,,,,,
+TATI,SPINK1,,,,1576,,,,,,
+TCP,SPINK1,,,,1577,,,,,,
+TCS1,TERT,,,,1578,,,,,,
+TP2,TERT,,,,1579,,,,,,
+TR,TERC,,,,1580,,,,,,
+TRC3,TERC,,,,1581,,,,,,
+TRP1,PRSS1,,,,1582,,,,,,
+TRT,TERT,,,,1583,,,,,,
+TRY1,PRSS1,,,,1584,,,,,,
+TRY4,PRSS1,,,,1585,,,,,,
+TRYP1,PRSS1,,,,1586,,,,,,
+TSC,TSC1,,,,1587,,,,,,
+TSC4,TSC2,,,,1588,,,,,,
+TSE1,PRKAR1A,,,,1589,,,,,,
+uS10,RPS20,,,,1590,,,,,,
+VRNF,NF1,,,,1591,,,,,,
+WAGR,WT1,,,,1592,,,,,,
+WIT-2,WT1,,,,1593,,,,,,
+WS2,MITF,,,,1594,,,,,,
+WS2A,MITF,,,,1595,,,,,,
+WSS,NF1,,,,1596,,,,,,
+WT-1,WT1,,,,1597,,,,,,
+WT33,WT1,,,,1598,,,,,,
