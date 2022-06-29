@@ -33,7 +33,7 @@ export const MyGraph = () => {
     if ( query !== '' ) {
 
         queryG = `MATCH (g:Gene {In_Invitae84:1}) WHERE g.name CONTAINS \'${query}\' RETURN ID(g) as id, g.name as name`
-        queryO = `MATCH (g:Gene {In_Invitae84:1})--(o:Organ) WHERE g.name CONTAINS \'${query}\' RETURN DISTINCT o, ID(o) as id, o.name as name`
+        queryO = `MATCH (g:Gene {In_Invitae84:1})--(o:Organ) WHERE g.name CONTAINS \'${query}\' RETURN DISTINCT o.name as name`
         queryR =  `MATCH (g:Gene {In_Invitae84:1})-[r]->(o:Organ) WHERE g.name CONTAINS \'${query}\' RETURN ID(g) as sid,ID(o) as tid, g.name as sname, o.name as tname`
         
     }
