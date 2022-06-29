@@ -60,7 +60,8 @@ export const MyGraph = () => {
         <div>
             {/* <textarea onChange={e=>{setQuery(e.target.value)}} >{query}</textarea> */}
             <button onClick={loadData}>Refresh</button>
-            <ForceGraph2D graphData={data} nodeId='name' width={800} height={800} backgroundColor='grey'/>     
+            <ForceGraph2D graphData={data} nodeId='name' width={800} height={800} backgroundColor='grey' 
+               linkDirectionalArrowRelPos={1} linkDirectionalArrowLength={2}/>       
         </div>
     
     )
@@ -101,7 +102,8 @@ export const Graph2 = () => {
      return(
         <div>
             <button onClick={loadData}>Refresh</button>
-            <ForceGraph2D graphData={data} nodeId='name' width={800} height={800} backgroundColor='grey' linkDirectionalArrowRelPos={1}/>     
+            <ForceGraph2D graphData={data} nodeId='name' width={800} height={800} backgroundColor='grey' 
+            linkDirectionalArrowRelPos={1} linkDirectionalArrowLength={10}/>     
         </div>
     
     )
