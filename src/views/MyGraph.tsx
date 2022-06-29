@@ -9,10 +9,12 @@ type DataType = {
 }
 
 export const MyGraph = () => {
+
     console.log('Enter graph')
     const [reload, setReload] = useState(0)
     const context = useContext(Neo4jContext), driver = context.driver
-    const [data,setData] =  useState({
+    const [query, setQuery] = useState('')
+    const [data, setData] =  useState({
         nodes: [
             {name:'Jane'},
             {name:'John'},
@@ -22,10 +24,21 @@ export const MyGraph = () => {
         [{source: 'Jane', target:'John'}]
             
        })
+
     //const [query,setQuery] = useState('MATCH (n:Gene) RETURN ID(n)  as id, n.name as name')
-    const [queryG,setQueryG] = useState(' MATCH (g:Gene) RETURN ID(g) as id, g.name as name')
-    const [queryO,setQueryO] = useState(' MATCH (o:Organ) RETURN ID(o) as id, o.name as name')
-    const [queryR,setQueryR] = useState(' MATCH (g:Gene)-[r]->(o:Organ) RETURN ID(g) as sid,ID(o) as tid, g.name as sname, o.name as tname')
+    let queryG = ' MATCH (g:Gene {In_Invitae84:1}) RETURN ID(g) as id, g.name as name'
+    let queryO = ' MATCH (o:Organ) RETURN ID(o) as id, o.name as name'
+    let queryR =  ' MATCH (g:Gene {In_Invitae84:1})-[r]->(o:Organ) RETURN ID(g) as sid,ID(o) as tid, g.name as sname, o.name as tname'
+
+    if ( query !== '' ) {
+
+        queryG = `MATCH (g:Gene {In_Invitae84:1}) WHERE g.name CONTAINS \'${query}\' RETURN ID(g) as id, g.name as name`
+        queryO = ' MATCH (o:Organ) RETURN ID(o) as id, o.name as name'
+        queryR =  `MATCH (g:Gene {In_Invitae84:1})-[r]->(o:Organ) WHERE g.name CONTAINS \'${query}\' RETURN ID(g) as sid,ID(o) as tid, g.name as sname, o.name as tname`
+        
+    }
+    console.log('==>' + query + '<==')
+    console.log(queryG)
 
     async function  loadData() {
         console.log('Load data')
@@ -53,57 +66,13 @@ export const MyGraph = () => {
 
     }
 
-   
-
-
      return(
         <div>
             {/* <textarea onChange={e=>{setQuery(e.target.value)}} >{query}</textarea> */}
+            <input type="text" value={query} onChange={e => setQuery(e.target.value)} />
             <button onClick={loadData}>Refresh</button>
             <ForceGraph2D graphData={data} nodeId='name' width={800} height={800} backgroundColor='grey' 
                linkDirectionalArrowRelPos={1} linkDirectionalArrowLength={2}/>       
-        </div>
-    
-    )
-
-}
-
-export const Graph2 = () => {
-    console.log('Enter graph 2')
-    const [reload, setReload] = useState(0)
-    const context = useContext(Neo4jContext), driver = context.driver
-    const [data,setData] =  useState({
-        nodes: [
-            {name:'Jane'},
-            {name:'John'},
-            {name:'Zack'},
-        ],
-        links: 
-        [{source: 'Jane', target:'John'}]
-            
-       })
-
-    async function  loadData() {
-        console.log('Load data')
-        if (driver == null) return 
-        let session = driver.session()
-        let res = await session.run(`MATCH (n) RETURN n.name as name`)
-        session.close();
-        console.log('Data loaded')
-        let nodes = res.records.map( row => {return { name: row.get('name')} })
-        setData({ nodes,
-            links: []
-        })
-        console.log(data)
-
-    }
-
-
-     return(
-        <div>
-            <button onClick={loadData}>Refresh</button>
-            <ForceGraph2D graphData={data} nodeId='name' width={800} height={800} backgroundColor='grey' 
-            linkDirectionalArrowRelPos={1} linkDirectionalArrowLength={10}/>     
         </div>
     
     )

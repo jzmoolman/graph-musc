@@ -6,7 +6,7 @@ CREATE (dt:DiseaseType {name:"Cancer"});
 LOAD CSV WITH HEADERS FROM  'https://raw.githubusercontent.com/jzmoolman/graph-musc/master/data/LKP_GeneCancerForPrintout.csv' AS row
 WITH row  WHERE row.DiseaseType = "Cancer"
 MATCH (dt:DiseaseType) WHERE dt.name = row.DiseaseType
-MERGE (g:Gene {name:row.GeneMasterName})
+MERGE (g:Gene {name:row.GeneMasterName, In_Invitae84:0})
 CREATE (o:Organ {name:row.Organ})
 CREATE (d:Disease { name:row.DiseaseName } )
 CREATE (gen:Gender { name:row.Gender} )
