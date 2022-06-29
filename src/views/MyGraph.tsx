@@ -46,11 +46,11 @@ export const MyGraph = () => {
         let session = driver.session()
 
         let res = await session.run(queryG)
-        let nodes = res.records.map( row => {return { name: row.get('name')} })
+        let nodes = res.records.map( row => {return { name: row.get('name'), nodeColor:'blue'} })
         console.log('Data loaded - Gene')
  
         res = await session.run(queryO)
-        nodes = Array.prototype.concat(nodes, res.records.map( row => {return { name: row.get('name')} }))
+        nodes = Array.prototype.concat(nodes, res.records.map( row => {return { name: row.get('name'), nodeColor:'red'} }))
         console.log('Data loaded - Organ')
 
         res = await session.run(queryR)
@@ -72,7 +72,7 @@ export const MyGraph = () => {
             <input type="text" value={query} onChange={e => setQuery(e.target.value)} />
             <button onClick={loadData}>Refresh</button>
             <ForceGraph2D graphData={data} nodeId='name' width={800} height={800} backgroundColor='grey' 
-               linkDirectionalArrowRelPos={1} linkDirectionalArrowLength={2}/>       
+               linkDirectionalArrowRelPos={1} linkDirectionalArrowLength={2} nodeColor='nodeColor' nodeLabel='name'/>       
         </div>
     
     )
