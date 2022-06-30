@@ -1,9 +1,0 @@
-// update gene from gene_detail
-
-
-LOAD CSV WITH HEADERS FROM
-'https://raw.githubusercontent.com/jzmoolman/graph-musc/master/data/LKP_Gene_Details.csv' AS row
-WITH row  WHERE row.In_Invitae84 = "1"
-MATCH (g:Gene) WHERE g.name = row.GeneMasterName 
-SET g.In_Invitae84 = 1;
-

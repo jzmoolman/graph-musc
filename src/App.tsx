@@ -23,7 +23,7 @@ import { MyGraph } from './views/MyGraph'
 function App() {
  
 
-  const constext = useContext(Neo4jContext)
+  const context = useContext(Neo4jContext)
 
   return (
     <div className="App">
