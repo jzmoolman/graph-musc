@@ -10,15 +10,7 @@ import { Menu } from 'semantic-ui-react';
 
 import { Home } from './views/Home'
 import { Genes } from './views/Genes'
-import { MyGraph } from './views/MyGraph'
-
-
-
-
-
-
-
-        
+import { GeneGraph } from './views/GeneGraph'
 
 function App() {
  
@@ -38,7 +30,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/genes' element={<Genes />} />
-          <Route path='/graph' element={<MyGraph />} />
+          <Route path='/graph' element={<GeneGraph />} />
         </Routes>
        
       </Router>
