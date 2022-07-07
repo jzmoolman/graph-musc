@@ -11,6 +11,7 @@ import { Menu } from 'semantic-ui-react';
 import { Home } from './views/Home'
 import { Genes } from './views/Genes'
 import { GeneGraph } from './views/GeneGraph'
+import { Debug } from './views/debug'
 
 function App() {
  
@@ -25,12 +26,14 @@ function App() {
           <Menu.Item as={Link} to='/'>Home</Menu.Item>
           <Menu.Item as={Link} to='/genes'>Genes</Menu.Item>
           <Menu.Item as={Link} to='/graph'>Graph</Menu.Item>
+          <Menu.Item as={Link} to='/debug'>Debug</Menu.Item>
         </Menu>
 
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/genes' element={<Genes />} />
           <Route path='/graph' element={<GeneGraph />} />
+          <Route path='/debug' element={<Debug />} />
         </Routes>
        
       </Router>

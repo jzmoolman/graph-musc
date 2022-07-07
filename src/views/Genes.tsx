@@ -5,8 +5,7 @@ import { useReadCypher  } from "use-neo4j";
 
 export const Genes = () => {
 
-    console.log('Enter - Gene')
-    console.log('============')
+    console.log('enter - Genes')
 
     type SearchGenesType = {
         query: string
@@ -24,6 +23,7 @@ export const Genes = () => {
            }
         
         if (loading ) { 
+            console.log('loading - SearchGenes')
             return  (<div></div>)
         }
 
@@ -33,12 +33,12 @@ export const Genes = () => {
 
         }
 
-        console.log('Loading data - SearchGenes')
+        console.log('prepare data - SearchGenes')
    
         
         const genes = records?.map( row => { 
            const gene = row.get('g')
-           console.log(gene.properties)
+           // console.log(gene.properties)
            return (
               <Card key={gene.properties.name}>
                   <Card.Content>
@@ -58,7 +58,7 @@ export const Genes = () => {
           
 
         })
-        console.log('Exit - SearchGenes')
+        console.log('exit - SearchGenes')
        
         return ( <div>
             {genes}
@@ -66,6 +66,8 @@ export const Genes = () => {
     }
     
     const [query, setQuery] = useState<string>('' as string)
+
+    console.log('exit - Genes')
 
     return ( 
         

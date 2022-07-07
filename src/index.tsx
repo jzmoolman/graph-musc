@@ -25,12 +25,12 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <Neo4jProvider driver={driver}>
     
     <App />
     </Neo4jProvider>
-  </React.StrictMode>
+  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
