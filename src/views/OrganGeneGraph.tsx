@@ -91,11 +91,13 @@ export const OrganGeneGraph = ( {verified, selectedOrgans}: GeneOrganGraphType )
     console.log('verified', verified)
     
     const isMounted = useRef(false)
-    const [renderTick,setRenderTick] = useState(0);
+    const [renderTick, setRenderTick] = useState(0);
 
     const onResize = () => {
         console.log('onResize')
-        setRenderTick(renderTick+1)
+        let tick = renderTick + 1
+        console.log('renderTick - Organ-Gene', tick )
+        setRenderTick(tick )
     }
 
     useEffect(()=>{

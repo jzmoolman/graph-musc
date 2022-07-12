@@ -1,17 +1,19 @@
+
 import { useState, useContext, useEffect, useRef, MutableRefObject } from 'react'
 import { Driver }  from  'neo4j-driver'
 import { Neo4jContext } from 'use-neo4j'
 import ForceGraph2D, { ForceGraphMethods }  from 'react-force-graph-2d'
-import { GeneDataType } from './GeneSelector'
+import { SyndromeDataType } from './SyndromeSelector'
 
-type GeneOrganGraphType = {
+type SyndromeGeneOrganGraphType = {
+
     verified: boolean
-    selectedGenes: GeneDataType[]
+    selectedSyndromes: SyndromeDataType[]
 }
 
-const selectedGenesToStr = (seletedGenes: GeneDataType[]) => {
+const selectedSyndromesToStr = (seletedSyndromes: SyndromeDataType[]) => {
     let localFilter = '';
-    seletedGenes.forEach(value => { 
+    seletedSyndromes.forEach(value => { 
         if (localFilter === '') localFilter = '['
             localFilter = localFilter + '\'' + value.text + '\','
         } )
@@ -27,7 +29,7 @@ type dataType =
     links: {source: string, target: string}[]
 }
 
-const  loadData = async (driver: Driver | undefined, selectedGenes: GeneDataType[], verified: boolean,
+const  loadData = async (driver: Driver | undefined, selectedSyndromes: SyndromeDataType[], verified: boolean,
         onData:(data: dataType)=> void) => {
     console.log('enter - loadData')
     if (driver == null) {
@@ -35,34 +37,34 @@ const  loadData = async (driver: Driver | undefined, selectedGenes: GeneDataType
         return 
     }
 
-    const geneStr = selectedGenesToStr(selectedGenes)
-    console.log('selectedGenderStr', geneStr)
+    const syndromesStr = selectedSyndromesToStr(selectedSyndromes)
+    console.log('selectedSyndromesStr', syndromesStr)
     let whereCLAUSE = ''
-    if ( geneStr !== '' && verified ) {
-        whereCLAUSE =  'WHERE g.name IN ' + geneStr + ' AND g.FinalVerdict = 1'
-    } else if ( geneStr !== '' && !verified ) {
-        whereCLAUSE =  'WHERE g.name IN ' + geneStr
-    } else if ( geneStr === '' && verified ) {
+    if ( syndromesStr !== '' && verified ) {
+        whereCLAUSE =  'WHERE g.SyndromeMasterName IN ' + syndromesStr + ' AND g.FinalVerdict = 1'
+    } else if ( syndromesStr !== '' && !verified ) {
+        whereCLAUSE =  'WHERE g.name IN ' + syndromesStr
+    } else if ( syndromesStr === '' && verified ) {
         whereCLAUSE = ' WHERE g.FinalVerdict = 1'
     } else {
         whereCLAUSE = ''
     }
 
-    const qGene = `MATCH (g:MGene) ${whereCLAUSE} RETURN DISTINCT g.name as name`
+    const qSyndrome = `MATCH (g:MGene) ${whereCLAUSE} RETURN DISTINCT g.SyndromeMasterName as name`
     const qOrgan = `MATCH (g:MGene)--(o:Organ) ${whereCLAUSE} RETURN DISTINCT o.name as name`
-    const qRelation = `MATCH (g:MGene)-[r]->(o:Organ) ${whereCLAUSE} RETURN ID(g) as sid,ID(o) as tid, g.name as sname, o.name as tname`
+    const qRelation = `MATCH (g:MGene)-[r]->(o:Organ) ${whereCLAUSE} RETURN ID(g) as sid,ID(o) as tid, g.SyndromeMasterName as sname, o.name as tname`
 
-    console.log('gGene', qGene)
+    console.log('gSyndrome', qSyndrome)
 
     let session = driver.session()
 
-    let res = await session.run(qGene)
+    let res = await session.run(qSyndrome)
     try {
-
+        let id = 0
         let nodes = res.records.map( row => { 
             return { name: row.get('name') as string, nodeColor:'blue' } 
          })
-        console.log('Data loaded - Gene')
+        console.log('Data loaded - Syndrome')
 
         res = await session.run(qOrgan)
         nodes = Array.prototype.concat(nodes, res.records.map( row => {return { name: row.get('name') as string, nodeColor:'red'} }))
@@ -84,10 +86,10 @@ const  loadData = async (driver: Driver | undefined, selectedGenes: GeneDataType
     }
 }
 
-export const GeneOrganGraph = ( {verified, selectedGenes}: GeneOrganGraphType ) => {
+export const SyndromeGraph = ( {verified, selectedSyndromes}: SyndromeGeneOrganGraphType ) => {
 
-    console.log('enter - GeneOrganGraph')
-    console.log('verified', verified)
+    console.log('enter - SyndromeGraph')
+    console.log('selectedSyndromes', selectedSyndromes)
     
     const isMounted = useRef(false)
     const [rerender, setRerender] = useState(0);
@@ -121,9 +123,9 @@ export const GeneOrganGraph = ( {verified, selectedGenes}: GeneOrganGraphType ) 
             setData(data)
             
         }
-        loadData(driver, selectedGenes, verified,  onData)
+        loadData(driver, selectedSyndromes, verified,  onData)
 
-    },[selectedGenes, verified] )
+    },[selectedSyndromes, verified] )
 
     interface NodeObject {
         name: string
