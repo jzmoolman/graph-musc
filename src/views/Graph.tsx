@@ -1,0 +1,110 @@
+import { useState, useEffect, useRef } from 'react'
+
+import { Checkbox, CheckboxProps,Dropdown, DropdownProps } from 'semantic-ui-react'
+
+
+import { GeneSelector, GeneDataType } from './GeneSelector'
+import { GeneOrganGraph } from './GeneOrganGraph'
+import { OrganSelector, OrganDataType } from './OrganSelector'
+
+import { OrganGeneGraph } from './OrganGeneGraph'
+import './Graph.css'
+import { DiagnosticCategory } from 'typescript'
+ 
+
+type DataType = {
+    nodes: []
+    links: []
+}
+
+export const Graph = () => {
+
+    const [selectedGraph, setSelectedGraph] = useState('gene-organ')
+    const [selectedGenes, setSelectedGenes] = useState<GeneDataType[]>([])
+    const [selectedOrgans, setSelectedOrgans] = useState<OrganDataType[]>([])
+    const [selectedGender, setSelectedGender] = useState('Both')
+    const [selectedVerified, setSelectedverified] = useState(true)
+
+    const onChangeGenes = (genes: GeneDataType[]) => {
+        console.log('onChangeGenes', genes)
+        setSelectedGenes(genes)
+    }
+
+    const onChangeOrgan = (organs: OrganDataType[]) => {
+        console.log('onChangeGenes', organs)
+        setSelectedOrgans(organs)
+    }
+    const onChangeVerified = (verified: boolean) => {
+        console.log('onChangeVerified', verified)
+        setSelectedverified(verified)
+    }
+ 
+    console.log(window.innerWidth || 1000)
+
+    return ( 
+        <div className='graph_container'>
+            <div className='graph_menu'>
+                <div className='graph_menu_item'>
+                    Graph
+                    <span  style={{display:'inline-block', width:'5px'}}/>
+                    <Dropdown placeholder='Select graph' 
+                        options={[ 
+                            {text:'Gene -> Organ', value:'gene-organ'},
+                            {text:'Organ <- Gene', value:'organ-gene'}]}
+                        defaultValue='gene-organ'
+                        onChange={(e,data) => {
+                            if (data.value != selectedGraph ) {
+                               console.log(data)
+                               setSelectedGraph(data.value as string)
+                            }
+                        }
+                    }/>
+                </div>
+                <div className='graph_menu_item'>
+                    Genes
+                    <span  style={{display:'inline-block', width:'5px'}}/>
+                    <GeneSelector onChange={onChangeGenes}/>
+                </div>
+                <div className='graph_menu_item'>
+                    Organ
+                    <span  style={{display:'inline-block', width:'5px'}}/>
+                    <OrganSelector onChange={onChangeOrgan}/>
+                </div>
+
+                <div className='graph_menu_item'>
+                    Gender
+                    <span  style={{display:'inline-block', width:'5px'}}/>
+                    <Dropdown placeholder='Select gender' options={[{text:'Both',value:'Both'},{text:'Male',value:'Male'},{text:'Female',value:'Female'}]} 
+
+                        onChange={(e,data) => {
+                            console.log(data)
+                            //setSelectedGender(data.value.)
+                        }} 
+                    />
+                </div>
+                <div className='graph_menu_item'>
+                    Invitea verified
+                    <span  style={{display:'inline-block', width:'5px'}}/>
+                    <Dropdown placeholder='Invitae verified' 
+                        options={[{text:'Yes',value:true},{text:'No',value:false}]} 
+                        defaultValue={selectedVerified}
+                        onChange={(e,data) => {
+                            onChangeVerified(data.value as boolean)
+                        }}
+                    />
+                </div>
+            </div>
+
+            <div className='graph'> 
+                {selectedGraph == 'gene-organ'? 
+                    <GeneOrganGraph selectedGenes={selectedGenes} verified={selectedVerified}/>: <></>
+                }
+                {selectedGraph == 'organ-gene'? 
+                    <OrganGeneGraph selectedOrgans={selectedOrgans} verified={selectedVerified}/>: <></>
+                }
+            </div>
+        </div>
+        
+    )
+
+}

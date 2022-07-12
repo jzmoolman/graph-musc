@@ -1,0 +1,27 @@
+
+.graph_container {
+    border: 1px solid black;
+    margin: 5px;
+    display: flex;
+    flex-direction: row-reverse;
+    min-height: 600px;
+}
+.graph_menu {
+    border: 1px solid grey;
+    margin: 5px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+}
+
+.graph_menu_item {
+    border: 1px solid black;
+    margin: 2px;
+    text-align: left;
+}
+
+.graph {
+    border : 1px solid black;
+    margin: 5px;
+}
+    

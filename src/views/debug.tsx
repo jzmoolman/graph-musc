@@ -3,9 +3,6 @@ import React, { useRef } from "react"
 import { useState, useEffect } from "react"
 import { setConstantValue } from "typescript"
 
-
-
-
 const loadData  = async (handleDataReady: () => void) => {
     console.log('enter - loadData')
     
@@ -42,7 +39,7 @@ const useData = () => {
     
     console.log('exit - useData')
 
-    return <div>{count}</div>
+    return count
 }
 
 export const Debug = () => {
@@ -52,8 +49,17 @@ export const Debug = () => {
 
     console.log('exit - Debug')
     return (
-        <div>
-         TEST DATA {ret}
+        <div style={{ 
+            border: "1px solid gray",
+            marginTop:"10px",
+            marginBottom:"10px",
+            marginLeft:"10px",
+            marginRight:"10px",
+            textAlign:"left",
+            
+
+        } }>  
+        TEST DATA {ret}
         </div>
     )
 

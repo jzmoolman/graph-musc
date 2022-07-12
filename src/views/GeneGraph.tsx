@@ -1,11 +1,8 @@
-import { useContext, useState } from 'react'
+import { useContext, useState, useRef, MutableRefObject } from 'react'
 
-import ForceGraph2D  from 'react-force-graph-2d'
-import { Checkbox, CheckboxProps, DropdownProps } from 'semantic-ui-react'
+import ForceGraph2D, { ForceGraphMethods }  from 'react-force-graph-2d'
+import { Checkbox, CheckboxProps,Dropdown, DropdownProps } from 'semantic-ui-react'
 import { Neo4jContext } from 'use-neo4j'
-import {Dropdown} from 'semantic-ui-react'
-import { StringLiteralLike } from 'typescript'
-import { StringifyOptions } from 'querystring'
 
 
 type DataType = {
@@ -176,8 +173,15 @@ export const GeneGraph = () => {
     interface NodeObject {
         name: string
     }
-          
+    
+    const forceRef : MutableRefObject<ForceGraphMethods | undefined> = useRef()      
+
+    // const forceRef = useRef()      
+
     console.log('Exit - GeneGraph')
+    const [initialCenter, setInitialCenter] = useState(true);
+
+
     return ( 
         <div>
             <div>
@@ -187,11 +191,22 @@ export const GeneGraph = () => {
                 <span>  </span>
                 <Checkbox label='Verified' defaultChecked={true} onChange={(e,data)=> { console.log( e); finalVerdictHandler(data)} } />
             </div>
-            {/* <ForceGraph2D graphData={data} nodeId='name' width={800} height={800} backgroundColor='grey'  */}
-            <div style={{ display:'block',  border: "1px solid gray",}}>
+            
+            <div style={{ marginTop:"20px", border: "1px solid gray",}}>
                 <ForceGraph2D 
-                    width={1000}
+                    width={window.innerWidth || 1000}
                     height={800}
+                    ref={forceRef}
+                    cooldownTicks={50}
+                    
+                    onEngineStop={ () => {
+                        console.log('onEngineStop')
+                        if (initialCenter) {
+                          if ( forceRef.current ) forceRef.current.zoomToFit()
+                        }
+                        setInitialCenter(false)
+                    }}
+
                     graphData={data} 
                     nodeId='name'  
                     backgroundColor='grey' 
