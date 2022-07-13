@@ -64,16 +64,16 @@ const  loadData = async (driver: Driver | undefined, selectedSyndromes: Syndrome
     try {
         let id = 0
         let nodes = res.records.map( row => { 
-            return { name: row.get('name') as string, nodeColor:'yellow' } 
+            return { name: row.get('name') as string, nodeColor:'yellow', fontColor:'black' } 
          })
         console.log('Data loaded - Syndrome')
 
         res = await session.run(qOrgan)
-        nodes = Array.prototype.concat(nodes, res.records.map( row => {return { name: row.get('name') as string, nodeColor:'red'} }))
+        nodes = Array.prototype.concat(nodes, res.records.map( row => {return { name: row.get('name') as string, nodeColor:'red', fontColor:'black'} }))
         console.log('Data loaded - Organ')
         
         res = await session.run(qGene)
-        nodes = Array.prototype.concat(nodes, res.records.map( row => {return { name: row.get('name') as string, nodeColor:'blue'} }))
+        nodes = Array.prototype.concat(nodes, res.records.map( row => {return { name: row.get('name') as string, nodeColor:'blue', fontColor:'black'} }))
         console.log('Data loaded - Gene')
 
         res = await session.run(qRelation)
@@ -139,6 +139,7 @@ export const SyndromeGraph = ( {verified, selectedSyndromes}: SyndromeGeneOrganG
 
     interface NodeObject {
         name: string
+        fontColor: string
     }
     const forceRef : MutableRefObject<ForceGraphMethods | undefined> = useRef()      
 
@@ -166,7 +167,7 @@ export const SyndromeGraph = ( {verified, selectedSyndromes}: SyndromeGeneOrganG
             nodeCanvasObject={(node, ctx, globalScale) => {
                 
                 const label = (node as NodeObject).name
-                const fontSize = 12 / 12 * 1.2
+                const fontSize = 12 / 12 * 1.5
 
                 const x = node.x?node.x:0
                 const y = node.y?node.y:0
@@ -175,7 +176,7 @@ export const SyndromeGraph = ( {verified, selectedSyndromes}: SyndromeGeneOrganG
                 
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle'
-                ctx.fillStyle = 'black'
+                ctx.fillStyle = (node as NodeObject).fontColor
                 ctx.fillText(label, x, y)
             }}
             />

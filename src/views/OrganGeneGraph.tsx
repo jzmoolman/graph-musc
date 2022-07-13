@@ -61,7 +61,7 @@ const  loadData = async (driver: Driver | undefined, selectedOrgans: OrganDataTy
     try {
 
         let nodes = res.records.map( row => { 
-            return { name: row.get('name') as string, nodeColor:'blue' } 
+            return { name: row.get('name') as string, nodeColor:'blue', fontColor:'white' } 
          })
         console.log('Data loaded - Organ')
 
@@ -122,6 +122,7 @@ export const OrganGeneGraph = ( {verified, selectedOrgans}: GeneOrganGraphType )
 
     interface NodeObject {
         name: string
+        fontColor: string
     }
     const forceRef : MutableRefObject<ForceGraphMethods | undefined> = useRef()      
 
@@ -149,7 +150,7 @@ export const OrganGeneGraph = ( {verified, selectedOrgans}: GeneOrganGraphType )
             nodeCanvasObject={(node, ctx, globalScale) => {
                 
                 const label = (node as NodeObject).name
-                const fontSize = 12 / 12 * 1.2
+                const fontSize = 12 / 12 * 1.5
 
                 const x = node.x?node.x:0
                 const y = node.y?node.y:0
@@ -158,7 +159,7 @@ export const OrganGeneGraph = ( {verified, selectedOrgans}: GeneOrganGraphType )
                 
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle'
-                ctx.fillStyle = 'black'
+                ctx.fillStyle = (node as NodeObject).fontColor
                 ctx.fillText(label, x, y)
             }}
             />

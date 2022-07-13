@@ -60,12 +60,12 @@ const  loadData = async (driver: Driver | undefined, selectedGenes: GeneDataType
     try {
 
         let nodes = res.records.map( row => { 
-            return { name: row.get('name') as string, nodeColor:'blue' }
+            return { name: row.get('name') as string, nodeColor:'blue', fontColor:'white' }
          })
         console.log('Data loaded - Gene')
 
         res = await session.run(qOrgan)
-        nodes = Array.prototype.concat(nodes, res.records.map( row => {return { name: row.get('name') as string, nodeColor:'red', nodeRelSize:16} }))
+        nodes = Array.prototype.concat(nodes, res.records.map( row => {return { name: row.get('name') as string, nodeColor:'red', fontColor:'black'} }))
         console.log('Data loaded - Organ')
 
         res = await session.run(qRelation)
@@ -127,7 +127,7 @@ export const GeneOrganGraph = ( {verified, selectedGenes}: GeneOrganGraphType ) 
 
     interface NodeObject {
         name: string
-        val: number
+        fontColor: string
     }
     const forceRef : MutableRefObject<ForceGraphMethods | undefined> = useRef()      
 
@@ -155,7 +155,7 @@ export const GeneOrganGraph = ( {verified, selectedGenes}: GeneOrganGraphType ) 
             nodeCanvasObject={(node, ctx, globalScale) => {
                 
                 const label = (node as NodeObject).name
-                const fontSize = 12 / 12 * 1.2
+                const fontSize = 12 / 12 * 1.5
 
                 const x = node.x?node.x:0
                 const y = node.y?node.y:0
@@ -164,7 +164,7 @@ export const GeneOrganGraph = ( {verified, selectedGenes}: GeneOrganGraphType ) 
                 
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle'
-                ctx.fillStyle = 'black'
+                ctx.fillStyle = (node as NodeObject).fontColor
                 ctx.fillText(label, x, y)
             }}
             />
