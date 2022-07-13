@@ -73,7 +73,7 @@ const  loadData = async (driver: Driver | undefined, selectedSyndromes: Syndrome
         console.log('Data loaded - Organ')
         
         res = await session.run(qGene)
-        nodes = Array.prototype.concat(nodes, res.records.map( row => {return { name: row.get('name') as string, nodeColor:'blue', fontColor:'black'} }))
+        nodes = Array.prototype.concat(nodes, res.records.map( row => {return { name: row.get('name') as string, nodeColor:'blue', fontColor:'white'} }))
         console.log('Data loaded - Gene')
 
         res = await session.run(qRelation)
