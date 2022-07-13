@@ -218,16 +218,16 @@ export const GeneGraph = () => {
                     nodeCanvasObject={(node, ctx, globalScale) => {
                         
                         const label = (node as NodeObject).name
-                        const fontSize = 8 /globalScale
+                        const fontSize = 14 /globalScale * 1.2
                     
-                        const _x = node.x?node.x:0
-                        const _y = node.y?node.y:0
-                        ctx.font = `${fontSize}px Sans-Serif`;
+                        ctx.font = `${fontSize}px Sans-Serif`
                         
                         ctx.textAlign = 'center';
                         ctx.textBaseline = 'middle'
-                        ctx.fillStyle = 'black'
-                        ctx.fillText(label, _x, _y + 6)
+                        ctx.fillStyle = 'white'
+                        const _x = node.x ? node.x : 0
+                        const _y = node.y ? node.y : 0
+                        ctx.fillText(label, _x, _y  )
                     }}
                     />
                 

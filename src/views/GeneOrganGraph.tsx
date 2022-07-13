@@ -147,18 +147,19 @@ export const GeneOrganGraph = ( {verified, selectedGenes}: GeneOrganGraphType ) 
             linkDirectionalArrowLength={2} 
             nodeCanvasObjectMode={() => 'after'} 
             nodeCanvasObject={(node, ctx, globalScale) => {
+                //console.log(globalScale)
                 
                 const label = (node as NodeObject).name
-                const fontSize = 8 /globalScale
+                const fontSize = 12 /globalScale
             
-                const _x = node.x?node.x:0
-                const _y = node.y?node.y:0
+                const x = node.x?node.x:0
+                const y = node.y?node.y:0
                 ctx.font = `${fontSize}px Sans-Serif`;
                 
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle'
                 ctx.fillStyle = 'black'
-                ctx.fillText(label, _x, _y + 6)
+                ctx.fillText(label, x, y)
             }}
             />
     )

@@ -53,6 +53,8 @@ const  loadData = async (driver: Driver | undefined, selectedSyndromes: Syndrome
     const qSyndrome = `MATCH (g:MGene) ${whereCLAUSE} RETURN DISTINCT g.SyndromeMasterName as name`
     const qOrgan = `MATCH (g:MGene)--(o:Organ) ${whereCLAUSE} RETURN DISTINCT o.name as name`
     const qRelation = `MATCH (g:MGene)-[r]->(o:Organ) ${whereCLAUSE} RETURN ID(g) as sid,ID(o) as tid, g.SyndromeMasterName as sname, o.name as tname`
+    const qGene = `MATCH (g:MGene)--(o:Organ) ${whereCLAUSE} RETURN DISTINCT g.name as name`
+    const qRelationGene = `MATCH (g:MGene)-[r]->(o:Organ) ${whereCLAUSE} RETURN ID(g) as sid,ID(o) as tid, g.name as tname, o.name as sname`
 
     console.log('gSyndrome', qSyndrome)
 
@@ -62,17 +64,25 @@ const  loadData = async (driver: Driver | undefined, selectedSyndromes: Syndrome
     try {
         let id = 0
         let nodes = res.records.map( row => { 
-            return { name: row.get('name') as string, nodeColor:'blue' } 
+            return { name: row.get('name') as string, nodeColor:'yellow' } 
          })
         console.log('Data loaded - Syndrome')
 
         res = await session.run(qOrgan)
         nodes = Array.prototype.concat(nodes, res.records.map( row => {return { name: row.get('name') as string, nodeColor:'red'} }))
         console.log('Data loaded - Organ')
+        
+        res = await session.run(qGene)
+        nodes = Array.prototype.concat(nodes, res.records.map( row => {return { name: row.get('name') as string, nodeColor:'blue'} }))
+        console.log('Data loaded - Gene')
 
         res = await session.run(qRelation)
         let links = res.records.map( row => {return { source: row.get('sname'), target: row.get('tname') } })
         console.log('Data loaded - Relationship')
+        
+        res = await session.run(qRelationGene)
+        links =  Array.prototype.concat(links, res.records.map( row => {return { source: row.get('sname'), target: row.get('tname') } }))
+        console.log('Data loaded - Relationship 2')
         
         console.log('Data loaded')
         session.close();
@@ -151,16 +161,16 @@ export const SyndromeGraph = ( {verified, selectedSyndromes}: SyndromeGeneOrganG
             nodeCanvasObject={(node, ctx, globalScale) => {
                 
                 const label = (node as NodeObject).name
-                const fontSize = 8 /globalScale
+                const fontSize = 12 /globalScale
             
-                const _x = node.x?node.x:0
-                const _y = node.y?node.y:0
+                const x = node.x?node.x:0
+                const y = node.y?node.y:0
                 ctx.font = `${fontSize}px Sans-Serif`;
                 
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle'
                 ctx.fillStyle = 'black'
-                ctx.fillText(label, _x, _y + 6)
+                ctx.fillText(label, x, y)
             }}
             />
     )
