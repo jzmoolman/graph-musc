@@ -60,12 +60,12 @@ const  loadData = async (driver: Driver | undefined, selectedGenes: GeneDataType
     try {
 
         let nodes = res.records.map( row => { 
-            return { name: row.get('name') as string, nodeColor:'blue' } 
+            return { name: row.get('name') as string, nodeColor:'blue' }
          })
         console.log('Data loaded - Gene')
 
         res = await session.run(qOrgan)
-        nodes = Array.prototype.concat(nodes, res.records.map( row => {return { name: row.get('name') as string, nodeColor:'red'} }))
+        nodes = Array.prototype.concat(nodes, res.records.map( row => {return { name: row.get('name') as string, nodeColor:'red', nodeRelSize:16} }))
         console.log('Data loaded - Organ')
 
         res = await session.run(qRelation)
@@ -127,6 +127,7 @@ export const GeneOrganGraph = ( {verified, selectedGenes}: GeneOrganGraphType ) 
 
     interface NodeObject {
         name: string
+        val: number
     }
     const forceRef : MutableRefObject<ForceGraphMethods | undefined> = useRef()      
 
@@ -135,25 +136,30 @@ export const GeneOrganGraph = ( {verified, selectedGenes}: GeneOrganGraphType ) 
 
     return ( 
         <ForceGraph2D 
-        ref={forceRef}
+            ref={forceRef}
             width={minWidth}
             height={minHeight}
             graphData={data}
-            backgroundColor='grey'
+            backgroundColor='white'
             nodeId='name'  
             nodeColor='nodeColor' 
             nodeLabel='name' 
             linkDirectionalArrowRelPos={1} 
             linkDirectionalArrowLength={2} 
+            cooldownTicks={100}
+            onEngineStop={ () => forceRef.current?.zoomToFit(400)} 
+
+
+
             nodeCanvasObjectMode={() => 'after'} 
             nodeCanvasObject={(node, ctx, globalScale) => {
-                //console.log(globalScale)
                 
                 const label = (node as NodeObject).name
-                const fontSize = 12 /globalScale
-            
+                const fontSize = 12 / 12 * 1.2
+
                 const x = node.x?node.x:0
                 const y = node.y?node.y:0
+
                 ctx.font = `${fontSize}px Sans-Serif`;
                 
                 ctx.textAlign = 'center';
