@@ -56,9 +56,9 @@ const  loadData = async (driver: Driver | undefined, selectedSyndromes: Syndrome
     console.log('selectedSyndromesStr', syndromesStr)
     let whereCLAUSE = ''
     if ( syndromesStr !== '' && verified ) {
-        whereCLAUSE =  'WHERE g.SyndromeMasterName IN ' + syndromesStr + ' AND g.FinalVerdict = 1'
+        whereCLAUSE =  'WHERE s.name IN ' + syndromesStr + ' AND g.FinalVerdict = 1'
     } else if ( syndromesStr !== '' && !verified ) {
-        whereCLAUSE =  'WHERE g.name IN ' + syndromesStr
+        whereCLAUSE =  'WHERE s.name IN ' + syndromesStr
     } else if ( syndromesStr === '' && verified ) {
         whereCLAUSE = ' WHERE g.FinalVerdict = 1'
     } else {
