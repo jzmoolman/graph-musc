@@ -1,13 +1,12 @@
-
 import { useState, useContext, useEffect, useRef, MutableRefObject } from 'react'
 import { Driver }  from  'neo4j-driver'
 import { Neo4jContext } from 'use-neo4j'
 import ForceGraph2D, { ForceGraphMethods }  from 'react-force-graph-2d'
 import { SyndromeDataType } from './SyndromeSelector'
 import { paintNode } from './genGraph'
- 
+import { TypeNode } from 'typescript'
 
-type SyndromeGeneOrganGraphType = {
+type SyndromeGeneGraphType = {
 
     verified: boolean
     selectedSyndromes: SyndromeDataType[]
@@ -27,9 +26,23 @@ const selectedSyndromesToStr = (seletedSyndromes: SyndromeDataType[]) => {
 }
 
 type dataType = 
-{   nodes: {name: string, nodeColor: string}[] 
-    links: {source: string, target: string}[]
+{   nodes: nodeType[] 
+    links: linkType[]
 }
+
+type nodeType = {
+        id:number
+        name: string
+        nodeColor: string
+        fontColor: string
+ }
+ 
+type linkType =  {
+  source: string,
+  target: string
+
+}
+
 
 const  loadData = async (driver: Driver | undefined, selectedSyndromes: SyndromeDataType[], verified: boolean,
         onData:(data: dataType)=> void) => {
@@ -52,43 +65,63 @@ const  loadData = async (driver: Driver | undefined, selectedSyndromes: Syndrome
         whereCLAUSE = ''
     }
 
-    const qSyndrome = `MATCH (g:MGene) ${whereCLAUSE} RETURN DISTINCT g.SyndromeMasterName as name`
-    const qOrgan = `MATCH (g:MGene)--(o:Organ) ${whereCLAUSE} RETURN DISTINCT o.name as name`
-    const qRelation = `MATCH (g:MGene)-[r]->(o:Organ) ${whereCLAUSE} RETURN ID(g) as sid,ID(o) as tid, g.SyndromeMasterName as sname, o.name as tname`
-    const qGene = `MATCH (g:MGene)--(o:Organ) ${whereCLAUSE} RETURN DISTINCT g.name as name`
-    const qRelationGene = `MATCH (g:MGene)-[r]->(o:Organ) ${whereCLAUSE} RETURN ID(g) as sid,ID(o) as tid, g.name as tname, o.name as sname`
-
-    console.log('gSyndrome', qSyndrome)
-
+    const qSyndromeGene = `MATCH (g:MGene)-[r:ATTR]->(s:Syndrome) ${whereCLAUSE} RETURN g,r,s`
+   
+    console.log('gSyndrome', qSyndromeGene)
+  
     let session = driver.session()
 
-    let res = await session.run(qSyndrome)
     try {
-        let id = 0
-        let nodes = res.records.map( row => { 
-            return { name: row.get('name') as string, nodeColor:'yellow', fontColor:'black' } 
-         })
-        console.log('Data loaded - Syndrome')
+        let res = await session.run(qSyndromeGene)
+        let keys = new  Set<string>()
+        let nodes : nodeType[] = []
+        let links : linkType[] = []
+        res.records.forEach(row => {
+            let link : linkType = { source: '', target: ''}
+            const gene = row.get('g') 
+            if (!keys.has(gene.properties.name)) {
 
-        res = await session.run(qOrgan)
-        nodes = Array.prototype.concat(nodes, res.records.map( row => {return { name: row.get('name') as string, nodeColor:'red', fontColor:'black'} }))
-        console.log('Data loaded - Organ')
+                let node = { 
+                    id: gene.identity,
+                    name: gene.properties.name,
+                    nodeColor:'blue', 
+                    fontColor:'white' 
+                }
+                nodes.push(node) 
+                link.source = node.name
+                keys.add(node.name)
+            } else {
+                link.source = gene.properties.name
+            }
+           
         
-        res = await session.run(qGene)
-        nodes = Array.prototype.concat(nodes, res.records.map( row => {return { name: row.get('name') as string, nodeColor:'blue', fontColor:'white'} }))
-        console.log('Data loaded - Gene')
+           
+            const syndrome = row.get('s') 
+            if (!keys.has(syndrome.properties.name)) {
+                
+                let node = { 
+                    id: syndrome.identity,
+                    name: syndrome.properties.name,
+                    nodeColor:'yellow',
+                    fontColor:'black' 
+                }
+                nodes.push(node) 
+                link.target = node.name
+                keys.add(node.name)
+            } else {
+                link.target = syndrome.properties.name
+            }
+            //const rel = row.get('r') 
 
-        res = await session.run(qRelation)
-        let links = res.records.map( row => {return { source: row.get('sname'), target: row.get('tname') } })
-        console.log('Data loaded - Relationship')
-        
-        res = await session.run(qRelationGene)
-        links =  Array.prototype.concat(links, res.records.map( row => {return { source: row.get('sname'), target: row.get('tname') } }))
-        console.log('Data loaded - Relationship 2')
-        
+            links.push(link)
+
+        })
+        console.log(nodes) 
+        console.log(links) 
         console.log('Data loaded')
         session.close();
-        onData({ nodes, links })
+        console.log('nodes', nodes)
+        onData( {nodes, links} )
     } catch (e) {
         throw e
     }
@@ -98,7 +131,7 @@ const  loadData = async (driver: Driver | undefined, selectedSyndromes: Syndrome
     }
 }
 
-export const SyndromeGraph = ( {verified, selectedSyndromes}: SyndromeGeneOrganGraphType ) => {
+export const SyndromeGeneGraph = ( {verified, selectedSyndromes}: SyndromeGeneGraphType ) => {
 
     console.log('enter - SyndromeGraph')
     console.log('selectedSyndromes', selectedSyndromes)

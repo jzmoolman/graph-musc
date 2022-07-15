@@ -2,8 +2,9 @@
 import { useState, useContext, useEffect, useRef, MutableRefObject } from 'react'
 import { Driver }  from  'neo4j-driver'
 import { Neo4jContext } from 'use-neo4j'
-import ForceGraph2D, { ForceGraphMethods }  from 'react-force-graph-2d'
+import ForceGraph2D, { ForceGraphMethods, NodeObject }  from 'react-force-graph-2d'
 import { OrganDataType } from './OrganSelector'
+import { paintNode } from './genGraph'
 
 type GeneOrganGraphType = {
     verified: boolean
@@ -66,7 +67,7 @@ const  loadData = async (driver: Driver | undefined, selectedOrgans: OrganDataTy
         console.log('Data loaded - Organ')
 
         res = await session.run(qOrgan)
-        nodes = Array.prototype.concat(nodes, res.records.map( row => {return { name: row.get('name') as string, nodeColor:'red'} }))
+        nodes = Array.prototype.concat(nodes, res.records.map( row => {return { name: row.get('name') as string, nodeColor:'red', fontColor:'black'} }))
         console.log('Data loaded - Organ')
 
         res = await session.run(qRelation)
@@ -120,10 +121,8 @@ export const OrganGeneGraph = ( {verified, selectedOrgans}: GeneOrganGraphType )
 
     },[selectedOrgans, verified] )
 
-    interface NodeObject {
-        name: string
-        fontColor: string
-    }
+
+
     const forceRef : MutableRefObject<ForceGraphMethods | undefined> = useRef()      
 
     const minWidth = window.innerWidth -38 -300
@@ -143,25 +142,8 @@ export const OrganGeneGraph = ( {verified, selectedOrgans}: GeneOrganGraphType )
             linkDirectionalArrowLength={2} 
             cooldownTicks={100}
             onEngineStop={ () => forceRef.current?.zoomToFit(400)} 
-
-
-
             nodeCanvasObjectMode={() => 'after'} 
-            nodeCanvasObject={(node, ctx, globalScale) => {
-                
-                const label = (node as NodeObject).name
-                const fontSize = 12 / 12 * 1.5
-
-                const x = node.x?node.x:0
-                const y = node.y?node.y:0
-
-                ctx.font = `${fontSize}px Sans-Serif`;
-                
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle'
-                ctx.fillStyle = (node as NodeObject).fontColor
-                ctx.fillText(label, x, y)
-            }}
+            nodeCanvasObject={paintNode}
             />
     )
 }

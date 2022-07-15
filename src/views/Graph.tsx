@@ -8,6 +8,7 @@ import { GeneOrganGraph } from './GeneOrganGraph'
 import { OrganSelector, OrganDataType } from './OrganSelector'
 import { OrganGeneGraph } from './OrganGeneGraph'
 import { SyndromeDataType, SyndromeSelector } from './SyndromeSelector'
+import { SyndromeGeneGraph } from './SyndromeGeneGraph'
 import { SyndromeGraph } from './SyndromeGraph'
 import './Graph.css'
  
@@ -58,7 +59,8 @@ export const Graph = () => {
                         options={[ 
                             {text:'Gene -> Organ', value:'gene-organ'},
                             {text:'Organ <- Gene', value:'organ-gene'},
-                            {text:'Syndrome -> Organ <- Gene', value:'syndrome'}]}
+                            {text:'Syndrome -> Organ <- Gene', value:'syndrome'},
+                            {text:'Syndrome -> Gene', value:'syndrome-gene'}]}
                         defaultValue='gene-organ'
                         onChange={(e,data) => {
                             if (data.value != selectedGraph ) {
@@ -113,6 +115,9 @@ export const Graph = () => {
                 }
                 {selectedGraph == 'organ-gene'? 
                     <OrganGeneGraph selectedOrgans={selectedOrgans} verified={selectedVerified}/>: <></>
+                }
+                {selectedGraph == 'syndrome-gene'? 
+                    <SyndromeGeneGraph selectedSyndromes={selectedSyndromes} verified={selectedVerified}/>: <></>
                 }
                 {selectedGraph == 'syndrome'? 
                     <SyndromeGraph selectedSyndromes={selectedSyndromes} verified={selectedVerified}/>: <></>

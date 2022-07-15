@@ -3,6 +3,7 @@ import { Driver }  from  'neo4j-driver'
 import { Neo4jContext } from 'use-neo4j'
 import ForceGraph2D, { ForceGraphMethods }  from 'react-force-graph-2d'
 import { GeneDataType } from './GeneSelector'
+import { paintNode } from './genGraph'
 
 type GeneOrganGraphType = {
     verified: boolean
@@ -125,10 +126,6 @@ export const GeneOrganGraph = ( {verified, selectedGenes}: GeneOrganGraphType ) 
 
     },[selectedGenes, verified] )
 
-    interface NodeObject {
-        name: string
-        fontColor: string
-    }
     const forceRef : MutableRefObject<ForceGraphMethods | undefined> = useRef()      
 
     const minWidth = window.innerWidth -38 -300
@@ -149,24 +146,8 @@ export const GeneOrganGraph = ( {verified, selectedGenes}: GeneOrganGraphType ) 
             cooldownTicks={100}
             onEngineStop={ () => forceRef.current?.zoomToFit(400)} 
 
-
-
             nodeCanvasObjectMode={() => 'after'} 
-            nodeCanvasObject={(node, ctx, globalScale) => {
-                
-                const label = (node as NodeObject).name
-                const fontSize = 12 / 12 * 1.5
-
-                const x = node.x?node.x:0
-                const y = node.y?node.y:0
-
-                ctx.font = `${fontSize}px Sans-Serif`;
-                
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle'
-                ctx.fillStyle = (node as NodeObject).fontColor
-                ctx.fillText(label, x, y)
-            }}
+            nodeCanvasObject={paintNode}
             />
     )
 }
