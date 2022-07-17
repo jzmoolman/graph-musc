@@ -1,6 +1,23 @@
 
 import { ForceGraphMethods, NodeObject }  from 'react-force-graph-2d'
 
+export type ColorScheme = {
+    geneNodeColor: string
+    geneFontColor: string
+    organNodeColor: string
+    organFontColor: string
+    syndromeNodeColor: string
+    syndromeFontColor: string
+}
+export const defualtColorScheme: ColorScheme = {
+        geneNodeColor: 'blue',
+        geneFontColor: 'white',
+        organNodeColor: 'red',
+        organFontColor: 'white',
+        syndromeNodeColor: 'yellow',
+        syndromeFontColor: 'black'
+}
+
 interface exNodeObject  {
     name: string
     fontColor: string

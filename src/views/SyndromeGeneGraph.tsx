@@ -3,13 +3,12 @@ import { Driver }  from  'neo4j-driver'
 import { Neo4jContext } from 'use-neo4j'
 import ForceGraph2D, { ForceGraphMethods }  from 'react-force-graph-2d'
 import { SyndromeDataType } from './SyndromeSelector'
-import { paintNode } from './genGraph'
-import { TypeNode } from 'typescript'
+import { ColorScheme, paintNode } from './genGraph'
 
 type SyndromeGeneGraphType = {
-
     verified: boolean
     selectedSyndromes: SyndromeDataType[]
+    colorScheme: ColorScheme
 }
 
 const selectedSyndromesToStr = (seletedSyndromes: SyndromeDataType[]) => {
@@ -44,7 +43,10 @@ type linkType =  {
 }
 
 
-const  loadData = async (driver: Driver | undefined, selectedSyndromes: SyndromeDataType[], verified: boolean,
+const  loadData = async (driver: Driver | undefined,
+        selectedSyndromes: SyndromeDataType[], 
+        verified: boolean,
+        colorScheme: ColorScheme,
         onData:(data: dataType)=> void) => {
     console.log('enter - loadData')
     if (driver == null) {
@@ -84,8 +86,8 @@ const  loadData = async (driver: Driver | undefined, selectedSyndromes: Syndrome
                 let node = { 
                     id: gene.identity,
                     name: gene.properties.name,
-                    nodeColor:'blue', 
-                    fontColor:'white' 
+                    nodeColor: colorScheme.geneNodeColor, 
+                    fontColor: colorScheme.geneFontColor 
                 }
                 nodes.push(node) 
                 link.source = node.name
@@ -102,8 +104,8 @@ const  loadData = async (driver: Driver | undefined, selectedSyndromes: Syndrome
                 let node = { 
                     id: syndrome.identity,
                     name: syndrome.properties.name,
-                    nodeColor:'yellow',
-                    fontColor:'black' 
+                    nodeColor:colorScheme.syndromeNodeColor,
+                    fontColor:colorScheme.syndromeFontColor 
                 }
                 nodes.push(node) 
                 link.target = node.name
@@ -131,10 +133,12 @@ const  loadData = async (driver: Driver | undefined, selectedSyndromes: Syndrome
     }
 }
 
-export const SyndromeGeneGraph = ( {verified, selectedSyndromes}: SyndromeGeneGraphType ) => {
+export const SyndromeGeneGraph = ( {verified, selectedSyndromes,
+    colorScheme }: SyndromeGeneGraphType ) => {
 
-    console.log('enter - SyndromeGraph')
+    console.log('enter - SyndromeGeneGraph')
     console.log('selectedSyndromes', selectedSyndromes)
+    console.log('colorScheme', colorScheme)
     
     const isMounted = useRef(false)
     const [rerender, setRerender] = useState(0);
@@ -168,9 +172,9 @@ export const SyndromeGeneGraph = ( {verified, selectedSyndromes}: SyndromeGeneGr
             setData(data)
             
         }
-        loadData(driver, selectedSyndromes, verified,  onData)
+        loadData(driver, selectedSyndromes, verified, colorScheme,  onData)
 
-    },[selectedSyndromes, verified] )
+    },[selectedSyndromes, verified, colorScheme] )
 
     const forceRef : MutableRefObject<ForceGraphMethods | undefined> = useRef()      
 
