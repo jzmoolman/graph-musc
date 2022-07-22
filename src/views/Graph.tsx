@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef, ComponentClass, MutableRefObject, LegacyRef, Component} from 'react'
+import { useState, useRef, } from 'react'
 
-import { Button, ButtonProps, Checkbox, CheckboxProps,Dropdown, DropdownProps } from 'semantic-ui-react'
+import { Button, Dropdown, DropdownProps } from 'semantic-ui-react'
 
 import { ColorScheme, defualtColorScheme } from './genGraph'
 import { GeneSelector, GeneDataType } from './GeneSelector'
@@ -29,7 +29,7 @@ export const Graph = () => {
     const [selectedVerified, setSelectedverified] = useState(true)
     const [colorScheme, setColorScheme] = useState<ColorScheme>(defualtColorScheme)
 
-    const refgeneNodeColor =  useRef<LegacyRef<Component<DropdownProps, any, any>> | undefined>(null)
+    const refgeneNodeColor =  useRef(null)
     const refgeneFontColor = useRef(null)
 
     const onChangeGenes = (genes: GeneDataType[]) => {
@@ -287,7 +287,6 @@ export const Graph = () => {
                         onClick={ () => {
                             console.log(refgeneNodeColor)
                             console.log(refgeneFontColor)
-                            console.log(refgeneNodeColor.current.state.value)
 
 
                         }}
