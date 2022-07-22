@@ -1,5 +1,12 @@
+
+body {
+  background-color: #eeeeee;
+  /* height: '100vh';
+  height: 100vh */
+}
+
 .App {
-  text-align: center;
+  /* text-align: center; */
 }
 
 .App-logo {

@@ -1,48 +1,46 @@
-import React, { useContext } from 'react'
-import {  BrowserRouter as Router, Routes,Route, Link  } from 'react-router-dom'
+import React, { useState, useContext } from 'react'
+import {  BrowserRouter as Router, Routes,Route } from 'react-router-dom'
 import './App.css'
 
+import { Navbar } from './components/Navbar'
 
 import { Neo4jContext, useReadCypher } from 'use-neo4j'
-import { Menu } from 'semantic-ui-react';
 
-import { Home } from './views/Home'
-import { Genes } from './views/Genes'
-import { GeneGraph } from './views/GeneGraph'
-import { Graph } from './views/Graph'
-import { Debug } from './views/debug'
-import { UserRefDebug } from './views/UseRefDebug'
-import { Flex } from './views/Flex'
+import { Graph } from './components/Graph'
+import { ExBox } from './example/ExBox'
+import { ExStack } from './example/ExStack'
+import { ExGrid } from './example/ExGrid'
+import { Box } from '@mui/material'
 
 export const App = () => {  
- 
+  const [openDrawer, setOpenDrawer] = useState(true)
 
-  const context = useContext(Neo4jContext)
+  const handleDrawerChange = (open: boolean) => {
+    console.log('handleDrawerChange', open)
+    setOpenDrawer(open)
+  }
 
   return (
     <div className="App">
-   
       <Router>   
-        <Menu>
-          <Menu.Item as={Link} to='/'>Home</Menu.Item>
-          <Menu.Item as={Link} to='/genes'>Genes</Menu.Item>
-          <Menu.Item as={Link} to='/graph/1'>Graph</Menu.Item>
-          <Menu.Item as={Link} to='/graph/2'>Graph2</Menu.Item>
-          <Menu.Item as={Link} to='/debug'>Debug</Menu.Item>
-          <Menu.Item as={Link} to='/userefdebug'>UseRefDebug</Menu.Item>
-          <Menu.Item as={Link} to='/flex'>Flex</Menu.Item>
-        </Menu>
-
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/genes' element={<Genes />} />
-          <Route path='/graph/1' element={<GeneGraph />} />
-          <Route path='/graph/2' element={<Graph />} />
-          <Route path='/debug' element={<Debug />} />
-          <Route path='/userefdebug' element={<UserRefDebug />} />
-          <Route path='/flex' element={<Flex />} />
-        </Routes>
-       
+        <Navbar open={openDrawer} onChange={handleDrawerChange}/>
+        <Box  
+            sx={{
+                display: 'flex',
+                color: 'white',
+                height: 'calc(100vh - 80px)',
+         }} 
+        >
+          <Routes>
+            <Route path='/' element={<div>Home</div>}/>
+            <Route path='/graph/gene' element={<Graph name='gene' open={openDrawer} onChange={handleDrawerChange} />} />
+            <Route path='/graph/organ' element={<Graph name='organ'open={openDrawer} onChange={handleDrawerChange} />} />
+            <Route path='/graph/syndrome' element={<Graph name='syndrome' open={openDrawer} onChange={handleDrawerChange} />} />
+            <Route path='/exbox' element={<ExBox />} />
+            <Route path='/exstack' element={<ExStack />} />
+            <Route path='/exgrid' element={<ExGrid />} />
+          </Routes>
+        </Box>
       </Router>
     </div>
   );
