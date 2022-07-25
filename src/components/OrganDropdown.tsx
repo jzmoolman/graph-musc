@@ -3,10 +3,11 @@ import { useReadCypher  } from "use-neo4j";
 import { Dropdown } from './Dropdown'
 
 type OrganDropdownProps = {
+    selected : string[]
     onChange?: (selection: string[]) => void 
 }
 
-export const OrganDropdown = ( {onChange }: OrganDropdownProps) => {
+export const OrganDropdown = ( {selected, onChange }: OrganDropdownProps) => {
     const handleChange = (selection: string[] ) =>  {
         if (onChange) {
            onChange(selection)
@@ -18,12 +19,12 @@ export const OrganDropdown = ( {onChange }: OrganDropdownProps) => {
 
     if ( loading ) { 
         console.log('loading organ')
-        return ( <Dropdown label='Loading organ' options={[]}/> )
+        return ( <Dropdown label='Loading organ' options={[]} selected={[]}/> )
     }
 
     if ( error ) {
         console.log(error.message)
-        return ( <Dropdown label='Error loading organ' options={[]}/> )
+        return ( <Dropdown label='Error loading organ' options={[]} selected={[]}/> )
     }
     
     let genes : string[] = []
@@ -33,7 +34,7 @@ export const OrganDropdown = ( {onChange }: OrganDropdownProps) => {
     })
 
     return (
-        <Dropdown label='Organ' options={genes} onChange={handleChange}/>
+        <Dropdown label='Organ' options={genes} onChange={handleChange} selected={selected}/>
     )
 }
 

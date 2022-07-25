@@ -13,7 +13,7 @@ import { ExGrid } from './example/ExGrid'
 import { Box } from '@mui/material'
 
 export const App = () => {  
-  const [openDrawer, setOpenDrawer] = useState(true)
+  const [openDrawer, setOpenDrawer] = useState(false)
 
   const handleDrawerChange = (open: boolean) => {
     console.log('handleDrawerChange', open)

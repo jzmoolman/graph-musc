@@ -94,12 +94,13 @@ export const Graph = ( { name, open , onChange} : GraphProps) => {
                         height: '100%',
                         // flexGrow: 1,
                         color: 'white',
-                        '&:hover': {
-                        backgroundColor: 'secondary.light'
-                        }
+                        // '&:hover': {
+                        // backgroundColor: 'secondary.light'
+                        // }
                     }}
                 >
                     <BaseGraph 
+                       drawerOpen={open}
                         name={name}
                         verified={true}
                         genes={genes}
@@ -132,18 +133,19 @@ export const Graph = ( { name, open , onChange} : GraphProps) => {
                 role='presentation'
             >
                 {name === 'gene'?  <>
-                    <GeneDropdown onChange={handleGeneChange}/>
-                    <OrganDropdown onChange={handleOrganChange}/>
+                    <GeneDropdown onChange={handleGeneChange} selected={genes}/>
+                    <OrganDropdown onChange={handleOrganChange} selected={organs}/>
+
                     </>: <></>
                 }
                 {name === 'organ'?  <>
-                    <GeneDropdown onChange={handleGeneChange}/>
-                    <OrganDropdown onChange={handleOrganChange}/>
+                    <OrganDropdown onChange={handleOrganChange} selected={organs}/>
+                    <GeneDropdown onChange={handleGeneChange} selected={genes}/>
                     </>: <></>
                 }
                 {name === 'syndrome'?  <>
-                    <GeneDropdown onChange={handleGeneChange}/>
-                    <SyndromeDropdown onChange={handleSyndromeChange}/>
+                    <SyndromeDropdown onChange={handleSyndromeChange} selected={syndromes}/>
+                    <GeneDropdown onChange={handleGeneChange} selected={genes}/>
                     </>: <></>
                 }
                 <Divider sx={{marginLeft:'8px', width:'95%'}} />

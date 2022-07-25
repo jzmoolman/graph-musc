@@ -6,8 +6,10 @@ import ForceGraph2D, { ForceGraphMethods }  from 'react-force-graph-2d'
 import { Force2DData, GraphScheme, paintNode } from '../tools/graphtools'
 import { loadGeneData, loadOrganData, loadSyndromeData } from '../tools/grapgdata'
 
+const drawerWidth = 350;
 
 type BaseGraphProps = {
+    drawerOpen: boolean
     name: string
     verified: boolean
     genes: string[]
@@ -15,7 +17,7 @@ type BaseGraphProps = {
     syndromes: string[]
     graphScheme: GraphScheme
 }
-export const BaseGraph = ( {name, verified, genes, organs,syndromes, graphScheme} : BaseGraphProps ) => {
+export const BaseGraph = ( {drawerOpen, name, verified, genes, organs,syndromes, graphScheme} : BaseGraphProps ) => {
 
     console.log(`enter - ${name}Graph`)
     
@@ -24,9 +26,8 @@ export const BaseGraph = ( {name, verified, genes, organs,syndromes, graphScheme
 
     const onResize = () => {
         console.log('onResize')
-        let tick = renderTick + 1
-        console.log('renderTick', tick )
-        setRenderTick(tick )
+        console.log('renderTick', renderTick )
+        setRenderTick(renderTick => renderTick + 1 )
     }
 
     useEffect(()=>{
@@ -59,14 +60,23 @@ export const BaseGraph = ( {name, verified, genes, organs,syndromes, graphScheme
 
     const forceRef : MutableRefObject<ForceGraphMethods | undefined> = useRef()      
 
-    const Width = window.innerWidth -18
+    let Width = window.innerWidth -18
+    if (drawerOpen) {
+        Width = window.innerWidth -18 - drawerWidth
+    }
     const Height = window.innerHeight -85
+    let handleEngineStop: ()=>void | undefined = () => {
+        if (forceRef.current)
+            (forceRef.current as ForceGraphMethods).zoomToFit(400) 
+    }
+    
+    if (!graphScheme.fitViewPort) {
+        if (forceRef.current) {}
+    }
 
     return ( 
         <ForceGraph2D 
             ref={forceRef}
-            
-            
             width={Width}
             height={Height}
             graphData={data}
@@ -77,7 +87,8 @@ export const BaseGraph = ( {name, verified, genes, organs,syndromes, graphScheme
             linkDirectionalArrowRelPos={1} 
             linkDirectionalArrowLength={2} 
             cooldownTicks={100}
-            onEngineStop={ () => forceRef.current?.zoomToFit(100)} 
+            // onEngineStop={ () => forceRef.current?.zoomToFit(100)} 
+            onEngineStop={handleEngineStop} 
             nodeVal={graphScheme.nodeVal}
             nodeRelSize={graphScheme.nodeRelSize}
             nodeCanvasObjectMode={() => 'after'} 

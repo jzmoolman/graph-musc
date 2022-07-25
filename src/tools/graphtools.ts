@@ -12,18 +12,20 @@ export type GraphScheme = {
     nodeVal: number,
     nodeRelSize: number
     scaleFont: number
+    fitViewPort: boolean
 }
 
 export const defaultGraphScheme: GraphScheme = {
     geneNode: 'Blue',
-    geneFont: 'Yellow',
+    geneFont: 'White',
     organNode: 'Red',
     organFont: 'White',
     syndromeNode: 'Yellow',
     syndromeFont: 'Black', 
     nodeVal: 1,
-    nodeRelSize: 4,
-    scaleFont: 50 // Percentage out of 100
+    nodeRelSize: 7,
+    scaleFont: 50, // Percentage out of 100
+    fitViewPort: false
 }
 
 export type Force2DData = {

@@ -27,13 +27,16 @@ function getStyles(value: string, Values: string[], theme: Theme) {
 type DropdownProps = {
     label: string
     options: string[]
+    selected: string[]
     onChange?: (selection: string[])=> void
 }
 
-export const Dropdown = ({label, options, onChange} : DropdownProps) => {
-  // console.log('enter = Dropdown')
+export const Dropdown = ({label, options,selected, onChange} : DropdownProps) => {
+    console.log('enter = Dropdown')
+    console.log('selected', selected)
+
     const theme = useTheme()
-    const [values, setValues] = useState<string[]>([])
+    const [values, setValues] = useState<string[]>(selected)
     const ref = useRef();
 
     const handleChange = (event: SelectChangeEvent<typeof options>) => {
@@ -87,6 +90,7 @@ export const Dropdown = ({label, options, onChange} : DropdownProps) => {
               </Box>
             )}
             MenuProps={MenuProps}
+            
           >
             {options?.map((value)=>(
               <MenuItem
