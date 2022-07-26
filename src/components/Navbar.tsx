@@ -39,13 +39,21 @@ type NavbarProps  = {
 }
 
 export const Navbar = ( {open, onChange}: NavbarProps ) => {
+    const [anchorSyndromeEl, setAchorSyndromeEl] = useState<null | HTMLElement>(null)
     const [anchorEl, setAchorEl] = useState<null | HTMLElement>(null)
+    const openSyndrome  = Boolean(anchorSyndromeEl)
     const openUI = Boolean(anchorEl)
 
+    const handleSyndromeClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAchorSyndromeEl(event.currentTarget)
+    }
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAchorEl(event.currentTarget)
     }
 
+    const handleSyndromeClose = () => {
+        setAchorSyndromeEl(null)
+    }
     const handleClose = () => {
         setAchorEl(null)
     }
@@ -78,13 +86,16 @@ export const Navbar = ( {open, onChange}: NavbarProps ) => {
                             Organ
                         </Button>
                         <Button 
-                            component={Link} 
-                            to='/graph/syndrome'
+                            id='ui-syndrome-button'
                             color='inherit'
-                        >
-                            Syndrome
-                        </Button>
-                        <Button id='ui-button'
+                            onClick={handleSyndromeClick}
+                            aria-controls={openSyndrome ? 'syndrome-menu': undefined}
+                            aria-haspopup='true'
+                            aria-expanded={openSyndrome ? 'true' : undefined}
+                            endIcon={<KeyboardArrowDownIcon/>}
+                        >Syndrome</Button>
+                        <Button 
+                            id='ui-button'
                             color='inherit'
                             onClick={handleClick}
                             aria-controls={openUI ? 'ui-menu': undefined}
@@ -93,6 +104,37 @@ export const Navbar = ( {open, onChange}: NavbarProps ) => {
                             endIcon={<KeyboardArrowDownIcon/>}
                         >UI</Button>
                     </Stack>
+                    <Menu id='ui-syndrome-menu' 
+                        anchorEl={anchorSyndromeEl}
+                        open={openSyndrome}
+                        MenuListProps={{
+                            'aria-labelledby': 'ui-syndrome-button'
+                        }}
+                        onClose={handleSyndromeClose}
+                        anchorOrigin={{
+                            vertical:'bottom',
+                            horizontal:'right',
+                        }}
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right'
+
+                        }}
+                    >
+                        <MenuItem 
+                            component={Link} 
+                            to='/graph/syndrome/gene' 
+                            onClick={handleSyndromeClose} 
+                        >Gene</MenuItem>
+                        <MenuItem component={Link} 
+                            to='/graph/syndrome/organ'
+                            onClick={handleSyndromeClose}
+                        >Organ</MenuItem>
+                        <MenuItem component={Link} 
+                            to='/graph/syndrome/gene-organ'
+                            onClick={handleSyndromeClose}
+                        >Gene-Organ</MenuItem>
+                    </Menu>
                     <Menu id='ui-menu' 
                         anchorEl={anchorEl}
                         open={openUI}

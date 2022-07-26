@@ -69,9 +69,9 @@ export const Graph = ( { name, open , onChange} : GraphProps) => {
         console.log('handleOrganChange', selection)
         setOrgans(selection)
     }
-    
+
     const handleSyndromeChange = (selection: string[]) => {
-        console.log('handleOrganChange', selection)
+        console.log('handleSyndromeChange', selection)
         setSyndromes(selection)
     }
 
@@ -88,15 +88,10 @@ export const Graph = ( { name, open , onChange} : GraphProps) => {
                     elevation={4}         
                     sx={{ 
                         display: 'flex',
-                        // padding: '100',  
                         margin: '2px',
                         width:'100%',
                         height: '100%',
-                        // flexGrow: 1,
                         color: 'white',
-                        // '&:hover': {
-                        // backgroundColor: 'secondary.light'
-                        // }
                     }}
                 >
                     <BaseGraph 
@@ -143,9 +138,20 @@ export const Graph = ( { name, open , onChange} : GraphProps) => {
                     <GeneDropdown onChange={handleGeneChange} selected={genes}/>
                     </>: <></>
                 }
-                {name === 'syndrome'?  <>
+                {name === 'syndrome-gene'?  <>
                     <SyndromeDropdown onChange={handleSyndromeChange} selected={syndromes}/>
                     <GeneDropdown onChange={handleGeneChange} selected={genes}/>
+                    </>: <></>
+                }
+                {name === 'syndrome-organ'?  <>
+                    <SyndromeDropdown onChange={handleSyndromeChange} selected={syndromes}/>
+                    <OrganDropdown onChange={handleOrganChange} selected={organs}/>
+                    </>: <></>
+                }
+                {name === 'syndrome-gene-organ'?  <>
+                    <SyndromeDropdown onChange={handleSyndromeChange} selected={syndromes}/>
+                    <GeneDropdown onChange={handleGeneChange} selected={genes}/>
+                    <OrganDropdown onChange={handleOrganChange} selected={organs}/>
                     </>: <></>
                 }
                 <Divider sx={{marginLeft:'8px', width:'95%'}} />

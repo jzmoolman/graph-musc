@@ -4,7 +4,13 @@ import { Driver }  from  'neo4j-driver'
 import { Neo4jContext } from 'use-neo4j'
 import ForceGraph2D, { ForceGraphMethods }  from 'react-force-graph-2d'
 import { Force2DData, GraphScheme, paintNode } from '../tools/graphtools'
-import { loadGeneData, loadOrganData, loadSyndromeData } from '../tools/grapgdata'
+import { 
+    loadGeneData,
+    loadOrganData,
+    loadSyndromeGeneData,
+    loadSyndromeOrganData,
+    loadSyndromeGeneOrganData
+ } from '../tools/grapgdata'
 
 const drawerWidth = 350;
 
@@ -45,13 +51,18 @@ export const BaseGraph = ( {drawerOpen, name, verified, genes, organs,syndromes,
             console.log(data)
             setData(data)
         }
+        console.log('name',name)
 
         if (name === 'gene') {
           loadGeneData(driver, verified, genes, organs, graphScheme, onData)
         } else if (name === 'organ')
           loadOrganData(driver, verified, genes, organs, graphScheme, onData)
-        else if ( name === 'syndrome') {
-          loadSyndromeData(driver, verified,  syndromes, genes, graphScheme, onData)
+        else if ( name === 'syndrome-gene') {
+          loadSyndromeGeneData(driver, verified,  syndromes, genes, graphScheme, onData)
+        } else if ( name === 'syndrome-organ') {
+          loadSyndromeOrganData(driver, verified,  syndromes, organs, graphScheme, onData)
+        } else if ( name === 'syndrome-gene-organ') {
+          loadSyndromeGeneOrganData(driver, verified,  syndromes, genes, organs, graphScheme, onData)
         }
 
     },[ name, verified, genes, organs,syndromes, graphScheme] )
