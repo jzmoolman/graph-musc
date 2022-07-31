@@ -12,7 +12,7 @@ import {
     loadSyndromeGeneOrganData
  } from '../tools/grapgdata'
 import { positions } from '@mui/system'
-import { Box } from '@mui/material'
+import { Box, Card, CardContent, CardHeader } from '@mui/material'
 import ReactDOM from 'react-dom'
 
 const drawerWidth = 350;
@@ -71,40 +71,26 @@ export const BaseGraph = ( {drawerOpen, name, verified, genes, organs,syndromes,
                 <Box
                     className="nodeCard"
                     sx={{
-                        backgroundColor: 'primary',
                         position: "absolute",
                         margin: "2px 0px 2px 0px",
-                        left: nodePosition.x,
-                        top: nodePosition.y,
-                        border:'1px solid',
+                        // left: nodePosition.x,
+                        // top: nodePosition.y,
+                        left: 40,
+                        top: 100,
                         width: 250,
                         height: 300
                     }}
                 >
-                    <div>
-                        <div style={{ display: "flex" }}>
-                        <span style={{ maxWidth: "200px", wordBreak: "break-word" }}>
-                            <strong>{(nodeHover as CustomNodeObject).name.toUpperCase()}</strong>
-                        </span>
-                        <span
-                            className="titleDate"
-                            style={{
-                            marginRight: "10px"
-                            }}
-                        >
-                            {" - "}
-                            DATE
-                        </span>
-                        {/* {!selectedNode.current_case && (
-                            <span
-                            style={{ cursor: "pointer", marginLeft: "auto" }}
-                            onClick={() => {}}
-                            >
-                            <i className="fal fa-folder-plus" />
-                            </span>
-                        )} */}
-                        </div>
-                    </div>
+                    <Card sx={{ minWidth:275}}>
+                        <CardHeader 
+                            title={(nodeHover as CustomNodeObject).name}
+                            subheader={(nodeHover as CustomNodeObject).nodeType}
+
+                        />
+                        <CardContent>
+                            Detail
+                        </CardContent>
+                    </Card>
                 </Box>,
                 document.body
             ))

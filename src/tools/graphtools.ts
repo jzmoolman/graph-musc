@@ -49,6 +49,7 @@ export const ArrayToStr = (data: string[]) => {
  
 export interface CustomNodeObject extends NodeObject {
     name: string
+    nodeType: string
     fontColor: string
     nodeVal: number
     nodeRelSize: number

@@ -44,11 +44,12 @@ export const  loadGeneData = async (driver: Driver | undefined,
         let links : any[] = []
         res.records.forEach(row => {
             let link  = { source: '', target: ''}
-            const gene = row.get('g') 
-            if (!ids.has(gene.properties.name)) {
+            const source = row.get('g') 
+            if (!ids.has(source.properties.name)) {
                 let node = { 
-                    id: gene.identity,
-                    name: gene.properties.name,
+                    id: source.identity,
+                    name: source.properties.name,
+                    nodeType: 'Gene',
                     nodeColor: graphScheme.geneNode, 
                     fontColor: graphScheme.geneFont,
                     nodeVal: graphScheme.nodeVal,
@@ -59,14 +60,15 @@ export const  loadGeneData = async (driver: Driver | undefined,
                 link.source = node.name
                 ids.add(node.name)
             } else {
-                link.source = gene.properties.name
+                link.source = source.properties.name
             }
         
-            const organ = row.get('o') 
-            if (!ids.has(organ.properties.name)) {
+            const target = row.get('o') 
+            if (!ids.has(target.properties.name)) {
                 let node = { 
-                    id: organ.identity,
-                    name: organ.properties.name,
+                    id: target.identity,
+                    name: target.properties.name,
+                    nodeType: 'Organ',
                     nodeColor: graphScheme.organNode,
                     fontColor: graphScheme.organFont,
                     nodeVal: graphScheme.nodeVal,
@@ -77,7 +79,7 @@ export const  loadGeneData = async (driver: Driver | undefined,
                 link.target = node.name
                 ids.add(node.name)
             } else {
-                link.target = organ.properties.name
+                link.target = target.properties.name
             }
 
             links.push(link)
@@ -141,29 +143,13 @@ export const  loadOrganData = async (driver: Driver | undefined,
         let links : any[] = []
         res.records.forEach(row => {
             let link  = { source: '', target: ''}
-            const gene = row.get('g') 
-            if (!ids.has(gene.properties.name)) {
-                let node = { 
-                    id: gene.identity,
-                    name: gene.properties.name,
-                    nodeColor: graphScheme.geneNode, 
-                    fontColor: graphScheme.geneFont,
-                    nodeVal: graphScheme.nodeVal,
-                    nodeRelSize: graphScheme.nodeRelSize,
-                    scaleFont: graphScheme.scaleFont
-                }
-                nodes.push(node) 
-                link.target = node.name
-                ids.add(node.name)
-            } else {
-                link.target = gene.properties.name
-            }
         
-            const organ = row.get('o') 
-            if (!ids.has(organ.properties.name)) {
+            const source = row.get('o') 
+            if (!ids.has(source.properties.name)) {
                 let node = { 
-                    id: organ.identity,
-                    name: organ.properties.name,
+                    id: source.identity,
+                    name: source.properties.name,
+                    nodeType: 'Organ',
                     nodeColor: graphScheme.organNode,
                     fontColor: graphScheme.organFont,
                     nodeVal: graphScheme.nodeVal,
@@ -174,9 +160,27 @@ export const  loadOrganData = async (driver: Driver | undefined,
                 link.source = node.name
                 ids.add(node.name)
             } else {
-                link.source = organ.properties.name
+                link.source = source.properties.name
             }
 
+            const target = row.get('g') 
+            if (!ids.has(target.properties.name)) {
+                let node = { 
+                    id: target.identity,
+                    name: target.properties.name,
+                    nodeType: 'Gene',
+                    nodeColor: graphScheme.geneNode, 
+                    fontColor: graphScheme.geneFont,
+                    nodeVal: graphScheme.nodeVal,
+                    nodeRelSize: graphScheme.nodeRelSize,
+                    scaleFont: graphScheme.scaleFont
+                }
+                nodes.push(node) 
+                link.target = node.name
+                ids.add(node.name)
+            } else {
+                link.target = target.properties.name
+            }
             links.push(link)
 
         })
@@ -237,29 +241,13 @@ export const  loadSyndromeGeneData = async (driver: Driver | undefined,
         let links : any[] = []
         res.records.forEach(row => {
             let link  = { source: '', target: ''}
-            const gene = row.get('g') 
-            if (!ids.has(gene.properties.name)) {
-                let node = { 
-                    id: gene.identity,
-                    name: gene.properties.name,
-                    nodeColor: graphScheme.geneNode, 
-                    fontColor: graphScheme.geneFont,
-                    nodeVal: graphScheme.nodeVal,
-                    nodeRelSize: graphScheme.nodeRelSize,
-                    scaleFont: graphScheme.scaleFont
-                }
-                nodes.push(node) 
-                link.target = node.name
-                ids.add(node.name)
-            } else {
-                link.target = gene.properties.name
-            }
         
-            const target = row.get('s') 
-            if (!ids.has(target.properties.name)) {
+            const source = row.get('s') 
+            if (!ids.has(source.properties.name)) {
                 let node = { 
-                    id: target.identity,
-                    name: target.properties.name,
+                    id: source.identity,
+                    name: source.properties.name,
+                    nodeType: 'Syndrome',
                     nodeColor: graphScheme.syndromeNode,
                     fontColor: graphScheme.syndromeFont,
                     nodeVal: graphScheme.nodeVal,
@@ -270,9 +258,27 @@ export const  loadSyndromeGeneData = async (driver: Driver | undefined,
                 link.source = node.name
                 ids.add(node.name)
             } else {
-                link.source = target.properties.name
+                link.source = source.properties.name
             }
 
+           let target = row.get('g') 
+            if (!ids.has(target.properties.name)) {
+                let node = { 
+                    id: target.identity,
+                    name: target.properties.name,
+                    nameType: 'Gene',
+                    nodeColor: graphScheme.geneNode, 
+                    fontColor: graphScheme.geneFont,
+                    nodeVal: graphScheme.nodeVal,
+                    nodeRelSize: graphScheme.nodeRelSize,
+                    scaleFont: graphScheme.scaleFont
+                }
+                nodes.push(node) 
+                link.target = node.name
+                ids.add(node.name)
+            } else {
+                link.target = target.properties.name
+            }
             links.push(link)
 
         })
@@ -340,6 +346,7 @@ export const  loadSyndromeOrganData = async (
                 let node = { 
                     id: target.identity,
                     name: target.properties.name,
+                    nodeType: 'Organ',
                     nodeColor: graphScheme.organNode, 
                     fontColor: graphScheme.organFont,
                     nodeVal: graphScheme.nodeVal,
@@ -358,6 +365,7 @@ export const  loadSyndromeOrganData = async (
                 let node = { 
                     id: source.identity,
                     name: source.properties.name,
+                    nameType: 'Syndrome',
                     nodeColor: graphScheme.syndromeNode,
                     fontColor: graphScheme.syndromeFont,
                     nodeVal: graphScheme.nodeVal,
@@ -444,6 +452,7 @@ export const  loadSyndromeGeneOrganData = async (
                 let node = { 
                     id: source.identity,
                     name: source.properties.name,
+                    nodeType: 'Symdrome',
                     nodeColor: graphScheme.syndromeNode,
                     fontColor: graphScheme.syndromeFont,
                     nodeVal: graphScheme.nodeVal,
@@ -462,6 +471,7 @@ export const  loadSyndromeGeneOrganData = async (
                 let node = { 
                     id: target.identity,
                     name: target.properties.name,
+                    nodeType: 'Gene',
                     nodeColor: graphScheme.geneNode, 
                     fontColor: graphScheme.geneFont,
                     nodeVal: graphScheme.nodeVal,
@@ -485,6 +495,7 @@ export const  loadSyndromeGeneOrganData = async (
                 let node = { 
                     id: target.identity,
                     name: target.properties.name,
+                    nodeType: 'Oragn',
                     nodeColor: graphScheme.organNode,
                     fontColor: graphScheme.organFont,
                     nodeVal: graphScheme.nodeVal,
