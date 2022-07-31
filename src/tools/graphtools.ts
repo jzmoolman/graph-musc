@@ -47,7 +47,7 @@ export const ArrayToStr = (data: string[]) => {
     return localFilter
 }
  
-interface XNodeObject extends NodeObject {
+export interface CustomNodeObject extends NodeObject {
     name: string
     fontColor: string
     nodeVal: number
@@ -56,9 +56,9 @@ interface XNodeObject extends NodeObject {
 }
 
 export const paintNode = (node: NodeObject, ctx: CanvasRenderingContext2D, GlobalScale: number) => {
-    const label = (node as XNodeObject).name
-    const fontColor = (node as XNodeObject).fontColor
-    const fontSize = (node as XNodeObject).nodeRelSize * (node as XNodeObject).scaleFont/100
+    const label = (node as CustomNodeObject).name
+    const fontColor = (node as CustomNodeObject).fontColor
+    const fontSize = (node as CustomNodeObject).nodeRelSize * (node as CustomNodeObject).scaleFont/100
 
     const x = node.x?node.x:0
     let y = node.y?node.y:0
