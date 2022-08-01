@@ -1,17 +1,16 @@
 
 import { useState, useContext, useEffect, useRef, MutableRefObject } from 'react'
-import { Driver }  from  'neo4j-driver'
 import { Neo4jContext } from 'use-neo4j'
 import ForceGraph2D, { ForceGraphMethods, NodeObject }  from 'react-force-graph-2d'
 import { CustomNodeObject, Force2DData, GraphScheme, paintNode } from '../tools/graphtools'
 import { 
     loadGeneData,
     loadOrganData,
+    loadDiseaseGeneData,
     loadSyndromeGeneData,
     loadSyndromeOrganData,
     loadSyndromeGeneOrganData
- } from '../tools/grapgdata'
-import { positions } from '@mui/system'
+ } from '../tools/graphdata'
 import { Box, Card, CardContent, CardHeader } from '@mui/material'
 import ReactDOM from 'react-dom'
 
@@ -20,13 +19,15 @@ const drawerWidth = 350;
 type BaseGraphProps = {
     drawerOpen: boolean
     name: string
-    verified: boolean
     genes: string[]
     organs: string[]
     syndromes: string[]
+    diseases: string[]
+    finalVerdict: string
     graphScheme: GraphScheme
 }
-export const BaseGraph = ( {drawerOpen, name, verified, genes, organs,syndromes, graphScheme} : BaseGraphProps ) => {
+export const BaseGraph = ( { drawerOpen, name,  genes, organs, 
+        syndromes, diseases, finalVerdict, graphScheme} : BaseGraphProps ) => {
 
     console.log(`enter - ${name}Graph`)
     
@@ -109,26 +110,29 @@ export const BaseGraph = ( {drawerOpen, name, verified, genes, organs,syndromes,
     const [data, setData] =  useState<Force2DData>( {nodes: [], links: []} )
 
     useEffect( () => {
-        console.log('Reload data')
+        console.log('loading data ...')
         const onData = (data: Force2DData) =>{
             console.log(data)
             setData(data)
         }
-        console.log('name',name)
+        console.log('Graph name',name)
 
         if (name === 'gene') {
-          loadGeneData(driver, verified, genes, organs, graphScheme, onData)
+          loadGeneData(driver, genes, organs,finalVerdict, graphScheme, onData)
         } else if (name === 'organ')
-          loadOrganData(driver, verified, genes, organs, graphScheme, onData)
+          loadOrganData(driver, genes, organs, finalVerdict, graphScheme, onData)
         else if ( name === 'syndrome-gene') {
-          loadSyndromeGeneData(driver, verified,  syndromes, genes, graphScheme, onData)
+          loadSyndromeGeneData(driver, syndromes, genes, finalVerdict, graphScheme, onData)
         } else if ( name === 'syndrome-organ') {
-          loadSyndromeOrganData(driver, verified,  syndromes, organs, graphScheme, onData)
+          loadSyndromeOrganData(driver, syndromes, organs, finalVerdict, graphScheme, onData)
         } else if ( name === 'syndrome-gene-organ') {
-          loadSyndromeGeneOrganData(driver, verified,  syndromes, genes, organs, graphScheme, onData)
+          loadSyndromeGeneOrganData(driver, syndromes, genes, organs,finalVerdict, graphScheme, onData)
+        } else if ( name ==='disease-gene') {
+          loadDiseaseGeneData(driver, diseases, genes, finalVerdict, graphScheme, onData)
         }
+         
 
-    },[ name, verified, genes, organs,syndromes, graphScheme] )
+    },[ name, genes, organs, diseases, syndromes, finalVerdict, graphScheme] )
     
     const forceRef : MutableRefObject<ForceGraphMethods | undefined> = useRef()      
 
@@ -174,4 +178,5 @@ export const BaseGraph = ( {drawerOpen, name, verified, genes, organs,syndromes,
         </div>
     )
 }
+
 

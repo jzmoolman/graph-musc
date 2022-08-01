@@ -86,6 +86,13 @@ export const Navbar = ( {open, onChange}: NavbarProps ) => {
                             Organ
                         </Button>
                         <Button 
+                            component={Link} 
+                            to='/graph/disease'
+                            color='inherit'
+                        >
+                            Disease
+                        </Button>
+                        <Button 
                             id='ui-syndrome-button'
                             color='inherit'
                             onClick={handleSyndromeClick}

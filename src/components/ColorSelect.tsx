@@ -1,7 +1,6 @@
-import React, { useRef, useEffect, MutableRefObject } from 'react'
-import { Theme, useTheme } from '@mui/material/styles';
+import React from 'react'
 import { useState } from 'react'
-import { Box,  Chip, InputLabel, MenuItem, OutlinedInput, FormControl } from '@mui/material'
+import { InputLabel, MenuItem, FormControl } from '@mui/material'
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 const ITEM_HEIGHT = 48;
@@ -15,7 +14,7 @@ const MenuProps = {
   },
 };
 
-const colors = ['Red', 'Blue', 'Yellow', 'White', 'Black']
+const colors = ['Red', 'Blue', 'Yellow', 'Purple', 'White', 'Black']
 
 type ColorSelectProps = {
     label: string

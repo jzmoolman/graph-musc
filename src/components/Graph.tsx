@@ -1,15 +1,17 @@
 import React, { useState, memo } from 'react'
 import { styled, useTheme } from '@mui/material/styles'
-import  { Box, Stack, Divider, useColorScheme, Paper, Drawer } from '@mui/material'
+import  { Box, Divider, useColorScheme, Paper, Drawer } from '@mui/material'
 import { GeneDropdown } from './GeneDropdown';
 import { OrganDropdown } from './OrganDropdown';
 import { SyndromeDropdown } from './SyndromeDropdown';
+import { DiseaseDropdown } from './DiseaseDropdown';
 import { Configuration } from './Configuration';
 import { GraphScheme, defaultGraphScheme } from '../tools/graphtools';
-import { BaseGraph } from './BaseGrpah';
+import { BaseGraph } from './BaseGraph';
 import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import { CustomSelect } from './CustomSelect';
 
 const drawerWidth = 350;
 
@@ -50,29 +52,37 @@ type GraphProps = {
 export const Graph = ( { name, open , onChange} : GraphProps) => {
     console.log('enter - Graph')
 
-    const [graphName, setName] = useState(name)
+    const [graphScheme, setGraphScheme] = useState(defaultGraphScheme)
     const [genes, setGenes] = useState<string[]>([])
     const [organs, setOrgans] = useState<string[]>([])
     const [syndromes, setSyndromes] = useState<string[]>([])
-    const [graphScheme, setGraphScheme] = useState(defaultGraphScheme)
+    const [diseases, setDiseases] = useState<string[]>([])
+    const [finalVerdict, setFinalVerdict] = useState<string>('Confirmed')
 
     const handleDrawerClose = () => {
         onChange(false)
     }
 
     const handleGeneChange = (selection: string[]) => {
-        console.log('handleGeneChange', selection)
         setGenes(selection)
     }
 
     const handleOrganChange = (selection: string[]) => {
-        console.log('handleOrganChange', selection)
         setOrgans(selection)
     }
 
+    const handleDiseaseChange = (selection: string[]) => {
+        console.log('handleDiseaseChange', selection)
+        setDiseases(selection)
+    }
+
     const handleSyndromeChange = (selection: string[]) => {
-        console.log('handleSyndromeChange', selection)
         setSyndromes(selection)
+    }
+
+
+    const handleFinalVerdictChange = (selected: string) => {
+        setFinalVerdict(selected)
     }
 
     const handleConfiguationChange = (graphScheme:GraphScheme) => {
@@ -97,10 +107,11 @@ export const Graph = ( { name, open , onChange} : GraphProps) => {
                     <BaseGraph 
                        drawerOpen={open}
                         name={name}
-                        verified={true}
                         genes={genes}
                         organs={organs}
                         syndromes={syndromes}
+                        diseases={diseases}
+                        finalVerdict={finalVerdict}
                         graphScheme={graphScheme}
                     />
                 </Paper>
@@ -127,31 +138,111 @@ export const Graph = ( { name, open , onChange} : GraphProps) => {
                 sx={{ width: drawerWidth, }}
                 role='presentation'
             >
-                {name === 'gene'?  <>
-                    <GeneDropdown onChange={handleGeneChange} selected={genes}/>
-                    <OrganDropdown onChange={handleOrganChange} selected={organs}/>
+                {name === 'gene'?  
+                    <>
+                        <GeneDropdown onChange={handleGeneChange} selected={genes}/>
+                        <OrganDropdown onChange={handleOrganChange} selected={organs}/>
+                        <CustomSelect 
+                                options={
+                                    [
+                                        //Do not know how to get the key value yet
+                                        {key:'1', value: 'Confirmed'},
+                                        {key:'9', value: 'Maybe'}]
+                                        // {key:'0', value:  'Unknown'}]
+                                }
+                                label='Final verdict' 
+                                defaultSelected={finalVerdict}
+                                onChange={handleFinalVerdictChange}
+                        />
 
-                    </>: <></>
+                        </>:
+                        <>
+                    </>
                 }
                 {name === 'organ'?  <>
                     <OrganDropdown onChange={handleOrganChange} selected={organs}/>
                     <GeneDropdown onChange={handleGeneChange} selected={genes}/>
+                    <CustomSelect 
+                        options={
+                            [
+                                //Do not know how to get the key value yet
+                                {key:'1', value: 'Confirmed'},
+                                {key:'9', value: 'Maybe'}]
+                                // {key:'0', value:  'Unknown'}]
+                        }
+                        label='Final verdict' 
+                        defaultSelected={finalVerdict}
+                        onChange={handleFinalVerdictChange}
+                    />
+                    </>: <></>
+                }
+                {name === 'disease-gene'?  <>
+                    <DiseaseDropdown onChange={handleDiseaseChange} selected={diseases}/>
+                    <GeneDropdown onChange={handleGeneChange} selected={genes}/>
+                    <CustomSelect 
+                        options={
+                            [
+                                //Do not know how to get the key value yet
+                                {key:'1', value: 'Confirmed'},
+                                {key:'9', value: 'Maybe'}]
+                                // {key:'0', value:  'Unknown'}]
+                        }
+                        label='Final verdict' 
+                        defaultSelected={finalVerdict}
+                        onChange={handleFinalVerdictChange}
+                    />
                     </>: <></>
                 }
                 {name === 'syndrome-gene'?  <>
                     <SyndromeDropdown onChange={handleSyndromeChange} selected={syndromes}/>
                     <GeneDropdown onChange={handleGeneChange} selected={genes}/>
+                    <CustomSelect 
+                        options={
+                            [
+                                //Do not know how to get the key value yet
+                                {key:'1', value: 'Confirmed'},
+                                {key:'9', value: 'Maybe'}]
+                                // {key:'0', value:  'Unknown'}]
+                        }
+                        label='Final verdict' 
+                        defaultSelected={finalVerdict}
+                        onChange={handleFinalVerdictChange}
+                    />
                     </>: <></>
                 }
                 {name === 'syndrome-organ'?  <>
                     <SyndromeDropdown onChange={handleSyndromeChange} selected={syndromes}/>
                     <OrganDropdown onChange={handleOrganChange} selected={organs}/>
+                    <CustomSelect 
+                        options={
+                            [
+                                //Do not know how to get the key value yet
+                                {key:'1', value: 'Confirmed'},
+                                {key:'9', value: 'Maybe'}]
+                                // {key:'0', value:  'Unknown'}]
+                        }
+                        label='Final verdict' 
+                        defaultSelected={finalVerdict}
+                        onChange={handleFinalVerdictChange}
+                    />
                     </>: <></>
                 }
                 {name === 'syndrome-gene-organ'?  <>
                     <SyndromeDropdown onChange={handleSyndromeChange} selected={syndromes}/>
                     <GeneDropdown onChange={handleGeneChange} selected={genes}/>
                     <OrganDropdown onChange={handleOrganChange} selected={organs}/>
+                    <CustomSelect 
+                        options={
+                            [
+                                //Do not know how to get the key value yet
+                                {key:'1', value: 'Confirmed'},
+                                {key:'9', value: 'Maybe'}]
+                                // {key:'0', value:  'Unknown'}]
+                        }
+                        label='Final verdict' 
+                        defaultSelected={finalVerdict}
+                        onChange={handleFinalVerdictChange}
+                    />
                     </>: <></>
                 }
                 <Divider sx={{marginLeft:'8px', width:'95%'}} />

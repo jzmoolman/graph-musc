@@ -1,5 +1,5 @@
 import React from 'react'
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import  { Box , Grid, Button, TextField } from '@mui/material'
 import  { FormGroup, FormControlLabel, Switch } from '@mui/material'
 import { ColorSelect } from './ColorSelect'
@@ -16,6 +16,8 @@ export const Configuration = ( { graphScheme, onChange }: ConfigurationProps ) =
     const geneFontRef: React.Ref<any>  = useRef()
     const organNodeRef: React.Ref<any> = useRef()
     const organFontRef: React.Ref<any> = useRef()
+    const diseaseNodeRef: React.Ref<any> = useRef()
+    const diseaseFontRef: React.Ref<any> = useRef()
     const syndromeNodeRef: React.Ref<any> = useRef()
     const syndromeFontRef: React.Ref<any> = useRef()
     const nodeValRef = useRef<HTMLInputElement>(null)
@@ -31,6 +33,8 @@ export const Configuration = ( { graphScheme, onChange }: ConfigurationProps ) =
             geneFont: geneFontRef.current.value,
             organNode: organNodeRef.current.value,
             organFont: organFontRef.current.value,
+            diseaseNode: diseaseNodeRef.current.value,
+            diseaseFont: diseaseFontRef.current.value,
             syndromeNode: defaultGraphScheme.syndromeNode,
             syndromeFont: defaultGraphScheme.syndromeFont,
             nodeVal: nodeValRef.current ? +nodeValRef.current.value: defaultGraphScheme.nodeVal,
@@ -75,6 +79,23 @@ export const Configuration = ( { graphScheme, onChange }: ConfigurationProps ) =
                     <ColorSelect inputRef={organFontRef} label='Font' select={graphScheme.organFont}/>
                 </Box>
             </Grid>
+
+            <Grid item xs={12} >
+                <Box color='primary.main' >
+                    Disease 
+                </Box>
+            </Grid>
+            <Grid item xs={6} >
+                <Box  >
+                    <ColorSelect inputRef={diseaseNodeRef} label='Node' select={graphScheme.diseaseNode}/>
+                </Box>
+            </Grid>
+            <Grid item xs={6} >
+                <Box  >
+                    <ColorSelect inputRef={diseaseFontRef} label='Font' select={graphScheme.diseaseFont}/>
+                </Box>
+            </Grid>
+
             <Grid item xs={12} >
                 <Box color='primary.main' >
                     Syndrome 

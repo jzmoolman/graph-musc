@@ -7,6 +7,8 @@ export type GraphScheme = {
     geneFont: string
     organNode: string
     organFont: string
+    diseaseNode: string
+    diseaseFont: string
     syndromeNode: string
     syndromeFont: string
     nodeVal: number,
@@ -20,6 +22,8 @@ export const defaultGraphScheme: GraphScheme = {
     geneFont: 'White',
     organNode: 'Red',
     organFont: 'White',
+    diseaseNode: 'Purple',
+    diseaseFont: 'White',
     syndromeNode: 'Yellow',
     syndromeFont: 'Black', 
     nodeVal: 1,
