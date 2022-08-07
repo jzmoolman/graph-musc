@@ -15,7 +15,7 @@ type CustomSelectProps = {
 }
 
 export const CustomSelect = ({options, label, defaultSelected, onChange} : CustomSelectProps) => {
-    console.log('enter - CustomSelect')
+    // console.log('enter - CustomSelect')
     // const finalVerdictRef: React.Ref<any> = useRef()
     const [selected, setSelected] = useState(defaultSelected)
 

@@ -1,16 +1,15 @@
 import React, { useState, useContext } from 'react'
 import {  BrowserRouter as Router, Routes,Route } from 'react-router-dom'
-import './App.css'
-
 import { Navbar } from './components/Navbar'
-
-import { Neo4jContext, useReadCypher } from 'use-neo4j'
-
 import { Graph } from './components/Graph'
-import { ExBox } from './example/ExBox'
+import { CustomBox } from './example/CusstomBox'
 import { ExStack } from './example/ExStack'
 import { ExGrid } from './example/ExGrid'
 import { Box } from '@mui/material'
+
+import './App.css'
+import { HomeGraph } from './components/HomeGraph'
+import { wrap } from 'module'
 
 export const App = () => {  
   const [openDrawer, setOpenDrawer] = useState(false)
@@ -21,31 +20,34 @@ export const App = () => {
   }
 
   return (
-    <div className="App">
       <Router>   
         <Navbar open={openDrawer} onChange={handleDrawerChange}/>
-        <Box  
+        <Box
+            id='workspace'
+            marginTop='60px'
             sx={{
-                display: 'flex',
+                splay: 'flex',
                 color: 'white',
-                height: 'calc(100vh - 80px)',
+                height: 'calc(100vh - 75px)',
+                direction: 'column',
+                gap: '5px 5px',
+                
          }} 
         >
           <Routes>
-            <Route path='/' element={<div>Home</div>}/>
+            <Route path='/' element={<HomeGraph/>}/>
             <Route path='/graph/gene' element={<Graph name='gene' open={openDrawer} onChange={handleDrawerChange} />} />
             <Route path='/graph/organ' element={<Graph name='organ'open={openDrawer} onChange={handleDrawerChange} />} />
             <Route path='/graph/disease' element={<Graph name='disease-gene' open={openDrawer} onChange={handleDrawerChange} />} />
             <Route path='/graph/syndrome/gene' element={<Graph name='syndrome-gene' open={openDrawer} onChange={handleDrawerChange} />} />
             <Route path='/graph/syndrome/organ' element={<Graph name='syndrome-organ' open={openDrawer} onChange={handleDrawerChange} />} />
             <Route path='/graph/syndrome/gene-organ' element={<Graph name='syndrome-gene-organ' open={openDrawer} onChange={handleDrawerChange} />} />
-            <Route path='/exbox' element={<ExBox />} />
+            <Route path='/custombox' element={<CustomBox />} />
             <Route path='/exstack' element={<ExStack />} />
             <Route path='/exgrid' element={<ExGrid />} />
           </Routes>
         </Box>
       </Router>
-    </div>
   );
 }
 

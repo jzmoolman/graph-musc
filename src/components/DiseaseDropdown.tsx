@@ -8,8 +8,8 @@ type DiseaseDropdownProps = {
 }
 
 export const DiseaseDropdown = ( {selected, onChange }: DiseaseDropdownProps) => {
-    console.log('enter = DiseaseDropdown')
-    console.log('selected', selected)
+    // console.log('enter = DiseaseDropdown')
+    // console.log('selected', selected)
 
     const handleChange = (selection: string[] ) =>  {
         if (onChange) {

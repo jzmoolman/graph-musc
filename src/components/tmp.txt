@@ -1,3 +1,46 @@
 
                             reurn (
                             )
+
+
+
+                           Flexbox Tutorial  
+
+            <Paper 
+                elevation={4}         
+                sx={{ 
+                    display: 'flex',
+                    margin: '2px',
+                    color: 'grey',
+                }}
+            >
+                {/* <BaseGraph 
+                    drawerOpen={false}
+                    name={'organ'}
+                    genes={['BRCA1','BRCA2']}
+                    organs={[]}
+                    syndromes={[]}
+                    diseases={[]}
+                    finalVerdict='Confimred'
+                    graphScheme={defaultGraphScheme}
+                /> */}
+            </Paper>
+            <Paper 
+                elevation={4}         
+                sx={{ 
+                    display: 'flex',
+                    margin: '2px',
+                    color: 'blue',
+                }}
+            >
+                {/* <BaseGraph 
+                    drawerOpen={false}
+                    name={'syndome-organ'}
+                    genes={['BRCA1','BRCA2']}
+                    organs={[]}
+                    syndromes={[]}
+                    diseases={[]}
+                    finalVerdict='Confimred'
+                    graphScheme={defaultGraphScheme}
+                /> */}
+            </Paper>

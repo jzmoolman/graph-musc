@@ -22,7 +22,9 @@ export const  loadGeneData = async (driver: Driver | undefined,
     finalVerdict: string,
     graphScheme : GraphScheme,
     onData:(data: Force2DData)=> void) => {
-    console.log('enter - loadData')
+
+    // console.log('enter - loadData')
+
     if (driver == null) {
         console.log('Driver not loaded')
         return 
@@ -33,7 +35,8 @@ export const  loadGeneData = async (driver: Driver | undefined,
 
     let whereCLAUSE = getFinalVerdictClause(finalVerdict)
 
-    console.log(  genes, organs)
+    // console.log(genes, organs)
+
     if ( str_genes !== '') {
         whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + str_genes
     }
@@ -42,7 +45,7 @@ export const  loadGeneData = async (driver: Driver | undefined,
     }
     const query = `MATCH (g:MGene)-[r]->(o:Organ) ${whereCLAUSE} RETURN g,r,o`
 
-    console.log('Gene->Orgran', query)
+    // console.log('Gene->Orgran', query)
 
     let session = driver.session()
 
@@ -94,11 +97,10 @@ export const  loadGeneData = async (driver: Driver | undefined,
             links.push(link)
 
         })
-        console.log(nodes) 
-        console.log(links) 
-        console.log('Data loaded')
+        // console.log(nodes) 
+        // console.log(links) 
+        // console.log('Data loaded')
         session.close();
-        console.log('nodes', nodes)
         onData( {nodes, links} )
     } catch (e) {
         throw e
@@ -116,7 +118,9 @@ export const  loadOrganData = async (driver: Driver | undefined,
     finalVerdict : string,
     graphScheme : GraphScheme,
     onData:(data: Force2DData)=> void) => {
-    console.log('enter - loadData')
+
+    // console.log('enter - loadData')
+
     if (driver == null) {
         console.log('Driver not loaded')
         return 
@@ -127,7 +131,7 @@ export const  loadOrganData = async (driver: Driver | undefined,
 
     let whereCLAUSE = getFinalVerdictClause(finalVerdict)
 
-    console.log(genes, organs)
+    // console.log(genes, organs)
     if ( str_genes !== '') {
         whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + str_genes
     }
@@ -136,7 +140,7 @@ export const  loadOrganData = async (driver: Driver | undefined,
     }
     const query = `MATCH (g:MGene)-[r]->(o:Organ) ${whereCLAUSE} RETURN g,r,o`
 
-    console.log('Gene->Orgran', query)
+    // console.log('Gene->Orgran', query)
 
     let session = driver.session()
 
@@ -188,9 +192,9 @@ export const  loadOrganData = async (driver: Driver | undefined,
             links.push(link)
 
         })
-        console.log('Data loaded')
-        console.log(nodes) 
-        console.log(links) 
+        // console.log('Data loaded')
+        // console.log(nodes) 
+        // console.log(links) 
         session.close();
         onData( {nodes, links} )
     } catch (e) {
@@ -208,7 +212,9 @@ export const  loadSyndromeGeneData = async (driver: Driver | undefined,
     finalVerdict:string,
     graphScheme : GraphScheme,
     onData:(data: Force2DData)=> void) => {
-    console.log('enter - loadData')
+
+    // console.log('enter - loadData')
+
     if (driver == null) {
         console.log('Driver not loaded')
         return 
@@ -219,7 +225,7 @@ export const  loadSyndromeGeneData = async (driver: Driver | undefined,
 
     let whereCLAUSE = getFinalVerdictClause(finalVerdict)
 
-    console.log(genes, genes)
+    // console.log(genes, genes)
     if ( str_genes !== '') {
         whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + str_genes
     }
@@ -229,7 +235,7 @@ export const  loadSyndromeGeneData = async (driver: Driver | undefined,
 
     const query = `MATCH (g:MGene)-[r]->(s:Syndrome) ${whereCLAUSE} RETURN g,r,s`
 
-    console.log('Syndrome->Gene', query)
+    // console.log('Syndrome->Gene', query)
 
     let session = driver.session()
 
@@ -281,11 +287,10 @@ export const  loadSyndromeGeneData = async (driver: Driver | undefined,
             links.push(link)
 
         })
-        console.log(nodes) 
-        console.log(links) 
-        console.log('Data loaded')
+        // console.log(nodes) 
+        // console.log(links) 
+        // console.log('Data loaded')
         session.close();
-        console.log('nodes', nodes)
         onData( {nodes, links} )
     } catch (e) {
         throw e
@@ -303,7 +308,7 @@ export const  loadSyndromeOrganData = async (
     finalVerdict: string,
     graphScheme : GraphScheme,
     onData:(data: Force2DData)=> void) => {
-    console.log('enter - loadData')
+    // console.log('enter - loadData')
     if (driver == null) {
         console.log('Driver not loaded')
         return 
@@ -314,7 +319,7 @@ export const  loadSyndromeOrganData = async (
 
     let whereCLAUSE = getFinalVerdictClause(finalVerdict)
 
-    console.log(organs, organs)
+    // console.log(organs, organs)
     if ( str_organs !== '') {
         whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + str_organs
     }
@@ -324,7 +329,7 @@ export const  loadSyndromeOrganData = async (
 
     const query = `MATCH (g:MGene)-[r]->(s:Syndrome), (g:MGene)-[r2]->(o:Organ) ${whereCLAUSE} RETURN o,r2,s`
 
-    console.log('Syndrome->Gene', query)
+    // console.log('Syndrome->Gene', query)
 
     let session = driver.session()
 
@@ -376,11 +381,10 @@ export const  loadSyndromeOrganData = async (
             links.push(link)
 
         })
-        console.log(nodes) 
-        console.log(links) 
-        console.log('Data loaded')
+        // console.log(nodes) 
+        // console.log(links) 
+        // console.log('Data loaded')
         session.close();
-        console.log('nodes', nodes)
         onData( {nodes, links} )
     } catch (e) {
         throw e
@@ -399,7 +403,7 @@ export const  loadSyndromeGeneOrganData = async (
     finalVerdict: string,
     graphScheme : GraphScheme,
     onData:(data: Force2DData)=> void) => {
-    console.log('enter - loadData')
+    // console.log('enter - loadData')
     if (driver == null) {
         console.log('Driver not loaded')
         return 
@@ -468,7 +472,7 @@ export const  loadSyndromeGeneOrganData = async (
             }
             links.push(link1)
             // Do not push duplicate links
-            console.log("link",link1)
+            // console.log("link",link1)
             let link2 = { source: '', target: ''}
 
             link2.source = link1.target
@@ -494,11 +498,10 @@ export const  loadSyndromeGeneOrganData = async (
             links.push(link2)
 
         })
-        console.log(nodes) 
-        console.log(links) 
-        console.log('Data loaded')
+        // console.log(nodes) 
+        // console.log(links) 
+        // console.log('Data loaded')
         session.close();
-        console.log('nodes', nodes)
         onData( {nodes, links} )
     } catch (e) {
         throw e
@@ -516,7 +519,7 @@ export const  loadDiseaseGeneData = async (
     finalVerdict: string,
     graphScheme : GraphScheme,
     onData:(data: Force2DData)=> void) => {
-    console.log('enter - loadData')
+    // console.log('enter - loadData')
     if (driver == null) {
         console.log('Driver not loaded')
         return 
@@ -537,7 +540,7 @@ export const  loadDiseaseGeneData = async (
     const query = 
         `MATCH (g:MGene)-[r:CAUSE]->(d:Disease) ${whereCLAUSE} RETURN g,r,d`
 
-    console.log('Disease-gene', query)
+    // console.log('Disease-gene', query)
 
     let session = driver.session()
 
@@ -588,11 +591,10 @@ export const  loadDiseaseGeneData = async (
             links.push(link1)
 
         })
-        console.log(nodes) 
-        console.log(links) 
-        console.log('Data loaded')
+        // console.log(nodes) 
+        // console.log(links) 
+        // console.log('Data loaded')
         session.close();
-        console.log('nodes', nodes)
         onData( {nodes, links} )
     } catch (e) {
         throw e

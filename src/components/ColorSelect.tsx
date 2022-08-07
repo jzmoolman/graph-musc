@@ -24,7 +24,7 @@ type ColorSelectProps = {
 }
 
 export const ColorSelect = ({label, select, inputRef, onChange} : ColorSelectProps) => {
-    console.log('enter - ColorSelect')
+    // console.log('enter - ColorSelect')
 
     const [color, setColor] = useState(select)
 

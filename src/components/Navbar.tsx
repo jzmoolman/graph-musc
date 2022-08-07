@@ -76,8 +76,16 @@ export const Navbar = ( {open, onChange}: NavbarProps ) => {
                         <Button 
                             color='inherit'
                             component={Link} 
+                            to='/'
+                        >
+                            Home
+                        </Button>
+                        <Button 
+                            color='inherit'
+                            component={Link} 
                             to='/graph/gene'
-                        >Gene</Button>
+                        >Gene
+                        </Button>
                         <Button 
                             component={Link} 
                             to='/graph/organ'
@@ -161,7 +169,7 @@ export const Navbar = ( {open, onChange}: NavbarProps ) => {
                     >
                         <MenuItem 
                             component={Link} 
-                            to='/exbox' 
+                            to='/custombox' 
                             onClick={handleClose} 
                         >Box</MenuItem>
                         <MenuItem 

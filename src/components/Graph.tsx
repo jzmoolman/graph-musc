@@ -1,4 +1,4 @@
-import React, { useState, memo } from 'react'
+import React, { useState, memo, useEffect } from 'react'
 import { styled, useTheme } from '@mui/material/styles'
 import  { Box, Divider, useColorScheme, Paper, Drawer } from '@mui/material'
 import { GeneDropdown } from './GeneDropdown';
@@ -15,31 +15,37 @@ import { CustomSelect } from './CustomSelect';
 
 const drawerWidth = 350;
 
-const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
-  open?: boolean;
-}>(({ theme, open }) => ({
-  flexGrow: 1,
-  padding: theme.spacing(0),
-  transition: theme.transitions.create('margin', {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  marginRight: -drawerWidth,
-  ...(open && {
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    marginRight: 0,
-  }),
-}));
+const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })
+    <{
+        open?: boolean;
+    }>(({ theme, open }) => ({
+        id: 'main-zzz',
+        flexGrow: 1,
+        height: '100%',
+
+        padding: theme.spacing(0),
+        transition: theme.transitions.create('margin', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+        // marginRight: -drawerWidth,
+        marginRight: 0,
+        ...(open && {
+            transition: theme.transitions.create('margin', {
+                easing: theme.transitions.easing.easeOut,
+                duration: theme.transitions.duration.enteringScreen,
+            }),
+            marginRight: 0
+        })
+    }));
 
 const DrawerHeader = styled('div')(({ theme }) => ({
+  id: 'drawerHeader-zzz',
   display: 'flex',
   alignItems: 'center',
   padding: theme.spacing(0, 1),
   // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
+//   ...theme.mixins.toolbar,
   justifyContent: 'flex-start',
 }));
 
@@ -47,6 +53,11 @@ type GraphProps = {
     name: string
     open: boolean
     onChange: (open: boolean) => void
+}
+
+type Dimension = {
+    width: number
+    height: number
 }
 
 export const Graph = ( { name, open , onChange} : GraphProps) => {
@@ -58,6 +69,46 @@ export const Graph = ( { name, open , onChange} : GraphProps) => {
     const [syndromes, setSyndromes] = useState<string[]>([])
     const [diseases, setDiseases] = useState<string[]>([])
     const [finalVerdict, setFinalVerdict] = useState<string>('Confirmed')
+    
+    const [dim, setDim] = useState<Dimension>( {width:600, height:600})
+    
+    useEffect(()=>{
+        console.log('Graph mounted')
+        window.addEventListener("resize", handleResize )
+        setDim( {width: getWidth(), height: getHeight()},
+        )
+    },[])
+
+    const handleResize = () => {
+        console.log('onResize')
+        setDim( ()=> ( {width: getWidth(), height: getHeight()}))
+    }
+
+    const getWidth = () => {
+
+        let number = Number(document.getElementById(`graph-box`)?.offsetWidth )
+        console.log('getWidht', number)
+        if ( typeof number === 'number' && number === number) {
+            console.log('getWidth is a number', number)
+            return number-12
+        } else {
+            console.log('getWidth NaN', number)
+            return 400
+        }
+    }
+
+    const getHeight = () => {
+
+        let number = Number(document.getElementById(`graph-box`)?.offsetHeight )
+        console.log('getHeight', number)
+        if ( typeof number === 'number' && number === number) {
+            console.log('getHeight is a number', number)
+            return number-12
+        } else {
+            console.log('getHeight NaN', number)
+            return 400
+        }
+    }
 
     const handleDrawerClose = () => {
         onChange(false)
@@ -80,7 +131,6 @@ export const Graph = ( { name, open , onChange} : GraphProps) => {
         setSyndromes(selection)
     }
 
-
     const handleFinalVerdictChange = (selected: string) => {
         setFinalVerdict(selected)
     }
@@ -95,6 +145,7 @@ export const Graph = ( { name, open , onChange} : GraphProps) => {
         <Main open={open}>        
             <DrawerHeader />
                 <Paper 
+                    id='graph-box'
                     elevation={4}         
                     sx={{ 
                         display: 'flex',
@@ -106,6 +157,8 @@ export const Graph = ( { name, open , onChange} : GraphProps) => {
                 >
                     <BaseGraph 
                        drawerOpen={open}
+                        width={getWidth()}
+                        height={getHeight()}
                         name={name}
                         genes={genes}
                         organs={organs}
@@ -113,6 +166,7 @@ export const Graph = ( { name, open , onChange} : GraphProps) => {
                         diseases={diseases}
                         finalVerdict={finalVerdict}
                         graphScheme={graphScheme}
+                        hover
                     />
                 </Paper>
         </Main>

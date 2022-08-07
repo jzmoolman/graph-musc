@@ -32,8 +32,8 @@ type DropdownProps = {
 }
 
 export const Dropdown = ({label, options,selected, onChange} : DropdownProps) => {
-    console.log('enter = Dropdown')
-    console.log('selected', selected)
+    // console.log('enter = Dropdown')
+    // console.log('selected', selected)
 
     const theme = useTheme()
     const [values, setValues] = useState<string[]>(selected)

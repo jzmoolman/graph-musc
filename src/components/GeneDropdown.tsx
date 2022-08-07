@@ -8,8 +8,8 @@ type GeneDropdownProps = {
 }
 
 export const GeneDropdown = ( {selected, onChange }: GeneDropdownProps) => {
-    console.log('enter = GeneDropdown')
-    console.log('selected', selected)
+    // console.log('enter = GeneDropdown')
+    // console.log('selected', selected)
 
     const handleChange = (selection: string[] ) =>  {
         if (onChange) {

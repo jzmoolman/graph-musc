@@ -18,6 +18,8 @@ const drawerWidth = 350;
 
 type BaseGraphProps = {
     drawerOpen: boolean
+    width: number
+    height: number
     name: string
     genes: string[]
     organs: string[]
@@ -25,22 +27,17 @@ type BaseGraphProps = {
     diseases: string[]
     finalVerdict: string
     graphScheme: GraphScheme
+    hover?: boolean
+    onClick?: () => void
 }
-export const BaseGraph = ( { drawerOpen, name,  genes, organs, 
-        syndromes, diseases, finalVerdict, graphScheme} : BaseGraphProps ) => {
+export const BaseGraph = ( { drawerOpen, width=200, height=300, name,  genes, organs, 
+        syndromes, diseases, finalVerdict, graphScheme, hover, onClick} : BaseGraphProps ) => {
 
     console.log(`enter - ${name}Graph`)
     
-    const isMounted = useRef(false)
-    const [renderTick, setRenderTick] = useState(0);
     const [nodeHover, setNodeHover] = useState<NodeObject|null>(null)
     const [nodePosition, setNodePosition] = useState<{x:number, y:number}>({x:0 , y:0})
 
-    const handleResize = () => {
-        console.log('onResize')
-        console.log('renderTick', renderTick )
-        setRenderTick(renderTick => renderTick + 1 )
-    }
 
     const handleMouseMove: React.MouseEventHandler<HTMLDivElement> = (e)  => {
         let position: {x: number, y: number} = {x:0, y:0}
@@ -51,11 +48,18 @@ export const BaseGraph = ( { drawerOpen, name,  genes, organs,
 
     const handleNodeHover = (node: NodeObject | null, previousNode: NodeObject | null ) => {
         console.log('handleNodeHove', node)
-        if ( node ) {
+        if ( hover && node ) {
             setNodeHover(node)
         }  else {
             setNodeHover(null)
         }  
+    }
+
+    const handleClick:React.MouseEventHandler<HTMLDivElement> = (event) => {
+        console.log('onClick')
+        if (onClick)
+            onClick()
+
     }
 
     const handleNodeClick = (node: NodeObject, event: MouseEvent  ) => {
@@ -74,15 +78,13 @@ export const BaseGraph = ( { drawerOpen, name,  genes, organs,
                     sx={{
                         position: "absolute",
                         margin: "2px 0px 2px 0px",
-                        // left: nodePosition.x,
-                        // top: nodePosition.y,
                         left: 40,
                         top: 100,
                         width: 250,
                         height: 300
                     }}
                 >
-                    <Card sx={{ minWidth:275}}>
+                    <Card sx={{ minWidth:275 }}>
                         <CardHeader 
                             title={(nodeHover as CustomNodeObject).name}
                             subheader={(nodeHover as CustomNodeObject).nodeType}
@@ -99,12 +101,6 @@ export const BaseGraph = ( { drawerOpen, name,  genes, organs,
         return (<></>)
 
     }
-
-    useEffect(()=>{
-        console.log('Graph mounted')
-        isMounted.current = true
-        window.addEventListener("resize", handleResize )
-    },[])
 
     const context = useContext(Neo4jContext), driver = context.driver
     const [data, setData] =  useState<Force2DData>( {nodes: [], links: []} )
@@ -136,11 +132,10 @@ export const BaseGraph = ( { drawerOpen, name,  genes, organs,
     
     const forceRef : MutableRefObject<ForceGraphMethods | undefined> = useRef()      
 
-    let Width = window.innerWidth -18
     if (drawerOpen) {
-        Width = window.innerWidth -18 - drawerWidth
+        width = width - drawerWidth
     }
-    const Height = window.innerHeight -85
+
     let handleEngineStop: ()=>void | undefined = () => {
         if (forceRef.current)
             (forceRef.current as ForceGraphMethods).zoomToFit(400) 
@@ -150,22 +145,26 @@ export const BaseGraph = ( { drawerOpen, name,  genes, organs,
         if (forceRef.current) {}
     }
 
+
     return (
-        <div onMouseMove={handleMouseMove}>
+        <Box sx={{padding:'2px'}} 
+            onClick={handleClick}
+            onMouseMove={handleMouseMove}
+        >
             {renderHover()}
             <ForceGraph2D 
+                
                 ref={forceRef}
-                width={Width}
-                height={Height}
+                width={width}
+                height={height}
                 graphData={data}
-                backgroundColor='white'
+                // backgroundColor='grey'
                 nodeId='name'  
                 nodeColor='nodeColor' 
                 nodeLabel='name' 
                 linkDirectionalArrowRelPos={1} 
                 linkDirectionalArrowLength={2} 
                 cooldownTicks={100}
-                // onEngineStop={ () => forceRef.current?.zoomToFit(100)} 
                 onEngineStop={handleEngineStop} 
                 nodeVal={graphScheme.nodeVal}
                 nodeRelSize={graphScheme.nodeRelSize}
@@ -175,7 +174,7 @@ export const BaseGraph = ( { drawerOpen, name,  genes, organs,
                 onNodeClick={handleNodeClick}
             />
             
-        </div>
+        </Box>
     )
 }
 
