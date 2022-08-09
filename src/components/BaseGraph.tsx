@@ -28,10 +28,11 @@ type BaseGraphProps = {
     finalVerdict: string
     graphScheme: GraphScheme
     hover?: boolean
+    enableZoom?: boolean
     onClick?: () => void
 }
 export const BaseGraph = ( { drawerOpen, width=200, height=300, name,  genes, organs, 
-        syndromes, diseases, finalVerdict, graphScheme, hover, onClick} : BaseGraphProps ) => {
+        syndromes, diseases, finalVerdict, graphScheme, hover, enableZoom, onClick} : BaseGraphProps ) => {
 
     console.log(`enter - ${name}Graph`)
     
@@ -137,8 +138,9 @@ export const BaseGraph = ( { drawerOpen, width=200, height=300, name,  genes, or
     }
 
     let handleEngineStop: ()=>void | undefined = () => {
-        if (forceRef.current)
-            (forceRef.current as ForceGraphMethods).zoomToFit(400) 
+        if (forceRef.current) {
+            (forceRef.current as ForceGraphMethods).zoomToFit(400);
+        }
     }
     
     if (!graphScheme.fitViewPort) {
@@ -172,6 +174,7 @@ export const BaseGraph = ( { drawerOpen, width=200, height=300, name,  genes, or
                 nodeCanvasObject={paintNode}
                 onNodeHover={handleNodeHover}
                 onNodeClick={handleNodeClick}
+                enableZoomInteraction={enableZoom}
             />
             
         </Box>

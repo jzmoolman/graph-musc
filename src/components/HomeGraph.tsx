@@ -135,10 +135,20 @@ export const HomeGraph = () => {
                         diseases={[]}
                         finalVerdict='Confirmed'
                         graphScheme={defaultGraphScheme}
+                        enableZoom={false}
                         onClick={handleClickGene}
                     />
                     <Box color='black' textAlign='center'>
-                        Choose a gene or genes to see what organs they affect and to see overlap of organs
+                        <Typography                        
+                            textAlign='center'
+                            variant='h6' 
+                            width='100%'
+                            sx={{
+                                fontFamily: 'Franklin Gothic Demi'
+                                }}
+                        > 
+                            Choose a gene or genes to see what organs they affect and to see overlap of organs
+                        </Typography>
                     </Box>
                 </Paper>
             </Box>
@@ -169,7 +179,6 @@ export const HomeGraph = () => {
                                 fontFamily: 'Franklin Gothic Demi'
                             }}
                         > 
-
                            Organ Centric View
                         </Typography>
                     </Box>
@@ -184,10 +193,20 @@ export const HomeGraph = () => {
                         diseases={[]}
                         finalVerdict='Confirmed'
                         graphScheme={defaultGraphScheme}
+                        enableZoom={false}
                         onClick={handleClickOrgan}
                     />
                     <Box color='black' textAlign='center'>
-                        Choose an organ or organs to see what genes are related and how they ovelap
+                        <Typography                        
+                            textAlign='center'
+                            variant='h6' 
+                            width='100%'
+                            sx={{
+                                fontFamily: 'Franklin Gothic Demi'
+                                }}
+                        > 
+                            Choose an organ or organs to see what genes are related and how they overlap
+                        </Typography>
                     </Box>
                 </Paper>
             </Box>
@@ -232,39 +251,76 @@ export const HomeGraph = () => {
                         diseases={[]}
                         finalVerdict='Confirmed'
                         graphScheme={defaultGraphScheme}
+                        enableZoom={false}
                         onClick={handleClickSyndrome}
                     />
                     <Box color='black' textAlign='center'>
-                        Choose syndromes to see their related organs or gene
+                            <Typography                        
+                                textAlign='center'
+                                variant='h6' 
+                                width='100%'
+                                sx={{
+                                    fontFamily: 'Franklin Gothic Demi'
+                                    }}
+                            > 
+                                Choose syndromes to see their related organs or gene
+                            </Typography>
                     </Box>
                 </Paper>
             </Box>
-        </Box>
-        <Box id='heading1' display='flex' 
-             sx={{
-                border: 'solid',
-                backgroundColor:'white',
-                color: 'black'}}
+        <Paper 
+            elevation={4}         
+            sx={{ 
+                    color: 'white',
+                    width: '100%',
+                    backgroundColor: 'white',
+                    margin: '2px',
+                    padding:'2px'}}
         >
-HOLDING SPACE
-Created by:
-Zack …
-Armando …
-Julie …
-Kiersten …
-Kevin S. Hughes, MD, FACS
-
-Department of Surgery 
-Division of Oncologic & Endocrine Surgery
-Medical University of South Carolina
-
-
-Graph database software courtesy of Neo4J
-
-Supported in part by Invitae
-
-
-
+            <Box id='heading1' display='flex' 
+                sx={{
+                    backgroundColor:'white',
+                    color: 'black'}}
+            >
+                <Box display='flex' flex='1' flexDirection='column'>
+                    <Box display='flex' >
+                        Created by:
+                    </Box>
+                    <Box display='flex' >
+                        Zach Moolman
+                    </Box>
+                    <Box display='flex' >
+                        Armando Diaz 
+                    </Box>
+                    <Box>
+                        Julie Henderson
+                    </Box>
+                    <Box display='flex' >
+                        Kiersten Meeder
+                    </Box> 
+                    <Box display='flex' >
+                        Kevin S. Hughes, MD, FACS
+                    </Box> 
+                </Box>
+                <Box display='flex' flex='1' flexDirection='column'>
+                    <Box display='flex'>
+                        Department of Surgery 
+                    </Box>
+                    <Box display='flex'>
+                        Division of Oncologic & Endocrine Surgery
+                    </Box>
+                    <Box display='flex'>
+                        Medical University of South Carolina
+                    </Box>
+                    <Box display='flex'>
+                        Graph database software courtesy of Neo4J
+                    </Box>
+                    <Box display='flex'>
+                        Supported in part by Invitae
+                    </Box>
+                </Box>
+            </Box>
+        </Paper>
         </Box>
     </>)
 }

@@ -167,6 +167,7 @@ export const Graph = ( { name, open , onChange} : GraphProps) => {
                         finalVerdict={finalVerdict}
                         graphScheme={graphScheme}
                         hover
+                        enableZoom={true}
                     />
                 </Paper>
         </Main>
