@@ -3,6 +3,8 @@ import  { Box, Grid, Paper, Typography } from '@mui/material'
 import { BaseGraph } from './BaseGraph';
 import { defaultGraphScheme } from '../tools/graphtools';
 import { useNavigate } from 'react-router-dom'
+import musc from '../assets/musc.png'
+import { fontFamily } from '@mui/system';
 
 
 type Dimension = {
@@ -68,10 +70,26 @@ export const HomeGraph = () => {
 
 
     return (<>
-        <Box id='heading' display='flex'>
-            <Typography display='flex' flex={1} textAlign='center' variant='h6' sx={{size:'large'}} color='primary.main'
+        <Box id='heading1' display='flex' 
+             sx={{
+                border: 'solid',
+                backgroundColor:'white'}}>
+            <img src={musc} />
+        </Box>
+        <Box id='heading2' display='flex'>
+            <Typography 
+                // display='flex' 
+                // flex={1} 
+                // textAlign='center', 
+                textAlign='center'
+                variant='h3' 
+                width='100%'
+                sx={{
+                    fontFamily: 'Franklin Gothic Demi'
+                }} 
+                color='primary.main'
             >
-                Cancer susceptibility gene visualizations using a Graph Database approach
+                Cancer susceptibility gene visualizations using a Graph Database 
             </Typography>
         </Box>
         <Box display='flex' 
@@ -94,7 +112,17 @@ export const HomeGraph = () => {
                             margin: '2px',
                             padding:'2px'}}>
                     <Box color='black' textAlign='center'>
-                        Gene Centric View
+                        <Typography                        
+                            textAlign='center'
+                            variant='h5' 
+                            width='100%'
+                            sx={{
+                                fontFamily: 'Franklin Gothic Demi'
+                            }}
+                        > 
+                            Gene Centric View
+                        </Typography>
+
                     </Box>
                     <BaseGraph
                         drawerOpen={false}
@@ -105,12 +133,12 @@ export const HomeGraph = () => {
                         organs={[]}
                         syndromes={[]}
                         diseases={[]}
-                        finalVerdict='Confimred'
+                        finalVerdict='Confirmed'
                         graphScheme={defaultGraphScheme}
                         onClick={handleClickGene}
                     />
                     <Box color='black' textAlign='center'>
-                        Choose a gene or gens to see what organs they affect and to see overlap of organs
+                        Choose a gene or genes to see what organs they affect and to see overlap of organs
                     </Box>
                 </Paper>
             </Box>
@@ -130,9 +158,20 @@ export const HomeGraph = () => {
                             width: '100%',
                             backgroundColor: 'white',
                             margin: '2px',
-                            padding:'2px'}}>
+                            padding:'2px'}}
+                >
                     <Box color='black' textAlign='center'>
-                        Organ Centric View
+                        <Typography                        
+                            textAlign='center'
+                            variant='h5' 
+                            width='100%'
+                            sx={{
+                                fontFamily: 'Franklin Gothic Demi'
+                            }}
+                        > 
+
+                           Organ Centric View
+                        </Typography>
                     </Box>
                     <BaseGraph 
                         drawerOpen={false}
@@ -143,7 +182,7 @@ export const HomeGraph = () => {
                         organs={[]}
                         syndromes={[]}
                         diseases={[]}
-                        finalVerdict='Confimred'
+                        finalVerdict='Confirmed'
                         graphScheme={defaultGraphScheme}
                         onClick={handleClickOrgan}
                     />
@@ -168,9 +207,19 @@ export const HomeGraph = () => {
                             width: '100%',
                             backgroundColor: 'white',
                             margin: '2px',
-                            padding:'2px'}}>
+                            padding:'2px'}}
+                >
                     <Box color='black' textAlign='center'>
-                        Syndrome Centric View
+                        <Typography                        
+                            textAlign='center'
+                            variant='h5' 
+                            width='100%'
+                            sx={{
+                                fontFamily: 'Franklin Gothic Demi'
+                            }}
+                        > 
+                            Syndrome Centric View
+                        </Typography>                        
                     </Box>
                     <BaseGraph 
                         drawerOpen={false}
@@ -181,7 +230,7 @@ export const HomeGraph = () => {
                         organs={[]}
                         syndromes={['Lynch Syndrome']}
                         diseases={[]}
-                        finalVerdict='Confimred'
+                        finalVerdict='Confirmed'
                         graphScheme={defaultGraphScheme}
                         onClick={handleClickSyndrome}
                     />
@@ -190,6 +239,32 @@ export const HomeGraph = () => {
                     </Box>
                 </Paper>
             </Box>
+        </Box>
+        <Box id='heading1' display='flex' 
+             sx={{
+                border: 'solid',
+                backgroundColor:'white',
+                color: 'black'}}
+        >
+HOLDING SPACE
+Created by:
+Zack …
+Armando …
+Julie …
+Kiersten …
+Kevin S. Hughes, MD, FACS
+
+Department of Surgery 
+Division of Oncologic & Endocrine Surgery
+Medical University of South Carolina
+
+
+Graph database software courtesy of Neo4J
+
+Supported in part by Invitae
+
+
+
         </Box>
     </>)
 }
