@@ -105,7 +105,15 @@ export const HomeGraph = () => {
                         color='primary.main'
                     >
                         <Box>
-                            Created by:
+                            Created by
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+
+
+                    
                         </Box>
                         <Box>
                             Zach Moolman
