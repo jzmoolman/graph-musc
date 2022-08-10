@@ -30,7 +30,8 @@ export const HomeGraph = () => {
         setDim( [
             {width: getWidth(1), height: 200},
             {width: getWidth(2), height: 200},
-            {width: getWidth(3), height: 200}
+            {width: getWidth(3), height: 200},
+            {width: getWidth(4), height: 200}
         ])
     },[])
 
@@ -39,7 +40,8 @@ export const HomeGraph = () => {
         setDim( ()=> ([
             {width: getWidth(1), height: 200},
             {width: getWidth(2), height: 200},
-            {width: getWidth(3), height: 200}
+            {width: getWidth(3), height: 200},
+            {width: getWidth(4), height: 200}
         ]))
     }
 
@@ -53,6 +55,10 @@ export const HomeGraph = () => {
 
     const handleClickSyndrome = () => {
         navigate('/graph/syndrome/organ')
+    }
+    
+    const handleClickDisease = () => {
+        navigate('/graph/disease')
     }
 
     const getWidth = (box: number) => {
@@ -68,19 +74,90 @@ export const HomeGraph = () => {
         }
     }
 
-
     return (<>
-        <Box id='heading1' display='flex' 
-             sx={{
-                border: 'solid',
-                backgroundColor:'white'}}>
-            <img src={musc} />
-        </Box>
+
+        <Paper 
+            elevation={4}         
+            sx={{ 
+                    color: 'white',
+                    width: '100%',
+                    backgroundColor: 'white',
+                    margin: '2px',
+                    padding:'2px'}}
+        >
+            <Box id='heading1' display='flex' 
+                sx={{
+                    backgroundColor:'white',
+                    color: 'black'}}
+            >
+                <Box display='flex' 
+                    sx={{
+                        backgroundColor:'white'}}>
+                    <img src={musc} height={100} />
+                </Box>
+                <Box display='flex' flex='1' flexDirection='column'>
+                    <Typography 
+                        textAlign='right'
+                        width='100%'
+                        sx={{
+                            fontFamily: 'Franklin Gothic Demi'
+                        }} 
+                        color='primary.main'
+                    >
+                        <Box>
+                            Created by:
+                        </Box>
+                        <Box>
+                            Zach Moolman
+                        </Box>
+                        <Box>
+                            Armando Diaz 
+                        </Box>
+                        <Box>
+                            Julie Henderson
+                        </Box>
+                        <Box>
+                            Kiersten Meeder
+                        </Box> 
+                        <Box>
+                            Kevin S. Hughes, MD, FACS
+                        </Box> 
+                    </Typography>
+                </Box>
+                <Box display='flex' flex='1' flexDirection='column'>
+                    <Typography 
+                        textAlign='right'
+                        width='100%'
+                        sx={{
+                            fontFamily: 'Franklin Gothic Demi'
+                        }} 
+                        color='primary.main'
+                    >
+                        <Box>
+                            Department of Surgery 
+                        </Box>
+                        <Box>
+                            Division of Oncologic & Endocrine Surgery
+                        </Box>
+                        <Box>
+                            Medical University of South Carolina
+                        </Box>
+                        <Box>
+                            Graph database software courtesy of Neo4J
+                        </Box>
+                        <Box>
+                            Supported in part by Invitae/Medneon
+                        </Box>
+                    </Typography>
+                </Box>
+            </Box>
+        </Paper>
+
+
+
+
         <Box id='heading2' display='flex'>
             <Typography 
-                // display='flex' 
-                // flex={1} 
-                // textAlign='center', 
                 textAlign='center'
                 variant='h3' 
                 width='100%'
@@ -152,6 +229,7 @@ export const HomeGraph = () => {
                     </Box>
                 </Paper>
             </Box>
+
             <Box id='graph-box2' display='flex' flex={1}
                 sx={{
                     minWidth: 400,
@@ -187,8 +265,8 @@ export const HomeGraph = () => {
                         width={getWidth(2)}
                         height={300}
                         name={'organ'}
-                        genes={['BRCA1','BRCA2']}
-                        organs={[]}
+                        genes={[]}
+                        organs={['Ovary','Breast']}
                         syndromes={[]}
                         diseases={[]}
                         finalVerdict='Confirmed'
@@ -210,6 +288,7 @@ export const HomeGraph = () => {
                     </Box>
                 </Paper>
             </Box>
+
             <Box id='graph-box3' display='flex' flex={1}
                 sx={{
                     minWidth: '300px',
@@ -217,8 +296,7 @@ export const HomeGraph = () => {
                     color: 'white',
                     paddig: '16px',
                 }}
-                >
-
+            >
                 <Paper 
                     elevation={4}         
                     sx={{ 
@@ -268,59 +346,64 @@ export const HomeGraph = () => {
                     </Box>
                 </Paper>
             </Box>
-        <Paper 
-            elevation={4}         
-            sx={{ 
-                    color: 'white',
-                    width: '100%',
-                    backgroundColor: 'white',
-                    margin: '2px',
-                    padding:'2px'}}
-        >
-            <Box id='heading1' display='flex' 
+            <Box id='graph-box4' display='flex' flex={1}
                 sx={{
-                    backgroundColor:'white',
-                    color: 'black'}}
+                    minWidth: '300px',
+                    // backgroundColor: 'primary.main',
+                    color: 'white',
+                    paddig: '16px',
+                }}
             >
-                <Box display='flex' flex='1' flexDirection='column'>
-                    <Box display='flex' >
-                        Created by:
+                <Paper 
+                    elevation={4}         
+                    sx={{ 
+                            color: 'white',
+                            width: '100%',
+                            backgroundColor: 'white',
+                            margin: '2px',
+                            padding:'2px'}}
+                >
+                    <Box color='black' textAlign='center'>
+                        <Typography                        
+                            textAlign='center'
+                            variant='h5' 
+                            width='100%'
+                            sx={{
+                                fontFamily: 'Franklin Gothic Demi'
+                            }}
+                        > 
+                            Disease Centric View
+                        </Typography>                        
                     </Box>
-                    <Box display='flex' >
-                        Zach Moolman
+                    <BaseGraph 
+                        drawerOpen={false}
+                        width={getWidth(4)}
+                        height={300}
+                        name={'disease-gene'}
+                        genes={[]}
+                        organs={[]}
+                        syndromes={[]}
+                        diseases={['Breast Cancer']}
+                        finalVerdict='Confirmed'
+                        graphScheme={defaultGraphScheme}
+                        enableZoom={false}
+                        onClick={handleClickDisease}
+                    />
+                    <Box color='black' textAlign='center'>
+                            <Typography                        
+                                textAlign='center'
+                                variant='h6' 
+                                width='100%'
+                                sx={{
+                                    fontFamily: 'Franklin Gothic Demi'
+                                    }}
+                            > 
+                                Choose disease to see their related organs or gene
+                            </Typography>
                     </Box>
-                    <Box display='flex' >
-                        Armando Diaz 
-                    </Box>
-                    <Box>
-                        Julie Henderson
-                    </Box>
-                    <Box display='flex' >
-                        Kiersten Meeder
-                    </Box> 
-                    <Box display='flex' >
-                        Kevin S. Hughes, MD, FACS
-                    </Box> 
-                </Box>
-                <Box display='flex' flex='1' flexDirection='column'>
-                    <Box display='flex'>
-                        Department of Surgery 
-                    </Box>
-                    <Box display='flex'>
-                        Division of Oncologic & Endocrine Surgery
-                    </Box>
-                    <Box display='flex'>
-                        Medical University of South Carolina
-                    </Box>
-                    <Box display='flex'>
-                        Graph database software courtesy of Neo4J
-                    </Box>
-                    <Box display='flex'>
-                        Supported in part by Invitae
-                    </Box>
-                </Box>
+                </Paper>
+
             </Box>
-        </Paper>
         </Box>
     </>)
 }

@@ -147,7 +147,6 @@ export const BaseGraph = ( { drawerOpen, width=200, height=300, name,  genes, or
         if (forceRef.current) {}
     }
 
-
     return (
         <Box sx={{padding:'2px'}} 
             onClick={handleClick}
