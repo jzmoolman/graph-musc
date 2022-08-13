@@ -2,14 +2,12 @@
 import { useState, useContext, useEffect, useRef, MutableRefObject } from 'react'
 import { Neo4jContext } from 'use-neo4j'
 import ForceGraph2D, { ForceGraphMethods, NodeObject }  from 'react-force-graph-2d'
-import { CustomNodeObject, Force2DData, GraphScheme, paintNode } from '../tools/graphtools'
+import { CustomNodeObject, Force2DData, GraphName, GraphScheme, paintNode } from '../tools/graphtools'
 import { 
     loadGeneData,
     loadOrganData,
-    loadDiseaseGeneData,
-    loadSyndromeGeneData,
-    loadSyndromeOrganData,
-    loadSyndromeGeneOrganData
+    loadDiseaseData,
+    loadSyndromeData
  } from '../tools/graphdata'
 import { Box, Card, CardContent, CardHeader } from '@mui/material'
 import ReactDOM from 'react-dom'
@@ -20,7 +18,7 @@ type BaseGraphProps = {
     drawerOpen: boolean
     width: number
     height: number
-    name: string
+    name: GraphName
     genes: string[]
     organs: string[]
     syndromes: string[]
@@ -48,7 +46,7 @@ export const BaseGraph = ( { drawerOpen, width=200, height=300, name,  genes, or
     }
 
     const handleNodeHover = (node: NodeObject | null, previousNode: NodeObject | null ) => {
-        console.log('handleNodeHove', node)
+        console.log('handleNodeHover', node)
         if ( hover && node ) {
             setNodeHover(node)
         }  else {
@@ -79,8 +77,8 @@ export const BaseGraph = ( { drawerOpen, width=200, height=300, name,  genes, or
                     sx={{
                         position: "absolute",
                         margin: "2px 0px 2px 0px",
-                        left: 40,
-                        top: 100,
+                        left: 20,
+                        top: 80,
                         width: 250,
                         height: 300
                     }}
@@ -103,6 +101,10 @@ export const BaseGraph = ( { drawerOpen, width=200, height=300, name,  genes, or
 
     }
 
+    if (drawerOpen) {
+        width = width - drawerWidth
+    }
+    
     const context = useContext(Neo4jContext), driver = context.driver
     const [data, setData] =  useState<Force2DData>( {nodes: [], links: []} )
 
@@ -116,26 +118,20 @@ export const BaseGraph = ( { drawerOpen, width=200, height=300, name,  genes, or
 
         if (name === 'gene') {
           loadGeneData(driver, genes, organs,finalVerdict, graphScheme, onData)
-        } else if (name === 'organ')
+        } else if (name === 'organ') {
           loadOrganData(driver, genes, organs, finalVerdict, graphScheme, onData)
-        else if ( name === 'syndrome-gene') {
-          loadSyndromeGeneData(driver, syndromes, genes, finalVerdict, graphScheme, onData)
-        } else if ( name === 'syndrome-organ') {
-          loadSyndromeOrganData(driver, syndromes, organs, finalVerdict, graphScheme, onData)
-        } else if ( name === 'syndrome-gene-organ') {
-          loadSyndromeGeneOrganData(driver, syndromes, genes, organs,finalVerdict, graphScheme, onData)
-        } else if ( name ==='disease-gene') {
-          loadDiseaseGeneData(driver, diseases, genes, finalVerdict, graphScheme, onData)
+        } else if ( name === 'disease') {
+          loadDiseaseData(driver, diseases, genes, finalVerdict, graphScheme, onData)
+        } else if ( name === 'syndrome') {
+            console.log('before')
+          loadSyndromeData(driver, syndromes, organs, finalVerdict, graphScheme, onData)
+            console.log('after')
         }
-         
 
     },[ name, genes, organs, diseases, syndromes, finalVerdict, graphScheme] )
     
     const forceRef : MutableRefObject<ForceGraphMethods | undefined> = useRef()      
 
-    if (drawerOpen) {
-        width = width - drawerWidth
-    }
 
     let handleEngineStop: ()=>void | undefined = () => {
         if (forceRef.current) {
@@ -159,7 +155,6 @@ export const BaseGraph = ( { drawerOpen, width=200, height=300, name,  genes, or
                 width={width}
                 height={height}
                 graphData={data}
-                // backgroundColor='grey'
                 nodeId='name'  
                 nodeColor='nodeColor' 
                 nodeLabel='name' 

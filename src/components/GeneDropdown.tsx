@@ -1,15 +1,26 @@
-import React from 'react'
-import { useReadCypher  } from "use-neo4j";
+import React, { useContext, useEffect, useState } from 'react'
+import { Neo4jContext } from 'use-neo4j'
+import { loadGene } from '../tools/graphdata'
 import { Dropdown } from './Dropdown'
 
 type GeneDropdownProps = {
     selected: string[]
-    onChange?: (selection: string[]) => void 
+    onChange?: (selected: string[]) => void 
 }
 
 export const GeneDropdown = ( {selected, onChange }: GeneDropdownProps) => {
-    // console.log('enter = GeneDropdown')
-    // console.log('selected', selected)
+    
+    const context = useContext(Neo4jContext), driver = context.driver
+    const [genes, setGenes] = useState<string[]>([])
+
+    const handleData = (data: string[]) => {
+        setGenes(data)
+    }
+
+    useEffect(()=> {
+        loadGene(driver, handleData)
+        console.log('loading genes - the new way')
+    },[])
 
     const handleChange = (selection: string[] ) =>  {
         if (onChange) {
@@ -17,27 +28,13 @@ export const GeneDropdown = ( {selected, onChange }: GeneDropdownProps) => {
         }
     }
 
-    const { loading, error, records} = useReadCypher(
-            `MATCH (g:MGene) RETURN DISTINCT g.name as name ORDER BY name`)
-
-    if ( loading ) { 
-        console.log('loading genes - GeneSelector')
-        return ( <Dropdown label='Loading genes' options={[]} selected={[]}/> )
-    }
-
-    if ( error ) {
-        console.log(error.message)
-        return ( <Dropdown label='Error loading genes' options={[]} selected={[]}/> )
-    }
-    
-    let genes : string[] = []
-
-     records?.forEach(element => {
-        genes.push(element.get('name') as string)
-    })
-
     return (
-        <Dropdown label='Genes' options={genes} onChange={handleChange} selected={selected}/>
+        <Dropdown 
+            label='Filter Genes' 
+            options={genes} 
+            selected={selected}
+            onChange={handleChange}
+        />
     )
 }
 

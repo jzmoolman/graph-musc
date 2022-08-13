@@ -38,10 +38,8 @@ export const App = () => {
             <Route path='/' element={<HomeGraph/>}/>
             <Route path='/graph/gene' element={<Graph name='gene' open={openDrawer} onChange={handleDrawerChange} />} />
             <Route path='/graph/organ' element={<Graph name='organ'open={openDrawer} onChange={handleDrawerChange} />} />
-            <Route path='/graph/disease' element={<Graph name='disease-gene' open={openDrawer} onChange={handleDrawerChange} />} />
-            <Route path='/graph/syndrome/gene' element={<Graph name='syndrome-gene' open={openDrawer} onChange={handleDrawerChange} />} />
-            <Route path='/graph/syndrome/organ' element={<Graph name='syndrome-organ' open={openDrawer} onChange={handleDrawerChange} />} />
-            <Route path='/graph/syndrome/gene-organ' element={<Graph name='syndrome-gene-organ' open={openDrawer} onChange={handleDrawerChange} />} />
+            <Route path='/graph/disease' element={<Graph name='disease' open={openDrawer} onChange={handleDrawerChange} />} />
+            <Route path='/graph/syndrome' element={<Graph name='syndrome' open={openDrawer} onChange={handleDrawerChange} />} />
             <Route path='/custombox' element={<CustomBox />} />
             <Route path='/exstack' element={<ExStack />} />
             <Route path='/exgrid' element={<ExGrid />} />

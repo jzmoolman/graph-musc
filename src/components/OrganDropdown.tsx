@@ -4,7 +4,7 @@ import { Dropdown } from './Dropdown'
 
 type OrganDropdownProps = {
     selected : string[]
-    onChange?: (selection: string[]) => void 
+    onChange?: (selected: string[]) => void 
 }
 
 export const OrganDropdown = ( {selected, onChange }: OrganDropdownProps) => {
@@ -34,7 +34,15 @@ export const OrganDropdown = ( {selected, onChange }: OrganDropdownProps) => {
     })
 
     return (
-        <Dropdown label='Organ' options={genes} onChange={handleChange} selected={selected}/>
+        <></>
+
+        // <Dropdown 
+        //     label='Filter Organs' 
+        //     // options={organs} 
+        //     selected={selected}
+        //     onChange={handleChange}
+        // />
+
     )
 }
 

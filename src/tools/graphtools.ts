@@ -37,6 +37,7 @@ export type Force2DData = {
     links: any[]
 }
 
+export type GraphName = 'gene' | 'organ' | 'disease' | 'syndrome'
 
 export const ArrayToStr = (data: string[]) => {
     let localFilter = '';

@@ -55,7 +55,7 @@ export const Dropdown = ({label, options,selected, onChange} : DropdownProps) =>
         if (onChange) onChange(selection) 
       };
 
-    const handelDelete = (e:any, value: string) => {
+    const handleDelete = (e:any, value: string) => {
         e.preventDefault()
         let selection : string[] = []
         selection =  values?.filter( (key) => key !==value)
@@ -64,8 +64,15 @@ export const Dropdown = ({label, options,selected, onChange} : DropdownProps) =>
     }
 
     return (
-      <div>
-        <FormControl sx={{m:1, width:'95%'}} size='small'>
+      <Box 
+          id='dropdown-box' 
+          display='flex' 
+          sx={{
+              minWidth: 250,
+              margin: 1
+          
+          }}>
+          <FormControl sx={{width:'100%'}} size='small'>
           <InputLabel 
             id='multiple-dropdown-label'>{label}
           </InputLabel>
@@ -84,7 +91,7 @@ export const Dropdown = ({label, options,selected, onChange} : DropdownProps) =>
                     key={value}
                     label={value}
                     onMouseDown={(e)=>{e.stopPropagation()}}
-                    onDelete={(e)=>handelDelete(e, value)}
+                    onDelete={(e)=>handleDelete(e, value)}
                   />
                 ))}   
               </Box>
@@ -103,6 +110,6 @@ export const Dropdown = ({label, options,selected, onChange} : DropdownProps) =>
             ))}
           </Select>
         </FormControl>
-      </div>
+      </Box>
     )
 }

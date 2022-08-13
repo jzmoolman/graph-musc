@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import { useState } from 'react'
-import { InputLabel, MenuItem, FormControl } from '@mui/material'
+import { InputLabel, MenuItem, FormControl, Box } from '@mui/material'
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { keyboard } from '@testing-library/user-event/dist/keyboard';
 
@@ -15,8 +15,6 @@ type CustomSelectProps = {
 }
 
 export const CustomSelect = ({options, label, defaultSelected, onChange} : CustomSelectProps) => {
-    // console.log('enter - CustomSelect')
-    // const finalVerdictRef: React.Ref<any> = useRef()
     const [selected, setSelected] = useState(defaultSelected)
 
     const handleChange = (event: SelectChangeEvent) => {
@@ -25,8 +23,16 @@ export const CustomSelect = ({options, label, defaultSelected, onChange} : Custo
     };
 
     return (
-        <div>
-            <FormControl variant='standard' sx={{m:1, width:'98%'}} size='small'>
+        <Box 
+            id='dropdown-box' 
+            display='flex' 
+            sx={{
+                minWidth: 120,
+                margin: 1
+            
+            }}
+        >
+            <FormControl variant='standard' sx={{ width:'100%'}} size='small'>
                 <InputLabel id='select-label'>{label}</InputLabel>
                 <Select 
                     // inputRef={finalVerdictRef}
@@ -60,6 +66,6 @@ export const CustomSelect = ({options, label, defaultSelected, onChange} : Custo
                     )}
                 </Select>
             </FormControl>
-        </div>
+        </Box>
     )
 }

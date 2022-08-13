@@ -53,16 +53,16 @@ export const HomeGraph = () => {
         navigate('/graph/organ')
     }
 
-    const handleClickSyndrome = () => {
-        navigate('/graph/syndrome/organ')
-    }
     
     const handleClickDisease = () => {
         navigate('/graph/disease')
     }
 
-    const getWidth = (box: number) => {
+    const handleClickSyndrome = () => {
+        navigate('/graph/syndrome')
+    }
 
+    const getWidth = (box: number) => {
         let number = Number(document.getElementById(`graph-box${box}`)?.offsetWidth )
         console.log('getWidht', number)
         if ( typeof number === 'number' && number === number) {
@@ -111,9 +111,6 @@ export const HomeGraph = () => {
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             &nbsp;&nbsp;&nbsp;&nbsp;
-
-
-                    
                         </Box>
                         <Box>
                             Zach Moolman
@@ -330,8 +327,8 @@ export const HomeGraph = () => {
                         drawerOpen={false}
                         width={getWidth(3)}
                         height={300}
-                        name={'syndrome-organ'}
-                        genes={['BRCA1','BRCA2']}
+                        name={'syndrome'}
+                        genes={[]}
                         organs={[]}
                         syndromes={['Lynch Syndrome']}
                         diseases={[]}
@@ -387,7 +384,7 @@ export const HomeGraph = () => {
                         drawerOpen={false}
                         width={getWidth(4)}
                         height={300}
-                        name={'disease-gene'}
+                        name={'disease'}
                         genes={[]}
                         organs={[]}
                         syndromes={[]}

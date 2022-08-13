@@ -138,11 +138,11 @@ export const Navbar = ( {open, onChange}: NavbarProps ) => {
                     >
                         <MenuItem 
                             component={Link} 
-                            to='/graph/syndrome/gene' 
+                            to='/graph/syndrome' 
                             onClick={handleSyndromeClose} 
                         >Gene</MenuItem>
                         <MenuItem component={Link} 
-                            to='/graph/syndrome/organ'
+                            to='/graph/syndrome'
                             onClick={handleSyndromeClose}
                         >Organ</MenuItem>
                         <MenuItem component={Link} 

@@ -1,17 +1,18 @@
 import React, { useState, memo, useEffect } from 'react'
 import { styled, useTheme } from '@mui/material/styles'
-import  { Box, Divider, useColorScheme, Paper, Drawer } from '@mui/material'
+import  { Box, Divider, useColorScheme, Paper, Drawer, Typography } from '@mui/material'
 import { GeneDropdown } from './GeneDropdown';
 import { OrganDropdown } from './OrganDropdown';
 import { SyndromeDropdown } from './SyndromeDropdown';
 import { DiseaseDropdown } from './DiseaseDropdown';
 import { Configuration } from './Configuration';
-import { GraphScheme, defaultGraphScheme } from '../tools/graphtools';
+import { GraphScheme, defaultGraphScheme, GraphName } from '../tools/graphtools';
 import { BaseGraph } from './BaseGraph';
 import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { CustomSelect } from './CustomSelect';
+import { Filters } from './Filters';
 
 const drawerWidth = 350;
 
@@ -50,7 +51,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 type GraphProps = {
-    name: string
+    name: GraphName 
     open: boolean
     onChange: (open: boolean) => void
 }
@@ -60,16 +61,16 @@ type Dimension = {
     height: number
 }
 
+
 export const Graph = ( { name, open , onChange} : GraphProps) => {
     console.log('enter - Graph')
 
     const [graphScheme, setGraphScheme] = useState(defaultGraphScheme)
     const [genes, setGenes] = useState<string[]>([])
     const [organs, setOrgans] = useState<string[]>([])
-    const [syndromes, setSyndromes] = useState<string[]>([])
     const [diseases, setDiseases] = useState<string[]>([])
+    const [syndromes, setSyndromes] = useState<string[]>([])
     const [finalVerdict, setFinalVerdict] = useState<string>('Confirmed')
-    
     const [dim, setDim] = useState<Dimension>( {width:600, height:600})
     
     useEffect(()=>{
@@ -85,7 +86,6 @@ export const Graph = ( { name, open , onChange} : GraphProps) => {
     }
 
     const getWidth = () => {
-
         let number = Number(document.getElementById(`graph-box`)?.offsetWidth )
         console.log('getWidht', number)
         if ( typeof number === 'number' && number === number) {
@@ -98,7 +98,6 @@ export const Graph = ( { name, open , onChange} : GraphProps) => {
     }
 
     const getHeight = () => {
-
         let number = Number(document.getElementById(`graph-box`)?.offsetHeight )
         console.log('getHeight', number)
         if ( typeof number === 'number' && number === number) {
@@ -114,21 +113,21 @@ export const Graph = ( { name, open , onChange} : GraphProps) => {
         onChange(false)
     }
 
-    const handleGeneChange = (selection: string[]) => {
-        setGenes(selection)
+    const handleGeneChange = (selected: string[]) => {
+        setGenes(selected)
     }
 
-    const handleOrganChange = (selection: string[]) => {
-        setOrgans(selection)
+    const handleOrganChange = (selected: string[]) => {
+        setOrgans(selected)
     }
 
-    const handleDiseaseChange = (selection: string[]) => {
-        console.log('handleDiseaseChange', selection)
-        setDiseases(selection)
+    const handleDiseaseChange = (selected: string[]) => {
+        setDiseases(selected)
     }
 
-    const handleSyndromeChange = (selection: string[]) => {
-        setSyndromes(selection)
+    const handleSyndromeChange = (selected: string[]) => {
+        console.log('selected', selected)
+        setSyndromes(selected)
     }
 
     const handleFinalVerdictChange = (selected: string) => {
@@ -136,14 +135,76 @@ export const Graph = ( { name, open , onChange} : GraphProps) => {
     }
 
     const handleConfiguationChange = (graphScheme:GraphScheme) => {
-        console.log('handlehandleConfiguationChange', graphScheme)
         setGraphScheme(graphScheme)
+    }
+
+    if (name === 'gene' )  {
+        if (organs.length !== 0 ) {
+            setOrgans([])
+        }
+        if (syndromes.length !== 0 ) {
+            setSyndromes([])
+        }
+        if (diseases.length !== 0 ) {
+            setDiseases([])
+        }
+    } else if (name === 'organ' )  {
+        if (genes.length !== 0 ) {
+            setGenes([])
+        }
+        if (diseases.length !== 0 ) {
+            setDiseases([])
+        }
+        if (syndromes.length !== 0 ) {
+            setSyndromes([])
+        }
+    } else if (name === 'disease' )  {
+        if (genes.length !== 0 ) {
+            setGenes([])
+        }
+        if (organs.length !== 0 ) {
+            setOrgans([])
+        }
+        if (syndromes.length !== 0 ) {
+            setSyndromes([])
+        }
+    } else if (name === 'syndrome' )  {
+        if (genes.length !== 0 ) {
+            setGenes([])
+        }
+        if (organs.length !== 0 ) {
+            setOrgans([])
+        }
+        if (diseases.length !== 0 ) {
+            setDiseases([])
+        }
+    }
+
+    const DisplayPanel = () => {
+        return (
+            <Typography sx={{textAlign: 'center'}}>
+                Configuration Tool
+            </Typography>
+        )
     }
 
     return (
         <>
         <Main open={open}>        
             <DrawerHeader />
+                <Filters 
+                    name={name} 
+                    genes={genes} 
+                    organs={organs} 
+                    diseases={diseases}
+                    syndromes={syndromes}
+                    finalVerdict={finalVerdict}
+                    onGeneChange={handleGeneChange}
+                    onOrganChange={handleOrganChange}
+                    onDiseaseChange={handleDiseaseChange}
+                    onSyndromeChange={handleSyndromeChange}
+                    onFinalVerdictChange={handleFinalVerdictChange}
+                />
                 <Paper 
                     id='graph-box'
                     elevation={4}         
@@ -156,7 +217,7 @@ export const Graph = ( { name, open , onChange} : GraphProps) => {
                     }}
                 >
                     <BaseGraph 
-                       drawerOpen={open}
+                        drawerOpen={open}
                         width={getWidth()}
                         height={getHeight()}
                         name={name}
@@ -167,7 +228,7 @@ export const Graph = ( { name, open , onChange} : GraphProps) => {
                         finalVerdict={finalVerdict}
                         graphScheme={graphScheme}
                         hover
-                        enableZoom={true}
+                        enableZoom
                     />
                 </Paper>
         </Main>
@@ -193,113 +254,7 @@ export const Graph = ( { name, open , onChange} : GraphProps) => {
                 sx={{ width: drawerWidth, }}
                 role='presentation'
             >
-                {name === 'gene'?  
-                    <>
-                        <GeneDropdown onChange={handleGeneChange} selected={genes}/>
-                        <OrganDropdown onChange={handleOrganChange} selected={organs}/>
-                        <CustomSelect 
-                                options={
-                                    [
-                                        //Do not know how to get the key value yet
-                                        {key:'1', value: 'Confirmed'},
-                                        {key:'9', value: 'Maybe'}]
-                                        // {key:'0', value:  'Unknown'}]
-                                }
-                                label='Final verdict' 
-                                defaultSelected={finalVerdict}
-                                onChange={handleFinalVerdictChange}
-                        />
-
-                        </>:
-                        <>
-                    </>
-                }
-                {name === 'organ'?  <>
-                    <OrganDropdown onChange={handleOrganChange} selected={organs}/>
-                    <GeneDropdown onChange={handleGeneChange} selected={genes}/>
-                    <CustomSelect 
-                        options={
-                            [
-                                //Do not know how to get the key value yet
-                                {key:'1', value: 'Confirmed'},
-                                {key:'9', value: 'Maybe'}]
-                                // {key:'0', value:  'Unknown'}]
-                        }
-                        label='Final verdict' 
-                        defaultSelected={finalVerdict}
-                        onChange={handleFinalVerdictChange}
-                    />
-                    </>: <></>
-                }
-                {name === 'disease-gene'?  <>
-                    <DiseaseDropdown onChange={handleDiseaseChange} selected={diseases}/>
-                    <GeneDropdown onChange={handleGeneChange} selected={genes}/>
-                    <CustomSelect 
-                        options={
-                            [
-                                //Do not know how to get the key value yet
-                                {key:'1', value: 'Confirmed'},
-                                {key:'9', value: 'Maybe'}]
-                                // {key:'0', value:  'Unknown'}]
-                        }
-                        label='Final verdict' 
-                        defaultSelected={finalVerdict}
-                        onChange={handleFinalVerdictChange}
-                    />
-                    </>: <></>
-                }
-                {name === 'syndrome-gene'?  <>
-                    <SyndromeDropdown onChange={handleSyndromeChange} selected={syndromes}/>
-                    <GeneDropdown onChange={handleGeneChange} selected={genes}/>
-                    <CustomSelect 
-                        options={
-                            [
-                                //Do not know how to get the key value yet
-                                {key:'1', value: 'Confirmed'},
-                                {key:'9', value: 'Maybe'}]
-                                // {key:'0', value:  'Unknown'}]
-                        }
-                        label='Final verdict' 
-                        defaultSelected={finalVerdict}
-                        onChange={handleFinalVerdictChange}
-                    />
-                    </>: <></>
-                }
-                {name === 'syndrome-organ'?  <>
-                    <SyndromeDropdown onChange={handleSyndromeChange} selected={syndromes}/>
-                    <OrganDropdown onChange={handleOrganChange} selected={organs}/>
-                    <CustomSelect 
-                        options={
-                            [
-                                //Do not know how to get the key value yet
-                                {key:'1', value: 'Confirmed'},
-                                {key:'9', value: 'Maybe'}]
-                                // {key:'0', value:  'Unknown'}]
-                        }
-                        label='Final verdict' 
-                        defaultSelected={finalVerdict}
-                        onChange={handleFinalVerdictChange}
-                    />
-                    </>: <></>
-                }
-                {name === 'syndrome-gene-organ'?  <>
-                    <SyndromeDropdown onChange={handleSyndromeChange} selected={syndromes}/>
-                    <GeneDropdown onChange={handleGeneChange} selected={genes}/>
-                    <OrganDropdown onChange={handleOrganChange} selected={organs}/>
-                    <CustomSelect 
-                        options={
-                            [
-                                //Do not know how to get the key value yet
-                                {key:'1', value: 'Confirmed'},
-                                {key:'9', value: 'Maybe'}]
-                                // {key:'0', value:  'Unknown'}]
-                        }
-                        label='Final verdict' 
-                        defaultSelected={finalVerdict}
-                        onChange={handleFinalVerdictChange}
-                    />
-                    </>: <></>
-                }
+                <DisplayPanel />
                 <Divider sx={{marginLeft:'8px', width:'95%'}} />
                 <Configuration graphScheme={graphScheme} onChange={handleConfiguationChange} /> 
             </Box>
