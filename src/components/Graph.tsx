@@ -21,7 +21,8 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })
         open?: boolean;
     }>(({ theme, open }) => ({
         id: 'main-zzz',
-        flexGrow: 1,
+        display: 'flex',
+        flex: 1,
         height: '100%',
 
         padding: theme.spacing(0),
@@ -192,19 +193,6 @@ export const Graph = ( { name, open , onChange} : GraphProps) => {
         <>
         <Main open={open}>        
             <DrawerHeader />
-                <Filters 
-                    name={name} 
-                    genes={genes} 
-                    organs={organs} 
-                    diseases={diseases}
-                    syndromes={syndromes}
-                    finalVerdict={finalVerdict}
-                    onGeneChange={handleGeneChange}
-                    onOrganChange={handleOrganChange}
-                    onDiseaseChange={handleDiseaseChange}
-                    onSyndromeChange={handleSyndromeChange}
-                    onFinalVerdictChange={handleFinalVerdictChange}
-                />
                 <Paper 
                     id='graph-box'
                     elevation={4}         
@@ -231,6 +219,19 @@ export const Graph = ( { name, open , onChange} : GraphProps) => {
                         enableZoom
                     />
                 </Paper>
+                <Filters 
+                    name={name} 
+                    genes={genes} 
+                    organs={organs} 
+                    diseases={diseases}
+                    syndromes={syndromes}
+                    finalVerdict={finalVerdict}
+                    onGeneChange={handleGeneChange}
+                    onOrganChange={handleOrganChange}
+                    onDiseaseChange={handleDiseaseChange}
+                    onSyndromeChange={handleSyndromeChange}
+                    onFinalVerdictChange={handleFinalVerdictChange}
+                />
         </Main>
         <Drawer
             sx={{

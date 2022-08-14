@@ -107,8 +107,7 @@ export const Filters = ({
             id='filter-box'
             display='flex'
             flex={1}
-            flexWrap='wrap'
-            flexDirection='row-reverse'
+            flexDirection='column'
         >
             <DisplayPanel />
         </Box>
