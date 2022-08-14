@@ -144,7 +144,7 @@ export const BaseGraph = ( { drawerOpen, width=200, height=300, name,  genes, or
     }
 
     return (
-        <Box sx={{padding:'2px'}} 
+        <Box id='graph-box' sx={{padding:'2px'}} 
             onClick={handleClick}
             onMouseMove={handleMouseMove}
         >

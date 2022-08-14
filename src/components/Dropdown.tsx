@@ -9,7 +9,10 @@ const ITEM_PADDING_TOP = 4;
 const MenuProps = {
   PaperProps: {
     style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      //  maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      marginTop:5,
+      minHeight:200,
+      maxHeight: window.innerHeight-300,
       width: 200,
     },
   },
@@ -69,6 +72,7 @@ export const Dropdown = ({label, options,selected, onChange} : DropdownProps) =>
           display='flex' 
           sx={{
               minWidth: 250,
+              maxWidth: 350,
               margin: 1
           
           }}>
@@ -78,6 +82,9 @@ export const Dropdown = ({label, options,selected, onChange} : DropdownProps) =>
           </InputLabel>
           <Select 
             ref={ref}
+            // sx={{size}}
+            
+            size='small'
             labelId='multiple-dropdown-label'
             id='multiple-doropdown'
             multiple
@@ -85,7 +92,7 @@ export const Dropdown = ({label, options,selected, onChange} : DropdownProps) =>
             onChange={handleChange}
             input={<OutlinedInput label={label} />}
             renderValue={(selected)=>(
-              <Box sx={{display: 'flex', flexwrap: 'wrap', gap:0.25 }}>
+              <Box sx={{display: 'flex', flexWrap: 'wrap', gap:0.25 }}>
                 {selected.map(( value)=> (
                   <Chip 
                     key={value}

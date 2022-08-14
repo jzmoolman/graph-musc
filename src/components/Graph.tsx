@@ -245,12 +245,12 @@ export const Graph = ( { name, open , onChange} : GraphProps) => {
             anchor="right"
             open={open}
         >
-        <DrawerHeader>
-            <IconButton onClick={handleDrawerClose}>
-                <ChevronLeftIcon />
-            </IconButton>
-        </DrawerHeader>
-        <Divider />
+            <DrawerHeader>
+                <IconButton onClick={handleDrawerClose}>
+                    <ChevronLeftIcon />
+                </IconButton>
+            </DrawerHeader>
+            {/* <Divider /> */}
             <Box 
                 sx={{ width: drawerWidth, }}
                 role='presentation'

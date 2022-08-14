@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import  { Box } from '@mui/material'
+import  { Box, Divider, Typography } from '@mui/material'
 import { CustomSelect } from './CustomSelect'
 import { CustomDropdown } from './CustomDropdown'
 import { GraphName } from '../tools/graphtools'
@@ -79,7 +79,38 @@ export const Filters = ({
         }
 
         return (
-            <>
+            <> 
+                <Box
+                   display='flex'
+                   flex={1}
+                   flexDirection='column'
+
+                   sx={{
+                    color: 'grey',
+                    
+
+                   }}
+                >
+                    <Typography 
+                        component='div'
+
+                        sx={{
+                            textAlign:'center',
+                            marginLeft: 1,
+                            color: 'black'
+                        }}
+
+
+                    >
+                        Choose from the available filters 
+                    </Typography>
+                <Divider 
+                    sx={{
+                        marginLeft:'8px',
+                        marginBottom: '8px',
+                        width:'95%'}} 
+                />
+
                 <CustomDropdown 
                     name={name} 
                     selected={__selected}
@@ -96,6 +127,8 @@ export const Filters = ({
                         defaultSelected={finalVerdict}
                         onChange={handleFinalVerdictChange}
                 />
+
+                </Box>
 
             </>
         )     

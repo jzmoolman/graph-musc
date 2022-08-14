@@ -28,6 +28,7 @@ export const CustomSelect = ({options, label, defaultSelected, onChange} : Custo
             display='flex' 
             sx={{
                 minWidth: 120,
+                maxWidth: 200,
                 margin: 1
             
             }}
