@@ -1,17 +1,12 @@
 import React, { useState, memo, useEffect } from 'react'
 import { styled, useTheme } from '@mui/material/styles'
 import  { Box, Divider, useColorScheme, Paper, Drawer, Typography } from '@mui/material'
-import { GeneDropdown } from './GeneDropdown';
-import { OrganDropdown } from './OrganDropdown';
-import { SyndromeDropdown } from './SyndromeDropdown';
-import { DiseaseDropdown } from './DiseaseDropdown';
 import { Configuration } from './Configuration';
 import { GraphScheme, defaultGraphScheme, GraphName } from '../tools/graphtools';
 import { BaseGraph } from './BaseGraph';
 import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { CustomSelect } from './CustomSelect';
 import { Filters } from './Filters';
 
 const drawerWidth = 350;
@@ -54,7 +49,10 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 type GraphProps = {
     name: GraphName 
     open: boolean
-    onChange: (open: boolean) => void
+    onChange?: (open: boolean) => void
+    onMouseOver?: () => void
+    onMouseOut?: () => void
+
 }
 
 type Dimension = {
@@ -63,7 +61,13 @@ type Dimension = {
 }
 
 
-export const Graph = ( { name, open , onChange} : GraphProps) => {
+export const Graph = ( { 
+    name, 
+    open , 
+    onChange,
+    onMouseOver,
+    onMouseOut
+} : GraphProps) => {
     console.log('enter - Graph')
 
     const [graphScheme, setGraphScheme] = useState(defaultGraphScheme)
@@ -111,7 +115,8 @@ export const Graph = ( { name, open , onChange} : GraphProps) => {
     }
 
     const handleDrawerClose = () => {
-        onChange(false)
+        if (onChange)
+            onChange(false)
     }
 
     const handleGeneChange = (selected: string[]) => {
@@ -137,6 +142,15 @@ export const Graph = ( { name, open , onChange} : GraphProps) => {
 
     const handleConfiguationChange = (graphScheme:GraphScheme) => {
         setGraphScheme(graphScheme)
+    }
+
+    const handleMouseOver = () => {
+        if (onMouseOver) 
+            onMouseOver()
+    }
+    const handleMouseOut = () => {
+        if (onMouseOut) 
+            onMouseOut()
     }
 
     if (name === 'gene' )  {
@@ -217,6 +231,8 @@ export const Graph = ( { name, open , onChange} : GraphProps) => {
                         graphScheme={graphScheme}
                         hover
                         enableZoom
+                        onMouseOver={handleMouseOver}
+                        onMouseOut={handleMouseOut}
                     />
                 </Paper>
                 <Filters 

@@ -11,6 +11,7 @@ import {
  } from '../tools/graphdata'
 import { Box, Card, CardContent, CardHeader } from '@mui/material'
 import ReactDOM from 'react-dom'
+import { ControlPointDuplicateRounded } from '@mui/icons-material'
 
 const drawerWidth = 350;
 
@@ -28,9 +29,26 @@ type BaseGraphProps = {
     hover?: boolean
     enableZoom?: boolean
     onClick?: () => void
+    onMouseOver?: () => void  
+    onMouseOut?: () => void
 }
-export const BaseGraph = ( { drawerOpen, width=200, height=300, name,  genes, organs, 
-        syndromes, diseases, finalVerdict, graphScheme, hover, enableZoom, onClick} : BaseGraphProps ) => {
+export const BaseGraph = ( { 
+    drawerOpen, 
+    width=200, 
+    height=300, 
+    name,  
+    genes, 
+    organs, 
+    syndromes,
+    diseases,
+    finalVerdict,
+    graphScheme,
+    hover,
+    enableZoom,
+    onClick,
+    onMouseOver,
+    onMouseOut
+} : BaseGraphProps ) => {
 
     console.log(`enter - ${name}Graph`)
     
@@ -147,6 +165,16 @@ export const BaseGraph = ( { drawerOpen, width=200, height=300, name,  genes, or
         <Box id='graph-box' sx={{padding:'2px'}} 
             onClick={handleClick}
             onMouseMove={handleMouseMove}
+            onMouseOver={(e)=>{
+                if (onMouseOver) 
+                    onMouseOver()
+            }}
+            onMouseOut={(e)=>{
+                if (onMouseOut) 
+                    onMouseOut()
+            }}
+            
+            
         >
             {renderHover()}
             <ForceGraph2D 

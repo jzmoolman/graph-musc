@@ -13,7 +13,7 @@ const MenuProps = {
       marginTop:5,
       minHeight:200,
       maxHeight: window.innerHeight-300,
-      width: 200,
+      width: 250,
     },
   },
 };

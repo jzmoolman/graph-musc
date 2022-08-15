@@ -1,10 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
-import  { Box, Grid, Paper, Typography } from '@mui/material'
+import  { Box,  Paper, Typography } from '@mui/material'
 import { BaseGraph } from './BaseGraph';
 import { defaultGraphScheme } from '../tools/graphtools';
 import { useNavigate } from 'react-router-dom'
 import musc from '../assets/musc.png'
-import { fontFamily } from '@mui/system';
 
 
 type Dimension = {
@@ -14,6 +13,7 @@ type Dimension = {
 
 export const HomeGraph = () => {
     console.log('enter - HomeGraph')
+    const [activeGraph, setActiveGraph] = useState(0)
 
 
     const [dim, setDim] = useState<Dimension[]>([
@@ -62,6 +62,37 @@ export const HomeGraph = () => {
         navigate('/graph/syndrome')
     }
 
+    const handleGeneMouseOver = ()=> {
+        setActiveGraph(1)
+    }
+
+    const handleGeneMouseOut = ()=> {
+        setActiveGraph(0)
+    }
+
+    const handleOrganMouseOver = ()=> {
+        setActiveGraph(2)
+    }
+
+    const handleOrganMouseOut = ()=> {
+        setActiveGraph(0)
+    }
+
+    const handleDiseaseMouseOver = ()=> {
+        setActiveGraph(3)
+    }
+
+    const handleDiseaseMouseOut = ()=> {
+        setActiveGraph(0)
+    }
+
+    const handleSyndromeMouseOver = ()=> {
+        setActiveGraph(4)
+    }
+
+    const handleSyndromeMouseOut = ()=> {
+        setActiveGraph(0)
+    }
     const getWidth = (box: number) => {
         let number = Number(document.getElementById(`graph-box${box}`)?.offsetWidth )
         console.log('getWidht', number)
@@ -73,6 +104,19 @@ export const HomeGraph = () => {
             return 200
         }
     }
+
+    const getActiveDesciption = (graph: number) => {
+        if (graph === 1)
+           return 'Click to choose a gene or genes to see what organs they affect and to see overlap of organs'
+        else if (graph === 2)
+            return 'Click to choose an organ or organs to see what genes are related and how they overlap'
+        else if (graph === 3)
+            return 'Choose disease to see their related organs or gene'
+        else if (activeGraph === 4)
+            return 'Choose syndromes to see their related organs or gene'
+        else return ''
+    }
+
 
     return (<>
 
@@ -219,17 +263,20 @@ export const HomeGraph = () => {
                         graphScheme={defaultGraphScheme}
                         enableZoom={false}
                         onClick={handleClickGene}
+                        onMouseOver={handleGeneMouseOver}
+                        onMouseOut={handleGeneMouseOut}
                     />
                     <Box color='black' textAlign='center'>
                         <Typography                        
                             textAlign='center'
                             variant='h6' 
                             width='100%'
+                            color={activeGraph===1?'primary.main':'white'}
                             sx={{
                                 fontFamily: 'Franklin Gothic Demi'
                                 }}
                         > 
-                            Choose a gene or genes to see what organs they affect and to see overlap of organs
+                            {getActiveDesciption(1)}
                         </Typography>
                     </Box>
                 </Paper>
@@ -278,17 +325,20 @@ export const HomeGraph = () => {
                         graphScheme={defaultGraphScheme}
                         enableZoom={false}
                         onClick={handleClickOrgan}
+                        onMouseOver={handleOrganMouseOver}
+                        onMouseOut={handleOrganMouseOut}
                     />
                     <Box color='black' textAlign='center'>
                         <Typography                        
                             textAlign='center'
                             variant='h6' 
                             width='100%'
+                            color={activeGraph===2?'primary.main':'white'}
                             sx={{
                                 fontFamily: 'Franklin Gothic Demi'
                                 }}
                         > 
-                            Choose an organ or organs to see what genes are related and how they overlap
+                            {getActiveDesciption(2)}
                         </Typography>
                     </Box>
                 </Paper>
@@ -336,17 +386,20 @@ export const HomeGraph = () => {
                         graphScheme={defaultGraphScheme}
                         enableZoom={false}
                         onClick={handleClickSyndrome}
+                        onMouseOver={handleSyndromeMouseOver}
+                        onMouseOut={handleSyndromeMouseOut}
                     />
                     <Box color='black' textAlign='center'>
                             <Typography                        
                                 textAlign='center'
                                 variant='h6' 
                                 width='100%'
+                                color={activeGraph===4?'primary.main':'white'}
                                 sx={{
                                     fontFamily: 'Franklin Gothic Demi'
                                     }}
                             > 
-                                Choose syndromes to see their related organs or gene
+                                {getActiveDesciption(4)}
                             </Typography>
                     </Box>
                 </Paper>
@@ -393,17 +446,20 @@ export const HomeGraph = () => {
                         graphScheme={defaultGraphScheme}
                         enableZoom={false}
                         onClick={handleClickDisease}
+                        onMouseOver={handleDiseaseMouseOver}
+                        onMouseOut={handleDiseaseMouseOut}
                     />
                     <Box color='black' textAlign='center'>
                             <Typography                        
                                 textAlign='center'
                                 variant='h6' 
                                 width='100%'
+                                color={activeGraph===3?'primary.main':'white'}
                                 sx={{
                                     fontFamily: 'Franklin Gothic Demi'
                                     }}
                             > 
-                                Choose disease to see their related organs or gene
+                                {getActiveDesciption(3)}
                             </Typography>
                     </Box>
                 </Paper>
