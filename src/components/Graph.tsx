@@ -206,7 +206,7 @@ export const Graph = ( {
     return (
         <>
         <Main open={open}>        
-            <DrawerHeader />
+            {/* <DrawerHeader /> */}
                 <Paper 
                     id='graph-box'
                     elevation={4}         

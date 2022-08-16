@@ -5,7 +5,6 @@ import { CustomDropdown } from './CustomDropdown'
 import { GraphName } from '../tools/graphtools'
 
 type FiltersProps = {
-
     name: GraphName
     genes: string[]
     organs: string[]
@@ -78,6 +77,55 @@ export const Filters = ({
             __selected = genes
         }
 
+        type FilterHeaderProps = {
+            name: GraphName
+        }
+        const FilterHeader = ({name}:FilterHeaderProps) => {
+            switch(name) {
+                case 'gene': {
+                    return (
+                        <div>
+                            Select as many <span style={{color: 'blue'}}>Genes</span> as you wish to see
+                        </div>
+                    )
+                }
+                case 'organ': {
+                    return (
+                        <div>
+                            Select as many <span style={{color: 'red'}}>Organs</span> as you wish to see
+                        </div>
+                    )
+                }
+                case 'disease': {
+                    return (
+                        <div>
+                            Select as many <span style={{color: 'purple'}}>Diseases</span> as you wish to see
+                        </div>
+                    )
+                }
+                case 'syndrome': {
+                    return (
+                        <div>
+                            Select as many <span style={{color: 'yellow'}}>Syndromes</span> as you wish to see
+                        </div>
+                    )
+                }
+                defualt:{
+                    return (
+                        <div>
+                           Select as many <span style={{color: 'red'}}>{name}</span> as you wish to see
+                        </div>
+                    )
+                      
+                }
+            }
+            return (
+                <div>
+                    Select as many <span style={{color: 'red'}}>{name}</span> as you wish to see
+                </div>
+            )
+        }
+
         return (
             <> 
                 <Box
@@ -95,21 +143,23 @@ export const Filters = ({
                         component='div'
 
                         sx={{
-                            textAlign:'center',
+                            textAlign:'left',
                             marginLeft: 1,
                             color: 'black'
                         }}
 
 
                     >
-                        Choose from the available filters 
+                        <FilterHeader name={name}/>
+
+                        {/* Choose from the available filters  */}
                     </Typography>
-                <Divider 
+                {/* <Divider 
                     sx={{
                         marginLeft:'8px',
                         marginBottom: '8px',
                         width:'95%'}} 
-                />
+                /> */}
 
                 <CustomDropdown 
                     name={name} 
@@ -123,7 +173,7 @@ export const Filters = ({
                                 {key:'9', value: 'Maybe'}]
                                 // {key:'0', value:  'Unknown'}]
                         }
-                        label='Final verdict' 
+                        label='Associations' 
                         defaultSelected={finalVerdict}
                         onChange={handleFinalVerdictChange}
                 />

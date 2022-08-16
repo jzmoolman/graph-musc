@@ -28,7 +28,7 @@ export const defaultGraphScheme: GraphScheme = {
     syndromeFont: 'Black', 
     nodeVal: 1,
     nodeRelSize: 7,
-    scaleFont: 50, // Percentage out of 100
+    scaleFont: 30, // Percentage out of 100
     fitViewPort: false
 }
 

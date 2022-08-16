@@ -42,14 +42,14 @@ export const CustomDropdown = ( {name, selected, onChange }: CustomDropdownProps
 
     const getLabelName = (name: string) => {
         if (name === 'gene')
-            return 'Filter Gene'
+            return 'Choose Genes'
         else if (name === 'organ') 
-            return 'Filter Organ'
+            return 'Choose Organs'
         else if (name === 'disease')
-            return 'Filter disease'
+            return 'Choose Diseases'
         else if (name === 'syndrome')
-            return 'Filter syndrome'
-        else return 'Filter nor defined'
+            return 'Choose Syndromes'
+        else return 'Filter not defined'
     }
 
     return (
