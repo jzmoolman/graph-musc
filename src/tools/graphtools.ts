@@ -61,6 +61,21 @@ export interface CustomNodeObject extends NodeObject {
     scaleFont: number
 }
 
+// Armando - support different card 
+export interface CustomSyndromeCardObject extends NodeObject {
+    name: string
+    hereditaryType: string
+    nodeType: string
+}
+
+export interface CustomGeneCardObject extends NodeObject {
+    name: string
+    nodeType: string
+    fullName: string
+    mechanism: string
+}
+// Armando - end
+
 export const paintNode = (node: NodeObject, ctx: CanvasRenderingContext2D, GlobalScale: number) => {
     const label = (node as CustomNodeObject).name
     const fontColor = (node as CustomNodeObject).fontColor

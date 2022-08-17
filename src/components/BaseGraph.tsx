@@ -3,7 +3,7 @@ import { useState, useContext, useEffect, useRef, MutableRefObject } from 'react
 import { Neo4jContext } from 'use-neo4j'
 import ForceGraph2D, { ForceGraphMethods, NodeObject }  from 'react-force-graph-2d'
 import { useNavigate } from 'react-router-dom'
-import { CustomNodeObject, Force2DData, GraphName, GraphScheme, paintNode } from '../tools/graphtools'
+import { CustomNodeObject, CustomSyndromeCardObject, CustomGeneCardObject, Force2DData, GraphName, GraphScheme, paintNode } from '../tools/graphtools'
 import { defaultGraphScheme } from '../tools/graphtools';
 
 import { 
@@ -14,7 +14,6 @@ import {
  } from '../tools/graphdata'
 import { Box, Card, CardContent, CardHeader } from '@mui/material'
 import ReactDOM from 'react-dom'
-import { BorderColor } from '@mui/icons-material'
 
 
 const drawerWidth = 350;
@@ -154,6 +153,14 @@ export const BaseGraph = ( {
                                 enableZoom={false}
                                 onClick={() => handleNodeTypeClick((nodeHover as CustomNodeObject).nodeType)}
                             />
+                                {/* // Armando */}
+                                <p>
+                                <b> Name: </b>  {(nodeHover as CustomGeneCardObject).fullName}
+                                </p>
+                                <div>
+                                <b>  Mechanism: </b> {(nodeHover as CustomGeneCardObject).mechanism}
+                                </div>
+                                {/* // Armando - end */}
                             </Box>
                             </CardContent>
                         </Card>
@@ -255,6 +262,8 @@ export const BaseGraph = ( {
                     document.body
                 ))
             } else if ((nodeHover as CustomNodeObject).nodeType === 'syndrome'){
+                console.log('hereditaryType',(nodeHover as CustomSyndromeCardObject).hereditaryType)
+
                 return (ReactDOM.createPortal(
                     <Box
                         className="nodeCard"
@@ -289,6 +298,11 @@ export const BaseGraph = ( {
                                 enableZoom={false}
                                 onClick={() => handleNodeTypeClick((nodeHover as CustomNodeObject).nodeType)}
                             />
+                            {/* // Armando */}
+                            <p>
+                                <b> Hereditary Type: </b>  {(nodeHover as CustomSyndromeCardObject).hereditaryType}
+                            </p>
+                            {/* // Aramando - end */}
                             </Box>
                         </CardContent>
                     </Card>

@@ -110,7 +110,6 @@ export const loadSyndrome= async (driver: Driver | undefined,
         console.log('Driver not loaded')
         return 
     }
-
     const query = `MATCH (g:MGene)-[r]->(s:Syndrome) ${getFinalVerdictClause('Both')} RETURN DISTINCT s.name as name ORDER BY name`
     let session = driver.session()
     console.log('query', query)
@@ -176,6 +175,10 @@ export const  loadGeneData = async (driver: Driver | undefined,
                 let node = { 
                     id: source.identity,
                     name: source.properties.name,
+                    // Armando
+                    fullName: source.properties.fullName,
+                    mechanism: source.properties.mechanism,
+                    // Armondo - end
                     nodeType: 'gene',
                     nodeColor: graphScheme.geneNode, 
                     fontColor: graphScheme.geneFont,
@@ -268,7 +271,7 @@ export const  loadOrganData = async (driver: Driver | undefined,
                 let node = { 
                     id: source.identity,
                     name: source.properties.name,
-                    nodeType: 'Organ',
+                    nodeType: 'organ',
                     nodeColor: graphScheme.organNode,
                     fontColor: graphScheme.organFont,
                     nodeVal: graphScheme.nodeVal,
@@ -287,7 +290,11 @@ export const  loadOrganData = async (driver: Driver | undefined,
                 let node = { 
                     id: target.identity,
                     name: target.properties.name,
-                    nodeType: 'Gene',
+                    // Armando
+                    fullName: target.properties.fullName,
+                    mechanism: target.properties.mechanism,
+                    // Armando - end
+                    nodeType: 'gene',
                     nodeColor: graphScheme.geneNode, 
                     fontColor: graphScheme.geneFont,
                     nodeVal: graphScheme.nodeVal,
@@ -357,6 +364,10 @@ export const  loadDiseaseData = async (
                 let node = { 
                     id: source.identity,
                     name: source.properties.name,
+                    // Armando
+                    fullName: source.properties.fullName,
+                    mechanism: source.properties.mechanism,
+                    // Armando - end
                     nodeType: 'gene',
                     nodeColor: graphScheme.geneNode,
                     fontColor: graphScheme.geneFont,
@@ -429,8 +440,10 @@ export const  loadSyndromeData = async (driver: Driver | undefined,
     if ( str_syndrome !== '') {
         whereCLAUSE = whereCLAUSE + ' AND s.name IN ' + str_syndrome
     }
-
-    const query = `MATCH (g:MGene)-[r]->(s:Syndrome) ${whereCLAUSE} RETURN g,r,s`
+    // Armando 
+    //const query = `MATCH (g:MGene)-[r]->(s:Syndrome) ${whereCLAUSE} RETURN g,r,s` Need to fix later
+    const query = `MATCH (g:MGene)-[:ATTR]->(s:Syndrome)-[:ATTR2]->(sv:SyndromeVerbiage) ${whereCLAUSE} RETURN g,s,sv`
+    // Armando - end
 
     console.log('Syndrome->Gene', query)
 
@@ -444,11 +457,14 @@ export const  loadSyndromeData = async (driver: Driver | undefined,
         res.records.forEach(row => {
             let link  = { source: '', target: ''}
         
-            const source = row.get('s') 
+            const source = row.get('sv') 
             if (!ids.has(source.properties.name)) {
                 let node = { 
                     id: source.identity,
                     name: source.properties.name,
+                    // Arnmando
+                    hereditaryType: source.properties.HereditaryType,
+                    // Armnado - end
                     nodeType: 'syndrome',
                     nodeColor: graphScheme.syndromeNode,
                     fontColor: graphScheme.syndromeFont,
@@ -468,7 +484,11 @@ export const  loadSyndromeData = async (driver: Driver | undefined,
                 let node = { 
                     id: target.identity,
                     name: target.properties.name,
-                    nameType: 'gene',
+                    // Armando 
+                    fullName: target.properties.fullName,
+                    mechanism: target.properties.mechanism,
+                    // Armando - end
+                    nodeType: 'gene',
                     nodeColor: graphScheme.geneNode, 
                     fontColor: graphScheme.geneFont,
                     nodeVal: graphScheme.nodeVal,
@@ -494,214 +514,3 @@ export const  loadSyndromeData = async (driver: Driver | undefined,
 
     }
 }
-
-// export const  loadSyndromeOrganData = async (
-//     driver: Driver | undefined,
-//     syndromes: string[],
-//     organs: string[],
-//     finalVerdict: string,
-//     graphScheme : GraphScheme,
-//     onData:(data: Force2DData)=> void) => {
-//     // console.log('enter - loadData')
-//     if (driver == null) {
-//         console.log('Driver not loaded')
-//         return 
-//     }
-
-//     const str_organs = ArrayToStr(organs)
-//     const str_syndrome = ArrayToStr(syndromes)
-
-//     let whereCLAUSE = getFinalVerdictClause(finalVerdict)
-
-//     // console.log(organs, organs)
-//     if ( str_organs !== '') {
-//         whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + str_organs
-//     }
-//     if ( str_syndrome !== '') {
-//         whereCLAUSE = whereCLAUSE + ' AND s.name IN ' + str_syndrome
-//     }
-
-//     const query = `MATCH (g:MGene)-[r]->(s:Syndrome), (g:MGene)-[r2]->(o:Organ) ${whereCLAUSE} RETURN o,r2,s`
-
-//     // console.log('Syndrome->Gene', query)
-
-//     let session = driver.session()
-
-//     try {
-//         let res = await session.run(query)
-//         let ids = new  Set<string>()
-//         let nodes : any[] = []
-//         let links : any[] = []
-//         res.records.forEach(row => {
-//             let link  = { source: '', target: ''}
-//             const target = row.get('o') 
-//             if (!ids.has(target.properties.name)) {
-//                 let node = { 
-//                     id: target.identity,
-//                     name: target.properties.name,
-//                     nodeType: 'Organ',
-//                     nodeColor: graphScheme.organNode, 
-//                     fontColor: graphScheme.organFont,
-//                     nodeVal: graphScheme.nodeVal,
-//                     nodeRelSize: graphScheme.nodeRelSize,
-//                     scaleFont: graphScheme.scaleFont
-//                 }
-//                 nodes.push(node) 
-//                 link.target = node.name
-//                 ids.add(node.name)
-//             } else {
-//                 link.target = target.properties.name
-//             }
-        
-//             const source = row.get('s') 
-//             if (!ids.has(source.properties.name)) {
-//                 let node = { 
-//                     id: source.identity,
-//                     name: source.properties.name,
-//                     nameType: 'Syndrome',
-//                     nodeColor: graphScheme.syndromeNode,
-//                     fontColor: graphScheme.syndromeFont,
-//                     nodeVal: graphScheme.nodeVal,
-//                     nodeRelSize: graphScheme.nodeRelSize,
-//                     scaleFont: graphScheme.scaleFont
-//                 }
-//                 nodes.push(node) 
-//                 link.source = node.name
-//                 ids.add(node.name)
-//             } else {
-//                 link.source = source.properties.name
-//             }
-
-//             links.push(link)
-
-//         })
-//         // console.log(nodes) 
-//         // console.log(links) 
-//         // console.log('Data loaded')
-//         session.close();
-//         onData( {nodes, links} )
-//     } catch (e) {
-//         throw e
-//     }
-//     finally {
-//         await session.close()
-
-//     }
-// }
-
-// export const  loadSyndromeGeneOrganData = async (
-//     driver: Driver | undefined,
-//     syndromes: string[],
-//     genes: string[],
-//     organs: string[],
-//     finalVerdict: string,
-//     graphScheme : GraphScheme,
-//     onData:(data: Force2DData)=> void) => {
-//     // console.log('enter - loadData')
-//     if (driver == null) {
-//         console.log('Driver not loaded')
-//         return 
-//     }
-
-//     const str_syndromes = ArrayToStr(syndromes)
-//     const str_genes = ArrayToStr(genes)
-//     const str_organs = ArrayToStr(organs)
-
-//     let whereCLAUSE = getFinalVerdictClause(finalVerdict)
-    
-//     if ( str_genes !== '') {
-//         whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + str_genes
-//     }
-
-//     const query = 
-//         `MATCH (g:MGene)-[r]->(s:Syndrome), (g:MGene)-[r2]->(o:Organ) ${whereCLAUSE} RETURN g,o,s`
-
-//     console.log('Syndrome->Gene-Organ', query)
-
-//     let session = driver.session()
-
-//     try {
-//         let res = await session.run(query)
-//         let ids = new  Set<string>()
-//         let nodes : any[] = []
-//         let links : any[] = []
-//         res.records.forEach(row => {
-//             let link1  = { source: '', target: ''}
-//             let source = row.get('s') 
-//             if (!ids.has(source.properties.name)) {
-//                 let node = { 
-//                     id: source.identity,
-//                     name: source.properties.name,
-//                     nodeType: 'Symdrome',
-//                     nodeColor: graphScheme.syndromeNode,
-//                     fontColor: graphScheme.syndromeFont,
-//                     nodeVal: graphScheme.nodeVal,
-//                     nodeRelSize: graphScheme.nodeRelSize,
-//                     scaleFont: graphScheme.scaleFont
-//                 }
-//                 nodes.push(node) 
-//                 link1.source = node.name
-//                 ids.add(node.name)
-//             } else {
-//                 link1.source = source.properties.name
-//             }
-
-//             let target = row.get('g') 
-//             if (!ids.has(target.properties.name)) {
-//                 let node = { 
-//                     id: target.identity,
-//                     name: target.properties.name,
-//                     nodeType: 'Gene',
-//                     nodeColor: graphScheme.geneNode, 
-//                     fontColor: graphScheme.geneFont,
-//                     nodeVal: graphScheme.nodeVal,
-//                     nodeRelSize: graphScheme.nodeRelSize,
-//                     scaleFont: graphScheme.scaleFont
-//                 }
-//                 nodes.push(node) 
-//                 link1.target = node.name
-//                 ids.add(node.name)
-//             } else {
-//                 link1.target = target.properties.name
-//             }
-//             links.push(link1)
-//             // Do not push duplicate links
-//             // console.log("link",link1)
-//             let link2 = { source: '', target: ''}
-
-//             link2.source = link1.target
-//             target = row.get('o') 
-//             if (!ids.has(target.properties.name)) {
-//                 let node = { 
-//                     id: target.identity,
-//                     name: target.properties.name,
-//                     nodeType: 'Oragn',
-//                     nodeColor: graphScheme.organNode,
-//                     fontColor: graphScheme.organFont,
-//                     nodeVal: graphScheme.nodeVal,
-//                     nodeRelSize: graphScheme.nodeRelSize,
-//                     scaleFont: graphScheme.scaleFont
-//                 }
-//                 nodes.push(node) 
-//                 link2.target = node.name
-//                 ids.add(node.name)
-//             } else {
-//                 link2.target = target.properties.name
-//             }
-
-//             links.push(link2)
-
-//         })
-//         // console.log(nodes) 
-//         // console.log(links) 
-//         // console.log('Data loaded')
-//         session.close();
-//         onData( {nodes, links} )
-//     } catch (e) {
-//         throw e
-//     }
-//     finally {
-//         await session.close()
-
-//     }
-// }
