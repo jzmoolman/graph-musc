@@ -463,7 +463,7 @@ export const  loadSyndromeData = async (driver: Driver | undefined,
                     id: source.identity,
                     name: source.properties.name,
                     // Arnmando
-                    hereditaryType: source.properties.HereditaryType,
+                    hereditaryType: source.properties.hereditaryType,
                     // Armnado - end
                     nodeType: 'syndrome',
                     nodeColor: graphScheme.syndromeNode,
