@@ -5,6 +5,8 @@ import ForceGraph2D, { ForceGraphMethods, NodeObject }  from 'react-force-graph-
 import { useNavigate } from 'react-router-dom'
 import { CustomNodeObject, CustomSyndromeCardObject, CustomGeneCardObject, Force2DData, GraphName, GraphScheme, paintNode } from '../tools/graphtools'
 import { defaultGraphScheme } from '../tools/graphtools';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
 import { 
     loadGeneData,
@@ -58,6 +60,9 @@ export const BaseGraph = ( {
     const [nodeHover, setNodeHover] = useState<NodeObject|null>(null)
     const [nodePosition, setNodePosition] = useState<{x:number, y:number}>({x:0 , y:0})
 
+    const handleCardClose = () => {
+        setNodeHover(null);
+      };
 
     const handleMouseMove: React.MouseEventHandler<HTMLDivElement> = (e)  => {
         let position: {x: number, y: number} = {x:0, y:0}
@@ -66,12 +71,10 @@ export const BaseGraph = ( {
         setNodePosition(position)
     }
 
-    const handleNodeHover = (node: NodeObject | null, previousNode: NodeObject | null ) => {
+    const handleNodeHover = (node: NodeObject | null, previousNode: NodeObject | null) => {
         console.log('handleNodeHover', node)
         if ( hover && node ) {
             setNodeHover(node)
-        }  else {
-            setNodeHover(null)
         }  
     }
 
@@ -120,23 +123,28 @@ export const BaseGraph = ( {
                         margin: "2px 0px 2px 0px",
                         left: 20,
                         top: 80,
-                        width: 250,
+                        width: 300,
                         height: 300
                         
                     }}
                 >
                     <Card 
                         sx={{ 
-                            border:1,
+                            border:0.1,
                             minWidth:275, 
                             borderColor: 'primary.main'
                         }}
                     >
+
                         <CardHeader 
                             title={(nodeHover as CustomNodeObject).name}
                             subheader={(nodeHover as CustomNodeObject).nodeType}
-
+                            action={
+                                <IconButton onClick={handleCardClose}  aria-label="close"> <CloseIcon />
+                                </IconButton>
+                        }
                         />
+                        
                         <CardContent>
                             <Box>
                                 <BaseGraph
@@ -190,6 +198,10 @@ export const BaseGraph = ( {
                             <CardHeader 
                                 title={(nodeHover as CustomNodeObject).name}
                                 subheader={(nodeHover as CustomNodeObject).nodeType}
+                                action={
+                                    <IconButton onClick={handleCardClose}  aria-label="close"> <CloseIcon />
+                                    </IconButton>
+                            }
     
                             />
                             <CardContent>
@@ -237,6 +249,10 @@ export const BaseGraph = ( {
                             <CardHeader 
                                 title={(nodeHover as CustomNodeObject).name}
                                 subheader={(nodeHover as CustomNodeObject).nodeType}
+                                action={
+                                    <IconButton onClick={handleCardClose}  aria-label="close"> <CloseIcon />
+                                    </IconButton>
+                            }
     
                             />
                             <CardContent>
@@ -280,6 +296,10 @@ export const BaseGraph = ( {
                             <CardHeader 
                                 title={(nodeHover as CustomNodeObject).name}
                                 subheader={(nodeHover as CustomNodeObject).nodeType}
+                                action={
+                                    <IconButton onClick={handleCardClose}  aria-label="close"> <CloseIcon />
+                                    </IconButton>
+                            }
     
                             />
                             <CardContent>
@@ -300,7 +320,7 @@ export const BaseGraph = ( {
                             />
                             {/* // Armando */}
                             <p>
-                                <b> Hereditary Type: </b>  {(nodeHover as CustomSyndromeCardObject).hereditaryType}
+                                <b> Inheritance Type: </b>  {(nodeHover as CustomSyndromeCardObject).hereditaryType}
                             </p>
                             {/* // Aramando - end */}
                             </Box>
