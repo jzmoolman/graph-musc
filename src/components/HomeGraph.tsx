@@ -116,6 +116,15 @@ export const HomeGraph = () => {
             return 'Choose syndromes to see their related organs or gene'
         else return ''
     }
+    
+    const getActiveFontColor = (graph: number) => {
+        if (graph in [1,2,3,4]) {
+            return 'primary.main'
+        } else {
+            return 'white'
+        }
+    }
+
 
 
     return (<>
@@ -272,9 +281,10 @@ export const HomeGraph = () => {
                             variant='h6' 
                             width='100%'
                             color={activeGraph===1?'primary.main':'white'}
-                            sx={{
+                            sx= {{
+                                color: getActiveFontColor(1),
                                 fontFamily: 'Franklin Gothic Demi'
-                                }}
+                            }}
                         > 
                             {getActiveDesciption(1)}
                         </Typography>

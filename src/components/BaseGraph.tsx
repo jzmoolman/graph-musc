@@ -58,7 +58,7 @@ export const BaseGraph = ( {
     console.log(`enter - ${name}Graph`)
     
     const [nodeHover, setNodeHover] = useState<NodeObject|null>(null)
-    const [nodePosition, setNodePosition] = useState<{x:number, y:number}>({x:0 , y:0})
+    // const [nodePosition, setNodePosition] = useState<{x:number, y:number}>({x:0 , y:0})
 
     const handleCardClose = () => {
         setNodeHover(null);
@@ -68,12 +68,14 @@ export const BaseGraph = ( {
         let position: {x: number, y: number} = {x:0, y:0}
         position.x = e?.pageX
         position.y = e?.pageY
-        setNodePosition(position)
+        // setNodePosition(position)
     }
 
     const handleNodeHover = (node: NodeObject | null, previousNode: NodeObject | null) => {
-        console.log('handleNodeHover', node)
-        if ( hover && node ) {
+        console.log('handleNodeHover - node', node)
+        console.log('handleNodeHover - hover', hover)
+        if ( !nodeHover && hover && node   ) {
+            console.log('handleNodeHover - Enter', node)
             setNodeHover(node)
         }  
     }
@@ -112,7 +114,7 @@ export const BaseGraph = ( {
         //Check if nodeHover is set, if then render card
         if ( nodeHover ) {
             console.log('renderHover', nodeHover)
-            console.log('renderHover', nodePosition)
+            // console.log('renderHover', nodePosition)
 
             if ((nodeHover as CustomNodeObject).nodeType === 'gene') {
             return (ReactDOM.createPortal(
@@ -292,7 +294,12 @@ export const BaseGraph = ( {
                             height: 300
                         }}
                     >
-                        <Card sx={{ minWidth:275 }}>
+                        <Card sx={{
+                                border:1,
+                             minWidth:275,                             
+                            borderColor: 'primary.main'
+                        }}>
+
                             <CardHeader 
                                 title={(nodeHover as CustomNodeObject).name}
                                 subheader={(nodeHover as CustomNodeObject).nodeType}
