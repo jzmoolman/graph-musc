@@ -140,7 +140,7 @@ export const BaseGraph = ( {
 
                         <CardHeader 
                             title={(nodeHover as CustomNodeObject).name}
-                            subheader={(nodeHover as CustomNodeObject).nodeType}
+                            // subheader={(nodeHover as CustomNodeObject).nodeType}
                             action={
                                 <IconButton onClick={handleCardClose}  aria-label="close"> <CloseIcon />
                                 </IconButton>
@@ -199,7 +199,7 @@ export const BaseGraph = ( {
                         >
                             <CardHeader 
                                 title={(nodeHover as CustomNodeObject).name}
-                                subheader={(nodeHover as CustomNodeObject).nodeType}
+                                // subheader={(nodeHover as CustomNodeObject).nodeType}
                                 action={
                                     <IconButton onClick={handleCardClose}  aria-label="close"> <CloseIcon />
                                     </IconButton>
@@ -250,7 +250,7 @@ export const BaseGraph = ( {
                         >
                             <CardHeader 
                                 title={(nodeHover as CustomNodeObject).name}
-                                subheader={(nodeHover as CustomNodeObject).nodeType}
+                                // subheader={(nodeHover as CustomNodeObject).nodeType}
                                 action={
                                     <IconButton onClick={handleCardClose}  aria-label="close"> <CloseIcon />
                                     </IconButton>
@@ -302,7 +302,7 @@ export const BaseGraph = ( {
 
                             <CardHeader 
                                 title={(nodeHover as CustomNodeObject).name}
-                                subheader={(nodeHover as CustomNodeObject).nodeType}
+                                // subheader={(nodeHover as CustomNodeObject).nodeType}
                                 action={
                                     <IconButton onClick={handleCardClose}  aria-label="close"> <CloseIcon />
                                     </IconButton>
