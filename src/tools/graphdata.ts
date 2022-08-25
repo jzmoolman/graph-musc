@@ -7,13 +7,13 @@ const getFinalVerdictClause = (finalVerdict: string) => {
     let whereClause = ''
 
     if ( finalVerdict === 'Confirmed' ) {
-        whereClause = 'WHERE g.FinalVerdict = 1'
+        whereClause = 'WHERE g.finalVerdict = 1'
     } else if ( finalVerdict === 'Maybe') {
-        whereClause = 'WHERE g.FinalVerdict = 9'
+        whereClause = 'WHERE g.finalVerdict = 9'
     } else if ( finalVerdict === 'Both' ) {
-        whereClause = 'WHERE g.FinalVerdict in [1,9]'
+        whereClause = 'WHERE g.finalVerdict in [1,9]'
     } else {
-        whereClause = 'WHERE g.FinalVerdict in [0,1,9]'
+        whereClause = 'WHERE g.finalVerdict in [0,1,9]'
     }
     return whereClause
 }
@@ -175,12 +175,9 @@ export const  loadGeneData = async (driver: Driver | undefined,
                 let node = { 
                     id: source.identity,
                     name: source.properties.name,
-                    // Armando
                     fullName: source.properties.fullName,
-                    geneAltName: source.properties.geneAltName,
+                    geneAltName: source.properties.altName,
                     description: source.properties.description,
-                    // Armondo - end
-                    nodeType: 'gene',
                     nodeColor: graphScheme.geneNode, 
                     fontColor: graphScheme.geneFont,
                     nodeVal: graphScheme.nodeVal,
@@ -270,9 +267,9 @@ export const  loadOrganData = async (driver: Driver | undefined,
             const source = row.get('o') 
             if (!ids.has(source.properties.name)) {
                 let node = { 
+                    nodeType: 'organ',
                     id: source.identity,
                     name: source.properties.name,
-                    nodeType: 'organ',
                     nodeColor: graphScheme.organNode,
                     fontColor: graphScheme.organFont,
                     nodeVal: graphScheme.nodeVal,
@@ -289,14 +286,12 @@ export const  loadOrganData = async (driver: Driver | undefined,
             const target = row.get('g') 
             if (!ids.has(target.properties.name)) {
                 let node = { 
+                    nodeType: 'gene',
                     id: target.identity,
                     name: target.properties.name,
-                    // Armando
                     fullName: target.properties.fullName,
-                    geneAltName: target.properties.geneAltName,
+                    geneAltName: target.properties.altName,
                     description: target.properties.description,
-                    // Armando - end
-                    nodeType: 'gene',
                     nodeColor: graphScheme.geneNode, 
                     fontColor: graphScheme.geneFont,
                     nodeVal: graphScheme.nodeVal,
@@ -364,14 +359,12 @@ export const  loadDiseaseData = async (
             let source = row.get('g') 
             if (!ids.has(source.properties.name)) {
                 let node = { 
+                    nodeType: 'gene',
                     id: source.identity,
                     name: source.properties.name,
-                    // Armando
                     fullName: source.properties.fullName,
-                    geneAltName: source.properties.geneAltName,
+                    geneAltName: source.properties.altName,
                     description: source.properties.description,
-                    // Armando - end
-                    nodeType: 'gene',
                     nodeColor: graphScheme.geneNode,
                     fontColor: graphScheme.geneFont,
                     nodeVal: graphScheme.nodeVal,
@@ -388,9 +381,9 @@ export const  loadDiseaseData = async (
             let target = row.get('d') 
             if (!ids.has(target.properties.name)) {
                 let node = { 
+                    nodeType: 'disease',
                     id: target.identity,
                     name: target.properties.name,
-                    nodeType: 'disease',
                     nodeColor: graphScheme.diseaseNode, 
                     fontColor: graphScheme.diseaseFont,
                     nodeVal: graphScheme.nodeVal,
@@ -485,14 +478,12 @@ export const  loadSyndromeData = async (driver: Driver | undefined,
            let target = row.get('g') 
             if (!ids.has(target.properties.name)) {
                 let node = { 
+                    nodeType: 'gene',
                     id: target.identity,
                     name: target.properties.name,
-                    // Armando 
                     fullName: target.properties.fullName,
-                    geneAltName: target.properties.geneAltName,
+                    geneAltName: target.properties.altName,
                     description: target.properties.description,
-                    // Armando - end
-                    nodeType: 'gene',
                     nodeColor: graphScheme.geneNode, 
                     fontColor: graphScheme.geneFont,
                     nodeVal: graphScheme.nodeVal,

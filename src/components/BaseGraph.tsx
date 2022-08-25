@@ -153,7 +153,9 @@ export const BaseGraph = ( {
                                 drawerOpen={false}
                                 width={getWidth(1)}
                                 height={300}
-                                name={('disease' as GraphName)}
+                                //name={((nodeHover as CustomNodeObject).nodeType as GraphName)}
+                                //Do we only want to show the disease grapgh each time?
+                                name='disease'
                                 genes={[(nodeHover as CustomNodeObject).name]}
                                 organs={[]}
                                 syndromes={[]}
