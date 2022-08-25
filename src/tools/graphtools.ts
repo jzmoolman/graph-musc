@@ -72,7 +72,8 @@ export interface CustomGeneCardObject extends NodeObject {
     name: string
     nodeType: string
     fullName: string
-    mechanism: string
+    geneAltName: string
+    description: string
 }
 // Armando - end
 

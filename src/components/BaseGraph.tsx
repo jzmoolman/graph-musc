@@ -153,7 +153,7 @@ export const BaseGraph = ( {
                                 drawerOpen={false}
                                 width={getWidth(1)}
                                 height={300}
-                                name={((nodeHover as CustomNodeObject).nodeType as GraphName)}
+                                name={('disease' as GraphName)}
                                 genes={[(nodeHover as CustomNodeObject).name]}
                                 organs={[]}
                                 syndromes={[]}
@@ -167,8 +167,11 @@ export const BaseGraph = ( {
                                 <p>
                                 <b> Name: </b>  {(nodeHover as CustomGeneCardObject).fullName}
                                 </p>
+                                <p>
+                                <b> Alternate Names : </b>  {(nodeHover as CustomGeneCardObject).geneAltName}
+                                </p>
                                 <div>
-                                <b>  Mechanism: </b> {(nodeHover as CustomGeneCardObject).mechanism}
+                                <b>  Description: </b> {(nodeHover as CustomGeneCardObject).description}
                                 </div>
                                 {/* // Armando - end */}
                             </Box>

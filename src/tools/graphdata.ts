@@ -177,7 +177,8 @@ export const  loadGeneData = async (driver: Driver | undefined,
                     name: source.properties.name,
                     // Armando
                     fullName: source.properties.fullName,
-                    mechanism: source.properties.mechanism,
+                    geneAltName: source.properties.geneAltName,
+                    description: source.properties.description,
                     // Armondo - end
                     nodeType: 'gene',
                     nodeColor: graphScheme.geneNode, 
@@ -292,7 +293,8 @@ export const  loadOrganData = async (driver: Driver | undefined,
                     name: target.properties.name,
                     // Armando
                     fullName: target.properties.fullName,
-                    mechanism: target.properties.mechanism,
+                    geneAltName: target.properties.geneAltName,
+                    description: target.properties.description,
                     // Armando - end
                     nodeType: 'gene',
                     nodeColor: graphScheme.geneNode, 
@@ -366,7 +368,8 @@ export const  loadDiseaseData = async (
                     name: source.properties.name,
                     // Armando
                     fullName: source.properties.fullName,
-                    mechanism: source.properties.mechanism,
+                    geneAltName: source.properties.geneAltName,
+                    description: source.properties.description,
                     // Armando - end
                     nodeType: 'gene',
                     nodeColor: graphScheme.geneNode,
@@ -486,7 +489,8 @@ export const  loadSyndromeData = async (driver: Driver | undefined,
                     name: target.properties.name,
                     // Armando 
                     fullName: target.properties.fullName,
-                    mechanism: target.properties.mechanism,
+                    geneAltName: target.properties.geneAltName,
+                    description: target.properties.description,
                     // Armando - end
                     nodeType: 'gene',
                     nodeColor: graphScheme.geneNode, 

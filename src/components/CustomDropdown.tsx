@@ -22,9 +22,9 @@ export const CustomDropdown = ( {name, selected, onChange }: CustomDropdownProps
             loadGene(driver, handleData)
         } else if (name === 'organ') {
             loadOrgan(driver, handleData)
-        } else if ( name == 'disease') {
+        } else if ( name === 'disease') {
             loadDisease(driver, handleData)
-        } else if ( name == 'syndrome') {
+        } else if ( name === 'syndrome') {
             loadSyndrome(driver, handleData)
         }
         console.log('loading data')

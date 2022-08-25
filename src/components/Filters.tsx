@@ -63,13 +63,13 @@ export const Filters = ({
         if (name === 'gene' )  {
             __handleChange = handleGeneChange
             __selected = genes
-        } else if (name == 'organ') {
+        } else if (name === 'organ') {
             __handleChange = handleOrganChange
             __selected = organs
-        } else if (name == 'disease') {
+        } else if (name === 'disease') {
             __handleChange =  handleDiseaseChange
             __selected = diseases
-        } else if ( name == 'syndrome') {
+        } else if ( name === 'syndrome') {
             __handleChange =  handleSyndromeChange
             __selected = syndromes
         } else {
