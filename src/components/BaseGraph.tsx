@@ -113,8 +113,7 @@ export const BaseGraph = ( {
     const renderHover = () => {
         //Check if nodeHover is set, if then render card
         if (nodeHover) {
-            console.log('nodeType',(nodeHover as CustomNodeObject).nodeType)
-                console.log('renderHover xxxxxxxxxxxxxxx', (nodeHover as GeneNodeObject).nodeType)
+            console.log('renderHover xxxxxxxxxxxxxxx', (nodeHover as GeneNodeObject).nodeType)
             if ((nodeHover as GeneNodeObject).nodeType === 'gene') {
                 console.log('renderHover xxxxxxxxxxxxxxx', nodeHover)
                 const _node = nodeHover as GeneNodeObject; 

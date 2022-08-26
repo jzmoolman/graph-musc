@@ -173,7 +173,7 @@ export const  loadGeneData = async (driver: Driver | undefined,
             const source = row.get('g') 
             if (!ids.has(source.properties.name)) {
                 let node: GeneNodeObject = { 
-                    nodeType: 'organ',
+                    nodeType: 'gene',
                     id: source.identity,
                     name: source.properties.name,
                     fullName: source.properties.fullName,
