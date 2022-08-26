@@ -1,6 +1,5 @@
 
-import { ForceGraphMethods, NodeObject }  from 'react-force-graph-2d'
-import { nodeModuleNameResolver } from 'typescript'
+import { NodeObject }  from 'react-force-graph-2d'
 
 export type GraphScheme = {
     geneNode: string
@@ -55,27 +54,22 @@ export const ArrayToStr = (data: string[]) => {
 export interface CustomNodeObject extends NodeObject {
     name: string
     nodeType: string
+    nodeColor: string
     fontColor: string
     nodeVal: number
     nodeRelSize: number
     scaleFont: number
 }
 
-// Armando - support different card 
-export interface CustomSyndromeCardObject extends NodeObject {
-    name: string
-    hereditaryType: string
-    nodeType: string
-}
-
-export interface CustomGeneCardObject extends NodeObject {
-    name: string
-    nodeType: string
+export interface GeneNodeObject extends CustomNodeObject {
     fullName: string
-    geneAltName: string
+    altName: string
     description: string
 }
-// Armando - end
+
+export interface SyndromeNodeObject extends CustomNodeObject {
+    hereditaryType: string
+}
 
 export const paintNode = (node: NodeObject, ctx: CanvasRenderingContext2D, GlobalScale: number) => {
     const label = (node as CustomNodeObject).name

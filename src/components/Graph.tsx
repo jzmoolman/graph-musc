@@ -229,7 +229,7 @@ export const Graph = ( {
                         diseases={diseases}
                         finalVerdict={finalVerdict}
                         graphScheme={graphScheme}
-                        hover
+                        enableHover
                         enableZoom
                         onMouseOver={handleMouseOver}
                         onMouseOut={handleMouseOut}

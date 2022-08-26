@@ -1,5 +1,5 @@
 
-import { GraphScheme, Force2DData, ArrayToStr } from './graphtools'
+import { GraphScheme, Force2DData, ArrayToStr, GeneNodeObject } from './graphtools'
 import { Driver }  from  'neo4j-driver'
 
 
@@ -172,11 +172,12 @@ export const  loadGeneData = async (driver: Driver | undefined,
             let link  = { source: '', target: ''}
             const source = row.get('g') 
             if (!ids.has(source.properties.name)) {
-                let node = { 
+                let node: GeneNodeObject = { 
+                    nodeType: 'organ',
                     id: source.identity,
                     name: source.properties.name,
                     fullName: source.properties.fullName,
-                    geneAltName: source.properties.altName,
+                    altName: source.properties.altName,
                     description: source.properties.description,
                     nodeColor: graphScheme.geneNode, 
                     fontColor: graphScheme.geneFont,

@@ -1,9 +1,8 @@
-
 import { useState, useContext, useEffect, useRef, MutableRefObject } from 'react'
 import { Neo4jContext } from 'use-neo4j'
 import ForceGraph2D, { ForceGraphMethods, NodeObject }  from 'react-force-graph-2d'
 import { useNavigate } from 'react-router-dom'
-import { CustomNodeObject, CustomSyndromeCardObject, CustomGeneCardObject, Force2DData, GraphName, GraphScheme, paintNode } from '../tools/graphtools'
+import { CustomNodeObject,  Force2DData, GraphName, GraphScheme, paintNode, GeneNodeObject, SyndromeNodeObject } from '../tools/graphtools'
 import { defaultGraphScheme } from '../tools/graphtools';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
@@ -31,7 +30,7 @@ type BaseGraphProps = {
     diseases: string[]
     finalVerdict: string
     graphScheme: GraphScheme
-    hover?: boolean
+    enableHover?: boolean
     enableZoom?: boolean
     onClick?: () => void
     onMouseOver?: () => void  
@@ -48,7 +47,7 @@ export const BaseGraph = ( {
     diseases,
     finalVerdict,
     graphScheme,
-    hover,
+    enableHover,
     enableZoom,
     onClick,
     onMouseOver,
@@ -72,9 +71,10 @@ export const BaseGraph = ( {
     }
 
     const handleNodeHover = (node: NodeObject | null, previousNode: NodeObject | null) => {
+        console.log('handleNodeHover - enableHover', enableHover )
+        console.log('handleNodeHover - nodeHover', nodeHover )
         console.log('handleNodeHover - node', node)
-        console.log('handleNodeHover - hover', hover)
-        if ( !nodeHover && hover && node   ) {
+        if ( enableHover && nodeHover === null && node   ) {
             console.log('handleNodeHover - Enter', node)
             setNodeHover(node)
         }  
@@ -112,77 +112,79 @@ export const BaseGraph = ( {
 
     const renderHover = () => {
         //Check if nodeHover is set, if then render card
-        if ( nodeHover ) {
-            console.log('renderHover', nodeHover)
-            // console.log('renderHover', nodePosition)
-
-            if ((nodeHover as CustomNodeObject).nodeType === 'gene') {
-            return (ReactDOM.createPortal(
-                <Box
-                    className="nodeCard"
-                    sx={{
-                        position: "absolute",
-                        margin: "2px 0px 2px 0px",
-                        left: 20,
-                        top: 80,
-                        width: 300,
-                        height: 300
-                        
-                    }}
-                >
-                    <Card 
-                        sx={{ 
-                            border:0.1,
-                            minWidth:275, 
-                            borderColor: 'primary.main'
+        if (nodeHover) {
+            console.log('nodeType',(nodeHover as CustomNodeObject).nodeType)
+                console.log('renderHover xxxxxxxxxxxxxxx', (nodeHover as GeneNodeObject).nodeType)
+            if ((nodeHover as GeneNodeObject).nodeType === 'gene') {
+                console.log('renderHover xxxxxxxxxxxxxxx', nodeHover)
+                const _node = nodeHover as GeneNodeObject; 
+                return (ReactDOM.createPortal(
+                    <Box
+                        className="nodeCard"
+                        sx={{
+                            position: "absolute",
+                            margin: "2px 0px 2px 0px",
+                            left: 20,
+                            top: 80,
+                            width: 300,
+                            height: 300
+                            
                         }}
                     >
+                        <Card 
+                            sx={{ 
+                                border:0.1,
+                                minWidth:275, 
+                                borderColor: 'primary.main'
+                            }}
+                        >
 
-                        <CardHeader 
-                            title={(nodeHover as CustomNodeObject).name}
-                            // subheader={(nodeHover as CustomNodeObject).nodeType}
-                            action={
-                                <IconButton onClick={handleCardClose}  aria-label="close"> <CloseIcon />
-                                </IconButton>
-                        }
-                        />
-                        
-                        <CardContent>
-                            <Box>
-                                <BaseGraph
-                                drawerOpen={false}
-                                width={getWidth(1)}
-                                height={300}
-                                //name={((nodeHover as CustomNodeObject).nodeType as GraphName)}
-                                //Do we only want to show the disease grapgh each time?
-                                name='disease'
-                                genes={[(nodeHover as CustomNodeObject).name]}
-                                organs={[]}
-                                syndromes={[]}
-                                diseases={[]}
-                                finalVerdict='Confirmed'
-                                graphScheme={defaultGraphScheme}
-                                enableZoom={false}
-                                onClick={() => handleNodeTypeClick((nodeHover as CustomNodeObject).nodeType)}
+                            <CardHeader 
+                                title={_node.name}
+                                // subheader={(nodeHover as CustomNodeObject).nodeType}
+                                action={
+                                    <IconButton onClick={handleCardClose}  aria-label="close"> <CloseIcon />
+                                    </IconButton>
+                                }
                             />
-                                {/* // Armando */}
-                                <p>
-                                <b> Name: </b>  {(nodeHover as CustomGeneCardObject).fullName}
-                                </p>
-                                <p>
-                                <b> Alternate Names : </b>  {(nodeHover as CustomGeneCardObject).geneAltName}
-                                </p>
-                                <div>
-                                <b>  Description: </b> {(nodeHover as CustomGeneCardObject).description}
-                                </div>
-                                {/* // Armando - end */}
-                            </Box>
+                            
+                            <CardContent>
+                                <Box>
+                                    <BaseGraph
+                                        drawerOpen={false}
+                                        width={getWidth(1)}
+                                        height={300}
+                                        //name={((nodeHover as CustomNodeObject).nodeType as GraphName)}
+                                        //Do we only want to show the disease grapgh each time?
+                                        name='disease'
+                                        genes={[_node.name]}
+                                        organs={[]}
+                                        syndromes={[]}
+                                        diseases={[]}
+                                        finalVerdict='Confirmed'
+                                        graphScheme={defaultGraphScheme}
+                                        enableZoom={false}
+                                        onClick={() => handleNodeTypeClick(_node.nodeType)}
+                                    />
+                                    <p>
+                                        <b> Name: </b>  {_node.fullName}
+                                    </p>
+                                    <p>
+                                        <b> Alternate Names : </b>
+                                        {_node.altName}
+                                    </p>
+                                    <div>
+                                        <b>  Description: </b> 
+                                        {_node.description}
+                                    </div>
+                                </Box>
                             </CardContent>
                         </Card>
                     </Box>,
                     document.body
                 ))
             } else if ((nodeHover as CustomNodeObject).nodeType === 'organ'){
+                const _node = nodeHover as CustomNodeObject
                 return (ReactDOM.createPortal(
                     <Box
                         className="nodeCard"
@@ -203,37 +205,41 @@ export const BaseGraph = ( {
                             }}
                         >
                             <CardHeader 
-                                title={(nodeHover as CustomNodeObject).name}
+                                title={_node.name}
                                 // subheader={(nodeHover as CustomNodeObject).nodeType}
                                 action={
-                                    <IconButton onClick={handleCardClose}  aria-label="close"> <CloseIcon />
+                                    <IconButton 
+                                        onClick={handleCardClose}
+                                        aria-label="close"
+                                    >
+                                        <CloseIcon />
                                     </IconButton>
-                            }
-    
+                                }
                             />
                             <CardContent>
-                            <Box>
-                                <BaseGraph
-                                drawerOpen={false}
-                                width={getWidth(1)}
-                                height={300}
-                                name={((nodeHover as CustomNodeObject).nodeType as GraphName)}
-                                genes={[]}
-                                organs={[(nodeHover as CustomNodeObject).name]}
-                                syndromes={[]}
-                                diseases={[]}
-                                finalVerdict='Confirmed'
-                                graphScheme={defaultGraphScheme}
-                                enableZoom={false}
-                                onClick={() => handleNodeTypeClick((nodeHover as CustomNodeObject).nodeType)}
-                            />
-                            </Box>
+                                <Box>
+                                    <BaseGraph
+                                        drawerOpen={false}
+                                        width={getWidth(1)}
+                                        height={300}
+                                        name={((nodeHover as CustomNodeObject).nodeType as GraphName)}
+                                        genes={[]}
+                                        organs={[(nodeHover as CustomNodeObject).name]}
+                                        syndromes={[]}
+                                        diseases={[]}
+                                        finalVerdict='Confirmed'
+                                        graphScheme={defaultGraphScheme}
+                                        enableZoom={false}
+                                        onClick={() => handleNodeTypeClick((nodeHover as CustomNodeObject).nodeType)}
+                                    />
+                                </Box>
                             </CardContent>
                         </Card>
                     </Box>,
                     document.body
                 ))
             } else if ((nodeHover as CustomNodeObject).nodeType === 'disease'){
+                const _node = nodeHover as CustomNodeObject
                 return (ReactDOM.createPortal(
                     <Box
                         className="nodeCard"
@@ -265,18 +271,18 @@ export const BaseGraph = ( {
                             <CardContent>
                             <Box>
                                 <BaseGraph
-                                drawerOpen={false}
-                                width={getWidth(1)}
-                                height={300}
-                                name={((nodeHover as CustomNodeObject).nodeType as GraphName)}
-                                genes={[]}
-                                organs={[]}
-                                syndromes={[]}
-                                diseases={[(nodeHover as CustomNodeObject).name]}
-                                finalVerdict='Confirmed'
-                                graphScheme={defaultGraphScheme}
-                                enableZoom={false}
-                                onClick={() => handleNodeTypeClick((nodeHover as CustomNodeObject).nodeType)}
+                                    drawerOpen={false}
+                                    width={getWidth(1)}
+                                    height={300}
+                                    name={_node.nodeType as GraphName}
+                                    genes={[]}
+                                    organs={[]}
+                                    syndromes={[]}
+                                    diseases={[(nodeHover as CustomNodeObject).name]}
+                                    finalVerdict='Confirmed'
+                                    graphScheme={defaultGraphScheme}
+                                    enableZoom={false}
+                                    onClick={() => handleNodeTypeClick((nodeHover as CustomNodeObject).nodeType)}
                             />
                             </Box>
                             </CardContent>
@@ -285,7 +291,8 @@ export const BaseGraph = ( {
                     document.body
                 ))
             } else if ((nodeHover as CustomNodeObject).nodeType === 'syndrome'){
-                console.log('hereditaryType',(nodeHover as CustomSyndromeCardObject).hereditaryType)
+                const _node = nodeHover as SyndromeNodeObject
+                console.log('hereditaryType',_node.hereditaryType)
 
                 return (ReactDOM.createPortal(
                     <Box
@@ -320,19 +327,19 @@ export const BaseGraph = ( {
                                 drawerOpen={false}
                                 width={getWidth(1)}
                                 height={300}
-                                name={((nodeHover as CustomNodeObject).nodeType as GraphName)}
+                                name={_node.nodeType as GraphName}
                                 genes={[]}
                                 organs={[]}
-                                syndromes={[(nodeHover as CustomNodeObject).name]}
+                                syndromes={[_node.name]}
                                 diseases={[]}
                                 finalVerdict='Confirmed'
                                 graphScheme={defaultGraphScheme}
                                 enableZoom={false}
-                                onClick={() => handleNodeTypeClick((nodeHover as CustomNodeObject).nodeType)}
+                                onClick={() => handleNodeTypeClick(_node.nodeType)}
                             />
                             {/* // Armando */}
                             <p>
-                                <b> Inheritance Type: </b>  {(nodeHover as CustomSyndromeCardObject).hereditaryType}
+                                <b> Inheritance Type: </b>  {_node.hereditaryType}
                             </p>
                             {/* // Aramando - end */}
                             </Box>
