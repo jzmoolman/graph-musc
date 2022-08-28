@@ -387,7 +387,7 @@ export const HomeGraph = () => {
                         drawerOpen={false}
                         width={getWidth(3)}
                         height={300}
-                        name={'syndrome'}
+                        name='syndrome-disease'
                         genes={[]}
                         organs={[]}
                         syndromes={['Lynch Syndrome']}

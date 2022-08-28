@@ -11,7 +11,8 @@ import {
     loadGeneData,
     loadOrganData,
     loadDiseaseData,
-    loadSyndromeData
+    loadSyndromeDiseaseData,
+    loadSyndromeGeneDiseaseData
  } from '../tools/graphdata'
 import { Box, Card, CardContent, CardHeader } from '@mui/material'
 import ReactDOM from 'react-dom'
@@ -54,7 +55,7 @@ export const BaseGraph = ( {
     onMouseOut
 } : BaseGraphProps ) => {
 
-    console.log(`enter - ${name}Graph`)
+    console.log('enter - BaseGraph', name)
     
     const [nodeHover, setNodeHover] = useState<NodeObject|null>(null)
     // const [nodePosition, setNodePosition] = useState<{x:number, y:number}>({x:0 , y:0})
@@ -113,9 +114,7 @@ export const BaseGraph = ( {
     const renderHover = () => {
         //Check if nodeHover is set, if then render card
         if (nodeHover) {
-            console.log('renderHover xxxxxxxxxxxxxxx', (nodeHover as GeneNodeObject).nodeType)
             if ((nodeHover as GeneNodeObject).nodeType === 'gene') {
-                console.log('renderHover xxxxxxxxxxxxxxx', nodeHover)
                 const _node = nodeHover as GeneNodeObject; 
                 return (ReactDOM.createPortal(
                     <Box
@@ -368,17 +367,27 @@ export const BaseGraph = ( {
             setData(data)
         }
         console.log('Graph name',name)
-
-        if (name === 'gene') {
-          loadGeneData(driver, genes, organs,finalVerdict, graphScheme, onData)
-        } else if (name === 'organ') {
-          loadOrganData(driver, genes, organs, finalVerdict, graphScheme, onData)
-        } else if ( name === 'disease') {
-          loadDiseaseData(driver, diseases, genes, finalVerdict, graphScheme, onData)
-        } else if ( name === 'syndrome') {
-            console.log('before')
-          loadSyndromeData(driver, syndromes, organs, finalVerdict, graphScheme, onData)
-            console.log('after')
+        switch (name) {
+            case 'gene': {
+                loadGeneData(driver, genes, organs,finalVerdict, graphScheme, onData)
+                break
+            }
+            case 'organ': {
+                loadOrganData(driver, genes, organs, finalVerdict, graphScheme, onData)
+                break
+            }
+            case 'disease': {
+                loadDiseaseData(driver, diseases, genes, finalVerdict, graphScheme, onData)
+                break
+            }
+            case 'syndrome-disease': {
+                loadSyndromeDiseaseData(driver, syndromes, finalVerdict, graphScheme, onData)
+                break
+            }
+            case 'syndrome-gene-disease': {
+                loadSyndromeGeneDiseaseData(driver, syndromes, finalVerdict, graphScheme, onData)
+                break
+            }
         }
 
     },[ name, genes, organs, diseases, syndromes, finalVerdict, graphScheme] )

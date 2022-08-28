@@ -1,8 +1,47 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import  { Box, Divider, Typography } from '@mui/material'
 import { CustomSelect } from './CustomSelect'
-import { CustomDropdown } from './CustomDropdown'
 import { GraphName } from '../tools/graphtools'
+import { Dropdown } from './Dropdown'
+import { Neo4jContext } from 'use-neo4j'
+import { loadGene, loadOrgan, loadDisease, loadSyndrome } from '../tools/graphdata'
+
+const getGraphName = (name: string): GraphName => {
+    if (name === 'Disease') { 
+        return 'syndrome-disease'
+    } else if (name === 'Gene->Disease') {
+        return 'syndrome-gene-disease'
+    } else {
+        return 'syndrome-disease'
+    }
+}
+
+const getGraphDesc = (name: GraphName) => {
+    switch (name) {
+    case 'gene': 
+      return 'Gene'
+    case 'organ':
+        return 'Organ'
+    case 'disease':
+        return 'Disease'
+    case 'syndrome-disease':
+        return 'Syndrome'
+    case 'syndrome-gene-disease':
+        return 'Syndrome'
+    default:
+        return 'Unknown'
+    }
+}
+const getSubGraphDesc = (name: GraphName) => {
+    switch (name) {
+    case 'syndrome-disease':
+        return 'Disease'
+    case 'syndrome-gene-disease':
+        return 'Gene->Disease'
+    default:
+        return 'Disease'
+    }
+}
 
 type FiltersProps = {
     name: GraphName
@@ -11,6 +50,7 @@ type FiltersProps = {
     diseases: string[]
     syndromes: string[]
     finalVerdict: string
+    onGraphChange?: (name: GraphName) => void
     onGeneChange?: (selcetd: string[]) => void
     onOrganChange?: (selcetd: string[]) => void
     onDiseaseChange?: (selected: string[]) => void
@@ -25,12 +65,51 @@ export const Filters = ({
         diseases, 
         syndromes, 
         finalVerdict,
+        onGraphChange,
         onGeneChange,
         onOrganChange,
         onDiseaseChange,
         onSyndromeChange,
         onFinalVerdictChange
 } : FiltersProps ) => {
+    console.log('enter - Filters', name)
+
+    const context = useContext(Neo4jContext), driver = context.driver
+    const [data, setData] = useState<string[]>([])
+
+    useEffect(()=> {
+        console.log('useEffect', name)
+        switch (name) { 
+            case 'gene': {
+                loadGene(driver, handleData)
+                break;
+            }
+            case 'organ': {
+                loadOrgan(driver, handleData)
+                break;
+            }
+            case 'disease': {
+                loadDisease(driver, handleData)
+                break;
+            }
+            case 'syndrome-disease':
+            case 'syndrome-gene-disease': {
+                loadSyndrome(driver, handleData)
+            }
+        }
+        console.log('loading data')
+    },[])
+
+    const handleData = (data: string[]) => {
+        console.log('enter - handleData')
+        setData(data)
+    }
+
+    const handleGraphChange = (name: string) => {
+        if (onGraphChange) { 
+            onGraphChange(getGraphName(name))
+        }
+    }
 
     const handleGeneChange = (selected: string[]) => {
         if ( onGeneChange)
@@ -57,30 +136,29 @@ export const Filters = ({
             onFinalVerdictChange(verdict)
     }
 
-    const DisplayPanel = () => {
-        let __handleChange:  (data: string[])=>void
-        let __selected: string[]
-        if (name === 'gene' )  {
-            __handleChange = handleGeneChange
-            __selected = genes
-        } else if (name === 'organ') {
-            __handleChange = handleOrganChange
-            __selected = organs
-        } else if (name === 'disease') {
-            __handleChange =  handleDiseaseChange
-            __selected = diseases
-        } else if ( name === 'syndrome') {
-            __handleChange =  handleSyndromeChange
-            __selected = syndromes
-        } else {
-            __handleChange = handleGeneChange
-            __selected = genes
+    const getOnHandleChange = (name: GraphName) => {
+        switch (name) {
+            case 'gene':
+                return {handleChange: handleGeneChange, selected: genes}
+            case 'organ':
+                return {handleChange: handleOrganChange, selected: organs}
+            case 'disease':
+                return {handleChange: handleDiseaseChange, selected: diseases}
+            case 'syndrome-disease':
+            case 'syndrome-gene-disease':
+                return {handleChange: handleSyndromeChange, selected: syndromes}
+            default: 
+                return {handleChange: undefined, selected: []}
         }
+    }
 
-        type FilterHeaderProps = {
+    const DisplayPanel = () => {
+
+        type FilterProps = {
             name: GraphName
         }
-        const FilterHeader = ({name}:FilterHeaderProps) => {
+
+        const FilterHeader = ({name}:FilterProps) => {
             switch(name) {
                 case 'gene': {
                     return (
@@ -103,10 +181,11 @@ export const Filters = ({
                         </div>
                     )
                 }
-                case 'syndrome': {
+                case 'syndrome-disease': 
+                case 'syndrome-gene-disease': {
                     return (
                         <div>
-                            Select as many <span style={{color: 'yellow'}}>Syndromes</span> as you wish to see
+                            Select a syndrome graph and as many <span style={{color: 'yellow' , backgroundColor:'black'}}>Syndromes</span> as you wish to see
                         </div>
                     )
                 }
@@ -126,64 +205,70 @@ export const Filters = ({
             )
         }
 
+        const FilterGraph = ({name} : FilterProps) => {
+            switch(name) {
+                case 'syndrome-disease': 
+                case 'syndrome-gene-disease': {
+                    return (<>
+                        <CustomSelect 
+                            options={[
+                                {key:'1', value: getSubGraphDesc('syndrome-disease')},
+                                {key:'2', value: getSubGraphDesc('syndrome-gene-disease')}
+                            ]}
+                            label='Syndrome Graph' 
+                            defaultSelected={getSubGraphDesc(name)}
+                            onChange={handleGraphChange}
+                        />
+                    </>)
+                }
+                defualt: {
+                    return (<></>)
+                }
+            }
+            return (<></>)
+        }
+
         return (
             <> 
                 <Box
-                   display='flex'
-                   flex={1}
-                   flexDirection='column'
-
-                   sx={{
-                    color: 'grey',
-                    
-
-                   }}
+                    display='flex'
+                    flex={1}
+                    flexDirection='column'
+                    sx={{
+                        color: 'grey',
+                    }}
                 >
                     <Typography 
                         component='div'
-
                         sx={{
                             textAlign:'left',
                             marginLeft: 1,
                             color: 'black'
                         }}
-
-
                     >
                         <FilterHeader name={name}/>
-
-                        {/* Choose from the available filters  */}
                     </Typography>
-                {/* <Divider 
-                    sx={{
-                        marginLeft:'8px',
-                        marginBottom: '8px',
-                        width:'95%'}} 
-                /> */}
-
-                <CustomDropdown 
-                    name={name} 
-                    selected={__selected}
-                    onChange={__handleChange} />
-                <CustomSelect 
-                        options={
-                            [
-                                //Do not know how to get the key value yet
+                    <FilterGraph name={name}/> 
+                    <Dropdown 
+                        label={getGraphDesc(name)}
+                        options={data}
+                        selected={getOnHandleChange(name).selected}
+                        onChange={getOnHandleChange(name).handleChange}
+                    />
+                    <CustomSelect 
+                            options={[
                                 {key:'1', value: 'Confirmed'},
-                                {key:'9', value: 'Maybe'}]
-                                // {key:'0', value:  'Unknown'}]
-                        }
-                        label='Associations' 
-                        defaultSelected={finalVerdict}
-                        onChange={handleFinalVerdictChange}
-                />
-
+                                {key:'9', value: 'Maybe'}
+                            ]}
+                            label='Associations' 
+                            defaultSelected={finalVerdict}
+                            onChange={handleFinalVerdictChange}
+                    />
                 </Box>
 
             </>
         )     
     }
-
 
     return (
         <Box 

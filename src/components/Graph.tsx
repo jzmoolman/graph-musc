@@ -6,10 +6,9 @@ import { GraphScheme, defaultGraphScheme, GraphName } from '../tools/graphtools'
 import { BaseGraph } from './BaseGraph';
 import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { Filters } from './Filters';
 
-const drawerWidth = 350;
+const drawerWidth = 350; 
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })
     <{
@@ -60,7 +59,6 @@ type Dimension = {
     height: number
 }
 
-
 export const Graph = ( { 
     name, 
     open , 
@@ -69,7 +67,9 @@ export const Graph = ( {
     onMouseOut
 } : GraphProps) => {
     console.log('enter - Graph')
+    console.log('name', name)
 
+    const [graphName, setGraphName] = useState<GraphName>(name)
     const [graphScheme, setGraphScheme] = useState(defaultGraphScheme)
     const [genes, setGenes] = useState<string[]>([])
     const [organs, setOrgans] = useState<string[]>([])
@@ -81,8 +81,7 @@ export const Graph = ( {
     useEffect(()=>{
         console.log('Graph mounted')
         window.addEventListener("resize", handleResize )
-        setDim( {width: getWidth(), height: getHeight()},
-        )
+        setDim( {width: getWidth(), height: getHeight()},)
     },[])
 
     const handleResize = () => {
@@ -117,6 +116,11 @@ export const Graph = ( {
     const handleDrawerClose = () => {
         if (onChange)
             onChange(false)
+    }
+
+    const handleGraphChange = (name: GraphName) => {
+        console.log('handleGraph',  name)
+        setGraphName(() => { return name })
     }
 
     const handleGeneChange = (selected: string[]) => {
@@ -183,7 +187,7 @@ export const Graph = ( {
         if (syndromes.length !== 0 ) {
             setSyndromes([])
         }
-    } else if (name === 'syndrome' )  {
+    } else if ( name === 'syndrome-disease') {
         if (genes.length !== 0 ) {
             setGenes([])
         }
@@ -193,7 +197,18 @@ export const Graph = ( {
         if (diseases.length !== 0 ) {
             setDiseases([])
         }
-    }
+    } else if ( name === 'syndrome-gene-disease') {
+        if (genes.length !== 0 ) {
+            setGenes([])
+        }
+        if (organs.length !== 0 ) {
+            setOrgans([])
+        }
+        if (diseases.length !== 0 ) {
+            setDiseases([])
+        }
+    } 
+ 
 
     const DisplayPanel = () => {
         return (
@@ -222,7 +237,7 @@ export const Graph = ( {
                         drawerOpen={open}
                         width={getWidth()}
                         height={getHeight()}
-                        name={name}
+                        name={graphName}
                         genes={genes}
                         organs={organs}
                         syndromes={syndromes}
@@ -236,12 +251,13 @@ export const Graph = ( {
                     />
                 </Paper>
                 <Filters 
-                    name={name} 
+                    name={graphName} 
                     genes={genes} 
                     organs={organs} 
                     diseases={diseases}
                     syndromes={syndromes}
                     finalVerdict={finalVerdict}
+                    onGraphChange={handleGraphChange}
                     onGeneChange={handleGeneChange}
                     onOrganChange={handleOrganChange}
                     onDiseaseChange={handleDiseaseChange}

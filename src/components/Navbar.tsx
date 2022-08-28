@@ -101,14 +101,12 @@ export const Navbar = ( {open, onChange}: NavbarProps ) => {
                             Disease
                         </Button>
                         <Button 
-                            id='ui-syndrome-button'
+                            component={Link} 
+                            to='/graph/syndrome'
                             color='inherit'
-                            onClick={handleSyndromeClick}
-                            aria-controls={openSyndrome ? 'syndrome-menu': undefined}
-                            aria-haspopup='true'
-                            aria-expanded={openSyndrome ? 'true' : undefined}
-                            endIcon={<KeyboardArrowDownIcon/>}
-                        >Syndrome</Button>
+                        >
+                            Syndrome
+                       </Button>
                         <Button 
                             id='ui-button'
                             color='inherit'
