@@ -1,0 +1,24 @@
+
+MATCH (g:MGene)--() DETACH DELETE g;
+MATCH (d:Disease) DETACH DELETE d;
+
+MATCH (g:LKP_GENE_DETAILS)--(gg:LKP_GENECANCERFORPRINTOUT)
+WHERE g.In_Invitae84 = 1
+WITH gg, g
+MERGE (mg:MGene {name:gg.GeneMasterName, fullName:g.GeneFullName, finalVerdict:gg.FinalVerdict, mechanism: g.Mechanism} )
+MERGE (o:Organ {name:gg.Organ})
+CREATE (mg)-[:AFFECTS {name:gg.PredominantCancerSubtype}]->(o)
+MERGE (d:Disease {name:gg.DiseaseName})
+CREATE (mg)-[:CAUSE]->(d);
+
+MATCH (g:MGene)
+MATCH (n:LKP_GENE_AKA) 
+MATCH (gda:LKP_GENE_DISEASE_ASSOCIATION)
+WHERE  
+    g.name = n.GeneMasterName AND
+    g.name = gda.Gene_Name
+    
+WITH g,gda, apoc.text.join(collect(n.AltName), ',') as GeneAltName
+SET
+  g.altName = GeneAltName,
+  g.description = gda.Concatenated;

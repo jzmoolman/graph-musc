@@ -1,0 +1,43 @@
+// Syndrome
+MATCH (s:Syndrome) DETACH DELETE s;
+MATCH (n:LKP_GENE_SYNDROME)
+WHERE n.GeneMasterName <> 'Unknown'
+WITH collect(DISTINCT n.SyndromeMasterName) as names
+FOREACH ( name in names | MERGE (s:Syndrome {name:name}));
+
+MATCH (n)-[r:ATTR]-() DETACH DELETE r;
+MATCH (g:MGene)
+MATCH (gs:LKP_GENE_SYNDROME)
+MATCH (s:Syndrome)
+WHERE 
+    g.name = gs.GeneMasterName AND
+    gs.SyndromeMasterName = s.name
+CREATE (g)-[r:ATTR]->(s);
+
+//SyndromeVerbiage
+MATCH (sv:SydromeVerbiage) DETACH DELETE (sv);
+MATCH (n)-[r:ATTR2]-() DETACH DELETE r;
+
+MATCH (g:MGene)-[:ATTR]->(s:Syndrome)
+MATCH (v:LKP_SYNDROME_VERBIAGE) 
+WHERE 
+    s.name = v.SyndromeMasterName 
+
+WITH s, v, collect(v.HereditaryType) as verbiages
+CREATE (sv:SyndromeVerbiage {
+  name: v.SyndromeMasterName,
+  hereditaryType: (CASE WHEN apoc.coll.containsAll(verbiages, ['Dominant', 'Recessive']) THEN 'Dominant' WHEN apoc.coll.containsAll(verbiages, ['Dominant']) THEN 'Dominant' ELSE 'Recessive' END)
+})<-[:ATTR2]-(s);
+
+
+// MATCH (n)-[r:ATTR]-() DETACH DELETE r;
+
+// MATCH (g:MGene)
+// MATCH (gs:LKP_GENE_SYNDROME)
+// MATCH (sv:SyndromeVerbiage)
+// WHERE 
+//     g.name = gs.GeneMasterName AND
+//     sv.name = gs.SyndromeMasterName
+// CREATE (g)-[:ATTR]->(sv);
+
+
