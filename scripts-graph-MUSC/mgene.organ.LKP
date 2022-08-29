@@ -16,9 +16,9 @@ MATCH (n:LKP_GENE_AKA)
 MATCH (gda:LKP_GENE_DISEASE_ASSOCIATION)
 WHERE  
     g.name = n.GeneMasterName AND
-    g.name = gda.Gene_Name
-    
-WITH g,gda, apoc.text.join(collect(n.AltName), ',') as GeneAltName
+    g.name = gda.Gene_Name AND
+    n.DisplayAltNameGene = 1
+WITH g,gda, apoc.text.join(collect(n.AltNameGene), ',') as GeneAltName
 SET
   g.altName = GeneAltName,
   g.description = gda.Concatenated;

@@ -2,10 +2,8 @@
 MATCH (g:LKP_GENE_DETAILS) DETACH DELETE (g);
 
 // LOAD CSV WITH HEADERS FROM 'file:///LKP_Gene_Details.csv' AS row
-// LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/jzmoolman/_-data/master/LKP_Gene_Details.csv' AS row
+ LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/jzmoolman/_-data/master/LKP_Gene_Details.csv' AS row
 
-LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/jzmoolman/graph-musc/master/data-graph-MUSC/LKP_Gene_Details.csv' 
-AS row
 MERGE (g:LKP_GENE_DETAILS {
     GeneMasterName: coalesce(row.GeneMasterName,'Unknown'),
     GeneFullName: coalesce(row.GeneFullName,'Unknown'),
@@ -17,8 +15,7 @@ MERGE (g:LKP_GENE_DETAILS {
 MATCH (g:LKP_GENECANCERFORPRINTOUT) DELETE (g);
 
 //LOAD CSV WITH HEADERS FROM 'file:///LKP_GeneCancerForPrintout.csv' AS row
-LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/jzmoolman/graph-musc/master/data-graph-MUSC/LKP_GeneCancerForPrintout.csv'
-AS row
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/jzmoolman/_-data/master/LKP_GeneCancerForPrintout.csv' AS row
 WITH row   
 MERGE (g:LKP_GENECANCERFORPRINTOUT {
   GeneMasterName: coalesce(row.GeneMasterName,'Unknown'),
@@ -32,8 +29,7 @@ MERGE (g:LKP_GENECANCERFORPRINTOUT {
 
 
 MATCH (s:LKP_GENE_SYNDROME) DELETE (s);
-LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/jzmoolman/graph-musc/master/data-graph-MUSC/LKP_Gene_Syndrome.csv'
-AS row
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/jzmoolman/_-data/master/LKP_Gene_Syndrome.csv' AS row
 WITH row   
 MERGE (s:LKP_GENE_SYNDROME {
   GeneMasterName: coalesce(row.GeneMasterName,'Unknown'),
@@ -41,7 +37,8 @@ MERGE (s:LKP_GENE_SYNDROME {
 });
 
 MATCH (s:LKP_GENE_DISEASE_ASSOCIATION) DELETE (s);
-LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/jzmoolman/graph-musc/master/data-graph-MUSC/Gene_Disease_Association.csv'
+LOAD CSV WITH HEADERS FROM
+'https://raw.githubusercontent.com/jzmoolman/_-data/master/Gene_Disease_Association.csv'
 AS row
 WITH row
 MERGE (s:LKP_GENE_DISEASE_ASSOCIATION {
@@ -50,14 +47,15 @@ MERGE (s:LKP_GENE_DISEASE_ASSOCIATION {
 });
 
 MATCH (s:LKP_GENE_AKA) DELETE (s);
-LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/jzmoolman/graph-musc/master/data-graph-MUSC/LKP_Gene_AKA.csv'
-AS row 
+LOAD CSV WITH HEADERS FROM
+'https://raw.githubusercontent.com/jzmoolman/_-data/master/LKP_Gene_AKA.csv' 
+AS row
 WITH row
 //where row.DisplayAltNameGene = "1"
 MERGE (s:LKP_GENE_AKA {
     GeneMasterName: coalesce(row.GeneMasterName,'Unknown'),
-    AltNameGene: coalesce(row.AltNameGene,'Unknown'),
-    DisplayAltNameGene: coalesce(toInteger(row.DisplayAltNameGene),0)
+    AltName: coalesce(row.AltNameGene,'Unknown'),
+    DisplayAltName: row.DisplayAltNameGene
 });
 
 // Create Relationships between LKP's
@@ -69,8 +67,8 @@ WHERE g.GeneMasterName = gg.GeneMasterName
 MERGE (g)-[:LKP_GENE]->(gg);
 
 MATCH (s:LKP_SYNDROME_VERBIAGE) DELETE (s);
-LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/jzmoolman/graph-musc/master/data-graph-MUSC/LKP_SyndromeVerbiage.csv'
-AS row
+LOAD CSV WITH HEADERS FROM
+'https://raw.githubusercontent.com/jzmoolman/_-data/master/LKP_SyndromeVerbiage.csv' AS row
 WITH row   
 MERGE (s:LKP_SYNDROME_VERBIAGE {
   SyndromeMasterName: coalesce(row['SyndromeMasterName'],'Unknown'),
