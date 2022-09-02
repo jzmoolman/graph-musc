@@ -8,7 +8,9 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 
 import { 
-    loadGeneData,
+    loadGeneOrganData,
+    loadGeneDiseaseData,
+    loadGeneSubtypeData,
     loadOrganData,
     loadDiseaseData,
     loadSyndromeDiseaseData,
@@ -368,8 +370,16 @@ export const BaseGraph = ( {
         }
         console.log('Graph name',name)
         switch (name) {
-            case 'gene': {
-                loadGeneData(driver, genes, organs,finalVerdict, graphScheme, onData)
+            case 'gene-organ': {
+                loadGeneOrganData(driver, genes, organs,finalVerdict, graphScheme, onData)
+                break
+            }
+            case 'gene-disease': {
+                loadGeneDiseaseData(driver, genes, finalVerdict, graphScheme, onData)
+                break
+            }
+            case 'gene-subtype': {
+                loadGeneSubtypeData(driver, genes, organs,finalVerdict, graphScheme, onData)
                 break
             }
             case 'organ': {

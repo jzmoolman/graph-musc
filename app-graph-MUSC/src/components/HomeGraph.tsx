@@ -263,7 +263,7 @@ export const HomeGraph = () => {
                         drawerOpen={false}
                         width={getWidth(1)}
                         height={300}
-                        name={'gene'}
+                        name={'gene-organ'}
                         genes={['BRCA1','BRCA2']}
                         organs={[]}
                         syndromes={[]}

@@ -157,58 +157,69 @@ export const Graph = ( {
             onMouseOut()
     }
 
-    if (name === 'gene' )  {
-        if (organs.length !== 0 ) {
-            setOrgans([])
+    switch (name) { 
+        case 'gene-organ':
+        case 'gene-disease': 
+        case 'gene-subtype': {
+            if (organs.length !== 0 ) {
+                setOrgans([])
+            }
+            if (syndromes.length !== 0 ) {
+                setSyndromes([])
+            }
+            if (diseases.length !== 0 ) {
+                setDiseases([])
+            }
+            break
         }
-        if (syndromes.length !== 0 ) {
-            setSyndromes([])
+        case 'organ': {
+            if (genes.length !== 0 ) {
+                setGenes([])
+            }
+            if (diseases.length !== 0 ) {
+                setDiseases([])
+            }
+            if (syndromes.length !== 0 ) {
+                setSyndromes([])
+            }
+            break
+        } 
+        case 'disease': {
+            if (genes.length !== 0 ) {
+                setGenes([])
+            }
+            if (organs.length !== 0 ) {
+                setOrgans([])
+            }
+            if (syndromes.length !== 0 ) {
+                setSyndromes([])
+            }
+            break
         }
-        if (diseases.length !== 0 ) {
-            setDiseases([])
+        case  'syndrome-disease': {
+            if (genes.length !== 0 ) {
+                setGenes([])
+            }
+            if (organs.length !== 0 ) {
+                setOrgans([])
+            }
+            if (diseases.length !== 0 ) {
+                setDiseases([])
+            }
+            break
         }
-    } else if (name === 'organ' )  {
-        if (genes.length !== 0 ) {
-            setGenes([])
-        }
-        if (diseases.length !== 0 ) {
-            setDiseases([])
-        }
-        if (syndromes.length !== 0 ) {
-            setSyndromes([])
-        }
-    } else if (name === 'disease' )  {
-        if (genes.length !== 0 ) {
-            setGenes([])
-        }
-        if (organs.length !== 0 ) {
-            setOrgans([])
-        }
-        if (syndromes.length !== 0 ) {
-            setSyndromes([])
-        }
-    } else if ( name === 'syndrome-disease') {
-        if (genes.length !== 0 ) {
-            setGenes([])
-        }
-        if (organs.length !== 0 ) {
-            setOrgans([])
-        }
-        if (diseases.length !== 0 ) {
-            setDiseases([])
-        }
-    } else if ( name === 'syndrome-gene-disease') {
-        if (genes.length !== 0 ) {
-            setGenes([])
-        }
-        if (organs.length !== 0 ) {
-            setOrgans([])
-        }
-        if (diseases.length !== 0 ) {
-            setDiseases([])
-        }
-    } 
- 
+        case 'syndrome-gene-disease': {
+            if (genes.length !== 0 ) {
+                setGenes([])
+            }
+            if (organs.length !== 0 ) {
+                setOrgans([])
+            }
+            if (diseases.length !== 0 ) {
+                setDiseases([])
+            }
+        } 
+    }
 
     const DisplayPanel = () => {
         return (

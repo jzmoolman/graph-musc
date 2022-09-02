@@ -1,7 +1,0 @@
-{
-    "scripts": {
-        "heroku-prebuild": "cd app-graph-MUSC && yarn install && yarn build",
-        "start": "cd app_graph-MUSC && yarn start"
-    }
-
-}

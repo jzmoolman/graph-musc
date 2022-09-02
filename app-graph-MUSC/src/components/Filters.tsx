@@ -7,40 +7,38 @@ import { Neo4jContext } from 'use-neo4j'
 import { loadGene, loadOrgan, loadDisease, loadSyndrome } from '../tools/graphdata'
 
 const getGraphName = (name: string): GraphName => {
-    if (name === 'Disease') { 
-        return 'syndrome-disease'
-    } else if (name === 'Gene->Disease') {
-        return 'syndrome-gene-disease'
-    } else {
-        return 'syndrome-disease'
+    switch (name) {
+        case 'Gene - Organ': return 'gene-organ'
+        case 'Gene - Disease': return 'gene-disease'
+        case 'Gene - Subtype': return 'gene-subtype'
+        case 'Syndrome - Disease': return 'syndrome-disease'
+        case 'Sydnrome - Gene - Disease': return 'syndrome-gene-disease'
     }
+    return 'gene-organ'
 }
 
 const getGraphDesc = (name: GraphName) => {
     switch (name) {
-    case 'gene': 
-      return 'Gene'
-    case 'organ':
-        return 'Organ'
-    case 'disease':
-        return 'Disease'
-    case 'syndrome-disease':
-        return 'Syndrome'
-    case 'syndrome-gene-disease':
-        return 'Syndrome'
-    default:
-        return 'Unknown'
+        case 'gene-organ': return 'Gene'
+        case 'gene-disease': return 'Gene'
+        case 'gene-subtype': return 'Gene'
+        case 'organ': return 'Organ'
+        case 'disease': return 'Disease'
+        case 'syndrome-disease': return 'Syndrome'
+        case 'syndrome-gene-disease': return 'Syndrome'
+        default: return 'Unknown'
     }
 }
 const getSubGraphDesc = (name: GraphName) => {
     switch (name) {
-    case 'syndrome-disease':
-        return 'Disease'
-    case 'syndrome-gene-disease':
-        return 'Gene->Disease'
-    default:
-        return 'Disease'
-    }
+        case 'gene-organ': return 'Gene - Organ';
+        case 'gene-disease': return 'Gene - Disease'
+        case 'gene-subtype': return 'Gene - Subtype'
+        case 'syndrome-disease': return 'Syndrome - Disease'
+        case 'syndrome-gene-disease': return 'Syndrome - Gene - disease'
+        default:
+            return 'Gene - Organ'
+        }
 }
 
 type FiltersProps = {
@@ -80,7 +78,9 @@ export const Filters = ({
     useEffect(()=> {
         console.log('useEffect', name)
         switch (name) { 
-            case 'gene': {
+            case 'gene-organ': 
+            case 'gene-disease': 
+            case 'gene-subtype':  {
                 loadGene(driver, handleData)
                 break;
             }
@@ -138,7 +138,9 @@ export const Filters = ({
 
     const getOnHandleChange = (name: GraphName) => {
         switch (name) {
-            case 'gene':
+            case 'gene-organ':
+            case 'gene-disease':
+            case 'gene-subtype':
                 return {handleChange: handleGeneChange, selected: genes}
             case 'organ':
                 return {handleChange: handleOrganChange, selected: organs}
@@ -160,7 +162,10 @@ export const Filters = ({
 
         const FilterHeader = ({name}:FilterProps) => {
             switch(name) {
-                case 'gene': {
+                case 'gene-organ':
+                case 'gene-disease':
+                case 'gene-subtype':
+                {
                     return (
                         <div>
                             Select as many <span style={{color: 'blue'}}>Genes</span> as you wish to see
@@ -207,6 +212,21 @@ export const Filters = ({
 
         const FilterGraph = ({name} : FilterProps) => {
             switch(name) {
+                case 'gene-organ':
+                case 'gene-disease':
+                case 'gene-subtype':
+                    return (<>
+                        <CustomSelect 
+                            options={[
+                                {key:'1', value: getSubGraphDesc('gene-organ')},
+                                {key:'2', value: getSubGraphDesc('gene-disease')},
+                                {key:'3', value: getSubGraphDesc('gene-subtype')}
+                            ]}
+                            label='Gene Graph' 
+                            defaultSelected={getSubGraphDesc(name)}
+                            onChange={handleGraphChange}
+                        />
+                    </>)
                 case 'syndrome-disease': 
                 case 'syndrome-gene-disease': {
                     return (<>

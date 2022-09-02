@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useInsertionEffect } from 'react'
 import { Theme, useTheme } from '@mui/material/styles';
 import { useState } from 'react'
-import { Box,  Chip, InputLabel, MenuItem, OutlinedInput, FormControl } from '@mui/material'
+import { Box,  Chip, InputLabel, MenuItem, OutlinedInput, FormControl, FilledInput, Input } from '@mui/material'
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 const ITEM_HEIGHT = 48;
@@ -82,15 +82,14 @@ export const Dropdown = ({label, options,selected, onChange} : DropdownProps) =>
           </InputLabel>
           <Select 
             ref={ref}
-            // sx={{size}}
-            
             size='small'
             labelId='multiple-dropdown-label'
             id='multiple-doropdown'
             multiple
             value={values} 
             onChange={handleChange}
-            input={<OutlinedInput label={label} />}
+            //input={<OutlinedInput label={label} />}
+            input={<Input />}
             renderValue={(selected)=>(
               <Box sx={{display: 'flex', flexWrap: 'wrap', gap:0.25 }}>
                 {selected.map(( value)=> (

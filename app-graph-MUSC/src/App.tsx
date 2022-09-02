@@ -36,7 +36,7 @@ export const App = () => {
         >
           <Routes>
             <Route path='/' element={<HomeGraph/>}/>
-            <Route path='/graph/gene' element={<Graph name='gene' open={openDrawer} onChange={handleDrawerChange} />} />
+            <Route path='/graph/gene' element={<Graph name='gene-organ' open={openDrawer} onChange={handleDrawerChange} />} />
             <Route path='/graph/organ' element={<Graph name='organ'open={openDrawer} onChange={handleDrawerChange} />} />
             <Route path='/graph/disease' element={<Graph name='disease' open={openDrawer} onChange={handleDrawerChange} />} />
             <Route path='/graph/syndrome' element={<Graph name='syndrome-disease' open={openDrawer} onChange={handleDrawerChange} />} />
