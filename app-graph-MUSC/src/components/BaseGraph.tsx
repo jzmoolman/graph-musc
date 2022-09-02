@@ -58,10 +58,13 @@ export const BaseGraph = ( {
     console.log('enter - BaseGraph', name)
     
     const [nodeHover, setNodeHover] = useState<NodeObject|null>(null)
+    const [nodeClick, setNodeClick] = useState<boolean>(false)
+
     // const [nodePosition, setNodePosition] = useState<{x:number, y:number}>({x:0 , y:0})
 
     const handleCardClose = () => {
         setNodeHover(null);
+        setNodeClick(false);
       };
 
     const handleMouseMove: React.MouseEventHandler<HTMLDivElement> = (e)  => {
@@ -71,15 +74,15 @@ export const BaseGraph = ( {
         // setNodePosition(position)
     }
 
-    const handleNodeHover = (node: NodeObject | null, previousNode: NodeObject | null) => {
-        console.log('handleNodeHover - enableHover', enableHover )
-        console.log('handleNodeHover - nodeHover', nodeHover )
-        console.log('handleNodeHover - node', node)
-        if ( enableHover && nodeHover === null && node   ) {
-            console.log('handleNodeHover - Enter', node)
-            setNodeHover(node)
-        }  
-    }
+    //const handleNodeHover = (node: NodeObject | null, previousNode: NodeObject | null) => {
+    //    console.log('handleNodeHover - enableHover', enableHover )
+    //    console.log('handleNodeHover - nodeHover', nodeHover )
+    //    console.log('handleNodeHover - node', node)
+    //    if ( enableHover && nodeHover === null && node   ) {
+    //        console.log('handleNodeHover - Enter', node)
+    //        setNodeHover(node)
+    //    }  
+    //}
 
     const handleClick:React.MouseEventHandler<HTMLDivElement> = (event) => {
         console.log('onClick')
@@ -91,6 +94,12 @@ export const BaseGraph = ( {
     const handleNodeClick = (node: NodeObject, event: MouseEvent  ) => {
         console.log('node', node)
         console.log('evet', event)
+        setNodeClick(true);
+        setNodeHover(node);
+        if ( enableHover && nodeHover === null && node) {
+            console.log('handleNodeHover - Enter', node)
+            setNodeHover(node)
+        }  
     }
 
     const navigate = useNavigate()
@@ -113,7 +122,7 @@ export const BaseGraph = ( {
 
     const renderHover = () => {
         //Check if nodeHover is set, if then render card
-        if (nodeHover) {
+        if (nodeClick) {
             if ((nodeHover as GeneNodeObject).nodeType === 'gene') {
                 const _node = nodeHover as GeneNodeObject; 
                 return (ReactDOM.createPortal(
@@ -325,7 +334,7 @@ export const BaseGraph = ( {
                                 drawerOpen={false}
                                 width={getWidth(1)}
                                 height={300}
-                                name={_node.nodeType as GraphName}
+                                name={'syndrome-disease' as GraphName}
                                 genes={[]}
                                 organs={[]}
                                 syndromes={[_node.name]}
@@ -438,7 +447,7 @@ export const BaseGraph = ( {
                 nodeRelSize={graphScheme.nodeRelSize}
                 nodeCanvasObjectMode={() => 'after'} 
                 nodeCanvasObject={paintNode}
-                onNodeHover={handleNodeHover}
+                //onNodeHover={handleNodeHover}
                 onNodeClick={handleNodeClick}
                 enableZoomInteraction={enableZoom}
             />
