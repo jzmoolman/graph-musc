@@ -7,6 +7,7 @@ import { defaultGraphScheme } from '../tools/graphtools';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 
+
 import { 
     loadGeneOrganData,
     loadGeneDiseaseData,
@@ -60,10 +61,13 @@ export const BaseGraph = ( {
     console.log('enter - BaseGraph', name)
     
     const [nodeHover, setNodeHover] = useState<NodeObject|null>(null)
+    const [nodeClick, setNodeClick] = useState<boolean>(false)
+
     // const [nodePosition, setNodePosition] = useState<{x:number, y:number}>({x:0 , y:0})
 
     const handleCardClose = () => {
         setNodeHover(null);
+        setNodeClick(false);
       };
 
     const handleMouseMove: React.MouseEventHandler<HTMLDivElement> = (e)  => {
@@ -73,15 +77,15 @@ export const BaseGraph = ( {
         // setNodePosition(position)
     }
 
-    const handleNodeHover = (node: NodeObject | null, previousNode: NodeObject | null) => {
-        console.log('handleNodeHover - enableHover', enableHover )
-        console.log('handleNodeHover - nodeHover', nodeHover )
-        console.log('handleNodeHover - node', node)
-        if ( enableHover && nodeHover === null && node   ) {
-            console.log('handleNodeHover - Enter', node)
-            setNodeHover(node)
-        }  
-    }
+    //const handleNodeHover = (node: NodeObject | null, previousNode: NodeObject | null) => {
+    //    console.log('handleNodeHover - enableHover', enableHover )
+    //    console.log('handleNodeHover - nodeHover', nodeHover )
+    //    console.log('handleNodeHover - node', node)
+    //    if ( enableHover && nodeHover === null && node   ) {
+    //        console.log('handleNodeHover - Enter', node)
+    //        setNodeHover(node)
+    //    }  
+    //}
 
     const handleClick:React.MouseEventHandler<HTMLDivElement> = (event) => {
         console.log('onClick')
@@ -93,6 +97,12 @@ export const BaseGraph = ( {
     const handleNodeClick = (node: NodeObject, event: MouseEvent  ) => {
         console.log('node', node)
         console.log('evet', event)
+        setNodeClick(true);
+        setNodeHover(node);
+        if ( enableHover && nodeHover === null && node) {
+            console.log('handleNodeHover - Enter', node)
+            setNodeHover(node)
+        }  
     }
 
     const navigate = useNavigate()
@@ -115,7 +125,7 @@ export const BaseGraph = ( {
 
     const renderHover = () => {
         //Check if nodeHover is set, if then render card
-        if (nodeHover) {
+        if (nodeClick) {
             if ((nodeHover as GeneNodeObject).nodeType === 'gene') {
                 const _node = nodeHover as GeneNodeObject; 
                 return (ReactDOM.createPortal(
@@ -126,8 +136,22 @@ export const BaseGraph = ( {
                             margin: "2px 0px 2px 0px",
                             left: 20,
                             top: 80,
-                            width: 300,
-                            height: 300
+                            width: 350,
+                            height: 600,
+                            overflow:"auto",
+                            scrollbarWidth: 'thin',
+                            '&::-webkit-scrollbar': {
+                                width: '0.4em',
+                            },
+                            '&::-webkit-scrollbar-track': {
+                                background: "#f1f1f1",
+                            },
+                            '&::-webkit-scrollbar-thumb': {
+                                backgroundColor: '#888',
+                            },
+                            '&::-webkit-scrollbar-thumb:hover': {
+                                background: '#555'
+                            }
                             
                         }}
                     >
@@ -152,7 +176,7 @@ export const BaseGraph = ( {
                                 <Box>
                                     <BaseGraph
                                         drawerOpen={false}
-                                        width={getWidth(1)}
+                                        width={325}
                                         height={300}
                                         //name={((nodeHover as CustomNodeObject).nodeType as GraphName)}
                                         //Do we only want to show the disease grapgh each time?
@@ -193,7 +217,7 @@ export const BaseGraph = ( {
                             margin: "2px 0px 2px 0px",
                             left: 20,
                             top: 80,
-                            width: 250,
+                            width: 350,
                             height: 300
                         }}
                     >
@@ -220,7 +244,7 @@ export const BaseGraph = ( {
                                 <Box>
                                     <BaseGraph
                                         drawerOpen={false}
-                                        width={getWidth(1)}
+                                        width={325}
                                         height={300}
                                         name={((nodeHover as CustomNodeObject).nodeType as GraphName)}
                                         genes={[]}
@@ -248,7 +272,7 @@ export const BaseGraph = ( {
                             margin: "2px 0px 2px 0px",
                             left: 20,
                             top: 80,
-                            width: 250,
+                            width: 350,
                             height: 300
                         }}
                     >
@@ -272,7 +296,7 @@ export const BaseGraph = ( {
                             <Box>
                                 <BaseGraph
                                     drawerOpen={false}
-                                    width={getWidth(1)}
+                                    width={325}
                                     height={300}
                                     name={_node.nodeType as GraphName}
                                     genes={[]}
@@ -302,7 +326,7 @@ export const BaseGraph = ( {
                             margin: "2px 0px 2px 0px",
                             left: 20,
                             top: 80,
-                            width: 250,
+                            width: 350,
                             height: 300
                         }}
                     >
@@ -325,9 +349,9 @@ export const BaseGraph = ( {
                             <Box>
                                 <BaseGraph
                                 drawerOpen={false}
-                                width={getWidth(1)}
+                                width={325}
                                 height={300}
-                                name={_node.nodeType as GraphName}
+                                name={'syndrome-disease' as GraphName}
                                 genes={[]}
                                 organs={[]}
                                 syndromes={[_node.name]}
@@ -448,7 +472,7 @@ export const BaseGraph = ( {
                 nodeRelSize={graphScheme.nodeRelSize}
                 nodeCanvasObjectMode={() => 'after'} 
                 nodeCanvasObject={paintNode}
-                onNodeHover={handleNodeHover}
+                //onNodeHover={handleNodeHover}
                 onNodeClick={handleNodeClick}
                 enableZoomInteraction={enableZoom}
             />
