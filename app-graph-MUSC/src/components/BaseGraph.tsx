@@ -7,6 +7,7 @@ import { defaultGraphScheme } from '../tools/graphtools';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 
+
 import { 
     loadGeneData,
     loadOrganData,
@@ -133,8 +134,22 @@ export const BaseGraph = ( {
                             margin: "2px 0px 2px 0px",
                             left: 20,
                             top: 80,
-                            width: 300,
-                            height: 300
+                            width: 350,
+                            height: 600,
+                            overflow:"auto",
+                            scrollbarWidth: 'thin',
+                            '&::-webkit-scrollbar': {
+                                width: '0.4em',
+                            },
+                            '&::-webkit-scrollbar-track': {
+                                background: "#f1f1f1",
+                            },
+                            '&::-webkit-scrollbar-thumb': {
+                                backgroundColor: '#888',
+                            },
+                            '&::-webkit-scrollbar-thumb:hover': {
+                                background: '#555'
+                            }
                             
                         }}
                     >
@@ -159,7 +174,7 @@ export const BaseGraph = ( {
                                 <Box>
                                     <BaseGraph
                                         drawerOpen={false}
-                                        width={getWidth(1)}
+                                        width={325}
                                         height={300}
                                         //name={((nodeHover as CustomNodeObject).nodeType as GraphName)}
                                         //Do we only want to show the disease grapgh each time?
@@ -200,7 +215,7 @@ export const BaseGraph = ( {
                             margin: "2px 0px 2px 0px",
                             left: 20,
                             top: 80,
-                            width: 250,
+                            width: 350,
                             height: 300
                         }}
                     >
@@ -227,7 +242,7 @@ export const BaseGraph = ( {
                                 <Box>
                                     <BaseGraph
                                         drawerOpen={false}
-                                        width={getWidth(1)}
+                                        width={325}
                                         height={300}
                                         name={((nodeHover as CustomNodeObject).nodeType as GraphName)}
                                         genes={[]}
@@ -255,7 +270,7 @@ export const BaseGraph = ( {
                             margin: "2px 0px 2px 0px",
                             left: 20,
                             top: 80,
-                            width: 250,
+                            width: 350,
                             height: 300
                         }}
                     >
@@ -279,7 +294,7 @@ export const BaseGraph = ( {
                             <Box>
                                 <BaseGraph
                                     drawerOpen={false}
-                                    width={getWidth(1)}
+                                    width={325}
                                     height={300}
                                     name={_node.nodeType as GraphName}
                                     genes={[]}
@@ -309,7 +324,7 @@ export const BaseGraph = ( {
                             margin: "2px 0px 2px 0px",
                             left: 20,
                             top: 80,
-                            width: 250,
+                            width: 350,
                             height: 300
                         }}
                     >
@@ -332,7 +347,7 @@ export const BaseGraph = ( {
                             <Box>
                                 <BaseGraph
                                 drawerOpen={false}
-                                width={getWidth(1)}
+                                width={325}
                                 height={300}
                                 name={'syndrome-disease' as GraphName}
                                 genes={[]}
