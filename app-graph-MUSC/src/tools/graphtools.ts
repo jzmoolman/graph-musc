@@ -23,7 +23,7 @@ export const defaultGraphScheme: GraphScheme = {
     organFont: 'White',
     diseaseNode: 'Purple',
     diseaseFont: 'White',
-    syndromeNode: 'Yellow',
+    syndromeNode: '#E8E10C',
     syndromeFont: 'Black', 
     nodeVal: 1,
     nodeRelSize: 7,
