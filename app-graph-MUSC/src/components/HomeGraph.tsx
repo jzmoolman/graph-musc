@@ -493,7 +493,7 @@ export const HomeGraph = () => {
                 This website provides visualizations of cancer susceptibility genes and gene combinations
             </Typography>
         </Box>
-        <Box>
+        <Box display='flex'>
             <Typography 
                 textAlign='left'
                 width='100%'
