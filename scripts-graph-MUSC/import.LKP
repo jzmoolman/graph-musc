@@ -27,8 +27,8 @@ MERGE (g:LKP_GENECANCERFORPRINTOUT {
   Organ: coalesce(row.Organ,'Unknown'),
   DiseaseName: coalesce(row.DiseaseName,'Unknown'),
   DiseaseType: coalesce(row.DiseaseType,'Unknown'),
-  FinalVerdict: coalesce(toInteger(row.FinalVerdict),9)
-  PredominantCancerSubtype: coalesce(row.PredominantCancerSubtype,'Unknown'),
+  FinalVerdict: coalesce(toInteger(row.FinalVerdict),9),
+  PredominantCancerSubtype: coalesce(row.PredominantCancerSubtype,'Unknown')
 
 });
 

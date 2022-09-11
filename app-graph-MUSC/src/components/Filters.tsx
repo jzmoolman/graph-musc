@@ -12,7 +12,7 @@ const getGraphName = (name: string): GraphName => {
         case 'Gene - Disease': return 'gene-disease'
         case 'Gene - Subtype': return 'gene-subtype'
         case 'Syndrome - Disease': return 'syndrome-disease'
-        case 'Sydnrome - Gene - Disease': return 'syndrome-gene-disease'
+        case 'Syndrome - Gene - Disease': return 'syndrome-gene-disease'
     }
     return 'gene-organ'
 }
@@ -35,7 +35,7 @@ const getSubGraphDesc = (name: GraphName) => {
         case 'gene-disease': return 'Gene - Disease'
         case 'gene-subtype': return 'Gene - Subtype'
         case 'syndrome-disease': return 'Syndrome - Disease'
-        case 'syndrome-gene-disease': return 'Syndrome - Gene - disease'
+        case 'syndrome-gene-disease': return 'Syndrome - Gene - Disease'
         default:
             return 'Gene - Organ'
         }
@@ -106,6 +106,7 @@ export const Filters = ({
     }
 
     const handleGraphChange = (name: string) => {
+        console.log('handlegraphChange', name, getGraphName(name))
         if (onGraphChange) { 
             onGraphChange(getGraphName(name))
         }
@@ -222,7 +223,7 @@ export const Filters = ({
                                 {key:'2', value: getSubGraphDesc('gene-disease')},
                                 {key:'3', value: getSubGraphDesc('gene-subtype')}
                             ]}
-                            label='Gene Graph' 
+                            label='Graph' 
                             defaultSelected={getSubGraphDesc(name)}
                             onChange={handleGraphChange}
                         />
@@ -235,7 +236,7 @@ export const Filters = ({
                                 {key:'1', value: getSubGraphDesc('syndrome-disease')},
                                 {key:'2', value: getSubGraphDesc('syndrome-gene-disease')}
                             ]}
-                            label='Syndrome Graph' 
+                            label='Graph' 
                             defaultSelected={getSubGraphDesc(name)}
                             onChange={handleGraphChange}
                         />

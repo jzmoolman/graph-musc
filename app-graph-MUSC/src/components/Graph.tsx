@@ -1,4 +1,4 @@
-import React, { useState, memo, useEffect } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { styled, useTheme } from '@mui/material/styles'
 import  { Box, Divider, useColorScheme, Paper, Drawer, Typography } from '@mui/material'
 import { Configuration } from './Configuration';
@@ -70,6 +70,17 @@ export const Graph = ( {
     console.log('name', name)
 
     const [graphName, setGraphName] = useState<GraphName>(name)
+    // const [refresh, setRefresh] = useState(true)
+    const refresh = useRef(true)
+    if ( refresh.current) {
+        refresh.current = true;
+        if ( graphName !== name) {
+           setGraphName(name)
+        }
+    }
+
+
+
     console.log('graphName', graphName)
     const [graphScheme, setGraphScheme] = useState(defaultGraphScheme)
     const [genes, setGenes] = useState<string[]>([])
@@ -120,7 +131,8 @@ export const Graph = ( {
     }
 
     const handleGraphChange = (name: GraphName) => {
-        console.log('handleGraph',  name)
+        console.log('handleGraph---->',  name)
+        refresh.current = false;
         setGraphName(() => { return name })
     }
 

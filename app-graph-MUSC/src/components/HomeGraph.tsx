@@ -93,6 +93,7 @@ export const HomeGraph = () => {
     const handleSyndromeMouseOut = ()=> {
         setActiveGraph(0)
     }
+
     const getWidth = (box: number) => {
         let number = Number(document.getElementById(`graph-box${box}`)?.offsetWidth )
         console.log('getWidht', number)
@@ -112,7 +113,7 @@ export const HomeGraph = () => {
             return 'Click to choose an organ or organs to see what genes are related and how they overlap'
         else if (graph === 3)
             return 'Choose disease to see their related organs or gene'
-        else if (activeGraph === 4)
+        else if (graph === 4)
             return 'Choose syndromes to see their related organs or gene'
         else return ''
     }
@@ -272,8 +273,8 @@ export const HomeGraph = () => {
                         graphScheme={defaultGraphScheme}
                         enableZoom={false}
                         onClick={handleClickGene}
-                        onMouseOver={handleGeneMouseOver}
-                        onMouseOut={handleGeneMouseOut}
+                        //onMouseOver={handleGeneMouseOver}
+                        //onMouseOut={handleGeneMouseOut}
                     />
                     <Box color='black' textAlign='center'>
                         <Typography                        
@@ -335,15 +336,16 @@ export const HomeGraph = () => {
                         graphScheme={defaultGraphScheme}
                         enableZoom={false}
                         onClick={handleClickOrgan}
-                        onMouseOver={handleOrganMouseOver}
-                        onMouseOut={handleOrganMouseOut}
+                        //onMouseOver={handleOrganMouseOver}
+                        //onMouseOut={handleOrganMouseOut}
                     />
                     <Box color='black' textAlign='center'>
                         <Typography                        
                             textAlign='center'
                             variant='h6' 
                             width='100%'
-                            color={activeGraph===2?'primary.main':'white'}
+                            // color={activeGraph===2?'primary.main':'white'}
+                            color='primary.main'
                             sx={{
                                 fontFamily: 'Franklin Gothic Demi'
                                 }}
@@ -396,18 +398,19 @@ export const HomeGraph = () => {
                         graphScheme={defaultGraphScheme}
                         enableZoom={false}
                         onClick={handleClickSyndrome}
-                        onMouseOver={handleSyndromeMouseOver}
-                        onMouseOut={handleSyndromeMouseOut}
+                        // onMouseOver={handleSyndromeMouseOver}
+                        // onMouseOut={handleSyndromeMouseOut}
                     />
                     <Box color='black' textAlign='center'>
                             <Typography                        
                                 textAlign='center'
                                 variant='h6' 
                                 width='100%'
-                                color={activeGraph===4?'primary.main':'white'}
+                                // color={activeGraph===4?'primary.main':'white'}
+                                color='primary.main'
                                 sx={{
                                     fontFamily: 'Franklin Gothic Demi'
-                                    }}
+                                }}
                             > 
                                 {getActiveDesciption(4)}
                             </Typography>
@@ -456,15 +459,16 @@ export const HomeGraph = () => {
                         graphScheme={defaultGraphScheme}
                         enableZoom={false}
                         onClick={handleClickDisease}
-                        onMouseOver={handleDiseaseMouseOver}
-                        onMouseOut={handleDiseaseMouseOut}
+                        // onMouseOver={handleDiseaseMouseOver}
+                        // onMouseOut={handleDiseaseMouseOut}
                     />
                     <Box color='black' textAlign='center'>
                             <Typography                        
                                 textAlign='center'
                                 variant='h6' 
                                 width='100%'
-                                color={activeGraph===3?'primary.main':'white'}
+                                // color={activeGraph===3?'primary.main':'white'}
+                                color='primary.main'
                                 sx={{
                                     fontFamily: 'Franklin Gothic Demi'
                                     }}
@@ -475,6 +479,44 @@ export const HomeGraph = () => {
                 </Paper>
 
             </Box>
+        </Box>
+        <Box id='heading2' display='flex'>
+            <Typography 
+                textAlign='center'
+                variant='h3' 
+                width='100%'
+                sx={{
+                    fontFamily: 'Franklin Gothic Demi'
+                }} 
+                color='primary.main'
+            >
+                This website provides visualizations of cancer susceptibility genes and gene combinations
+            </Typography>
+        </Box>
+        <Box>
+            <Typography 
+                textAlign='left'
+                width='100%'
+                sx={{
+                    fontFamily: 'Franklin Gothic Demi'
+                }} 
+                color='primary.main'
+            >
+                <p>
+                  Pathogenic variants inherited at birth (Germline) in certain genes increase the risk of certain cancers.
+                </p>
+                <p>
+                    Cancer susceptibility genes can be better understood using a framework of 
+                    <ul>
+                        <li>spectrum of diseases caused</li>
+                        <li>penetrance for each disease</li>
+                        <li>the predominant subtype of each disease</li>
+                        <li>age of onset</li>
+                    </ul>
+                    When managing a patient with a pathogenic variant in a given gene, the spectrum and disease suggests which diseases to address in our management plan and suggests what family history might be indicative of this gene.  The penetrance suggests how aggressive to be in management.  The age of onset tells us when to institute management.
+                    In the past, syndromes have been defined that often predated the understanding of the underlying gene.  Syndromes can be useful to help us remember certain family characteristics of certain genes. 
+                </p>
+            </Typography>
         </Box>
     </>)
 }
