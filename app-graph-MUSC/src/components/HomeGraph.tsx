@@ -188,7 +188,7 @@ export const HomeGraph = () => {
                         textAlign='right'
                         width='100%'
                         sx={{
-                            fontFamily: 'Franklin Gothic Demi'
+                            //fontFamily: 'Franklin Gothic Demi'
                         }} 
                         color='primary.main'
                     >
