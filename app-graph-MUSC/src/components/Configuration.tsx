@@ -18,6 +18,8 @@ export const Configuration = ( { graphScheme, onChange }: ConfigurationProps ) =
     const organFontRef: React.Ref<any> = useRef()
     const diseaseNodeRef: React.Ref<any> = useRef()
     const diseaseFontRef: React.Ref<any> = useRef()
+    const diseaseSubtypeNodeRef: React.Ref<any> = useRef()
+    const diseaseSubtypeFontRef: React.Ref<any> = useRef()
     const syndromeNodeRef: React.Ref<any> = useRef()
     const syndromeFontRef: React.Ref<any> = useRef()
     const nodeValRef = useRef<HTMLInputElement>(null)
@@ -34,7 +36,9 @@ export const Configuration = ( { graphScheme, onChange }: ConfigurationProps ) =
             organNode: organNodeRef.current.value,
             organFont: organFontRef.current.value,
             diseaseNode: diseaseNodeRef.current.value,
-            diseaseFont: diseaseFontRef.current.value,
+            diseaseFont: diseaseFontRef.current.value,            
+            diseaseSubtypeNode: diseaseSubtypeNodeRef.current.value,
+            diseaseSubtypeFont: diseaseSubtypeFontRef.current.value,
             syndromeNode: defaultGraphScheme.syndromeNode,
             syndromeFont: defaultGraphScheme.syndromeFont,
             nodeVal: nodeValRef.current ? +nodeValRef.current.value: defaultGraphScheme.nodeVal,

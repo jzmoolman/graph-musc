@@ -591,6 +591,123 @@ export const  loadDiseaseData = async (
     }
 }
 
+export const  loadGeneDiseaseSubtypeData = async (
+    driver: Driver | undefined,
+    diseases: string[],
+    genes: string[],
+    finalVerdict: string,
+    graphScheme : GraphScheme,
+    onData:(data: Force2DData)=> void) => {
+    if (driver == null) {
+        console.log('Driver not loaded')
+        return 
+    }
+
+    const str_diseases = ArrayToStr(diseases)
+    const str_genes = ArrayToStr(genes)
+
+    let whereCLAUSE = getFinalVerdictClause(finalVerdict)
+    
+    if ( str_diseases !== '') {
+        whereCLAUSE = whereCLAUSE + ' AND d.name IN ' + str_diseases
+    }
+    if ( str_genes !== '') {
+        whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + str_genes
+    }
+
+    const query = 
+        `MATCH (g:MGene)-[r:CAUSE]->(d:Disease) ${whereCLAUSE} RETURN g,r,d`
+
+    console.log('query', query);
+
+    let session = driver.session()
+
+    try {
+        let res = await session.run(query)
+        let ids = new  Set<string>()
+        let nodes : any[] = []
+        let links : any[] = []
+        res.records.forEach(row => {
+            let link  = { source: '', target: ''}
+
+            const source = row.get('g') 
+            if (!ids.has(source.properties.name)) {
+                let node = { 
+                    nodeType: 'gene',
+                    id: source.identity,
+                    name: source.properties.name,
+                    fullName: source.properties.fullName,
+                    altName: source.properties.altName,
+                    description: source.properties.description,
+                    nodeColor: graphScheme.geneNode,
+                    fontColor: graphScheme.geneFont,
+                    nodeVal: graphScheme.nodeVal,
+                    nodeRelSize: graphScheme.nodeRelSize,
+                    scaleFont: graphScheme.scaleFont
+                }
+                nodes.push(node) 
+                link.source = node.name
+                ids.add(node.name)
+            } else {
+                link.source = source.properties.name
+            }
+
+           let target = row.get('d') 
+            if (!ids.has(target.properties.name)) {
+                let node = { 
+                    nodeType: 'disease',
+                    id: target.identity,
+                    name: target.properties.name,
+                    nodeColor: graphScheme.diseaseNode, 
+                    fontColor: graphScheme.diseaseFont,
+                    nodeVal: graphScheme.nodeVal,
+                    nodeRelSize: graphScheme.nodeRelSize,
+                    scaleFont: graphScheme.scaleFont
+                }
+                nodes.push(node) 
+                link.target = node.name
+                ids.add(node.name)
+            } else {
+                link.target = target.properties.name
+            }
+            links.push(link)
+
+            let link2  = { source: '', target: ''}
+            link2.source = link.target
+            
+            target = row.get('d') 
+            if (!ids.has(target.properties.subtype)) {
+                let node = { 
+                    nodeType: 'subtype',
+                    id: target.identity,
+                    name: target.properties.subtype,
+                    disease: target.properties.name,
+                    nodeColor: graphScheme.diseaseSubtypeNode, 
+                    fontColor: graphScheme.diseaseSubtypeFont,
+                    nodeVal: graphScheme.nodeVal,
+                    nodeRelSize: graphScheme.nodeRelSize,
+                    scaleFont: graphScheme.scaleFont
+                }
+                nodes.push(node) 
+                link2.target = node.name
+                ids.add(node.name)
+            } else {
+                link2.target = target.properties.subtype
+            }
+            links.push(link2)
+
+        })
+        session.close();
+        onData( {nodes, links} )
+    } catch (e) {
+        throw e
+    }
+    finally {
+        await session.close()
+
+    }
+}
+
 
 export const  loadSyndromeData_zo = async (driver: Driver | undefined,
     syndromes: string[],

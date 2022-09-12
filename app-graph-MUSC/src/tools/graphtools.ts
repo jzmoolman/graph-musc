@@ -8,6 +8,8 @@ export type GraphScheme = {
     organFont: string
     diseaseNode: string
     diseaseFont: string
+    diseaseSubtypeNode: string
+    diseaseSubtypeFont: string
     syndromeNode: string
     syndromeFont: string
     nodeVal: number,
@@ -23,6 +25,8 @@ export const defaultGraphScheme: GraphScheme = {
     organFont: 'White',
     diseaseNode: 'Purple',
     diseaseFont: 'White',
+    diseaseSubtypeNode: 'Green',
+    diseaseSubtypeFont: 'White',
     syndromeNode: '#E8E10C',
     syndromeFont: 'Black', 
     nodeVal: 1,
@@ -36,7 +40,7 @@ export type Force2DData = {
     links: any[]
 }
 
-export type GraphName = 'gene-organ' | 'gene-disease' | 'gene-subtype' | 'organ' | 'disease' | 'syndrome-disease' | 'syndrome-gene-disease'
+export type GraphName = 'gene-organ' | 'gene-disease' | 'gene-disease-subtype' | 'organ' | 'disease' | 'syndrome-disease' | 'syndrome-gene-disease'
 
 export const ArrayToStr = (data: string[]) => {
     let localFilter = '';
@@ -69,6 +73,10 @@ export interface GeneNodeObject extends CustomNodeObject {
 
 export interface SyndromeNodeObject extends CustomNodeObject {
     hereditaryType: string
+}
+
+export interface SubtypeNodeObject extends CustomNodeObject {
+    disease: string
 }
 
 export const paintNode = (node: NodeObject, ctx: CanvasRenderingContext2D, GlobalScale: number) => {
