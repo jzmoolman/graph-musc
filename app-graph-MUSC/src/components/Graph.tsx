@@ -172,7 +172,7 @@ export const Graph = ( {
     switch (name) { 
         case 'gene-organ':
         case 'gene-disease': 
-        case 'gene-subtype': {
+        case 'gene-disease-subtype': {
             if (organs.length !== 0 ) {
                 setOrgans([])
             }

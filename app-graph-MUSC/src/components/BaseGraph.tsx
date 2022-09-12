@@ -2,7 +2,7 @@ import { useState, useContext, useEffect, useRef, MutableRefObject } from 'react
 import { Neo4jContext } from 'use-neo4j'
 import ForceGraph2D, { ForceGraphMethods, NodeObject }  from 'react-force-graph-2d'
 import { useNavigate } from 'react-router-dom'
-import { CustomNodeObject,  Force2DData, GraphName, GraphScheme, paintNode, GeneNodeObject, SyndromeNodeObject } from '../tools/graphtools'
+import { CustomNodeObject,  Force2DData, GraphName, GraphScheme, paintNode, GeneNodeObject, SyndromeNodeObject, SubtypeNodeObject } from '../tools/graphtools'
 import { defaultGraphScheme } from '../tools/graphtools';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
@@ -12,6 +12,7 @@ import {
     loadGeneOrganData,
     loadGeneDiseaseData,
     loadGeneSubtypeData,
+    loadGeneDiseaseSubtypeData,
     loadOrganData,
     loadDiseaseData,
     loadSyndromeDiseaseData,
@@ -314,6 +315,58 @@ export const BaseGraph = ( {
                     </Box>,
                     document.body
                 ))
+            } else if ((nodeHover as CustomNodeObject).nodeType === 'subtype'){
+                const _node = nodeHover as CustomNodeObject
+                return (ReactDOM.createPortal(
+                    <Box
+                        className="nodeCard"
+                        sx={{
+                            position: "absolute",
+                            margin: "2px 0px 2px 0px",
+                            left: 20,
+                            top: 80,
+                            width: 350,
+                            height: 300
+                        }}
+                    >
+                        <Card 
+                            sx={{ 
+                                border:1,
+                                minWidth:275, 
+                                borderColor: 'primary.main'
+                            }}
+                        >
+                            <CardHeader 
+                                title={(nodeHover as CustomNodeObject).name}
+                                // subheader={(nodeHover as CustomNodeObject).nodeType}
+                                action={
+                                    <IconButton onClick={handleCardClose}  aria-label="close"> <CloseIcon />
+                                    </IconButton>
+                            }
+    
+                            />
+                            <CardContent>
+                            <Box>
+                                <BaseGraph
+                                    drawerOpen={false}
+                                    width={325}
+                                    height={300}
+                                    name={'gene-disease-subtype' as GraphName}
+                                    genes={[]}
+                                    organs={[]}
+                                    syndromes={[]}
+                                    diseases={[(nodeHover as SubtypeNodeObject).disease]}
+                                    finalVerdict='Confirmed'
+                                    graphScheme={defaultGraphScheme}
+                                    enableZoom={false}
+                                    onClick={() => handleNodeTypeClick((nodeHover as CustomNodeObject).nodeType)}
+                            />
+                            </Box>
+                            </CardContent>
+                        </Card>
+                    </Box>,
+                    document.body
+                ))
             } else if ((nodeHover as CustomNodeObject).nodeType === 'syndrome'){
                 const _node = nodeHover as SyndromeNodeObject
                 console.log('hereditaryType',_node.hereditaryType)
@@ -402,8 +455,8 @@ export const BaseGraph = ( {
                 loadGeneDiseaseData(driver, genes, finalVerdict, graphScheme, onData)
                 break
             }
-            case 'gene-subtype': {
-                loadGeneSubtypeData(driver, genes, organs,finalVerdict, graphScheme, onData)
+            case 'gene-disease-subtype': {
+                loadGeneDiseaseSubtypeData(driver, diseases, genes,finalVerdict, graphScheme, onData)
                 break
             }
             case 'organ': {
