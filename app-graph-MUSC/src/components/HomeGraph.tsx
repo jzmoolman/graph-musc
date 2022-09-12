@@ -188,7 +188,7 @@ export const HomeGraph = () => {
                         textAlign='right'
                         width='100%'
                         sx={{
-                            //fontFamily: 'Franklin Gothic Demi'
+                            fontFamily: 'Franklin Gothic Demi'
                         }} 
                         color='primary.main'
                     >
@@ -497,6 +497,8 @@ export const HomeGraph = () => {
             <Typography 
                 textAlign='left'
                 width='100%'
+                paddingLeft={10}
+                paddingRight={10}
                 sx={{
                     fontFamily: 'Franklin Gothic Demi'
                 }} 
@@ -513,7 +515,7 @@ export const HomeGraph = () => {
                         <li>the predominant subtype of each disease</li>
                         <li>age of onset</li>
                     </ul>
-                    When managing a patient with a pathogenic variant in a given gene, the spectrum and disease suggests which diseases to address in our management plan and suggests what family history might be indicative of this gene.  The penetrance suggests how aggressive to be in management.  The age of onset tells us when to institute management.
+                    When managing a patient with a pathogenic variant in a given gene, the spectrum of disease suggests which diseases to address in our management plan and suggests what family history might be indicative of this gene.  The penetrance suggests how aggressive to be in management.  The age of onset tells us when to institute management.
                     In the past, syndromes have been defined that often predated the understanding of the underlying gene.  Syndromes can be useful to help us remember certain family characteristics of certain genes. 
                 </p>
             </Typography>

@@ -166,68 +166,132 @@ export const Filters = ({
                 case 'gene-organ':
                     {
                         return (
+                    <Typography 
+                        component='div'
+                        sx={{
+                            fontFamily: 'Franklin Gothic Demi',
+                            textAlign:'left',
+                            marginLeft: 1,
+                            color: 'black'
+                        }}
+                    > 
                             <div>
                                 This graph shows all [<span style={{color: 'blue'}}>gene</span>]-[<span style={{color: 'red'}}>organ</span>] associations.
                                 <div>
                                 To limit the graph to one or just a few [<span style={{color: 'blue'}}>genes</span>], select as many [<span style={{color: 'blue'}}>genes</span>] from the pulldown as you wish to compare.
                                 </div>
                             </div>
+                        </Typography>
+
                         )
                     }
                 case 'gene-disease':
                     {
                         return (
+                    <Typography 
+                        component='div'
+                        sx={{
+                            textAlign:'left',
+                            marginLeft: 1,
+                            color: 'black'
+                        }}
+                    > 
                             <div>
                                 This graph shows all [<span style={{color: 'blue'}}>gene</span>]-[<span style={{color: 'purple'}}>disease</span>] associations.
                                 <div>
                                 To limit the graph to one or just a few [<span style={{color: 'blue'}}>genes</span>], select as many [<span style={{color: 'blue'}}>genes</span>] from the pulldown as you wish to compare.
                                 </div>
                             </div>
+                        </Typography>
                         )
                     }
                 case 'gene-subtype':
                 {
                     return (
+                    <Typography 
+                        component='div'
+                        sx={{
+                            textAlign:'left',
+                            marginLeft: 1,
+                            color: 'black'
+                        }}
+                    > 
                         <div>
                             This graph shows all [<span style={{color: 'blue'}}>gene</span>]-[<span style={{color: 'red'}}>organ</span>] associations.
                             <div>
                                 To limit the graph to one or just a few [<span style={{color: 'blue'}}>genes</span>], select as many [<span style={{color: 'blue'}}>genes</span>] from the pulldown as you wish to compare.
                             </div>
                         </div>
+                        </Typography>
                     )
                 }
                 case 'organ': {
                     return (
+                    <Typography 
+                        component='div'
+                        sx={{
+                            textAlign:'left',
+                            marginLeft: 1,
+                            color: 'black'
+                        }}
+                    > 
                         <div>
                             This graph shows all [<span style={{color: 'red'}}>organ</span>]-[<span style={{color: 'blue'}}>gene</span>] associations.
                             <div>
                                 To limit the graph to one or just a few [<span style={{color: 'red'}}>organs</span>], select as many [<span style={{color: 'red'}}>organs</span>] from the pulldown as you wish to compare.
                             </div>
                         </div>
+                        </Typography>
                     )
                 }
                 case 'disease': {
                     return (
+                    <Typography 
+                        component='div'
+                        sx={{
+                            textAlign:'left',
+                            marginLeft: 1,
+                            color: 'black'
+                        }}
+                    > 
                         <div>
                             This graph shows all [<span style={{color: 'purple'}}>disease</span>]-[<span style={{color: 'blue'}}>gene</span>] associations.
                             <div>
                                 To limit the graph to one or just a few [<span style={{color: 'purple'}}>diseases</span>], select as many [<span style={{color: 'purple'}}>diseases</span>] from the pulldown as you wish to compare.
                             </div>
                         </div>
+                        </Typography>
                     )
                 }
                 case 'syndrome-disease': {
                     return (
+                    <Typography 
+                        component='div'
+                        sx={{
+                            textAlign:'left',
+                            marginLeft: 1,
+                            color: 'black'
+                        }}
+                    > 
                         <div>
                             This graph shows all [<span style={{color: '#DE970B'}}>syndrome</span>]-[<span style={{color: 'purple'}}>disease</span>] associations.
                             <div>
                                 Choose whether you want to see <span style={{color: '#DE970B'}}>Syndrome</span>-<span style={{color: 'purple'}}>Disease</span> or <span style={{color: '#DE970B'}}>Syndrome</span>-<span style={{color: 'blue'}}>Gene</span>-<span style={{color: 'purple'}}>Disease</span> from the [<span style={{color: '#DE970B'}}>Syndrome</span>] pulldown
                             </div>
                         </div>
+                        </Typography>
                     )
                 }
                 case 'syndrome-gene-disease': {
                     return (
+                    <Typography 
+                        component='div'
+                        sx={{
+                            textAlign:'left',
+                            marginLeft: 1,
+                            color: 'black'
+                        }}
+                    > 
                     <div>
                         This graph shows all [<span style={{color: '#DE970B'}}>syndrome</span>]-[<span style={{color: 'blue'}}>gene</span>]-[<span style={{color: 'purple'}}>disease</span>] associations.
                         <div>
@@ -235,21 +299,40 @@ export const Filters = ({
                         </div>
                     </div>
 
+                        </Typography>
                     )
                 }
                 defualt:{
                     return (
+                    <Typography 
+                        component='div'
+                        sx={{
+                            textAlign:'left',
+                            marginLeft: 1,
+                            color: 'black'
+                        }}
+                    > 
                         <div>
                            Select as many <span style={{color: 'red'}}>{name}</span> as you wish to see
                         </div>
+                        </Typography>
                     )
                       
                 }
             }
             return (
+                    <Typography 
+                        component='div'
+                        sx={{
+                            textAlign:'left',
+                            marginLeft: 1,
+                            color: 'black'
+                        }}
+                    > 
                 <div>
                     Select as many <span style={{color: 'red'}}>{name}</span> as you wish to see
                 </div>
+                        </Typography>
             )
         }
 
@@ -423,19 +506,14 @@ export const Filters = ({
                     flexDirection='column'
                     sx={{
                         color: 'grey',
+                        fontFamily: 'Franklin Gothic Demi',
                     }}
                 >
-                    <Typography 
-                        component='div'
-                        sx={{
-                            textAlign:'left',
-                            marginLeft: 1,
-                            color: 'black'
-                        }}
-                    >
-                        <FilterHeader name={name}/>
-                    </Typography>
-                    <FilterGraph name={name}/> 
+
+                    <FilterGraph name={name}/>
+
+                    <FilterHeader name={name}/>
+             
                     <Dropdown 
                         label={getGraphDesc(name)}
                         options={data}
@@ -446,12 +524,13 @@ export const Filters = ({
                     <Typography 
                         component='div'
                         sx={{
+                            fontFamily: 'Franklin Gothic Demi',
                             textAlign:'left',
                             marginLeft: 1,
                             color: 'black'
                         }}
                     >
-                    <FilterAssociation name={name}/>
+                        <FilterAssociation name={name}/>
                     </Typography>
 
                     <CustomSelect 
