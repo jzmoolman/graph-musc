@@ -241,7 +241,7 @@ export const  loadGeneDiseaseData = async (driver: Driver | undefined,
     let whereCLAUSE = getFinalVerdictClause(finalVerdict)
     
     if ( str_genes !== '') {
-        whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + str_genes
+        whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + str_genes 
     }
 
     const query = 
@@ -672,29 +672,31 @@ export const  loadGeneDiseaseSubtypeData = async (
             }
             links.push(link)
 
-            let link2  = { source: '', target: ''}
-            link2.source = link.target
-            
             target = row.get('d') 
-            if (!ids.has(target.properties.subtype)) {
-                let node = { 
-                    nodeType: 'subtype',
-                    id: target.identity,
-                    name: target.properties.subtype,
-                    disease: target.properties.name,
-                    nodeColor: graphScheme.diseaseSubtypeNode, 
-                    fontColor: graphScheme.diseaseSubtypeFont,
-                    nodeVal: graphScheme.nodeVal,
-                    nodeRelSize: graphScheme.nodeRelSize,
-                    scaleFont: graphScheme.scaleFont
+            if ( target.properties.subtype !== 'Unknown') {
+                let link2  = { source: '', target: ''}
+                link2.source = link.target
+                
+                if (!ids.has(target.properties.subtype)) {
+                    let node = { 
+                        nodeType: 'subtype',
+                        id: target.identity,
+                        name: target.properties.subtype,
+                        disease: target.properties.name,
+                        nodeColor: graphScheme.diseaseSubtypeNode, 
+                        fontColor: graphScheme.diseaseSubtypeFont,
+                        nodeVal: graphScheme.nodeVal,
+                        nodeRelSize: graphScheme.nodeRelSize,
+                        scaleFont: graphScheme.scaleFont
+                    }
+                    nodes.push(node) 
+                    link2.target = node.name
+                    ids.add(node.name)
+                } else {
+                    link2.target = target.properties.subtype
                 }
-                nodes.push(node) 
-                link2.target = node.name
-                ids.add(node.name)
-            } else {
-                link2.target = target.properties.subtype
+                links.push(link2)
             }
-            links.push(link2)
 
         })
         session.close();

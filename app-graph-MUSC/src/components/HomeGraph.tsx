@@ -3,8 +3,8 @@ import  { Box,  Paper, Typography } from '@mui/material'
 import { BaseGraph } from './BaseGraph';
 import { defaultGraphScheme } from '../tools/graphtools';
 import { useNavigate } from 'react-router-dom'
-import musc from '../assets/musc.png'
 
+import musc from '../assets/musc.png'
 
 type Dimension = {
     width: number
@@ -15,6 +15,90 @@ export const HomeGraph = () => {
     console.log('enter - HomeGraph')
     const [activeGraph, setActiveGraph] = useState(0)
 
+    const MuscHeader = () => {
+      return (<>
+
+        <Paper 
+            elevation={4}         
+            sx={{ 
+                    color: 'white',
+                    width: '100%',
+                    backgroundColor: 'white',
+                    margin: '2px',
+                    padding:'2px'}}
+        >
+            <Box id='heading1' display='flex' 
+                sx={{
+                    backgroundColor:'white',
+                    color: 'black'}}
+            >
+                <Box display='flex' 
+                    sx={{
+                        backgroundColor:'white'}}>
+                    <img src={musc} height={100} />
+                </Box>
+                <Box display='flex' flex='1' flexDirection='column'>
+                    <Typography 
+                        textAlign='right'
+                        width='100%'
+                        sx={{
+                            fontFamily: 'Franklin Gothic Heavy'
+                        }} 
+                        color='primary.main'
+                    >
+                        <Box>
+                            Created by
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;  
+                            Zach Moolman
+                        </Box>
+                        <Box>
+                            Armando Diaz 
+                        </Box>
+                        <Box>
+                            Julie Henderson
+                        </Box>
+                        <Box>
+                            Kiersten Meeder
+                        </Box> 
+                        <Box>
+                            Kevin S. Hughes, MD, FACS
+                        </Box> 
+                    </Typography>
+                </Box>
+                <Box display='flex' flex='1' flexDirection='column'>
+                    <Typography 
+                        textAlign='right'
+                        width='100%'
+                        sx={{
+                            fontFamily: 'Franklin Gothic Demi'
+                        }} 
+                        color='primary.main'
+                    >
+                        <Box>
+                            Department of Surgery 
+                        </Box>
+                        <Box>
+                            Division of Oncologic & Endocrine Surgery
+                        </Box>
+                        <Box>
+                            Medical University of South Carolina
+                        </Box>
+                        <Box>
+                            Graph database software courtesy of Neo4J
+                        </Box>
+                        <Box>
+                            Supported in part by Invitae/Medneon
+                        </Box>
+                    </Typography>
+                </Box>
+            </Box>
+        </Paper>
+      </>)
+  }
 
     const [dim, setDim] = useState<Dimension[]>([
         {width:200, height:200},
@@ -43,6 +127,11 @@ export const HomeGraph = () => {
             {width: getWidth(3), height: 200},
             {width: getWidth(4), height: 200}
         ]))
+    }
+
+    const handleImageClick = () => {
+        navigate('/')
+
     }
 
     const handleClickGene = () => {
@@ -130,87 +219,8 @@ export const HomeGraph = () => {
 
     return (<>
 
-        <Paper 
-            elevation={4}         
-            sx={{ 
-                    color: 'white',
-                    width: '100%',
-                    backgroundColor: 'white',
-                    margin: '2px',
-                    padding:'2px'}}
-        >
-            <Box id='heading1' display='flex' 
-                sx={{
-                    backgroundColor:'white',
-                    color: 'black'}}
-            >
-                <Box display='flex' 
-                    sx={{
-                        backgroundColor:'white'}}>
-                    <img src={musc} height={100} />
-                </Box>
-                <Box display='flex' flex='1' flexDirection='column'>
-                    <Typography 
-                        textAlign='right'
-                        width='100%'
-                        sx={{
-                            fontFamily: 'Franklin Gothic Demi'
-                        }} 
-                        color='primary.main'
-                    >
-                        <Box>
-                            Created by
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            &nbsp;&nbsp;&nbsp;&nbsp;
-                        </Box>
-                        <Box>
-                            Zach Moolman
-                        </Box>
-                        <Box>
-                            Armando Diaz 
-                        </Box>
-                        <Box>
-                            Julie Henderson
-                        </Box>
-                        <Box>
-                            Kiersten Meeder
-                        </Box> 
-                        <Box>
-                            Kevin S. Hughes, MD, FACS
-                        </Box> 
-                    </Typography>
-                </Box>
-                <Box display='flex' flex='1' flexDirection='column'>
-                    <Typography 
-                        textAlign='right'
-                        width='100%'
-                        sx={{
-                            fontFamily: 'Franklin Gothic Demi'
-                        }} 
-                        color='primary.main'
-                    >
-                        <Box>
-                            Department of Surgery 
-                        </Box>
-                        <Box>
-                            Division of Oncologic & Endocrine Surgery
-                        </Box>
-                        <Box>
-                            Medical University of South Carolina
-                        </Box>
-                        <Box>
-                            Graph database software courtesy of Neo4J
-                        </Box>
-                        <Box>
-                            Supported in part by Invitae/Medneon
-                        </Box>
-                    </Typography>
-                </Box>
-            </Box>
-        </Paper>
+    <MuscHeader/>
+
 
 
 
@@ -221,7 +231,7 @@ export const HomeGraph = () => {
                 variant='h3' 
                 width='100%'
                 sx={{
-                    fontFamily: 'Franklin Gothic Demi'
+                    fontFamily: 'Franklin Gothic Heavy'
                 }} 
                 color='primary.main'
             >
@@ -497,6 +507,8 @@ export const HomeGraph = () => {
             <Typography 
                 textAlign='left'
                 width='100%'
+                paddingLeft={10}
+                paddingRight={10}
                 sx={{
                     fontFamily: 'Franklin Gothic Demi'
                 }} 
@@ -513,7 +525,7 @@ export const HomeGraph = () => {
                         <li>the predominant subtype of each disease</li>
                         <li>age of onset</li>
                     </ul>
-                    When managing a patient with a pathogenic variant in a given gene, the spectrum and disease suggests which diseases to address in our management plan and suggests what family history might be indicative of this gene.  The penetrance suggests how aggressive to be in management.  The age of onset tells us when to institute management.
+                    When managing a patient with a pathogenic variant in a given gene, the spectrum of disease suggests which diseases to address in our management plan and suggests what family history might be indicative of this gene.  The penetrance suggests how aggressive to be in management.  The age of onset tells us when to institute management.
                     In the past, syndromes have been defined that often predated the understanding of the underlying gene.  Syndromes can be useful to help us remember certain family characteristics of certain genes. 
                 </p>
             </Typography>
