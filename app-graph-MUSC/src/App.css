@@ -43,3 +43,12 @@ body {
     transform: rotate(360deg);
   }
 }
+
+@font-face {
+  font-family: Sofia;
+  src: url('https://fonts.googleapis.com/css?family=Sofia')
+}
+
+div {
+  font-family: "Sofia";
+}
