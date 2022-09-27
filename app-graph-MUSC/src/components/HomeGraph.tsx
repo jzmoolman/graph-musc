@@ -41,9 +41,6 @@ export const HomeGraph = () => {
                     <Typography 
                         textAlign='right'
                         width='100%'
-                        sx={{
-                            fontFamily: 'Franklin Gothic Heavy'
-                        }} 
                         color='primary.main'
                     >
                         <Box>
@@ -73,9 +70,6 @@ export const HomeGraph = () => {
                     <Typography 
                         textAlign='right'
                         width='100%'
-                        sx={{
-                            fontFamily: 'Franklin Gothic Demi'
-                        }} 
                         color='primary.main'
                     >
                         <Box>
@@ -197,13 +191,13 @@ export const HomeGraph = () => {
 
     const getActiveDesciption = (graph: number) => {
         if (graph === 1)
-           return 'Click to choose a gene or genes to see what organs they affect and to see overlap of organs'
+           return 'Gene Centric View'
         else if (graph === 2)
-            return 'Click to choose an organ or organs to see what genes are related and how they overlap'
+            return 'Organ Centric View'
         else if (graph === 3)
-            return 'Choose disease to see their related organs or gene'
+            return 'Disease Centric View'
         else if (graph === 4)
-            return 'Choose syndromes to see their related organs or gene'
+            return 'Syndrome Centric View'
         else return ''
     }
     
@@ -215,15 +209,9 @@ export const HomeGraph = () => {
         }
     }
 
-
-
     return (<>
 
     <MuscHeader/>
-
-
-
-
 
         <Box id='heading2' display='flex'>
             <Typography 
@@ -231,7 +219,7 @@ export const HomeGraph = () => {
                 variant='h3' 
                 width='100%'
                 sx={{
-                    fontFamily: 'Franklin Gothic Heavy'
+                    // fontFamily: 'Sofia'
                 }} 
                 color='primary.main'
             >
@@ -262,9 +250,6 @@ export const HomeGraph = () => {
                             textAlign='center'
                             variant='h5' 
                             width='100%'
-                            sx={{
-                                fontFamily: 'Franklin Gothic Demi'
-                            }}
                         > 
                             Gene Centric View
                         </Typography>
@@ -294,7 +279,6 @@ export const HomeGraph = () => {
                             color={activeGraph===1?'primary.main':'white'}
                             sx= {{
                                 color: getActiveFontColor(1),
-                                fontFamily: 'Franklin Gothic Demi'
                             }}
                         > 
                             {getActiveDesciption(1)}
@@ -326,9 +310,6 @@ export const HomeGraph = () => {
                             textAlign='center'
                             variant='h5' 
                             width='100%'
-                            sx={{
-                                fontFamily: 'Franklin Gothic Demi'
-                            }}
                         > 
                            Organ Centric View
                         </Typography>
@@ -356,9 +337,6 @@ export const HomeGraph = () => {
                             width='100%'
                             // color={activeGraph===2?'primary.main':'white'}
                             color='primary.main'
-                            sx={{
-                                fontFamily: 'Franklin Gothic Demi'
-                                }}
                         > 
                             {getActiveDesciption(2)}
                         </Typography>
@@ -388,9 +366,6 @@ export const HomeGraph = () => {
                             textAlign='center'
                             variant='h5' 
                             width='100%'
-                            sx={{
-                                fontFamily: 'Franklin Gothic Demi'
-                            }}
                         > 
                             Syndrome Centric View
                         </Typography>                        
@@ -408,8 +383,6 @@ export const HomeGraph = () => {
                         graphScheme={defaultGraphScheme}
                         enableZoom={false}
                         onClick={handleClickSyndrome}
-                        // onMouseOver={handleSyndromeMouseOver}
-                        // onMouseOut={handleSyndromeMouseOut}
                     />
                     <Box color='black' textAlign='center'>
                             <Typography                        
@@ -418,9 +391,6 @@ export const HomeGraph = () => {
                                 width='100%'
                                 // color={activeGraph===4?'primary.main':'white'}
                                 color='primary.main'
-                                sx={{
-                                    fontFamily: 'Franklin Gothic Demi'
-                                }}
                             > 
                                 {getActiveDesciption(4)}
                             </Typography>
@@ -449,9 +419,6 @@ export const HomeGraph = () => {
                             textAlign='center'
                             variant='h5' 
                             width='100%'
-                            sx={{
-                                fontFamily: 'Franklin Gothic Demi'
-                            }}
                         > 
                             Disease Centric View
                         </Typography>                        
@@ -479,9 +446,6 @@ export const HomeGraph = () => {
                                 width='100%'
                                 // color={activeGraph===3?'primary.main':'white'}
                                 color='primary.main'
-                                sx={{
-                                    fontFamily: 'Franklin Gothic Demi'
-                                    }}
                             > 
                                 {getActiveDesciption(3)}
                             </Typography>
@@ -495,9 +459,6 @@ export const HomeGraph = () => {
                 textAlign='center'
                 variant='h3' 
                 width='100%'
-                sx={{
-                    fontFamily: 'Franklin Gothic Demi'
-                }} 
                 color='primary.main'
             >
                 This website provides visualizations of cancer susceptibility genes and gene combinations
@@ -509,9 +470,6 @@ export const HomeGraph = () => {
                 width='100%'
                 paddingLeft={10}
                 paddingRight={10}
-                sx={{
-                    fontFamily: 'Franklin Gothic Demi'
-                }} 
                 color='primary.main'
             >
                 <p>

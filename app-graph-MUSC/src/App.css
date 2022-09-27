@@ -1,16 +1,7 @@
-
-* {
-  font-family: 'Franklin Gothic Demi';
-}
-
 body {
   background-color: #eeeeee;
   /* height: '100vh';
   height: 100vh */
-}
-
-.App {
-  /* text-align: center; */
 }
 
 .App-logo {
@@ -48,11 +39,9 @@ body {
   }
 }
 
-@font-face {
-  font-family: Sofia;
-  src: url('https://fonts.googleapis.com/css?family=Sofia')
-}
+@import url('https://fonts.googleapis.com/css?family=Sofia&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Libre+Franklin&display=swap');
 
-div {
-  font-family: "Sofia";
+* {
+  /* font-family: 'Sofia'; */
 }
