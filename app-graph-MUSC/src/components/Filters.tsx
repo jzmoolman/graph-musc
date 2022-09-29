@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
+import { padding } from '@mui/system'
 import  { Box, Divider, Typography } from '@mui/material'
 import { CustomSelect } from './CustomSelect'
 import { GraphName } from '../tools/graphtools'
@@ -161,7 +162,34 @@ export const Filters = ({
             name: GraphName
         }
 
+        const HeaderDesc = ({name}: FilterProps) => {
+            switch(name) {
+                case 'gene-organ':
+                    return  (<>
+                        This graph shows all [<span style={{color: 'blue'}}>gene</span>]-[<span style={{color: 'red'}}>organ</span>] associations.
+                    </>)
+                default: return  <>Undefined:  + name </>
+            }
+        }
+
         const FilterHeader = ({name}:FilterProps) => {
+            return (
+                <Typography 
+                    component='div'
+                    sx={{
+                        textAlign:'left',
+                        marginLeft: 1,
+                        color: 'black'
+                    }}
+                > 
+                    <Box paddingTop={1}>                    
+                        <HeaderDesc name={name}/>
+                    </Box>
+                </Typography>
+            )
+        }
+
+        const FilterHeader2 = ({name}:FilterProps) => {
             switch(name) {
                 case 'gene-organ':
                     {
@@ -169,18 +197,17 @@ export const Filters = ({
                     <Typography 
                         component='div'
                         sx={{
-                            fontFamily: 'Franklin Gothic Demi',
                             textAlign:'left',
                             marginLeft: 1,
                             color: 'black'
                         }}
                     > 
-                            <div>
+                            <Box paddingTop={1}>
                                 This graph shows all [<span style={{color: 'blue'}}>gene</span>]-[<span style={{color: 'red'}}>organ</span>] associations.
-                                <div>
+                            </Box>
+                            <Box paddingTop={2}>
                                 To limit the graph to one or just a few [<span style={{color: 'blue'}}>genes</span>], select as many [<span style={{color: 'blue'}}>genes</span>] from the pulldown as you wish to compare.
-                                </div>
-                            </div>
+                            </Box>
                         </Typography>
 
                         )
@@ -196,11 +223,13 @@ export const Filters = ({
                             color: 'black'
                         }}
                     > 
-                            <div>
+                            <Box padding={1}>
                                 This graph shows all [<span style={{color: 'blue'}}>gene</span>]-[<span style={{color: 'purple'}}>disease</span>] associations.
-                                <div>
+                            </Box>
+
+                            
+                            <div>
                                 To limit the graph to one or just a few [<span style={{color: 'blue'}}>genes</span>], select as many [<span style={{color: 'blue'}}>genes</span>] from the pulldown as you wish to compare.
-                                </div>
                             </div>
                         </Typography>
                         )
@@ -336,12 +365,23 @@ export const Filters = ({
             )
         }
 
-        const FilterGraph = ({name} : FilterProps) => {
+        const FilterSubGraph = ({name} : FilterProps) => {
             switch(name) {
                 case 'gene-organ':
                 case 'gene-disease':
                 case 'gene-disease-subtype':
                     return (<>
+                        <Typography 
+                            sx={{
+                                textAlign:'left',
+                                marginLeft: 1,
+                                color: 'black'
+                            }}
+                        > 
+                            <Box paddingTop={2}>                    
+                                Choose what associations you want to see.
+                            </Box>
+                        </Typography>
                         <CustomSelect 
                             options={[
                                 {key:'1', value: getSubGraphDesc('gene-organ')},
@@ -413,19 +453,61 @@ export const Filters = ({
             return (<></>)
         }
 
+
+        const FilterGraph = ({name} : FilterProps) => {
+            switch(name) {
+                case 'gene-organ':
+                case 'gene-disease':
+                case 'gene-disease-subtype':
+                    return (<>
+                        <Typography 
+                            sx={{
+                                textAlign:'left',
+                                marginLeft: 1,
+                                color: 'black'
+                            }}
+                        > 
+                            <Box paddingTop={2}>                    
+                                To limit the graph to one or just a few [<span style={{color: 'blue'}}>genes</span>], select as many [<span style={{color: 'blue'}}>genes</span>] as you wish compare.
+                            </Box>
+                        </Typography>
+                        <Dropdown 
+                            label={getGraphDesc(name)}
+                            options={data}
+                            selected={getOnHandleChange(name).selected}
+                            onChange={getOnHandleChange(name).handleChange}
+                        />
+                    </>)
+                default: return (<></>)
+            }
+        }
+
         const FilterAssociation = ({name}:FilterProps) => {
             switch(name) {
                 case 'gene-organ':
-                    {
-                        return (
-                            <div>
-                                To see only confirmed <span style={{color: 'blue'}}>gene</span>-<span style={{color: 'red'}}>organ</span> associations, select CONFIRMED. 
-                                <div>
-                                To see unconfirmed <span style={{color: 'blue'}}>gene</span>-<span style={{color: 'red'}}>organ</span> associations, select MAYBE
-                                </div>
-                            </div>
-                        )
-                    }
+                    return (<> 
+                            <Typography 
+                                sx={{
+                                    textAlign:'left',
+                                    marginLeft: 1,
+                                    color: 'black'
+                                }}
+                            > 
+                                <Box paddingTop={20}>                    
+                                    To see only confirmed associations, select CONFIRMED. 
+                                    To see unconfirmed select associations, select MAYBE.
+                                </Box>
+                            </Typography>
+                            <CustomSelect 
+                                options={[
+                                    {key:'1', value: 'Confirmed'},
+                                    {key:'9', value: 'Maybe'}
+                                ]}
+                                label='Associations' 
+                                defaultSelected={finalVerdict}
+                                onChange={handleFinalVerdictChange}
+                            />
+                    </>)
                 case 'gene-disease':
                     {
                         return (
@@ -500,49 +582,13 @@ export const Filters = ({
 
         return (
             <> 
-                <Box
-                    display='flex'
-                    flex={1}
-                    flexDirection='column'
-                    sx={{
-                        color: 'grey',
-                        fontFamily: 'Franklin Gothic Demi',
-                    }}
-                >
+                <FilterHeader name={name}/>
+                <FilterSubGraph name={name}/>
+                <FilterGraph name={name}/>
+                <Divider/>
+                <FilterAssociation name={name}/>
 
-                    <FilterGraph name={name}/>
-
-                    <FilterHeader name={name}/>
-             
-                    <Dropdown 
-                        label={getGraphDesc(name)}
-                        options={data}
-                        selected={getOnHandleChange(name).selected}
-                        onChange={getOnHandleChange(name).handleChange}
-                    />
-
-                    <Typography 
-                        component='div'
-                        sx={{
-                            fontFamily: 'Franklin Gothic Demi',
-                            textAlign:'left',
-                            marginLeft: 1,
-                            color: 'black'
-                        }}
-                    >
-                        <FilterAssociation name={name}/>
-                    </Typography>
-
-                    <CustomSelect 
-                            options={[
-                                {key:'1', value: 'Confirmed'},
-                                {key:'9', value: 'Maybe'}
-                            ]}
-                            label='Associations' 
-                            defaultSelected={finalVerdict}
-                            onChange={handleFinalVerdictChange}
-                    />
-                </Box>
+                {/* </Box> */}
 
             </>
         )     
@@ -554,6 +600,8 @@ export const Filters = ({
             display='flex'
             flex={1}
             flexDirection='column'
+            // rowGap={1}
+            marginTop={1}
         >
             <DisplayPanel />
         </Box>

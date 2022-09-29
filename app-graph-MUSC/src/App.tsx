@@ -13,6 +13,9 @@ const theme = createTheme({
 
   typography: { 
     fontFamily: 'Libre Franklin',
+    allVariants: { fontWeight:  600} 
+
+    
   }
 })
 

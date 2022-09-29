@@ -11,10 +11,11 @@ type CustomSelectProps = {
     options: string[] | {key: string, value:string}[]
     label: string
     defaultSelected: string
+    showLabel?: boolean
     onChange?: (selected: string)=> void
 }
 
-export const CustomSelect = ({options, label, defaultSelected, onChange} : CustomSelectProps) => {
+export const CustomSelect = ({options, label, defaultSelected, showLabel, onChange} : CustomSelectProps) => {
     const [selected, setSelected] = useState(defaultSelected)
 
     const handleChange = (event: SelectChangeEvent) => {
@@ -24,24 +25,30 @@ export const CustomSelect = ({options, label, defaultSelected, onChange} : Custo
 
     return (
         <Box 
-            id='dropdown-box' 
+            id='custom-box' 
             display='flex' 
             sx={{
-                minWidth: 120,
-                maxWidth: 200,
+                minWidth: 250,
+                maxWidth: 350,
                 margin: 1
             
             }}
         >
-            <FormControl variant='standard' sx={{ width:'100%'}} size='small'>
-                <InputLabel id='select-label'>{label}</InputLabel>
+            <FormControl sx={{ width:'100%'}} size='small'>
+                <InputLabel 
+                    
+                    variant='outlined'
+                    id='select-label'
+                >
+                    {showLabel?label:''}
+                </InputLabel>
                 <Select 
-                    // inputRef={finalVerdictRef}
                     labelId='select-label'
                     id='select-color'
+                    variant='outlined'
                     value={selected} 
                     onChange={handleChange}
-                    label={label}
+                    //label={label}
                 >
                     {options?.map(
                         (el : string | {key: string, value: string})=> {

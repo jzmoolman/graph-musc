@@ -56,9 +56,6 @@ export const HeaderGraph = ({
                     <Typography 
                         textAlign='right'
                         width='100%'
-                        sx={{
-                            fontFamily: 'Franklin Gothic Demi'
-                        }} 
                         color='primary.main'
                     >
                         <Box>
@@ -88,9 +85,6 @@ export const HeaderGraph = ({
                     <Typography 
                         textAlign='right'
                         width='100%'
-                        sx={{
-                            fontFamily: 'Franklin Gothic Demi'
-                        }} 
                         color='primary.main'
                     >
                         <Box>

@@ -8,7 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { Filters } from './Filters';
 
-const drawerWidth = 350; 
+const drawerWidth = 450; 
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })
     <{

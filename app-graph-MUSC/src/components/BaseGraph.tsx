@@ -22,7 +22,7 @@ import { Box, Card, CardContent, CardHeader } from '@mui/material'
 import ReactDOM from 'react-dom'
 
 
-const drawerWidth = 350;
+const drawerWidth = 450;
 
 type BaseGraphProps = {
     drawerOpen: boolean

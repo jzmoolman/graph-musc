@@ -35,8 +35,6 @@ type DropdownProps = {
 }
 
 export const Dropdown = ({label, options,selected, onChange} : DropdownProps) => {
-    // console.log('enter = Dropdown')
-    // console.log('selected', selected)
 
     const theme = useTheme()
     const [values, setValues] = useState<string[]>(selected)
@@ -75,46 +73,50 @@ export const Dropdown = ({label, options,selected, onChange} : DropdownProps) =>
               maxWidth: 350,
               margin: 1
           
-          }}>
+          }}
+        >
           <FormControl sx={{width:'100%'}} size='small'>
-          <InputLabel 
-            id='multiple-dropdown-label'>{label}
-          </InputLabel>
-          <Select 
-            ref={ref}
-            size='small'
-            labelId='multiple-dropdown-label'
-            id='multiple-doropdown'
-            multiple
-            value={values} 
-            onChange={handleChange}
-            //input={<OutlinedInput label={label} />}
-            input={<Input />}
-            renderValue={(selected)=>(
-              <Box sx={{display: 'flex', flexWrap: 'wrap', gap:0.25 }}>
-                {selected.map(( value)=> (
-                  <Chip 
+            <InputLabel 
+              variant='outlined'
+              
+              
+              id='multiple-dropdown-label'>{label}
+            </InputLabel>
+            <Select 
+              ref={ref}
+              size='small'
+              labelId='multiple-dropdown-label'
+              id='multiple-doropdown'
+              multiple
+              value={values} 
+              onChange={handleChange}
+              input={<OutlinedInput label={label} />}
+              //input={<Input />}
+              renderValue={(selected)=>(
+                <Box sx={{display: 'flex', flexWrap: 'wrap', gap:0.25 }}>
+                  {selected.map(( value)=> (
+                    <Chip 
+                      key={value}
+                      label={value}
+                      onMouseDown={(e)=>{e.stopPropagation()}}
+                      onDelete={(e)=>handleDelete(e, value)}
+                    />
+                  ))}   
+                </Box>
+              )}
+              MenuProps={MenuProps}
+              
+            >
+              {options?.map((value)=>(
+                <MenuItem
                     key={value}
-                    label={value}
-                    onMouseDown={(e)=>{e.stopPropagation()}}
-                    onDelete={(e)=>handleDelete(e, value)}
-                  />
-                ))}   
-              </Box>
-            )}
-            MenuProps={MenuProps}
-            
-          >
-            {options?.map((value)=>(
-              <MenuItem
-                  key={value}
-                  value={value}
-                  style={getStyles(value, values ? values : [], theme)}
-              >
-                {value}
-              </MenuItem>
-            ))}
-          </Select>
+                    value={value}
+                    style={getStyles(value, values ? values : [], theme)}
+                >
+                  {value}
+                </MenuItem>
+              ))}
+            </Select>
         </FormControl>
       </Box>
     )

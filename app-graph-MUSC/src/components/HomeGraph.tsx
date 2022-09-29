@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import  { Box,  Paper, Typography } from '@mui/material'
+import  { Box,  Button,  Paper, Typography } from '@mui/material'
 import { BaseGraph } from './BaseGraph';
 import { defaultGraphScheme } from '../tools/graphtools';
 import { useNavigate } from 'react-router-dom'
@@ -245,16 +245,6 @@ export const HomeGraph = () => {
                             backgroundColor: 'white',
                             margin: '2px',
                             padding:'2px'}}>
-                    <Box color='black' textAlign='center'>
-                        <Typography                        
-                            textAlign='center'
-                            variant='h5' 
-                            width='100%'
-                        > 
-                            Gene Centric View
-                        </Typography>
-
-                    </Box>
                     <BaseGraph
                         drawerOpen={false}
                         width={getWidth(1)}
@@ -268,20 +258,28 @@ export const HomeGraph = () => {
                         graphScheme={defaultGraphScheme}
                         enableZoom={false}
                         onClick={handleClickGene}
-                        //onMouseOver={handleGeneMouseOver}
-                        //onMouseOut={handleGeneMouseOut}
                     />
-                    <Box color='black' textAlign='center'>
+                    <Box
+                        color='black' 
+                        textAlign='center'
+                        paddingBottom={1}
+                    >
                         <Typography                        
                             textAlign='center'
                             variant='h6' 
-                            width='100%'
+                            // width='100%'
                             color={activeGraph===1?'primary.main':'white'}
                             sx= {{
                                 color: getActiveFontColor(1),
                             }}
-                        > 
-                            {getActiveDesciption(1)}
+                        >
+                            <Button 
+                                variant="outlined"
+                                onClick={handleClickGene}
+                            >
+                                {getActiveDesciption(1)}
+                            </Button> 
+                           
                         </Typography>
                     </Box>
                 </Paper>
@@ -305,15 +303,6 @@ export const HomeGraph = () => {
                             margin: '2px',
                             padding:'2px'}}
                 >
-                    <Box color='black' textAlign='center'>
-                        <Typography                        
-                            textAlign='center'
-                            variant='h5' 
-                            width='100%'
-                        > 
-                           Organ Centric View
-                        </Typography>
-                    </Box>
                     <BaseGraph 
                         drawerOpen={false}
                         width={getWidth(2)}
@@ -327,10 +316,12 @@ export const HomeGraph = () => {
                         graphScheme={defaultGraphScheme}
                         enableZoom={false}
                         onClick={handleClickOrgan}
-                        //onMouseOver={handleOrganMouseOver}
-                        //onMouseOut={handleOrganMouseOut}
                     />
-                    <Box color='black' textAlign='center'>
+                    <Box 
+                        color='black' 
+                        textAlign='center'
+                        paddingBottom={1}
+                    >
                         <Typography                        
                             textAlign='center'
                             variant='h6' 
@@ -338,8 +329,13 @@ export const HomeGraph = () => {
                             // color={activeGraph===2?'primary.main':'white'}
                             color='primary.main'
                         > 
-                            {getActiveDesciption(2)}
-                        </Typography>
+                            <Button 
+                                variant="outlined"
+                                onClick={handleClickOrgan}
+                            >
+                                {getActiveDesciption(2)}
+                            </Button>
+                                                    </Typography>
                     </Box>
                 </Paper>
             </Box>
@@ -361,15 +357,6 @@ export const HomeGraph = () => {
                             margin: '2px',
                             padding:'2px'}}
                 >
-                    <Box color='black' textAlign='center'>
-                        <Typography                        
-                            textAlign='center'
-                            variant='h5' 
-                            width='100%'
-                        > 
-                            Syndrome Centric View
-                        </Typography>                        
-                    </Box>
                     <BaseGraph 
                         drawerOpen={false}
                         width={getWidth(3)}
@@ -384,23 +371,31 @@ export const HomeGraph = () => {
                         enableZoom={false}
                         onClick={handleClickSyndrome}
                     />
-                    <Box color='black' textAlign='center'>
-                            <Typography                        
-                                textAlign='center'
-                                variant='h6' 
-                                width='100%'
-                                // color={activeGraph===4?'primary.main':'white'}
-                                color='primary.main'
-                            > 
+                    <Box 
+                        color='black' 
+                        textAlign='center'
+                        paddingBottom={1}
+                    >
+                        <Typography                        
+                            textAlign='center'
+                            variant='h6' 
+                            width='100%'
+                            color='primary.main'
+                        > 
+                            <Button 
+                                variant="outlined"
+                                onClick={handleClickSyndrome}
+                            >
                                 {getActiveDesciption(4)}
-                            </Typography>
+                            </Button>
+
+                        </Typography>
                     </Box>
                 </Paper>
             </Box>
             <Box id='graph-box4' display='flex' flex={1}
                 sx={{
                     minWidth: '300px',
-                    // backgroundColor: 'primary.main',
                     color: 'white',
                     paddig: '16px',
                 }}
@@ -414,15 +409,6 @@ export const HomeGraph = () => {
                             margin: '2px',
                             padding:'2px'}}
                 >
-                    <Box color='black' textAlign='center'>
-                        <Typography                        
-                            textAlign='center'
-                            variant='h5' 
-                            width='100%'
-                        > 
-                            Disease Centric View
-                        </Typography>                        
-                    </Box>
                     <BaseGraph 
                         drawerOpen={false}
                         width={getWidth(4)}
@@ -436,18 +422,24 @@ export const HomeGraph = () => {
                         graphScheme={defaultGraphScheme}
                         enableZoom={false}
                         onClick={handleClickDisease}
-                        // onMouseOver={handleDiseaseMouseOver}
-                        // onMouseOut={handleDiseaseMouseOut}
                     />
-                    <Box color='black' textAlign='center'>
+                    <Box 
+                        color='black' 
+                        textAlign='center'
+                        paddingBottom={1}
+                    >
                             <Typography                        
                                 textAlign='center'
                                 variant='h6' 
                                 width='100%'
-                                // color={activeGraph===3?'primary.main':'white'}
                                 color='primary.main'
                             > 
-                                {getActiveDesciption(3)}
+                                <Button 
+                                    variant="outlined"
+                                    onClick={handleClickGene}
+                                >
+                                    {getActiveDesciption(3)}
+                                </Button>
                             </Typography>
                     </Box>
                 </Paper>
