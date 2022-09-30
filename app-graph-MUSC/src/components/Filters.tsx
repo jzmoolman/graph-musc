@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { padding } from '@mui/system'
 import  { Box, Divider, Typography } from '@mui/material'
 import { CustomSelect } from './CustomSelect'
-import { GraphName } from '../tools/graphtools'
+import { GraphName, GraphScheme } from '../tools/graphtools'
 import { Dropdown } from './Dropdown'
 import { Neo4jContext } from 'use-neo4j'
 import { loadGene, loadOrgan, loadDisease, loadSyndrome } from '../tools/graphdata'
@@ -49,6 +49,7 @@ type FiltersProps = {
     diseases: string[]
     syndromes: string[]
     finalVerdict: string
+    graphScheme: GraphScheme
     onGraphChange?: (name: GraphName) => void
     onGeneChange?: (selcetd: string[]) => void
     onOrganChange?: (selcetd: string[]) => void
@@ -64,6 +65,7 @@ export const Filters = ({
         diseases, 
         syndromes, 
         finalVerdict,
+        graphScheme, 
         onGraphChange,
         onGeneChange,
         onOrganChange,
@@ -156,442 +158,193 @@ export const Filters = ({
         }
     }
 
-    const DisplayPanel = () => {
 
-        type FilterProps = {
-            name: GraphName
+    type FilterProps = {
+        name: GraphName
+    }
+
+    const HeaderDesc = ({name}: FilterProps) => {
+        switch(name) {
+            case 'gene-organ':
+                return  (<>
+                    This graph shows all [<span style={{color: graphScheme.geneNode}}>gene</span>]-
+                            [<span style={{color: graphScheme.organNode}}>organ</span>] associations.
+                </>)
+            case 'gene-disease':
+                return  (<>
+                    This graph shows all [<span style={{color: graphScheme.geneNode}}>gene</span>]-
+                        [<span style={{color: graphScheme.diseaseNode}}>disease</span>] associations.
+                </>)
+            case 'gene-disease-subtype':
+                return  (<>
+                    This graph shows all [<span style={{color: graphScheme.geneNode}}>gene</span>]-[<span style={{color: graphScheme.diseaseNode}}>disease</span>]-[<span style={{color: graphScheme.diseaseSubtypeNode}}>subtype</span>] associations.
+                </>)
+            case 'organ': 
+                return (<>
+                    This graph shows ALL [<span style={{color: graphScheme.organNode}}>organ</span>]-[<span style={{color: graphScheme.geneNode}}>gene</span>] associations.
+                </>)
+            case 'disease':
+                return (<>
+                    This graph shows ALL [<span style={{color: graphScheme.diseaseNode}}>disease</span>]-[<span style={{color: graphScheme.geneNode}}>gene</span>] associations.
+                </>)
+            case 'syndrome-disease': 
+                return (<>
+                    This graph shows ALL [<span style={{color: graphScheme.syndromeNode}}>Syndrome</span>]-[<span style={{color: graphScheme.diseaseNode}}>disease</span>] associations.
+                </>)
+            case 'syndrome-gene-disease': 
+                return (<>
+                    This graph shows ALL [<span style={{color: graphScheme.syndromeNode}}>Syndrome</span>]-[<span style={{color: graphScheme.geneNode}}>gene</span>]-[<span style={{color: graphScheme.diseaseNode}}>disease</span>] associations.
+                </>)
+            default: return  <>Undefined:  + name </>
         }
+    }
 
-        const HeaderDesc = ({name}: FilterProps) => {
-            switch(name) {
-                case 'gene-organ':
-                    return  (<>
-                        This graph shows all [<span style={{color: 'blue'}}>gene</span>]-[<span style={{color: 'red'}}>organ</span>] associations.
-                    </>)
-                default: return  <>Undefined:  + name </>
-            }
-        }
-
-        const FilterHeader = ({name}:FilterProps) => {
-            return (
-                <Typography 
-                    component='div'
-                    sx={{
-                        textAlign:'left',
-                        marginLeft: 1,
-                        color: 'black'
-                    }}
-                > 
-                    <Box paddingTop={1}>                    
-                        <HeaderDesc name={name}/>
-                    </Box>
-                </Typography>
-            )
-        }
-
-        const FilterHeader2 = ({name}:FilterProps) => {
-            switch(name) {
-                case 'gene-organ':
-                    {
-                        return (
-                    <Typography 
-                        component='div'
-                        sx={{
-                            textAlign:'left',
-                            marginLeft: 1,
-                            color: 'black'
-                        }}
-                    > 
-                            <Box paddingTop={1}>
-                                This graph shows all [<span style={{color: 'blue'}}>gene</span>]-[<span style={{color: 'red'}}>organ</span>] associations.
-                            </Box>
-                            <Box paddingTop={2}>
-                                To limit the graph to one or just a few [<span style={{color: 'blue'}}>genes</span>], select as many [<span style={{color: 'blue'}}>genes</span>] from the pulldown as you wish to compare.
-                            </Box>
-                        </Typography>
-
-                        )
-                    }
-                case 'gene-disease':
-                    {
-                        return (
-                    <Typography 
-                        component='div'
-                        sx={{
-                            textAlign:'left',
-                            marginLeft: 1,
-                            color: 'black'
-                        }}
-                    > 
-                            <Box padding={1}>
-                                This graph shows all [<span style={{color: 'blue'}}>gene</span>]-[<span style={{color: 'purple'}}>disease</span>] associations.
-                            </Box>
-
-                            
-                            <div>
-                                To limit the graph to one or just a few [<span style={{color: 'blue'}}>genes</span>], select as many [<span style={{color: 'blue'}}>genes</span>] from the pulldown as you wish to compare.
-                            </div>
-                        </Typography>
-                        )
-                    }
-                case 'gene-disease-subtype':
-                {
-                    return (
-                    <Typography 
-                        component='div'
-                        sx={{
-                            textAlign:'left',
-                            marginLeft: 1,
-                            color: 'black'
-                        }}
-                    > 
-                        <div>
-                            This graph shows all [<span style={{color: 'blue'}}>gene</span>]-[<span style={{color: 'purple'}}>disease</span>]-[<span style={{color: 'green'}}>subtype</span>] associations.
-                            <div>
-                                To limit the graph to one or just a few [<span style={{color: 'blue'}}>genes</span>], select as many [<span style={{color: 'blue'}}>genes</span>] from the pulldown as you wish to compare.
-                            </div>
-                        </div>
-                        </Typography>
-                    )
-                }
-                case 'organ': {
-                    return (
-                    <Typography 
-                        component='div'
-                        sx={{
-                            textAlign:'left',
-                            marginLeft: 1,
-                            color: 'black'
-                        }}
-                    > 
-                        <div>
-                            This graph shows all [<span style={{color: 'red'}}>organ</span>]-[<span style={{color: 'blue'}}>gene</span>] associations.
-                            <div>
-                                To limit the graph to one or just a few [<span style={{color: 'red'}}>organs</span>], select as many [<span style={{color: 'red'}}>organs</span>] from the pulldown as you wish to compare.
-                            </div>
-                        </div>
-                        </Typography>
-                    )
-                }
-                case 'disease': {
-                    return (
-                    <Typography 
-                        component='div'
-                        sx={{
-                            textAlign:'left',
-                            marginLeft: 1,
-                            color: 'black'
-                        }}
-                    > 
-                        <div>
-                            This graph shows all [<span style={{color: 'purple'}}>disease</span>]-[<span style={{color: 'blue'}}>gene</span>] associations.
-                            <div>
-                                To limit the graph to one or just a few [<span style={{color: 'purple'}}>diseases</span>], select as many [<span style={{color: 'purple'}}>diseases</span>] from the pulldown as you wish to compare.
-                            </div>
-                        </div>
-                        </Typography>
-                    )
-                }
-                case 'syndrome-disease': {
-                    return (
-                    <Typography 
-                        component='div'
-                        sx={{
-                            textAlign:'left',
-                            marginLeft: 1,
-                            color: 'black'
-                        }}
-                    > 
-                        <div>
-                            This graph shows all [<span style={{color: '#DE970B'}}>syndrome</span>]-[<span style={{color: 'purple'}}>disease</span>] associations.
-                            <div>
-                                Choose whether you want to see <span style={{color: '#DE970B'}}>Syndrome</span>-<span style={{color: 'purple'}}>Disease</span> or <span style={{color: '#DE970B'}}>Syndrome</span>-<span style={{color: 'blue'}}>Gene</span>-<span style={{color: 'purple'}}>Disease</span> from the [<span style={{color: '#DE970B'}}>Syndrome</span>] pulldown
-                            </div>
-                        </div>
-                        </Typography>
-                    )
-                }
-                case 'syndrome-gene-disease': {
-                    return (
-                    <Typography 
-                        component='div'
-                        sx={{
-                            textAlign:'left',
-                            marginLeft: 1,
-                            color: 'black'
-                        }}
-                    > 
-                    <div>
-                        This graph shows all [<span style={{color: '#DE970B'}}>syndrome</span>]-[<span style={{color: 'blue'}}>gene</span>]-[<span style={{color: 'purple'}}>disease</span>] associations.
-                        <div>
-                            Choose whether you want to see <span style={{color: '#DE970B'}}>Syndrome</span>-<span style={{color: 'purple'}}>Disease</span> or <span style={{color: '#DE970B'}}>Syndrome</span>-<span style={{color: 'blue'}}>Gene</span>-<span style={{color: 'purple'}}>Disease</span> from the [<span style={{color: '#DE970B'}}>Syndrome</span>] pulldown
-                        </div>
-                    </div>
-
-                        </Typography>
-                    )
-                }
-                defualt:{
-                    return (
-                    <Typography 
-                        component='div'
-                        sx={{
-                            textAlign:'left',
-                            marginLeft: 1,
-                            color: 'black'
-                        }}
-                    > 
-                        <div>
-                           Select as many <span style={{color: 'red'}}>{name}</span> as you wish to see
-                        </div>
-                        </Typography>
-                    )
-                      
-                }
-            }
-            return (
-                    <Typography 
-                        component='div'
-                        sx={{
-                            textAlign:'left',
-                            marginLeft: 1,
-                            color: 'black'
-                        }}
-                    > 
-                <div>
-                    Select as many <span style={{color: 'red'}}>{name}</span> as you wish to see
-                </div>
-                        </Typography>
-            )
-        }
-
-        const FilterSubGraph = ({name} : FilterProps) => {
-            switch(name) {
-                case 'gene-organ':
-                case 'gene-disease':
-                case 'gene-disease-subtype':
-                    return (<>
-                        <Typography 
-                            sx={{
-                                textAlign:'left',
-                                marginLeft: 1,
-                                color: 'black'
-                            }}
-                        > 
-                            <Box paddingTop={2}>                    
-                                Choose what associations you want to see.
-                            </Box>
-                        </Typography>
-                        <CustomSelect 
-                            options={[
-                                {key:'1', value: getSubGraphDesc('gene-organ')},
-                                {key:'2', value: getSubGraphDesc('gene-disease')},
-                                {key:'3', value: getSubGraphDesc('gene-disease-subtype')}
-                            ]}
-                            label='Graph' 
-                            defaultSelected={getSubGraphDesc(name)}
-                            onChange={handleGraphChange}
-                        />
-                    </>)
-                case 'syndrome-disease': {
-                    return (<>
-                        <CustomSelect 
-                            options={[
-                                {key:'1', value: getSubGraphDesc('syndrome-disease')},
-                                {key:'2', value: getSubGraphDesc('syndrome-gene-disease')}
-                            ]}
-                            label='Graph' 
-                            defaultSelected={getSubGraphDesc(name)}
-                            onChange={handleGraphChange}
-                        />
-
-                    <Typography 
-                        component='div'
-                        sx={{
-                            textAlign:'left',
-                            marginLeft: 1,
-                            color: 'black'
-                        }}
-                    >
-                    <div>
-                    Then, to limit the graph to one or just a few [<span style={{color: '#DE970B'}}>syndromes</span>], select as many [<span style={{color: '#DE970B'}}>syndromes</span>] from the [<span style={{color: '#DE970B'}}>Syndrome</span>] pulldown as you wish to compare.
-                    </div>
-                    </Typography>
-                     </>)
-                }
-                
-                case 'syndrome-gene-disease': {
-                    return (<>
-                        <CustomSelect 
-                            options={[
-                                {key:'1', value: getSubGraphDesc('syndrome-disease')},
-                                {key:'2', value: getSubGraphDesc('syndrome-gene-disease')}
-                            ]}
-                            label='Graph' 
-                            defaultSelected={getSubGraphDesc(name)}
-                            onChange={handleGraphChange}
-                        />
-
-                    <Typography 
-                        component='div'
-                        sx={{
-                            textAlign:'left',
-                            marginLeft: 1,
-                            color: 'black'
-                        }}
-                    >
-                    <div>
-                    Then, to limit the graph to one or just a few [<span style={{color: '#DE970B'}}>syndromes</span>], select as many [<span style={{color: '#DE970B'}}>syndromes</span>] from the [<span style={{color: '#DE970B'}}>Syndrome</span>] pulldown as you wish to compare.
-                    </div>
-                    </Typography>
-                     </>)
-                }
-                defualt: {
-                    return (<></>)
-                }
-            }
-            return (<></>)
-        }
-
-
-        const FilterGraph = ({name} : FilterProps) => {
-            switch(name) {
-                case 'gene-organ':
-                case 'gene-disease':
-                case 'gene-disease-subtype':
-                    return (<>
-                        <Typography 
-                            sx={{
-                                textAlign:'left',
-                                marginLeft: 1,
-                                color: 'black'
-                            }}
-                        > 
-                            <Box paddingTop={2}>                    
-                                To limit the graph to one or just a few [<span style={{color: 'blue'}}>genes</span>], select as many [<span style={{color: 'blue'}}>genes</span>] as you wish compare.
-                            </Box>
-                        </Typography>
-                        <Dropdown 
-                            label={getGraphDesc(name)}
-                            options={data}
-                            selected={getOnHandleChange(name).selected}
-                            onChange={getOnHandleChange(name).handleChange}
-                        />
-                    </>)
-                default: return (<></>)
-            }
-        }
-
-        const FilterAssociation = ({name}:FilterProps) => {
-            switch(name) {
-                case 'gene-organ':
-                    return (<> 
-                            <Typography 
-                                sx={{
-                                    textAlign:'left',
-                                    marginLeft: 1,
-                                    color: 'black'
-                                }}
-                            > 
-                                <Box paddingTop={20}>                    
-                                    To see only confirmed associations, select CONFIRMED. 
-                                    To see unconfirmed select associations, select MAYBE.
-                                </Box>
-                            </Typography>
-                            <CustomSelect 
-                                options={[
-                                    {key:'1', value: 'Confirmed'},
-                                    {key:'9', value: 'Maybe'}
-                                ]}
-                                label='Associations' 
-                                defaultSelected={finalVerdict}
-                                onChange={handleFinalVerdictChange}
-                            />
-                    </>)
-                case 'gene-disease':
-                    {
-                        return (
-                            <div>
-                                To see only confirmed <span style={{color: 'blue'}}>gene</span>-<span style={{color: 'purple'}}>disease</span> associations, select CONFIRMED. 
-                                <div>
-                                To see unconfirmed <span style={{color: 'blue'}}>gene</span>-<span style={{color: 'purple'}}>disease</span> associations, select MAYBE
-                                </div>
-                            </div>
-                        )
-                    }
-                case 'gene-disease-subtype':
-                {
-                    return (
-                        <div>
-                        To see only confirmed <span style={{color: 'blue'}}>gene</span>-<span style={{color: 'purple'}}>disease</span>-<span style={{color: 'green'}}>subtype</span> associations, select CONFIRMED. 
-                        <div>
-                        To see unconfirmed <span style={{color: 'blue'}}>gene</span>-<span style={{color: 'purple'}}>disease</span>-<span style={{color: 'green'}}>subtype</span> associations, select MAYBE
-                        </div>
-                    </div>
-                    )
-                }
-                case 'organ': {
-                    return (
-                        <div>
-                        To see only confirmed <span style={{color: 'red'}}>organ</span>-<span style={{color: 'blue'}}>gene</span> associations, select CONFIRMED. 
-                        <div>
-                        To see unconfirmed <span style={{color: 'red'}}>organ</span>-<span style={{color: 'blue'}}>gene</span> associations, select MAYBE
-                        </div>
-                    </div>
-                    )
-                }
-                case 'disease': {
-                    return (
-                        <div>
-                        To see only confirmed <span style={{color: 'purple'}}>disease</span>-<span style={{color: 'blue'}}>gene</span> associations, select CONFIRMED. 
-                        <div>
-                        To see unconfirmed <span style={{color: 'purple'}}>disease</span>-<span style={{color: 'blue'}}>gene</span> associations, select MAYBE
-                        </div>
-                    </div>
-                    )
-                }
-                case 'syndrome-disease': {
-                    return (
-                        <div>
-                        To see only confirmed <span style={{color: '#DE970B'}}>syndrome</span>-<span style={{color: 'purple'}}>disease</span> associations, select CONFIRMED. 
-                        <div>
-                        To see unconfirmed <span style={{color: '#DE970B'}}>syndrome</span>-<span style={{color: 'purple'}}>disease</span> associations, select MAYBE
-                        </div>
-                    </div>
-                    )
-                }
-                case 'syndrome-gene-disease': {
-                    return (
-                        <div>
-                        To see only confirmed <span style={{color: '#DE970B'}}>syndrome</span>-<span style={{color: 'blue'}}>gene</span>-<span style={{color: 'purple'}}>disease</span> associations, select CONFIRMED. 
-                        <div>
-                        To see unconfirmed <span style={{color: '#DE970B'}}>syndrome</span>-<span style={{color: 'blue'}}>gene</span>-<span style={{color: 'purple'}}>disease</span> associations, select MAYBE
-                        </div>
-                    </div>
-
-                    )
-                }
-                defualt:{
-                    return (<></>)
-
-                      
-                }
-            }
-            return (<></>)
-        }
-
+    const FilterHeader = ({name}:FilterProps) => {
         return (
-            <> 
-                <FilterHeader name={name}/>
-                <FilterSubGraph name={name}/>
-                <FilterGraph name={name}/>
-                <Divider/>
-                <FilterAssociation name={name}/>
+            <Typography 
+                component='div'
+                sx={{ 
+                    textAlign:'left',
+                    marginLeft: 1,
+                    color: 'black'
+                }}
+            > 
+                <Box paddingTop={1}>                    
+                    <HeaderDesc name={name}/>
+                </Box>
+            </Typography>
+        )
+    }
 
-                {/* </Box> */}
+    const FilterSubGraph = ({name} : FilterProps) => {
+        switch(name) {
+            case 'gene-organ':
+            case 'gene-disease':
+            case 'gene-disease-subtype':
+                return (<>
+                    <Typography 
+                        sx={{
+                            textAlign:'left',
+                            marginLeft: 1,
+                            color: 'black'
+                        }}
+                    > 
+                        <Box paddingTop={2}>                    
+                            Choose what associations you want to see.
+                        </Box>
+                    </Typography>
+                    <CustomSelect 
+                        options={[
+                            {key:'1', value: getSubGraphDesc('gene-organ')},
+                            {key:'2', value: getSubGraphDesc('gene-disease')},
+                            {key:'3', value: getSubGraphDesc('gene-disease-subtype')}
+                        ]}
+                        label='Graph' 
+                        defaultSelected={getSubGraphDesc(name)}
+                        onChange={handleGraphChange}
+                    />
+                </>)
+            case 'syndrome-disease': 
+            case 'syndrome-gene-disease': 
+                return (<>
+                    <Typography 
+                        sx={{
+                            textAlign:'left',
+                            marginLeft: 1,
+                            color: 'black'
+                        }}
+                    > 
+                        <Box paddingTop={2}>                    
+                            Choose what associations you want to see.
+                        </Box>
+                    </Typography>
+                    <CustomSelect 
+                        options={[
+                            {key:'1', value: getSubGraphDesc('syndrome-disease')},
+                            {key:'2', value: getSubGraphDesc('syndrome-gene-disease')}
+                        ]}
+                        label='Graph' 
+                        defaultSelected={getSubGraphDesc(name)}
+                        onChange={handleGraphChange}
+                    />
 
-            </>
-        )     
+                    </>)
+        }
+        return (<></>)
+    }
+    const GraphDesc = ({name}: FilterProps) => {
+        switch(name) {
+            case 'gene-organ':
+            case 'gene-disease':
+            case 'gene-disease-subtype':
+                return (<>
+                    To limit the graph to one or just a few [<span style={{color: 'blue'}}>genes</span>], select as many [<span style={{color: 'blue'}}>genes</span>] as you wish compare.
+                </>)
+            case 'organ': 
+                return (<>
+                    To limit the graph to one or just a few [<span style={{color: 'red'}}>organs</span>], select as many [<span style={{color: 'red'}}>organs</span>] as you wish compare.
+                </>)
+            case 'disease': 
+                return (<>
+                    To limit the graph to one or just a few [<span style={{color: graphScheme.diseaseNode}}>organs</span>], select as many [<span style={{color: 'red'}}>organs</span>] as you wish compare.
+                </>)
+            case 'syndrome-disease':
+            case 'syndrome-gene-disease':
+                return (<>
+                    To limit the graph to one or just a few [<span style={{color: graphScheme.syndromeNode}}>Syndromes</span>], select as many [<span style={{color: graphScheme.syndromeNode}}>syndromes</span>] as you wish compare.
+                </>)
+            default : 
+            return (<>Not Implemented</>)
+        }
+    }
+
+    const FilterGraph = ({name} : FilterProps) => {
+        let el : React.ReactElement;
+        el = <><Typography 
+                        sx={{
+                            textAlign:'left',
+                            marginLeft: 1,
+                            color: 'black'
+                        }}
+                    > 
+                        <Box paddingTop={2}>                    
+                            <GraphDesc name={name}/>
+                        </Box>
+                    </Typography>
+                    <Dropdown 
+                        label={getGraphDesc(name)}
+                        options={data}
+                        selected={getOnHandleChange(name).selected}
+                        onChange={getOnHandleChange(name).handleChange}
+                    />
+        </>
+        return el
+    }
+
+    const FilterAssociation = ({name}:FilterProps) => {
+        return (<> 
+            <Typography 
+                sx={{
+                    textAlign:'left',
+                    marginLeft: 1,
+                    color: 'black'
+                }}
+            > 
+                <Box paddingTop={5}>                    
+                    To see only confirmed associations, select CONFIRMED. 
+                    To see unconfirmed select associations, select MAYBE.
+                </Box>
+            </Typography>
+            <CustomSelect 
+                options={[
+                    {key:'1', value: 'Confirmed'},
+                    {key:'9', value: 'Maybe'}
+                ]}
+                label='Associations' 
+                defaultSelected={finalVerdict}
+                onChange={handleFinalVerdictChange}
+            />
+        </>)
     }
 
     return (
@@ -603,7 +356,11 @@ export const Filters = ({
             // rowGap={1}
             marginTop={1}
         >
-            <DisplayPanel />
+                <FilterHeader name={name}/>
+                <FilterSubGraph name={name}/>
+                <FilterGraph name={name}/>
+                <Divider/>
+                <FilterAssociation name={name}/>
         </Box>
     )
 

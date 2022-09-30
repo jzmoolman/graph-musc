@@ -70,7 +70,6 @@ export const Graph = ( {
     console.log('name', name)
 
     const [graphName, setGraphName] = useState<GraphName>(name)
-    // const [refresh, setRefresh] = useState(true)
     const refresh = useRef(true)
     if ( refresh.current) {
         refresh.current = true;
@@ -78,9 +77,7 @@ export const Graph = ( {
            setGraphName(name)
         }
     }
-
-
-
+    
     console.log('graphName', graphName)
     const [graphScheme, setGraphScheme] = useState(defaultGraphScheme)
     const [genes, setGenes] = useState<string[]>([])
@@ -280,6 +277,7 @@ export const Graph = ( {
                     diseases={diseases}
                     syndromes={syndromes}
                     finalVerdict={finalVerdict}
+                    graphScheme={graphScheme}
                     onGraphChange={handleGraphChange}
                     onGeneChange={handleGeneChange}
                     onOrganChange={handleOrganChange}

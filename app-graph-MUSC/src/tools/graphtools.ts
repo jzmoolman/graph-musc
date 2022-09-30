@@ -27,7 +27,8 @@ export const defaultGraphScheme: GraphScheme = {
     diseaseFont: 'White',
     diseaseSubtypeNode: 'Green',
     diseaseSubtypeFont: 'White',
-    syndromeNode: '#E8E10C',
+    // syndromeNode: '#E8E10C',       '#DE970B' 
+    syndromeNode: '#DE970B',  // Organge 
     syndromeFont: 'Black', 
     nodeVal: 1,
     nodeRelSize: 7,

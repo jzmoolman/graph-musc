@@ -326,7 +326,6 @@ export const HomeGraph = () => {
                             textAlign='center'
                             variant='h6' 
                             width='100%'
-                            // color={activeGraph===2?'primary.main':'white'}
                             color='primary.main'
                         > 
                             <Button 
@@ -335,7 +334,7 @@ export const HomeGraph = () => {
                             >
                                 {getActiveDesciption(2)}
                             </Button>
-                                                    </Typography>
+                        </Typography>
                     </Box>
                 </Paper>
             </Box>
@@ -388,7 +387,6 @@ export const HomeGraph = () => {
                             >
                                 {getActiveDesciption(4)}
                             </Button>
-
                         </Typography>
                     </Box>
                 </Paper>
@@ -436,7 +434,7 @@ export const HomeGraph = () => {
                             > 
                                 <Button 
                                     variant="outlined"
-                                    onClick={handleClickGene}
+                                    onClick={handleClickDisease}
                                 >
                                     {getActiveDesciption(3)}
                                 </Button>
