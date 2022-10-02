@@ -27,7 +27,6 @@ export const defaultGraphScheme: GraphScheme = {
     diseaseFont: 'White',
     diseaseSubtypeNode: 'Green',
     diseaseSubtypeFont: 'White',
-    // syndromeNode: '#E8E10C',       '#DE970B' 
     syndromeNode: '#DE970B',  // Organge 
     syndromeFont: 'Black', 
     nodeVal: 1,
@@ -41,6 +40,7 @@ export type Force2DData = {
     links: any[]
 }
 
+export type SiteName = 'generic' | 'gi' 
 export type GraphName = 'gene-organ' | 'gene-disease' | 'gene-disease-subtype' | 'organ' | 'disease' | 'syndrome-disease' | 'syndrome-gene-disease'
 
 export const ArrayToStr = (data: string[]) => {

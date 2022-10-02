@@ -2,7 +2,7 @@ import { useState, useContext, useEffect, useRef, MutableRefObject } from 'react
 import { Neo4jContext } from 'use-neo4j'
 import ForceGraph2D, { ForceGraphMethods, NodeObject }  from 'react-force-graph-2d'
 import { useNavigate } from 'react-router-dom'
-import { CustomNodeObject,  Force2DData, GraphName, GraphScheme, paintNode, GeneNodeObject, SyndromeNodeObject, SubtypeNodeObject } from '../tools/graphtools'
+import { CustomNodeObject,  Force2DData, GraphName, GraphScheme, paintNode, GeneNodeObject, SyndromeNodeObject, SubtypeNodeObject, SiteName } from '../tools/graphtools'
 import { defaultGraphScheme } from '../tools/graphtools';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
@@ -28,6 +28,7 @@ type BaseGraphProps = {
     drawerOpen: boolean
     width: number
     height: number
+    site: SiteName
     name: GraphName
     genes: string[]
     organs: string[]
@@ -45,6 +46,7 @@ export const BaseGraph = ( {
     drawerOpen, 
     width=200, 
     height=300, 
+    site,
     name,  
     genes, 
     organs, 
@@ -75,18 +77,7 @@ export const BaseGraph = ( {
         let position: {x: number, y: number} = {x:0, y:0}
         position.x = e?.pageX
         position.y = e?.pageY
-        // setNodePosition(position)
     }
-
-    //const handleNodeHover = (node: NodeObject | null, previousNode: NodeObject | null) => {
-    //    console.log('handleNodeHover - enableHover', enableHover )
-    //    console.log('handleNodeHover - nodeHover', nodeHover )
-    //    console.log('handleNodeHover - node', node)
-    //    if ( enableHover && nodeHover === null && node   ) {
-    //        console.log('handleNodeHover - Enter', node)
-    //        setNodeHover(node)
-    //    }  
-    //}
 
     const handleClick:React.MouseEventHandler<HTMLDivElement> = (event) => {
         console.log('onClick')
@@ -181,6 +172,7 @@ export const BaseGraph = ( {
                                         height={300}
                                         //name={((nodeHover as CustomNodeObject).nodeType as GraphName)}
                                         //Do we only want to show the disease grapgh each time?
+                                        site={site}
                                         name='disease'
                                         genes={[_node.name]}
                                         organs={[]}
@@ -247,6 +239,7 @@ export const BaseGraph = ( {
                                         drawerOpen={false}
                                         width={325}
                                         height={300}
+                                        site={site}
                                         name={((nodeHover as CustomNodeObject).nodeType as GraphName)}
                                         genes={[]}
                                         organs={[(nodeHover as CustomNodeObject).name]}
@@ -299,6 +292,7 @@ export const BaseGraph = ( {
                                     drawerOpen={false}
                                     width={325}
                                     height={300}
+                                    site={site}
                                     name={_node.nodeType as GraphName}
                                     genes={[]}
                                     organs={[]}
@@ -351,6 +345,7 @@ export const BaseGraph = ( {
                                     drawerOpen={false}
                                     width={325}
                                     height={300}
+                                    site={site}
                                     name={'gene-disease-subtype' as GraphName}
                                     genes={[]}
                                     organs={[]}
@@ -404,6 +399,7 @@ export const BaseGraph = ( {
                                 drawerOpen={false}
                                 width={325}
                                 height={300}
+                                site={site}
                                 name={'syndrome-disease' as GraphName}
                                 genes={[]}
                                 organs={[]}
@@ -448,7 +444,7 @@ export const BaseGraph = ( {
         console.log('Graph name',name)
         switch (name) {
             case 'gene-organ': {
-                loadGeneOrganData(driver, genes, organs,finalVerdict, graphScheme, onData)
+                loadGeneOrganData(driver, site, genes, organs,finalVerdict, graphScheme, onData)
                 break
             }
             case 'gene-disease': {

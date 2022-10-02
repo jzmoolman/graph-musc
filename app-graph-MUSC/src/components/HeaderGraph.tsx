@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import  { Box,  Paper, Typography } from '@mui/material'
 import { Graph } from './Graph';
-import { defaultGraphScheme, GraphName } from '../tools/graphtools';
+import { defaultGraphScheme, GraphName, SiteName } from '../tools/graphtools';
 import { useNavigate } from 'react-router-dom'
 
 import musc from '../assets/musc.png'
@@ -14,6 +14,7 @@ type Dimension = {
 
 type GraphProps = {
     name: GraphName 
+    site: SiteName
     open: boolean
     onChange?: (open: boolean) => void
     onMouseOver?: () => void
@@ -23,6 +24,7 @@ type GraphProps = {
 
 export const HeaderGraph = ({
     name, 
+    site, 
     open , 
     onChange,
     onMouseOver,
@@ -121,6 +123,6 @@ export const HeaderGraph = ({
     return (<>
 
        <MuscHeader/>
-       <Graph name={name} open={open} onChange={onChange}/>
+       <Graph name={name} site={site} open={open} onChange={onChange}/>
     </>)
 }

@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import { styled, useTheme } from '@mui/material/styles'
 import  { Box, Divider, useColorScheme, Paper, Drawer, Typography } from '@mui/material'
 import { Configuration } from './Configuration';
-import { GraphScheme, defaultGraphScheme, GraphName } from '../tools/graphtools';
+import { GraphScheme, defaultGraphScheme, GraphName, SiteName } from '../tools/graphtools';
 import { BaseGraph } from './BaseGraph';
 import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -47,6 +47,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 type GraphProps = {
     name: GraphName 
+    site: SiteName
     open: boolean
     onChange?: (open: boolean) => void
     onMouseOver?: () => void
@@ -61,7 +62,8 @@ type Dimension = {
 
 export const Graph = ( { 
     name, 
-    open , 
+    site, 
+    open, 
     onChange,
     onMouseOver,
     onMouseOut
@@ -257,6 +259,7 @@ export const Graph = ( {
                         drawerOpen={open}
                         width={getWidth()}
                         height={getHeight()}
+                        site={site}
                         name={graphName}
                         genes={genes}
                         organs={organs}
@@ -272,6 +275,7 @@ export const Graph = ( {
                 </Paper>
                 <Filters 
                     name={graphName} 
+                    site={site}
                     genes={genes} 
                     organs={organs} 
                     diseases={diseases}

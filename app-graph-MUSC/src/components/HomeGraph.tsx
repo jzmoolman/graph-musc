@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import  { Box,  Button,  Paper, Typography } from '@mui/material'
 import { BaseGraph } from './BaseGraph';
-import { defaultGraphScheme } from '../tools/graphtools';
+import { defaultGraphScheme, SiteName } from '../tools/graphtools';
 import { useNavigate } from 'react-router-dom'
 
 import musc from '../assets/musc.png'
@@ -11,7 +11,11 @@ type Dimension = {
     height: number
 }
 
-export const HomeGraph = () => {
+type HomeGraphProp =  {
+   site: SiteName
+}
+
+export const HomeGraph = ({site}: HomeGraphProp) => {
     console.log('enter - HomeGraph')
     const [activeGraph, setActiveGraph] = useState(0)
 
@@ -129,13 +133,18 @@ export const HomeGraph = () => {
     }
 
     const handleClickGene = () => {
-        navigate('/graph/gene')
+        switch ( site ) {
+            case 'generic': { navigate('/graph/gene'); break; }
+            case 'gi': { navigate('/graph/gene/gi'); break; }
+        }
     }
 
     const handleClickOrgan = () => {
-        navigate('/graph/organ')
+        switch ( site ) {
+            case 'generic': { navigate('/graph/organ'); break; }
+            case 'gi': { navigate('/graph/organ/gi'); break; }
+        }
     }
-
     
     const handleClickDisease = () => {
         navigate('/graph/disease')
@@ -209,6 +218,69 @@ export const HomeGraph = () => {
         }
     }
 
+    const getHeaderDesc1 = (name : SiteName) => {
+        switch (name) {
+            case 'gi': return 'GI Cancer susceptibility gene visualizations using a Graph Database'
+            default : return 'Cancer susceptibility gene visualizations using a Graph Database'
+        }
+    }
+
+    const getHeaderDesc2 = (name : SiteName) => {
+        switch (name) {
+            case 'gi': return 'This website provides visualizations of cancer susceptibility genes and gene combinations for gastroenterologist'
+            default : return 'This website provides visualizations of cancer susceptibility genes and gene combinations'
+        }
+    }
+
+    const GraphButtons = ({site}: HomeGraphProp) => {
+        switch (site) {
+            case 'gi': return (<>
+            <Box id='graph-box5' display='flex' flex={1}
+                sx={{
+                    minWidth: '300px',
+                    color: 'white',
+                    paddig: '16px',
+                }}
+            >
+                <Paper 
+                    elevation={4}         
+                    sx={{ 
+                            color: 'white',
+                            width: '100%',
+                            backgroundColor: 'white',
+                            margin: '2px',
+                            padding:'2px'}}
+                >
+                    <Box height={150}>
+
+                    </Box>
+                    <Box 
+                        color='black' 
+                        textAlign='center'
+                        paddingBottom={1}
+                    >
+                            <Typography                        
+                                textAlign='center'
+                                variant='h6' 
+                                width='100%'
+                                color='primary.main'
+                            > 
+                                <Button 
+                                    variant="outlined"
+                                    onClick={handleClickDisease}
+                                >
+                                    Eligibility for cancer genetic testing
+                                </Button>
+                            </Typography>
+                    </Box>
+                </Paper>
+
+            </Box>
+        </>)
+        default: return (<></>)
+        }
+    }
+
     return (<>
 
     <MuscHeader/>
@@ -218,12 +290,9 @@ export const HomeGraph = () => {
                 textAlign='center'
                 variant='h3' 
                 width='100%'
-                sx={{
-                    // fontFamily: 'Sofia'
-                }} 
                 color='primary.main'
             >
-                Cancer susceptibility gene visualizations using a Graph Database 
+                {getHeaderDesc1(site)}
             </Typography>
         </Box>
         <Box display='flex' 
@@ -232,7 +301,6 @@ export const HomeGraph = () => {
             <Box id='graph-box1' display='flex' flex={1}
                 sx={{
                     minWidth: 300,
-                    // backgroundColor: 'primary.main',
                     color: 'white',
                     paddig: '16px',
                 }}
@@ -249,6 +317,7 @@ export const HomeGraph = () => {
                         drawerOpen={false}
                         width={getWidth(1)}
                         height={300}
+                        site={site}
                         name={'gene-organ'}
                         genes={['BRCA1','BRCA2']}
                         organs={[]}
@@ -288,7 +357,6 @@ export const HomeGraph = () => {
             <Box id='graph-box2' display='flex' flex={1}
                 sx={{
                     minWidth: 400,
-                    // backgroundColor: 'primary.main',
                     color: 'white',
                     paddig: '16px',
                 }}
@@ -307,6 +375,7 @@ export const HomeGraph = () => {
                         drawerOpen={false}
                         width={getWidth(2)}
                         height={300}
+                        site={site}
                         name={'organ'}
                         genes={[]}
                         organs={['Ovary','Breast']}
@@ -360,6 +429,7 @@ export const HomeGraph = () => {
                         drawerOpen={false}
                         width={getWidth(3)}
                         height={300}
+                        site={site}
                         name='syndrome-disease'
                         genes={[]}
                         organs={[]}
@@ -411,6 +481,7 @@ export const HomeGraph = () => {
                         drawerOpen={false}
                         width={getWidth(4)}
                         height={300}
+                        site={site}
                         name={'disease'}
                         genes={[]}
                         organs={[]}
@@ -441,8 +512,8 @@ export const HomeGraph = () => {
                             </Typography>
                     </Box>
                 </Paper>
-
             </Box>
+            <GraphButtons site={site}/>
         </Box>
         <Box id='heading2' display='flex'>
             <Typography 
@@ -451,7 +522,7 @@ export const HomeGraph = () => {
                 width='100%'
                 color='primary.main'
             >
-                This website provides visualizations of cancer susceptibility genes and gene combinations
+                {getHeaderDesc2(site)}
             </Typography>
         </Box>
         <Box display='flex'>

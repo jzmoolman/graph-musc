@@ -1,7 +1,9 @@
 
-import { GraphScheme, Force2DData, ArrayToStr, GeneNodeObject } from './graphtools'
+import { GraphScheme, Force2DData, ArrayToStr, GeneNodeObject, SiteName } from './graphtools'
 import { Driver }  from  'neo4j-driver'
 
+const giOrgans = [ 'Small Bowel', 'Pancreas', 'Liver', 'Gastric', 'Gallbladder', 'GI', 'Esophagus',
+                'Colorectal', 'Colon', 'Bile Duct']
 
 const getFinalVerdictClause = (finalVerdict: string) => {
     let whereClause = ''
@@ -18,8 +20,28 @@ const getFinalVerdictClause = (finalVerdict: string) => {
     return whereClause
 }
 
-export const loadGene= async (driver: Driver | undefined, 
-    onData:(data:string[])=> void
+const getPartialSpeciality = (name: SiteName) => {
+    let clause = ''
+    switch ( name ) {
+        case 'generic': {
+            clause = '';
+            break;
+        }
+        case 'gi': {
+            //# GI Speciial
+            clause = 'WHERE o.name IN ["Small Bowel", "Pancreas", "Liver", "Gastric", "Gallbladder", "GI", "Esophagus", \
+                "Colorectal", "Colon", "Bile Duct"]'; 
+            break;
+        }
+    }
+    return clause
+}
+
+export const loadGene= async (
+        driver: Driver | undefined, 
+        site: SiteName, 
+        onData:(data:string[]
+    )=> void
 ) => {
 
     if (driver == null) {
@@ -55,7 +77,7 @@ export const loadOrgan= async (driver: Driver | undefined,
         return 
     }
 
-    const query = `MATCH (o:Organ) RETURN DISTINCT o.name as name ORDER BY name`
+    const query = `MATCH (o:Organ) ${getPartialSpeciality('gi')} RETURN DISTINCT o.name as name ORDER BY name`
     let session = driver.session()
 
     try {
@@ -131,6 +153,7 @@ export const loadSyndrome= async (driver: Driver | undefined,
 }
 
 export const  loadGeneOrganData = async (driver: Driver | undefined,
+    site: SiteName, 
     genes: string[],
     organs: string[],
     finalVerdict: string,
@@ -145,7 +168,6 @@ export const  loadGeneOrganData = async (driver: Driver | undefined,
     }
 
     const str_genes = ArrayToStr(genes)
-    const str_organs = ArrayToStr(organs)
 
     let whereCLAUSE = getFinalVerdictClause(finalVerdict)
 
@@ -154,12 +176,18 @@ export const  loadGeneOrganData = async (driver: Driver | undefined,
     if ( str_genes !== '') {
         whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + str_genes
     }
-    if ( str_organs !== '') {
-        whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + str_organs
+    switch ( site ) {
+        case 'gi': {
+            if ( organs.length === 0 ) { 
+                whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + ArrayToStr(giOrgans)
+            } else {
+                whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + ArrayToStr(organs)
+            }
+        }
     }
+
     const query = `MATCH (g:MGene)-[r]->(o:Organ) ${whereCLAUSE} RETURN g,r,o`
 
-    // console.log('Gene->Orgran', query)
 
     let session = driver.session()
 

@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { padding } from '@mui/system'
 import  { Box, Divider, Typography } from '@mui/material'
 import { CustomSelect } from './CustomSelect'
-import { GraphName, GraphScheme } from '../tools/graphtools'
+import { GraphName, GraphScheme, SiteName } from '../tools/graphtools'
 import { Dropdown } from './Dropdown'
 import { Neo4jContext } from 'use-neo4j'
 import { loadGene, loadOrgan, loadDisease, loadSyndrome } from '../tools/graphdata'
@@ -44,6 +44,7 @@ const getSubGraphDesc = (name: GraphName) => {
 
 type FiltersProps = {
     name: GraphName
+    site: SiteName
     genes: string[]
     organs: string[]
     diseases: string[]
@@ -59,7 +60,8 @@ type FiltersProps = {
 }
 
 export const Filters = ({
-        name, 
+        name,
+        site,  
         genes,
         organs,
         diseases, 
@@ -84,7 +86,7 @@ export const Filters = ({
             case 'gene-organ': 
             case 'gene-disease': 
             case 'gene-disease-subtype':  {
-                loadGene(driver, handleData)
+                loadGene(driver, site, handleData)
                 break;
             }
             case 'organ': {
