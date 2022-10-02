@@ -147,11 +147,17 @@ export const HomeGraph = ({site}: HomeGraphProp) => {
     }
     
     const handleClickDisease = () => {
-        navigate('/graph/disease')
+        switch ( site ) {
+            case 'generic': { navigate('/graph/disease'); break; }
+            case 'gi': { navigate('/graph/disease/gi'); break; }
+        }
     }
 
     const handleClickSyndrome = () => {
-        navigate('/graph/syndrome')
+        switch ( site ) {
+            case 'generic': { navigate('/graph/syndrome'); break; }
+            case 'gi': { navigate('/graph/syndrome/gi'); break; }
+        }
     }
 
     const handleGeneMouseOver = ()=> {

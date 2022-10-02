@@ -11,7 +11,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import { 
     loadGeneOrganData,
     loadGeneDiseaseData,
-    loadGeneSubtypeData,
     loadGeneDiseaseSubtypeData,
     loadOrganData,
     loadDiseaseData,
@@ -448,27 +447,27 @@ export const BaseGraph = ( {
                 break
             }
             case 'gene-disease': {
-                loadGeneDiseaseData(driver, genes, finalVerdict, graphScheme, onData)
+                loadGeneDiseaseData(driver, site, genes, finalVerdict, graphScheme, onData)
                 break
             }
             case 'gene-disease-subtype': {
-                loadGeneDiseaseSubtypeData(driver, diseases, genes,finalVerdict, graphScheme, onData)
+                loadGeneDiseaseSubtypeData(driver, site,diseases, genes,finalVerdict, graphScheme, onData)
                 break
             }
             case 'organ': {
-                loadOrganData(driver, genes, organs, finalVerdict, graphScheme, onData)
+                loadOrganData(driver, site, genes, organs, finalVerdict, graphScheme, onData)
                 break
             }
             case 'disease': {
-                loadDiseaseData(driver, diseases, genes, finalVerdict, graphScheme, onData)
+                loadDiseaseData(driver, site, diseases, genes, finalVerdict, graphScheme, onData)
                 break
             }
             case 'syndrome-disease': {
-                loadSyndromeDiseaseData(driver, syndromes, finalVerdict, graphScheme, onData)
+                loadSyndromeDiseaseData(driver, site, syndromes, finalVerdict, graphScheme, onData)
                 break
             }
             case 'syndrome-gene-disease': {
-                loadSyndromeGeneDiseaseData(driver, syndromes, finalVerdict, graphScheme, onData)
+                loadSyndromeGeneDiseaseData(driver, site, syndromes, finalVerdict, graphScheme, onData)
                 break
             }
         }
