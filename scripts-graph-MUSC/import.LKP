@@ -87,7 +87,7 @@ WITH row
 MERGE (n:NCCN_GUIDELINES {
   Gene: coalesce(row['Gene'],'Unknown'),
   OrganSystem: coalesce(row['Organ_System'],'Unknown'),
-  Gender: coalesce(row['Gender'],'Unknown'),
+  Gender: (CASE row['Gender'] WHEN '0' THEN 'Both' WHEN '1' THEN 'Male' WHEN '2' THEN 'Female' ELSE 'Unknown' END),
   Modality: coalesce(row['Modality'],'Unknown'),
   OriginalAction: coalesce(row['OriginalAction'],'Unknown'),
   GuidelineName: coalesce(row['GuidelineName'],'Unknown')
