@@ -80,6 +80,20 @@ export interface SubtypeNodeObject extends CustomNodeObject {
     disease: string
 }
 
+export interface cardDataObject {
+    organ: string
+    modality: string
+    gender: string
+    recommendation: string
+}
+
+export interface TabPanelProps {
+    children?: React.ReactNode;
+    index: number;
+    value: number;
+  }
+
+
 export const paintNode = (node: NodeObject, ctx: CanvasRenderingContext2D, GlobalScale: number) => {
     const label = (node as CustomNodeObject).name
     const fontColor = (node as CustomNodeObject).fontColor

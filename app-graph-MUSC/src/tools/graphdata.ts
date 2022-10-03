@@ -1,5 +1,5 @@
 
-import { GraphScheme, Force2DData, ArrayToStr, GeneNodeObject, SiteName } from './graphtools'
+import { GraphScheme, Force2DData, ArrayToStr, GeneNodeObject, SiteName, cardDataObject } from './graphtools'
 import { Driver }  from  'neo4j-driver'
 
 const giOrgans = [ 'Small Bowel', 'Pancreas', 'Liver', 'Gastric', 'Gallbladder', 'GI', 'Esophagus',
@@ -148,6 +148,54 @@ export const loadSyndrome= async (driver: Driver | undefined,
     }
     finally {
         await session.close()
+    }
+}
+
+export const  loadNCCNData = async (driver: Driver | undefined,
+    genes: string[],
+    finalVerdict: string,
+    onCardData: (nccnData: any[])=> void
+    ) => {
+
+    if (driver == null) {
+        console.log('Driver not loaded')
+        return 
+    }
+
+    const str_genes = ArrayToStr(genes)
+
+    let whereCLAUSE = getFinalVerdictClause(finalVerdict)
+
+    if ( str_genes !== '') {
+        whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + str_genes
+    }
+    const query = `MATCH (n:NCCN_GUIDELINES)<-[rn:NCCN_MGENE]-(g:MGene) ${whereCLAUSE} RETURN g,n ORDER BY n.OrganSystem, n.Modality, n.Gender`
+
+    console.log('Gene->NCCN', query)
+
+    let session = driver.session()
+
+    try {
+        let res = await session.run(query)
+        let nccnData : any[] = []
+        res.records.forEach(row => {
+            const source = row.get('n') 
+            let card: cardDataObject = { 
+                organ:source.properties.OrganSystem,
+                modality:source.properties.Modality,
+                gender:source.properties.Gender,
+                recommendation: source.properties.OriginalAction
+            }
+            nccnData.push(card)
+        })
+        session.close();
+        onCardData(nccnData);
+    } catch (e) {
+        throw e
+    }
+    finally {
+        await session.close()
+
     }
 }
 

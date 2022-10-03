@@ -2,26 +2,59 @@ import { useState, useContext, useEffect, useRef, MutableRefObject } from 'react
 import { Neo4jContext } from 'use-neo4j'
 import ForceGraph2D, { ForceGraphMethods, NodeObject }  from 'react-force-graph-2d'
 import { useNavigate } from 'react-router-dom'
-import { CustomNodeObject,  Force2DData, GraphName, GraphScheme, paintNode, GeneNodeObject, SyndromeNodeObject, SubtypeNodeObject, SiteName } from '../tools/graphtools'
+import { CustomNodeObject,  Force2DData, GraphName, GraphScheme, paintNode, GeneNodeObject, SyndromeNodeObject, SubtypeNodeObject, SiteName, TabPanelProps } from '../tools/graphtools'
 import { defaultGraphScheme } from '../tools/graphtools';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+
+import Typography from '@mui/material/Typography';
+
+import { styled } from '@mui/material/styles';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 
 
 import { 
     loadGeneOrganData,
     loadGeneDiseaseData,
+    loadNCCNData,
     loadGeneDiseaseSubtypeData,
     loadOrganData,
     loadDiseaseData,
     loadSyndromeDiseaseData,
     loadSyndromeGeneDiseaseData
  } from '../tools/graphdata'
-import { Box, Card, CardContent, CardHeader } from '@mui/material'
+import { Box, Card, CardContent, CardHeader, Tab, Tabs } from '@mui/material'
 import ReactDOM from 'react-dom'
 
 
 const drawerWidth = 450;
+
+
+// ARMANDO NEW CODE START
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: theme.palette.common.black,
+      color: theme.palette.common.white,
+    },
+    [`&.${tableCellClasses.body}`]: {
+      fontSize: 14,
+    },
+  }));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.action.hover,
+    },
+    // hide last border
+    '&:last-child td, &:last-child th': {
+        border: 0,
+    },
+}));
+// ARMANDO NEW CODE END
 
 type BaseGraphProps = {
     drawerOpen: boolean
@@ -65,6 +98,13 @@ export const BaseGraph = ( {
     const [nodeHover, setNodeHover] = useState<NodeObject|null>(null)
     const [nodeClick, setNodeClick] = useState<boolean>(false)
 
+    const [nccnData, setNCCNData] =  useState<any[]>([])
+    const [nccnGeneCard, setNCCNGeneCard] =  useState<string[]>(genes)
+
+    const [nccnValue, setNCCNValue] = useState(0);
+    const [cardMinWidth, setCardMinWidth] = useState(0);
+    const [mainCardMinWidth, setMainCardMinWidth] = useState(350);
+
     // const [nodePosition, setNodePosition] = useState<{x:number, y:number}>({x:0 , y:0})
 
     const handleCardClose = () => {
@@ -89,11 +129,15 @@ export const BaseGraph = ( {
         console.log('node', node)
         console.log('evet', event)
         setNodeClick(true);
-        setNodeHover(node);
-        if ( enableHover && nodeHover === null && node) {
-            console.log('handleNodeHover - Enter', node)
-            setNodeHover(node)
-        }  
+        setNodeHover(node)
+        
+        if ((node as GeneNodeObject).nodeType === 'gene') {
+        const _node = node as GeneNodeObject; 
+            // console.log('nccnData', _node.name)
+            setNCCNGeneCard([_node.name])  // ARMANDO NEW CODE, ADDED NCNN Data
+        } else {
+            setNCCNGeneCard(genes)
+        }
     }
 
     const navigate = useNavigate()
@@ -114,6 +158,60 @@ export const BaseGraph = ( {
         }
     }
 
+    useEffect( () => {
+
+        const onCardData = (nccnData: any[]) =>{
+             setNCCNData(nccnData)
+        }
+        if (['gene-organ', 'gene-disease', 'organ', 'gene-disease-subtype', 'syndrome-gene-disease'].includes(name))
+        {
+            console.log('nccnData', name);
+            loadNCCNData(driver, nccnGeneCard, finalVerdict, onCardData)
+            console.log('nccnData, loaded');
+        }
+
+    },[name, nccnGeneCard] )
+
+    const handleNCCNChange = (event: React.SyntheticEvent, newValue: number) => {
+        setNCCNValue(newValue);
+        if (newValue != 0){
+            setCardMinWidth(1200);
+            setMainCardMinWidth(1200);
+        }
+        else{
+            setCardMinWidth(275);
+            setMainCardMinWidth(350);
+
+        }
+    };
+
+    function TabPanel(props: TabPanelProps) {
+        const { children, value, index, ...other } = props;
+      
+        return (
+          <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`simple-tabpanel-${index}`}
+            aria-labelledby={`simple-tab-${index}`}
+            {...other}
+          >
+            {value === index && (
+              <Box sx={{ p: 3 }}>
+                <Typography>{children}</Typography>
+              </Box>
+            )}
+          </div>
+        );
+      }
+
+    function a11yProps(index: number) {
+        return {
+          id: `simple-tab-${index}`,
+          'aria-controls': `simple-tabpanel-${index}`,
+        };
+      }
+
     const renderHover = () => {
         //Check if nodeHover is set, if then render card
         if (nodeClick) {
@@ -121,84 +219,125 @@ export const BaseGraph = ( {
                 const _node = nodeHover as GeneNodeObject; 
                 return (ReactDOM.createPortal(
                     <Box
-                        className="nodeCard"
-                        sx={{
-                            position: "absolute",
-                            margin: "2px 0px 2px 0px",
-                            left: 20,
-                            top: 80,
-                            width: 350,
-                            height: 600,
-                            overflow:"auto",
-                            scrollbarWidth: 'thin',
-                            '&::-webkit-scrollbar': {
-                                width: '0.4em',
-                            },
-                            '&::-webkit-scrollbar-track': {
-                                background: "#f1f1f1",
-                            },
-                            '&::-webkit-scrollbar-thumb': {
-                                backgroundColor: '#888',
-                            },
-                            '&::-webkit-scrollbar-thumb:hover': {
-                                background: '#555'
-                            }
-                            
+                    className="nodeCard"
+                    sx={{
+                        position: "absolute",
+                        margin: "2px 0px 2px 0px",
+                        left: 20,
+                        top: 160,
+                        width: mainCardMinWidth,  // ARMANDO NEW CODE
+                        height: 600,
+                        overflow:"auto",
+                        scrollbarWidth: 'thin',
+                        '&::-webkit-scrollbar': {
+                            width: '0.4em',
+                        },
+                        '&::-webkit-scrollbar-track': {
+                            background: "#f1f1f1",
+                        },
+                        '&::-webkit-scrollbar-thumb': {
+                            backgroundColor: '#888',
+                        },
+                        '&::-webkit-scrollbar-thumb:hover': {
+                            background: '#555'
+                        }
+                        
+                    }}
+                >
+                    <Card 
+                        sx={{ 
+                            border:0.1,
+                            minWidth:cardMinWidth,  // ARMANDO NEW CODE
+                            borderColor: 'primary.main'
                         }}
                     >
-                        <Card 
-                            sx={{ 
-                                border:0.1,
-                                minWidth:275, 
-                                borderColor: 'primary.main'
-                            }}
-                        >
 
-                            <CardHeader 
-                                title={_node.name}
-                                // subheader={(nodeHover as CustomNodeObject).nodeType}
-                                action={
-                                    <IconButton onClick={handleCardClose}  aria-label="close"> <CloseIcon />
-                                    </IconButton>
-                                }
-                            />
-                            
-                            <CardContent>
-                                <Box>
-                                    <BaseGraph
-                                        drawerOpen={false}
-                                        width={325}
-                                        height={300}
-                                        //name={((nodeHover as CustomNodeObject).nodeType as GraphName)}
-                                        //Do we only want to show the disease grapgh each time?
-                                        site={site}
-                                        name='disease'
-                                        genes={[_node.name]}
-                                        organs={[]}
-                                        syndromes={[]}
-                                        diseases={[]}
-                                        finalVerdict='Confirmed'
-                                        graphScheme={defaultGraphScheme}
-                                        enableZoom={false}
-                                        onClick={() => handleNodeTypeClick(_node.nodeType)}
-                                    />
-                                    <p>
-                                        <b> Name: </b>  {_node.fullName}
-                                    </p>
-                                    <p>
-                                        <b> Alternate Names : </b>
-                                        {_node.altName}
-                                    </p>
-                                    <div>
-                                        <b>  Description: </b> 
-                                        {_node.description}
-                                    </div>
+                        <CardHeader 
+                            title={_node.name}
+                            // subheader={(nodeHover as CustomNodeObject).nodeType}
+                            action={
+                                <IconButton onClick={handleCardClose}  aria-label="close"> <CloseIcon />
+                                </IconButton>
+                            }
+                        />
+                        
+                        <CardContent>
+                        <Box>
+                                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                                    <Tabs value={nccnValue} onChange={handleNCCNChange} aria-label="basic tabs example">
+                                    <Tab label="Gene" {...a11yProps(0)} />
+                                    <Tab label="NCCN Guidelines" {...a11yProps(1)} />
+                                    </Tabs>
                                 </Box>
-                            </CardContent>
-                        </Card>
-                    </Box>,
-                    document.body
-                ))
+                                <TabPanel value={nccnValue} index={0}>
+
+                                <Box>
+                                <BaseGraph
+                                    drawerOpen={false}
+                                    width={325}
+                                    height={300}
+                                    site={site}
+                                    //name={((nodeHover as CustomNodeObject).nodeType as GraphName)}
+                                    //Do we only want to show the disease grapgh each time?
+                                    name='disease'
+                                    genes={[_node.name]}
+                                    organs={[]}
+                                    syndromes={[]}
+                                    diseases={[]}
+                                    finalVerdict='Confirmed'
+                                    graphScheme={defaultGraphScheme}
+                                    enableZoom={false}
+                                    onClick={() => handleNodeTypeClick(_node.nodeType)}
+                                />
+                                <p>
+                                    <b> Name: </b>  {_node.fullName}
+                                </p>
+                                <p>
+                                    <b> Alternate Names : </b>
+                                    {_node.altName}
+                                </p>
+                                <div>
+                                    <b>  Description: </b> 
+                                    {_node.description}
+                                    
+                                </div>
+                            </Box>
+                           
+                                </TabPanel>
+
+                                <TabPanel value={nccnValue} index={1}>
+                                <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                                <TableHead>
+                                <TableRow>
+                                    <StyledTableCell>Organ</StyledTableCell>
+                                    <StyledTableCell align="right">Modality</StyledTableCell>
+                                    <StyledTableCell align="right">Gender</StyledTableCell>
+                                    <StyledTableCell align="right">Recommendation</StyledTableCell>
+                                </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                {nccnData.map((row) => (
+                                    <StyledTableRow key={row.organ}>
+                                    <StyledTableCell component="th" scope="row">{row.organ}</StyledTableCell>
+                                    <StyledTableCell align="right">{row.modality}</StyledTableCell>
+                                    <StyledTableCell align="right">{row.gender}</StyledTableCell>
+                                    <StyledTableCell align="right">{row.recommendation}</StyledTableCell>
+                                    </StyledTableRow>
+                                ))}
+                                </TableBody>
+                            </Table>
+                            <p>
+                                    NCCN_Breast, Ovarian, Pancreatic_1.2022_2021
+                                    <br />
+                                    NCCN_Prostate Cancer Early Detection_2.2021_2021
+                                </p>
+                                </TabPanel>
+                                </Box>
+                        </CardContent>
+                    </Card>
+                </Box>,
+                document.body
+            ))
             } else if ((nodeHover as CustomNodeObject).nodeType === 'organ'){
                 const _node = nodeHover as CustomNodeObject
                 return (ReactDOM.createPortal(
@@ -208,7 +347,7 @@ export const BaseGraph = ( {
                             position: "absolute",
                             margin: "2px 0px 2px 0px",
                             left: 20,
-                            top: 80,
+                            top: 160,
                             width: 350,
                             height: 300
                         }}
@@ -264,7 +403,7 @@ export const BaseGraph = ( {
                             position: "absolute",
                             margin: "2px 0px 2px 0px",
                             left: 20,
-                            top: 80,
+                            top: 160,
                             width: 350,
                             height: 300
                         }}
@@ -317,7 +456,7 @@ export const BaseGraph = ( {
                             position: "absolute",
                             margin: "2px 0px 2px 0px",
                             left: 20,
-                            top: 80,
+                            top: 160,
                             width: 350,
                             height: 300
                         }}
@@ -372,7 +511,7 @@ export const BaseGraph = ( {
                             position: "absolute",
                             margin: "2px 0px 2px 0px",
                             left: 20,
-                            top: 80,
+                            top: 160,
                             width: 350,
                             height: 300
                         }}
