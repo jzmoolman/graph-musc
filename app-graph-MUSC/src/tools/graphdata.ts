@@ -1,9 +1,11 @@
 
 import { GraphScheme, Force2DData, ArrayToStr, GeneNodeObject, SiteName, cardDataObject } from './graphtools'
 import { Driver }  from  'neo4j-driver'
+import { ControlCamera } from '@mui/icons-material'
 
-const giOrgans = [ 'Small Bowel', 'Pancreas', 'Liver', 'Gastric', 'Gallbladder', 'GI', 'Esophagus',
+const giOrgans2 = [ 'Small Bowel', 'Pancreas', 'Liver', 'Gastric', 'Gallbladder', 'GI', 'Esophagus',
                 'Colorectal', 'Colon', 'Bile Duct']
+const giOrgans = [ 'Kidney', 'Prostate', 'Testes', 'Upper Uninary Tract', 'Urinary Bladder', 'Adrenal']
 
 const getFinalVerdictClause = (finalVerdict: string) => {
     let whereClause = ''
@@ -235,6 +237,7 @@ export const  loadGeneOrganData = async (
     }
 
     const query = `MATCH (g:MGene)-[r]->(o:Organ) ${whereCLAUSE} RETURN g,r,o`
+    console.log(query)
 
 
     let session = driver.session()
