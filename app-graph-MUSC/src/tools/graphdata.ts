@@ -1,11 +1,10 @@
 
 import { GraphScheme, Force2DData, ArrayToStr, GeneNodeObject, SiteName, cardDataObject } from './graphtools'
-import { Driver }  from  'neo4j-driver'
-import { ControlCamera } from '@mui/icons-material'
+import { Driver, QueryResult }  from  'neo4j-driver'
 
-const giOrgans2 = [ 'Small Bowel', 'Pancreas', 'Liver', 'Gastric', 'Gallbladder', 'GI', 'Esophagus',
+const giOrgans = [ 'Small Bowel', 'Pancreas', 'Liver', 'Gastric', 'Gallbladder', 'GI', 'Esophagus',
                 'Colorectal', 'Colon', 'Bile Duct']
-const giOrgans = [ 'Kidney', 'Prostate', 'Testes', 'Upper Uninary Tract', 'Urinary Bladder', 'Adrenal']
+const giOrgans2 = [ 'Kidney', 'Prostate', 'Testes', 'Upper Uninary Tract', 'Urinary Bladder', 'Adrenal']
 
 const getFinalVerdictClause = (finalVerdict: string) => {
     let whereClause = ''
@@ -69,6 +68,8 @@ export const loadGene= async (
     }
 }
 
+
+
 export const loadOrgan= async (driver: Driver | undefined, 
     onData:(data:string[])=> void
 ) => {
@@ -95,6 +96,33 @@ export const loadOrgan= async (driver: Driver | undefined,
     finally {
         await session.close()
     }
+}
+
+export const loadOgansAffectedbyOrganGenes = async (driver: Driver | undefined, organs: string[]) => {
+
+    console.log('loadOgansAffectedbyOrganGenesSyn')
+
+    let organsAffected: string[] = [''];
+
+    if (driver == null) {
+        console.log('Driver not loaded')
+        return  organsAffected
+    }
+
+    // let query = `MATCH (g:MGene)-[:AFFECTS]->(o:Organ) ${getFinalVerdictClause('confirmed')} AND o.name in ${ArrayToStr(organs)} RETURN DISTINCT g.name as name ORDER BY name`
+
+    let query = `MATCH (gg:MGene)--(oo:Organ) call { MATCH (g:MGene)-[:AFFECTS]->(o:Organ) ` + 
+    `WHERE g.finalVerdict in [1] AND o.name in ${ArrayToStr(organs)} RETURN COLLECT(DISTINCT g.name) as genes} ` + 
+    `WITH oo, genes WHERE  gg.name in genes RETURN DISTINCT oo.name as name`
+
+    let result = await driver.session().run(query)
+    result.records.forEach(record => {
+        organsAffected.push(record.get('name'))
+        console.log(record.get('name'))
+    } )
+
+    console.log(organsAffected)
+    return organsAffected;
 }
 
 export const loadDisease= async (driver: Driver | undefined, 
@@ -222,6 +250,7 @@ export const  loadGeneOrganData = async (
     let whereCLAUSE = getFinalVerdictClause(finalVerdict)
 
     // console.log(genes, organs)
+    console.log('loadGeneOrganData')
 
     if ( str_genes !== '') {
         whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + str_genes
@@ -229,7 +258,7 @@ export const  loadGeneOrganData = async (
     switch ( site ) {
         case 'gi': {
             if ( organs.length === 0 ) { 
-                whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + ArrayToStr(giOrgans)
+                whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + ArrayToStr(await loadOgansAffectedbyOrganGenes(driver, giOrgans))
             } else {
                 whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + ArrayToStr(organs)
             }
@@ -327,7 +356,8 @@ export const  loadGeneDiseaseData = async (
 
     switch ( site ) {
         case 'gi': {
-                whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + ArrayToStr(giOrgans)
+                whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + ArrayToStr(await loadOgansAffectedbyOrganGenes(driver, giOrgans))
+                // whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + ArrayToStr(giOrgans)
                 break;
         }
     }
@@ -531,7 +561,8 @@ export const  loadGeneDiseaseSubtypeData = async (
 
     switch ( site ) {
         case 'gi': {
-                whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + ArrayToStr(giOrgans)
+                whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + ArrayToStr(await loadOgansAffectedbyOrganGenes(driver, giOrgans))
+                //whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + ArrayToStr(giOrgans)
                 break;
         }
     }
@@ -659,7 +690,8 @@ export const  loadOrganData = async (
     switch ( site ) {
         case 'gi': {
             if ( organs.length === 0 ) { 
-                whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + ArrayToStr(giOrgans)
+                whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + ArrayToStr(await loadOgansAffectedbyOrganGenes(driver, giOrgans))
+                // whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + ArrayToStr(giOrgans)
             } else {
                 whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + ArrayToStr(organs)
             }
@@ -759,7 +791,8 @@ export const  loadDiseaseData = async (
 
     switch ( site ) {
         case 'gi': {
-                whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + ArrayToStr(giOrgans)
+                whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + ArrayToStr(await loadOgansAffectedbyOrganGenes(driver, giOrgans))
+                // whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + ArrayToStr(giOrgans)
                 break;
         }
     }
@@ -854,7 +887,8 @@ export const  loadSyndromeDiseaseData = async (
     
     switch ( site ) {
         case 'gi': {
-                whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + ArrayToStr(giOrgans)
+                whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + ArrayToStr(await loadOgansAffectedbyOrganGenes(driver, giOrgans))
+                // whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + ArrayToStr(giOrgans)
                 break;
         }
     }
@@ -952,7 +986,8 @@ export const  loadSyndromeGeneDiseaseData = async (
     
     switch ( site ) {
         case 'gi': {
-                whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + ArrayToStr(giOrgans)
+                whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + ArrayToStr(await loadOgansAffectedbyOrganGenes(driver, giOrgans))
+                // whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + ArrayToStr(giOrgans)
                 break;
         }
     }

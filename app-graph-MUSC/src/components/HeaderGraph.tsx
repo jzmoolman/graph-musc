@@ -123,6 +123,6 @@ export const HeaderGraph = ({
     return (<>
 
        <MuscHeader/>
-       <Graph name={name} site={site} open={open} onChange={onChange}/>
+       <Graph name={name} site={site} open={open} onChange={onChange} />
     </>)
 }

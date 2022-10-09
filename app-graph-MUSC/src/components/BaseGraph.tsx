@@ -27,7 +27,7 @@ import {
     loadSyndromeDiseaseData,
     loadSyndromeGeneDiseaseData
  } from '../tools/graphdata'
-import { Box, Card, CardContent, CardHeader, Tab, Tabs } from '@mui/material'
+import { Box, Button, Card, CardContent, CardHeader, Tab, Tabs } from '@mui/material'
 import ReactDOM from 'react-dom'
 
 
@@ -69,6 +69,7 @@ type BaseGraphProps = {
     finalVerdict: string
     graphScheme: GraphScheme
     enableHover?: boolean
+    enableBack?: boolean
     enableZoom?: boolean
     onClick?: () => void
     onMouseOver?: () => void  
@@ -87,6 +88,7 @@ export const BaseGraph = ( {
     finalVerdict,
     graphScheme,
     enableHover,
+    enableBack,
     enableZoom,
     onClick,
     onMouseOver,
@@ -145,13 +147,23 @@ export const BaseGraph = ( {
     const handleNodeTypeClick = (nodeType : string) => {
         navigate(`/graph/${nodeType}`)
     }
+  
+    const handleBackClick = () => {
+        navigate(`/${site}`)
+    }
 
-    const getWidth = (box: number) => {
-        let number = Number(document.getElementById(`graph-box${box}`)?.offsetWidth )
-        console.log('getWidht', number)
+
+    const getWidth = (box?: number) => {
+        let number = 20
+        if ( box === undefined) {
+            number = Number(document.getElementById(`graph-box`)?.offsetWidth )
+        } else {
+            number = Number(document.getElementById(`graph-box${box}`)?.offsetWidth )
+        }
+        console.log('getWidht ----->', number)
         if ( typeof number === 'number' && number === number) {
             console.log('getWidth is a number', number)
-            return number-12
+            return number
         } else {
             console.log('getWidth NaN', number)
             return 200
@@ -210,7 +222,32 @@ export const BaseGraph = ( {
           id: `simple-tab-${index}`,
           'aria-controls': `simple-tabpanel-${index}`,
         };
-      }
+    }
+
+    const renderBack = (enable: boolean | undefined) => {
+        console.log('Renderback: ', enable)
+        //Check if nodeHover is set, if then render card
+        if ( enable) {
+            return (
+                ReactDOM.createPortal(
+                <Box
+                    sx={{
+                        position: "absolute",
+                        top: 160,
+                        overflow: "auto",
+                        left: getWidth() - 65,
+                    }}
+                >
+                    <Button onClick={handleBackClick}> 
+                        Back
+                    </Button>
+                </Box>
+            , document.body)
+            )
+        } else {
+            return (<></>)
+        }
+    }
 
     const renderHover = () => {
         //Check if nodeHover is set, if then render card
@@ -627,9 +664,11 @@ export const BaseGraph = ( {
     }
 
     return (
-        <Box id='graph-box' sx={{padding:'2px'}} 
-            onClick={handleClick}
-            onMouseMove={handleMouseMove}
+        <Box id='graph-box' 
+            sx={{
+                padding:'2px'}} 
+                onClick={handleClick}
+                onMouseMove={handleMouseMove}
             onMouseOver={(e)=>{
                 if (onMouseOver) 
                     onMouseOver()
@@ -642,6 +681,7 @@ export const BaseGraph = ( {
             
         >
             {renderHover()}
+            {renderBack(enableBack)}
             <ForceGraph2D 
                 
                 ref={forceRef}

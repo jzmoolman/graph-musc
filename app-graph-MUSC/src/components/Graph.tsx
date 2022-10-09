@@ -268,6 +268,7 @@ export const Graph = ( {
                         finalVerdict={finalVerdict}
                         graphScheme={graphScheme}
                         enableHover
+                        enableBack
                         enableZoom
                         onMouseOver={handleMouseOver}
                         onMouseOut={handleMouseOut}
