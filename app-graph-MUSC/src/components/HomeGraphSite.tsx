@@ -11,8 +11,12 @@ type Dimension = {
     height: number
 }
 
+type HomeGraphProp =  {
+   site: SiteName
+}
 
-export const HomeGraph = () => {
+export const HomeGraphSite = ({site}: HomeGraphProp) => {
+    console.log('enter - HomeGraph')
     const [activeGraph, setActiveGraph] = useState(0)
 
     const MuscHeader = () => {
@@ -128,12 +132,64 @@ export const HomeGraph = () => {
 
     }
 
-    const handleClickGeneric = () => {
-        navigate('/generic')
+    const handleClickGene = () => {
+        switch ( site ) {
+            case 'generic': { navigate('/graph/gene'); break; }
+            case 'gi': { navigate('/graph/gene/gi'); break; }
+        }
     }
 
-    const handleClickGI = () => {
-        navigate('/gi')
+    const handleClickOrgan = () => {
+        switch ( site ) {
+            case 'generic': { navigate('/graph/organ'); break; }
+            case 'gi': { navigate('/graph/organ/gi'); break; }
+        }
+    }
+    
+    const handleClickDisease = () => {
+        switch ( site ) {
+            case 'generic': { navigate('/graph/disease'); break; }
+            case 'gi': { navigate('/graph/disease/gi'); break; }
+        }
+    }
+
+    const handleClickSyndrome = () => {
+        switch ( site ) {
+            case 'generic': { navigate('/graph/syndrome'); break; }
+            case 'gi': { navigate('/graph/syndrome/gi'); break; }
+        }
+    }
+
+    const handleGeneMouseOver = ()=> {
+        setActiveGraph(1)
+    }
+
+    const handleGeneMouseOut = ()=> {
+        setActiveGraph(0)
+    }
+
+    const handleOrganMouseOver = ()=> {
+        setActiveGraph(2)
+    }
+
+    const handleOrganMouseOut = ()=> {
+        setActiveGraph(0)
+    }
+
+    const handleDiseaseMouseOver = ()=> {
+        setActiveGraph(3)
+    }
+
+    const handleDiseaseMouseOut = ()=> {
+        setActiveGraph(0)
+    }
+
+    const handleSyndromeMouseOver = ()=> {
+        setActiveGraph(4)
+    }
+
+    const handleSyndromeMouseOut = ()=> {
+        setActiveGraph(0)
     }
 
     const getWidth = (box: number) => {
@@ -150,9 +206,13 @@ export const HomeGraph = () => {
 
     const getActiveDesciption = (graph: number) => {
         if (graph === 1)
-           return 'Centric View'
+           return 'Gene Centric View'
         else if (graph === 2)
-            return 'GI View'
+            return 'Organ Centric View'
+        else if (graph === 3)
+            return 'Disease Centric View'
+        else if (graph === 4)
+            return 'Syndrome Centric View'
         else return ''
     }
     
@@ -164,20 +224,89 @@ export const HomeGraph = () => {
         }
     }
 
-    const getHeaderDesc1 = () => {
-        return 'Cancer susceptibility gene visualizations using a Graph Database'
+    const getHeaderDesc1 = (name : SiteName) => {
+        switch (name) {
+            case 'gi': return 'GI Cancer susceptibility gene visualizations using a Graph Database'
+            default : return 'Cancer susceptibility gene visualizations using a Graph Database'
+        }
     }
 
-    const getHeaderDesc2 = () => {
-        return 'This website provides visualizations of cancer susceptibility genes and gene combinations'
+    const getHeaderDesc2 = (name : SiteName) => {
+        switch (name) {
+            case 'gi': return 'This website provides visualizations of cancer susceptibility genes and gene combinations for gastroenterologist'
+            default : return 'This website provides visualizations of cancer susceptibility genes and gene combinations'
+        }
     }
 
-    const GraphButtons = () => {
-        return  (<>
+    const GraphButtons = ({site}: HomeGraphProp) => {
+        switch (site) {
+            case 'gi': return (<>
+            <Box id='graph-box5' display='flex' flex={1}
+                sx={{
+                    minWidth: '300px',
+                    color: 'white',
+                    paddig: '16px',
+                }}
+            >
+                <Paper 
+                    elevation={4}         
+                    sx={{ 
+                            color: 'white',
+                            width: '100%',
+                            backgroundColor: 'white',
+                            margin: '2px',
+                            padding:'2px'}}
+                >
+                    <Box height={150}>
 
+                    </Box>
+                    <Box 
+                        color='black' 
+                        textAlign='center'
+                        paddingBottom={1}
+                    >
+                            <Typography                        
+                                textAlign='center'
+                                variant='h6' 
+                                width='100%'
+                                color='primary.main'
+                            > 
+                                <Button 
+                                    variant="outlined"
+                                    onClick={handleClickDisease}
+                                >
+                                    Eligibility for cancer genetic testing
+                                </Button>
+                            </Typography>
+                    </Box>
+                </Paper>
+
+            </Box>
+        </>)
+        default: return (<></>)
+        }
+    }
+
+    return (<>
+
+    <MuscHeader/>
+
+        <Box id='heading2' display='flex'>
+            <Typography 
+                textAlign='center'
+                variant='h3' 
+                width='100%'
+                color='primary.main'
+            >
+                {getHeaderDesc1(site)}
+            </Typography>
+        </Box>
+        <Box display='flex' 
+             flexWrap='wrap'
+        >
             <Box id='graph-box1' display='flex' flex={1}
                 sx={{
-                    minWidth: 400,
+                    minWidth: 300,
                     color: 'white',
                     paddig: '16px',
                 }}
@@ -185,29 +314,27 @@ export const HomeGraph = () => {
 
                 <Paper 
                     elevation={4}         
-                    sx={{   
+                    sx={{
                             color: 'white',
-                            width: '100%',
                             backgroundColor: 'white',
                             margin: '2px',
-                            padding:'2px'}}
-                >
-                    <BaseGraph 
+                            padding:'2px'}}>
+                    <BaseGraph
                         drawerOpen={false}
-                        width={getWidth(2)}
+                        width={getWidth(1)}
                         height={300}
-                        site={'generic'}
+                        site={site}
                         name={'gene-organ'}
-                        genes={['BRCA1', 'BRCA2']}
+                        genes={['BRCA1','BRCA2']}
                         organs={[]}
                         syndromes={[]}
                         diseases={[]}
                         finalVerdict='Confirmed'
                         graphScheme={defaultGraphScheme}
                         enableZoom={false}
-                        onClick={handleClickGeneric}
+                        onClick={handleClickGene}
                     />
-                    <Box 
+                    <Box
                         color='black' 
                         textAlign='center'
                         paddingBottom={1}
@@ -215,19 +342,24 @@ export const HomeGraph = () => {
                         <Typography                        
                             textAlign='center'
                             variant='h6' 
-                            width='100%'
-                            color='primary.main'
-                        > 
+                            // width='100%'
+                            color={activeGraph===1?'primary.main':'white'}
+                            sx= {{
+                                color: getActiveFontColor(1),
+                            }}
+                        >
                             <Button 
                                 variant="outlined"
-                                onClick={handleClickGeneric}
+                                onClick={handleClickGene}
                             >
                                 {getActiveDesciption(1)}
-                            </Button>
+                            </Button> 
+                           
                         </Typography>
                     </Box>
                 </Paper>
             </Box>
+
             <Box id='graph-box2' display='flex' flex={1}
                 sx={{
                     minWidth: 400,
@@ -249,16 +381,16 @@ export const HomeGraph = () => {
                         drawerOpen={false}
                         width={getWidth(2)}
                         height={300}
-                        site={'gi'}
-                        name={'gene-organ'}
-                        genes={['BRCA1']}
-                        organs={[]}
+                        site={site}
+                        name={'organ'}
+                        genes={[]}
+                        organs={['Ovary','Breast']}
                         syndromes={[]}
                         diseases={[]}
                         finalVerdict='Confirmed'
                         graphScheme={defaultGraphScheme}
                         enableZoom={false}
-                        onClick={handleClickGI}
+                        onClick={handleClickOrgan}
                     />
                     <Box 
                         color='black' 
@@ -273,7 +405,7 @@ export const HomeGraph = () => {
                         > 
                             <Button 
                                 variant="outlined"
-                                onClick={handleClickGI}
+                                onClick={handleClickOrgan}
                             >
                                 {getActiveDesciption(2)}
                             </Button>
@@ -282,14 +414,113 @@ export const HomeGraph = () => {
                 </Paper>
             </Box>
 
-
-        </>)
-    }
-
-    return (<>
-
-    <MuscHeader/>
-
+            <Box id='graph-box3' display='flex' flex={1}
+                sx={{
+                    minWidth: '300px',
+                    // backgroundColor: 'primary.main',
+                    color: 'white',
+                    paddig: '16px',
+                }}
+            >
+                <Paper 
+                    elevation={4}         
+                    sx={{ 
+                            color: 'white',
+                            width: '100%',
+                            backgroundColor: 'white',
+                            margin: '2px',
+                            padding:'2px'}}
+                >
+                    <BaseGraph 
+                        drawerOpen={false}
+                        width={getWidth(3)}
+                        height={300}
+                        site={site}
+                        name='syndrome-disease'
+                        genes={[]}
+                        organs={[]}
+                        syndromes={['Lynch Syndrome']}
+                        diseases={[]}
+                        finalVerdict='Confirmed'
+                        graphScheme={defaultGraphScheme}
+                        enableZoom={false}
+                        onClick={handleClickSyndrome}
+                    />
+                    <Box 
+                        color='black' 
+                        textAlign='center'
+                        paddingBottom={1}
+                    >
+                        <Typography                        
+                            textAlign='center'
+                            variant='h6' 
+                            width='100%'
+                            color='primary.main'
+                        > 
+                            <Button 
+                                variant="outlined"
+                                onClick={handleClickSyndrome}
+                            >
+                                {getActiveDesciption(4)}
+                            </Button>
+                        </Typography>
+                    </Box>
+                </Paper>
+            </Box>
+            <Box id='graph-box4' display='flex' flex={1}
+                sx={{
+                    minWidth: '300px',
+                    color: 'white',
+                    paddig: '16px',
+                }}
+            >
+                <Paper 
+                    elevation={4}         
+                    sx={{ 
+                            color: 'white',
+                            width: '100%',
+                            backgroundColor: 'white',
+                            margin: '2px',
+                            padding:'2px'}}
+                >
+                    <BaseGraph 
+                        drawerOpen={false}
+                        width={getWidth(4)}
+                        height={300}
+                        site={site}
+                        name={'disease'}
+                        genes={[]}
+                        organs={[]}
+                        syndromes={[]}
+                        diseases={['Breast Cancer']}
+                        finalVerdict='Confirmed'
+                        graphScheme={defaultGraphScheme}
+                        enableZoom={false}
+                        onClick={handleClickDisease}
+                    />
+                    <Box 
+                        color='black' 
+                        textAlign='center'
+                        paddingBottom={1}
+                    >
+                            <Typography                        
+                                textAlign='center'
+                                variant='h6' 
+                                width='100%'
+                                color='primary.main'
+                            > 
+                                <Button 
+                                    variant="outlined"
+                                    onClick={handleClickDisease}
+                                >
+                                    {getActiveDesciption(3)}
+                                </Button>
+                            </Typography>
+                    </Box>
+                </Paper>
+            </Box>
+            <GraphButtons site={site}/>
+        </Box>
         <Box id='heading2' display='flex'>
             <Typography 
                 textAlign='center'
@@ -297,22 +528,7 @@ export const HomeGraph = () => {
                 width='100%'
                 color='primary.main'
             >
-                {getHeaderDesc1()}
-            </Typography>
-        </Box>
-        <Box display='flex' 
-             flexWrap='wrap'
-        >
-            <GraphButtons/>
-        </Box>
-        <Box id='heading2' display='flex'>
-            <Typography 
-                textAlign='center'
-                variant='h3' 
-                width='100%'
-                color='primary.main'
-            >
-                {getHeaderDesc2()}
+                {getHeaderDesc2(site)}
             </Typography>
         </Box>
         <Box display='flex'>

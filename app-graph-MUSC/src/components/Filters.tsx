@@ -90,16 +90,16 @@ export const Filters = ({
                 break;
             }
             case 'organ': {
-                loadOrgan(driver, handleData)
+                loadOrgan(driver, site, handleData)
                 break;
             }
             case 'disease': {
-                loadDisease(driver, handleData)
+                loadDisease(driver, site, handleData)
                 break;
             }
             case 'syndrome-disease':
             case 'syndrome-gene-disease': {
-                loadSyndrome(driver, handleData)
+                loadSyndrome(driver, site, handleData)
             }
         }
         console.log('loading data')

@@ -5,6 +5,7 @@ import { ExStack } from './example/ExStack'
 import { ExGrid } from './example/ExGrid'
 import { Box, createTheme, ThemeProvider } from '@mui/material'
 import { HomeGraph } from './components/HomeGraph'
+import { HomeGraphSite } from './components/HomeGraphSite'
 import { HeaderGraph } from './components/HeaderGraph'
 import { SiteName} from './tools/graphtools'
 
@@ -45,9 +46,9 @@ export const App = () => {
               }} 
           >
             <Routes>
-              <Route path='/' element={<HomeGraph site='gi'/>}/>
-              <Route path='/gi' element={<HomeGraph site='gi'/>}/>
-              <Route path='/generic' element={<HomeGraph site='generic'/>}/>
+              <Route path='/' element={<HomeGraph/>}/>
+              <Route path='/gi' element={<HomeGraphSite site='gi'/>}/>
+              <Route path='/generic' element={<HomeGraphSite site='generic'/>}/>
               <Route path='/graph/gene' element={<HeaderGraph name='gene-organ' site={'generic'} open={openDrawer} onChange={handleDrawerChange} />} />
               <Route path='/graph/gene/gi' element={<HeaderGraph name='gene-organ' site={'gi'} open={openDrawer} onChange={handleDrawerChange} />} />
               <Route path='/graph/organ' element={<HeaderGraph name='organ' site={'generic'} open={openDrawer} onChange={handleDrawerChange} />} />

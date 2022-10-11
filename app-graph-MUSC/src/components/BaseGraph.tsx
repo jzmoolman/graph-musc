@@ -22,13 +22,14 @@ import {
     loadGeneDiseaseData,
     loadNCCNData,
     loadGeneDiseaseSubtypeData,
-    loadOrganData,
+    loadOrganGeneData,
     loadDiseaseData,
     loadSyndromeDiseaseData,
     loadSyndromeGeneDiseaseData
  } from '../tools/graphdata'
 import { Box, Button, Card, CardContent, CardHeader, Tab, Tabs } from '@mui/material'
 import ReactDOM from 'react-dom'
+import { getAutoHeightDuration } from '@mui/material/styles/createTransitions'
 
 
 const drawerWidth = 450;
@@ -170,6 +171,23 @@ export const BaseGraph = ( {
         }
     }
 
+    const getHeight = (box?: number) => {
+        let number = 20
+        if ( box === undefined) {
+            number = Number(document.getElementById(`graph-box`)?.offsetTop )
+        } else {
+            number = Number(document.getElementById(`graph-box${box}`)?.offsetTop )
+        }
+        console.log('getTop ----->', number)
+        if ( typeof number === 'number' && number === number) {
+            console.log('getTop is a number', number)
+            return number
+        } else {
+            console.log('getTop NaN', number)
+            return 200
+        }
+    }
+
     useEffect( () => {
 
         const onCardData = (nccnData: any[]) =>{
@@ -233,12 +251,13 @@ export const BaseGraph = ( {
                 <Box
                     sx={{
                         position: "absolute",
-                        top: 160,
                         overflow: "auto",
-                        left: getWidth() - 65,
+                        top: getHeight() + 10,
+                        left: getWidth() - 75,
                     }}
                 >
-                    <Button onClick={handleBackClick}> 
+                                    
+                    <Button  variant="outlined" onClick={handleBackClick}> 
                         Back
                     </Button>
                 </Box>
@@ -631,7 +650,7 @@ export const BaseGraph = ( {
                 break
             }
             case 'organ': {
-                loadOrganData(driver, site, genes, organs, finalVerdict, graphScheme, onData)
+                loadOrganGeneData(driver, site, genes, organs, finalVerdict, graphScheme, onData)
                 break
             }
             case 'disease': {

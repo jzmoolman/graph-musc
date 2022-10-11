@@ -2,9 +2,8 @@
 import { GraphScheme, Force2DData, ArrayToStr, GeneNodeObject, SiteName, cardDataObject } from './graphtools'
 import { Driver, QueryResult }  from  'neo4j-driver'
 
-const giOrgans = [ 'Small Bowel', 'Pancreas', 'Liver', 'Gastric', 'Gallbladder', 'GI', 'Esophagus',
-                'Colorectal', 'Colon', 'Bile Duct']
-const giOrgans2 = [ 'Kidney', 'Prostate', 'Testes', 'Upper Uninary Tract', 'Urinary Bladder', 'Adrenal']
+const giOrgans = ['Colorectal', 'Esophagus', 'Gallbladder', 'Gastric', 'GI', 'Liver', 'Pancreas', 'Stomach',
+'Small Bowel','UGI', 'UGI-Small Bowel', 'Bile Duct']
 
 const getFinalVerdictClause = (finalVerdict: string) => {
     let whereClause = ''
@@ -40,16 +39,118 @@ const getSpecialityClause = (site: SiteName) => {
 export const loadGene= async (
         driver: Driver | undefined, 
         site: SiteName, 
-        onData:(data:string[]
+        onData?:(data:string[]
     )=> void
 ) => {
 
+    let genes: string[] = []
+    if (driver == null) {
+        console.log('Driver not loaded')
+        return genes
+    }
+    let whereCLAUSE: string =  `WHERE g.finalVerdict in [1]`
+    switch ( site ) {
+        case 'gi': {
+            whereCLAUSE = whereCLAUSE + ` AND o.name in ${ArrayToStr(giOrgans)}`
+        }
+    }
+    const query = `MATCH (g:MGene)-[:AFFECTS]->(o:Organ) ${whereCLAUSE} RETURN DISTINCT g.name as name ORDER BY name`  
+
+    console.log('loadGenes ', query)
+    let session = driver.session()
+    try {
+        let res = await session.run(query)
+        genes = res.records.map(row => {
+            return row.get('name')
+        })
+        session.close();
+        if (onData !== undefined) {
+            onData( genes )
+        }
+    } catch (e) {
+        throw e
+    }
+    finally {
+        await session.close()
+        return genes
+    }
+}
+
+export const loadOrgan= async (
+    driver: Driver | undefined, 
+    site: SiteName,
+    onData?:(data:string[])=> void
+) => {
+
+    let organs: string[] = []
+    if (driver == null) {
+        console.log('Driver not loaded')
+        return organs
+    }
+
+    const query = `MATCH (o:Organ) ${getSpecialityClause(site)} RETURN DISTINCT o.name as name ORDER BY name`
+    let session = driver.session()
+    try {
+        let res = await session.run(query)
+        organs = 
+        res.records.map(row => {
+            return row.get('name')
+        })
+        session.close();
+        if (onData !== undefined) {
+            onData( organs )
+        }
+
+    } catch (e) {
+        throw e
+    }
+    finally {
+        await session.close()
+        return organs
+    }
+}
+
+// export const loadOgansAffectedbyOrganGenes = async (driver: Driver | undefined, organs: string[]) => {
+
+//     let organsAffected: string[] = [''];
+
+//     if (driver == null) {
+//         console.log('Driver not loaded')
+//         return  organsAffected
+//     }
+
+//     let query = `MATCH (gg:MGene)--(oo:Organ) call { MATCH (g:MGene)-[:AFFECTS]->(o:Organ) ` + 
+//     `WHERE g.finalVerdict in [1] AND o.name in ${ArrayToStr(organs)} RETURN COLLECT(DISTINCT g.name) as genes} ` + 
+//     `WITH oo, genes WHERE  gg.name in genes RETURN DISTINCT oo.name as name`
+
+//     let result = await driver.session().run(query)
+//     result.records.forEach(record => {
+//         organsAffected.push(record.get('name'))
+//     } )
+
+//     return organsAffected;
+// }
+
+export const loadDisease= async (
+    driver: Driver | undefined, 
+    site: SiteName,
+    onData:(data:string[])=> void
+) => {
+
     if (driver == null) {
         console.log('Driver not loaded')
         return 
     }
 
-    const query = `MATCH (g:MGene) RETURN DISTINCT g.name as name ORDER BY name`
+    let whereCLAUSE: string =  `WHERE g.finalVerdict in [1]`
+    switch ( site ) {
+        case 'gi': {
+            whereCLAUSE = whereCLAUSE + ` AND g.name in ${ArrayToStr(await loadGene(driver, site))}`
+        }
+    }
+
+    const query =  `MATCH (g:MGene)-[r:CAUSE]->(d:Disease) ${whereCLAUSE} RETURN DISTINCT d.name as name ORDER BY name`
+
     let session = driver.session()
 
     try {
@@ -68,9 +169,9 @@ export const loadGene= async (
     }
 }
 
-
-
-export const loadOrgan= async (driver: Driver | undefined, 
+export const loadSyndrome= async (
+    driver: Driver | undefined,
+    site: SiteName,
     onData:(data:string[])=> void
 ) => {
 
@@ -78,92 +179,16 @@ export const loadOrgan= async (driver: Driver | undefined,
         console.log('Driver not loaded')
         return 
     }
+    
+    let whereCLAUSE: string = getFinalVerdictClause('Both')  
+    switch ( site ) {
+        case 'gi': {
+            whereCLAUSE = whereCLAUSE + ` AND g.name in ${ArrayToStr(await loadGene(driver, site))}`
+        }
+    }
 
-    const query = `MATCH (o:Organ) ${getSpecialityClause('gi')} RETURN DISTINCT o.name as name ORDER BY name`
+    const query = `MATCH (g:MGene)-[r]->(s:Syndrome) ${whereCLAUSE}RETURN DISTINCT s.name as name ORDER BY name`
     let session = driver.session()
-
-    try {
-        let res = await session.run(query)
-        const genes: string[] = 
-        res.records.map(row => {
-            return row.get('name')
-        })
-        session.close();
-        onData( genes )
-    } catch (e) {
-        throw e
-    }
-    finally {
-        await session.close()
-    }
-}
-
-export const loadOgansAffectedbyOrganGenes = async (driver: Driver | undefined, organs: string[]) => {
-
-    console.log('loadOgansAffectedbyOrganGenesSyn')
-
-    let organsAffected: string[] = [''];
-
-    if (driver == null) {
-        console.log('Driver not loaded')
-        return  organsAffected
-    }
-
-    // let query = `MATCH (g:MGene)-[:AFFECTS]->(o:Organ) ${getFinalVerdictClause('confirmed')} AND o.name in ${ArrayToStr(organs)} RETURN DISTINCT g.name as name ORDER BY name`
-
-    let query = `MATCH (gg:MGene)--(oo:Organ) call { MATCH (g:MGene)-[:AFFECTS]->(o:Organ) ` + 
-    `WHERE g.finalVerdict in [1] AND o.name in ${ArrayToStr(organs)} RETURN COLLECT(DISTINCT g.name) as genes} ` + 
-    `WITH oo, genes WHERE  gg.name in genes RETURN DISTINCT oo.name as name`
-
-    let result = await driver.session().run(query)
-    result.records.forEach(record => {
-        organsAffected.push(record.get('name'))
-        console.log(record.get('name'))
-    } )
-
-    console.log(organsAffected)
-    return organsAffected;
-}
-
-export const loadDisease= async (driver: Driver | undefined, 
-    onData:(data:string[])=> void
-) => {
-
-    if (driver == null) {
-        console.log('Driver not loaded')
-        return 
-    }
-
-    const query =  `MATCH (g:MGene)-[r:CAUSE]->(d:Disease) ${getFinalVerdictClause('Both')} RETURN DISTINCT d.name as name ORDER BY name`
-    let session = driver.session()
-
-    try {
-        let res = await session.run(query)
-        const genes: string[] = 
-        res.records.map(row => {
-            return row.get('name')
-        })
-        session.close();
-        onData( genes )
-    } catch (e) {
-        throw e
-    }
-    finally {
-        await session.close()
-    }
-}
-
-export const loadSyndrome= async (driver: Driver | undefined, 
-    onData:(data:string[])=> void
-) => {
-
-    if (driver == null) {
-        console.log('Driver not loaded')
-        return 
-    }
-    const query = `MATCH (g:MGene)-[r]->(s:Syndrome) ${getFinalVerdictClause('Both')} RETURN DISTINCT s.name as name ORDER BY name`
-    let session = driver.session()
-    console.log('query', query)
 
     try {
         let res = await session.run(query)
@@ -201,8 +226,6 @@ export const  loadNCCNData = async (driver: Driver | undefined,
     }
     const query = `MATCH (n:NCCN_GUIDELINES)<-[rn:NCCN_MGENE]-(g:MGene) ${whereCLAUSE} RETURN g,n ORDER BY n.OrganSystem, n.Modality, n.Gender`
 
-    console.log('Gene->NCCN', query)
-
     let session = driver.session()
 
     try {
@@ -238,8 +261,6 @@ export const  loadGeneOrganData = async (
     graphScheme : GraphScheme,
     onData:(data: Force2DData)=> void) => {
 
-    // console.log('enter - loadData')
-
     if (driver == null) {
         console.log('Driver not loaded')
         return 
@@ -249,16 +270,13 @@ export const  loadGeneOrganData = async (
 
     let whereCLAUSE = getFinalVerdictClause(finalVerdict)
 
-    // console.log(genes, organs)
-    console.log('loadGeneOrganData')
-
     if ( str_genes !== '') {
         whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + str_genes
     }
     switch ( site ) {
         case 'gi': {
             if ( organs.length === 0 ) { 
-                whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + ArrayToStr(await loadOgansAffectedbyOrganGenes(driver, giOrgans))
+                whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + ArrayToStr(await loadGene(driver,site))
             } else {
                 whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + ArrayToStr(organs)
             }
@@ -266,8 +284,6 @@ export const  loadGeneOrganData = async (
     }
 
     const query = `MATCH (g:MGene)-[r]->(o:Organ) ${whereCLAUSE} RETURN g,r,o`
-    console.log(query)
-
 
     let session = driver.session()
 
@@ -356,8 +372,7 @@ export const  loadGeneDiseaseData = async (
 
     switch ( site ) {
         case 'gi': {
-                whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + ArrayToStr(await loadOgansAffectedbyOrganGenes(driver, giOrgans))
-                // whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + ArrayToStr(giOrgans)
+                whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + ArrayToStr(await loadGene(driver, site))
                 break;
         }
     }
@@ -367,7 +382,6 @@ export const  loadGeneDiseaseData = async (
 
 
     let session = driver.session()
-    console.log(query)
 
     try {
         let res = await session.run(query)
@@ -430,110 +444,6 @@ export const  loadGeneDiseaseData = async (
     }
 }
 
-// export const  loadGeneSubtypeData = async (
-//     driver: Driver | undefined,
-//     site: SiteName,
-//     genes: string[],
-//     organs: string[],
-//     finalVerdict: string,
-//     graphScheme : GraphScheme,
-//     onData:(data: Force2DData)=> void) => {
-
-//     // console.log('enter - loadData')
-
-//     if (driver == null) {
-//         console.log('Driver not loaded')
-//         return 
-//     }
-
-//     const str_genes = ArrayToStr(genes)
-//     const str_organs = ArrayToStr(organs)
-
-//     let whereCLAUSE = getFinalVerdictClause(finalVerdict)
-
-//     if ( str_genes !== '') {
-//         whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + str_genes
-//     }
-//     if ( str_organs !== '') {
-//         whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + str_organs
-//     }
-
-//     switch ( site ) {
-//         case 'gi': {
-//                 whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + ArrayToStr(giOrgans)
-//                 break;
-//         }
-//     }
-
-//     const query = `MATCH (g:MGene)-[r]->(o:Organ) ${whereCLAUSE} RETURN g,r,o`
-
-//     // console.log('Gene->Orgran', query)
-
-//     let session = driver.session()
-
-//     try {
-//         let res = await session.run(query)
-//         let ids = new  Set<string>()
-//         let nodes : any[] = []
-//         let links : any[] = []
-//         res.records.forEach(row => {
-//             let link  = { source: '', target: ''}
-//             const source = row.get('g') 
-//             if (!ids.has(source.properties.name)) {
-//                 let node: GeneNodeObject = { 
-//                     nodeType: 'gene',
-//                     id: source.identity,
-//                     name: source.properties.name,
-//                     fullName: source.properties.fullName,
-//                     altName: source.properties.altName,
-//                     description: source.properties.description,
-//                     nodeColor: graphScheme.geneNode, 
-//                     fontColor: graphScheme.geneFont,
-//                     nodeVal: graphScheme.nodeVal,
-//                     nodeRelSize: graphScheme.nodeRelSize,
-//                     scaleFont: graphScheme.scaleFont
-//                 }
-//                 nodes.push(node) 
-//                 link.source = node.name
-//                 ids.add(node.name)
-//             } else {
-//                 link.source = source.properties.name
-//             }
-        
-//             const target = row.get('o') 
-//             if (!ids.has(target.properties.name)) {
-//                 let node = { 
-//                     id: target.identity,
-//                     name: target.properties.name,
-//                     nodeType: 'organ',
-//                     nodeColor: graphScheme.organNode,
-//                     fontColor: graphScheme.organFont,
-//                     nodeVal: graphScheme.nodeVal,
-//                     nodeRelSize: graphScheme.nodeRelSize,
-//                     scaleFont: graphScheme.scaleFont
-//                 }
-//                 nodes.push(node) 
-//                 link.target = node.name
-//                 ids.add(node.name)
-//             } else {
-//                 link.target = target.properties.name
-//             }
-
-//             links.push(link)
-
-//         })
-//         session.close();
-//         onData( {nodes, links} )
-//     } catch (e) {
-//         throw e
-//     }
-//     finally {
-//         await session.close()
-
-//     }
-// }
-
-
 export const  loadGeneDiseaseSubtypeData = async (
     driver: Driver | undefined,
     site: SiteName,
@@ -561,8 +471,7 @@ export const  loadGeneDiseaseSubtypeData = async (
 
     switch ( site ) {
         case 'gi': {
-                whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + ArrayToStr(await loadOgansAffectedbyOrganGenes(driver, giOrgans))
-                //whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + ArrayToStr(giOrgans)
+                whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + ArrayToStr(await loadGene(driver, site))
                 break;
         }
     }
@@ -570,7 +479,6 @@ export const  loadGeneDiseaseSubtypeData = async (
     const query = 
         `MATCH (g:MGene)-[r:CAUSE]->(d:Disease) MATCH(g)-[:AFFECTS]->(o:Organ) ${whereCLAUSE} RETURN g,d,o`
 
-    console.log('query', query);
 
     let session = driver.session()
 
@@ -662,7 +570,7 @@ export const  loadGeneDiseaseSubtypeData = async (
     }
 }
 
-export const  loadOrganData = async (
+export const  loadOrganGeneData = async (
     driver: Driver | undefined,
     site: SiteName,
     genes: string[],
@@ -671,7 +579,6 @@ export const  loadOrganData = async (
     graphScheme : GraphScheme,
     onData:(data: Force2DData)=> void) => {
 
-    // console.log('enter - loadData')
 
     if (driver == null) {
         console.log('Driver not loaded')
@@ -682,7 +589,6 @@ export const  loadOrganData = async (
 
     let whereCLAUSE = getFinalVerdictClause(finalVerdict)
 
-    // console.log(genes, organs)
     if ( str_genes !== '') {
         whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + str_genes
     }
@@ -690,16 +596,21 @@ export const  loadOrganData = async (
     switch ( site ) {
         case 'gi': {
             if ( organs.length === 0 ) { 
-                whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + ArrayToStr(await loadOgansAffectedbyOrganGenes(driver, giOrgans))
-                // whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + ArrayToStr(giOrgans)
+                whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + ArrayToStr(await loadOrgan(driver, site))
             } else {
+                whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + ArrayToStr(organs)
+            }
+            break
+        }
+        default: { 
+            if ( organs.length !== 0 ) { 
                 whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + ArrayToStr(organs)
             }
         }
     }
     const query = `MATCH (g:MGene)-[r]->(o:Organ) ${whereCLAUSE} RETURN g,r,o`
 
-    // console.log('Gene->Orgran', query)
+    console.log('Orgran-Gene', query)
 
     let session = driver.session()
 
@@ -791,7 +702,7 @@ export const  loadDiseaseData = async (
 
     switch ( site ) {
         case 'gi': {
-                whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + ArrayToStr(await loadOgansAffectedbyOrganGenes(driver, giOrgans))
+                whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + ArrayToStr(await loadGene(driver, site))
                 // whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + ArrayToStr(giOrgans)
                 break;
         }
@@ -870,8 +781,6 @@ export const  loadSyndromeDiseaseData = async (
     graphScheme : GraphScheme,
     onData:(data: Force2DData)=> void) => {
 
-    console.log('enter - loadSyndromeDiseaseData')
-
     if (driver == null) {
         console.log('Driver not loaded')
         return 
@@ -887,8 +796,7 @@ export const  loadSyndromeDiseaseData = async (
     
     switch ( site ) {
         case 'gi': {
-                whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + ArrayToStr(await loadOgansAffectedbyOrganGenes(driver, giOrgans))
-                // whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + ArrayToStr(giOrgans)
+                whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + ArrayToStr(await loadGene(driver, site))
                 break;
         }
     }
@@ -896,8 +804,6 @@ export const  loadSyndromeDiseaseData = async (
         ` MATCH (g)-[:CAUSE]->(d:Disease)` +
         ` MATCH (g)-[:AFFECTS]->(o:Organ)` +
         ` ${whereCLAUSE} RETURN g,s,sv,d,o`
-
-    console.log('query', query)
 
     let session = driver.session()
 
@@ -969,8 +875,6 @@ export const  loadSyndromeGeneDiseaseData = async (
     graphScheme : GraphScheme,
     onData:(data: Force2DData)=> void) => {
 
-    console.log('enter - loadSyndromeGeneDiseaseData')
-
     if (driver == null) {
         console.log('Driver not loaded')
         return 
@@ -986,8 +890,7 @@ export const  loadSyndromeGeneDiseaseData = async (
     
     switch ( site ) {
         case 'gi': {
-                whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + ArrayToStr(await loadOgansAffectedbyOrganGenes(driver, giOrgans))
-                // whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + ArrayToStr(giOrgans)
+                whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + ArrayToStr(await loadGene(driver, site))
                 break;
         }
     }
@@ -995,10 +898,6 @@ export const  loadSyndromeGeneDiseaseData = async (
         ` MATCH (g)-[:CAUSE]->(d:Disease)` +
         ` MATCH (g)-[:AFFECTS]->(o:Organ)` + 
         ` ${whereCLAUSE} RETURN g,s,sv,d`
-
-    console.log('Gene->Syndrome->Verbiagey')
-    console.log('Syndrome->Disease')
-    console.log('query', query)
 
     let session = driver.session()
 
