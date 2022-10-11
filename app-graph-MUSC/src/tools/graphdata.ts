@@ -1,6 +1,7 @@
 
-import { GraphScheme, Force2DData, ArrayToStr, GeneNodeObject, SiteName, cardDataObject } from './graphtools'
-import { Driver, QueryResult }  from  'neo4j-driver'
+import { GraphScheme, Force2DData, ArrayToStr, GeneNodeObject, SiteName, cardNCCNDataObject } from './graphtools'
+import { Driver }  from  'neo4j-driver'
+import { ControlCamera } from '@mui/icons-material'
 
 const giOrgans = ['Colorectal', 'Esophagus', 'Gallbladder', 'Gastric', 'GI', 'Liver', 'Pancreas', 'Stomach',
 'Small Bowel','UGI', 'UGI-Small Bowel', 'Bile Duct']
@@ -224,20 +225,19 @@ export const  loadNCCNData = async (driver: Driver | undefined,
     if ( str_genes !== '') {
         whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + str_genes
     }
-    const query = `MATCH (n:NCCN_GUIDELINES)<-[rn:NCCN_MGENE]-(g:MGene) ${whereCLAUSE} RETURN g,n ORDER BY n.OrganSystem, n.Modality, n.Gender`
-
+    
+    const query = `MATCH (n:NCCN_GUIDELINES)<-[rn:NCCN_MGENE]-(g:MGene) ${whereCLAUSE} WITH n ORDER BY n.OrganSystem, n.Modality, n.Gender RETURN n.OrganSystem as organ, COLLECT({modality: n.Modality, gender: n.Gender, recommendation: n.OriginalAction}) as data, apoc.text.join([n.GuidelineBody, n.GuidelineName, n.GuidelineVersion, n.GuidelineYear], '_') as footnote
+    `
     let session = driver.session()
 
     try {
         let res = await session.run(query)
         let nccnData : any[] = []
         res.records.forEach(row => {
-            const source = row.get('n') 
-            let card: cardDataObject = { 
-                organ:source.properties.OrganSystem,
-                modality:source.properties.Modality,
-                gender:source.properties.Gender,
-                recommendation: source.properties.OriginalAction
+            let card: cardNCCNDataObject = { 
+                organ: row.get("organ"),
+                data: row.get("data"),
+                footnote: row.get("footnote"),
             }
             nccnData.push(card)
         })

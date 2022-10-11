@@ -80,7 +80,7 @@ MERGE (s:LKP_SYNDROME_VERBIAGE {
   VerbiageFromMedneonAug2022: coalesce(row['VerbiageFromMedneonAug2022'],'Unknown')
 });
 
-MATCH (n:NCCN_GUIDELINES) DELETE (n);
+MATCH (n:NCCN_GUIDELINES) DETACH DELETE (n);
 LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/jzmoolman/graph-musc/master/data-graph-MUSC/NCCN_Guidelines.csv'
 AS row
 WITH row   

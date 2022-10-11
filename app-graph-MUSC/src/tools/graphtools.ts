@@ -80,11 +80,16 @@ export interface SubtypeNodeObject extends CustomNodeObject {
     disease: string
 }
 
-export interface cardDataObject {
-    organ: string
-    modality: string
+export interface cardNCCNTableObject {
     gender: string
+    modality: string
     recommendation: string
+}
+
+export interface cardNCCNDataObject {
+    organ: string
+    data: cardNCCNTableObject[]
+    footnote: string
 }
 
 export interface TabPanelProps {

@@ -3,7 +3,7 @@ import { Neo4jContext } from 'use-neo4j'
 import ForceGraph2D, { ForceGraphMethods, NodeObject }  from 'react-force-graph-2d'
 import { useNavigate } from 'react-router-dom'
 import { CustomNodeObject,  Force2DData, GraphName, GraphScheme, paintNode, GeneNodeObject, SyndromeNodeObject, SubtypeNodeObject, SiteName, TabPanelProps } from '../tools/graphtools'
-import { defaultGraphScheme } from '../tools/graphtools';
+import { defaultGraphScheme, cardNCCNDataObject } from '../tools/graphtools'; //Armando Change
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -193,7 +193,7 @@ export const BaseGraph = ( {
         const onCardData = (nccnData: any[]) =>{
              setNCCNData(nccnData)
         }
-        if (['gene-organ', 'gene-disease', 'organ', 'gene-disease-subtype', 'syndrome-gene-disease'].includes(name))
+        if (['gene-organ', 'gene-disease', 'organ', 'disease', 'gene-disease-subtype', 'syndrome-gene-disease'].includes(name))  //Armando Change
         {
             console.log('nccnData', name);
             loadNCCNData(driver, nccnGeneCard, finalVerdict, onCardData)
@@ -273,6 +273,14 @@ export const BaseGraph = ( {
         if (nodeClick) {
             if ((nodeHover as GeneNodeObject).nodeType === 'gene') {
                 const _node = nodeHover as GeneNodeObject; 
+                const footnoteArray = [<div></div>];
+                const unique_footnote = Array.from(new Set(nccnData.map(item => item.footnote)));
+                unique_footnote.map((row) => {
+                    footnoteArray.push(<div key={row} className="NCCNCard">
+                        {row}
+                        <br />
+                </div>)
+                })
                 return (ReactDOM.createPortal(
                     <Box
                     className="nodeCard"
@@ -365,28 +373,44 @@ export const BaseGraph = ( {
                                 <Table sx={{ minWidth: 700 }} aria-label="customized table">
                                 <TableHead>
                                 <TableRow>
-                                    <StyledTableCell>Organ</StyledTableCell>
-                                    <StyledTableCell align="right">Modality</StyledTableCell>
-                                    <StyledTableCell align="right">Gender</StyledTableCell>
-                                    <StyledTableCell align="right">Recommendation</StyledTableCell>
+    
+                                    <StyledTableCell align="center">Organ/Modality</StyledTableCell>
+                                    <StyledTableCell align="center">Gender</StyledTableCell>
+                                    <StyledTableCell align="center">Recommendation</StyledTableCell>
                                 </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                {nccnData.map((row) => (
-                                    <StyledTableRow key={row.organ}>
-                                    <StyledTableCell component="th" scope="row">{row.organ}</StyledTableCell>
-                                    <StyledTableCell align="right">{row.modality}</StyledTableCell>
-                                    <StyledTableCell align="right">{row.gender}</StyledTableCell>
-                                    <StyledTableCell align="right">{row.recommendation}</StyledTableCell>
-                                    </StyledTableRow>
-                                ))}
-                                </TableBody>
+                                {nccnData.map((row: cardNCCNDataObject) => {
+
+                                    const nccnRender = [<StyledTableRow key={row.organ}>
+                                                    <StyledTableCell colSpan={3} align="justify" component="th" scope="row">{row.organ}</StyledTableCell>
+                                                    </StyledTableRow>
+                                                    ];
+
+                                    row.data.forEach((element)  => {
+                                        nccnRender.push(
+                                            <TableRow key={element.modality}>
+                                            <StyledTableCell component="th" scope="row">{element.modality}</StyledTableCell>
+                                            <StyledTableCell align="justify">{element.gender}</StyledTableCell>
+                                            <StyledTableCell align="justify">{element.recommendation}</StyledTableCell>
+                                            </TableRow>
+                                        );
+                                    });
+
+                                        return (                                   
+                                            nccnRender              
+                                          );                
+                                    
+                                    }
+    
+
+                                ) }
+                                </TableBody>    
                             </Table>
-                            <p>
-                                    NCCN_Breast, Ovarian, Pancreatic_1.2022_2021
-                                    <br />
-                                    NCCN_Prostate Cancer Early Detection_2.2021_2021
-                                </p>
+                                <div>
+                                    <div>{footnoteArray}</div>
+                                </div>
+
                                 </TabPanel>
                                 </Box>
                         </CardContent>
@@ -726,5 +750,3 @@ export const BaseGraph = ( {
         </Box>
     )
 }
-
-
