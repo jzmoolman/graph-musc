@@ -1,4 +1,5 @@
 ﻿AltNameGene,GeneMasterName,ForNLP,ForGeneCancerAssociation,DisplayAltNameGene,PrimaryKey,Test,Z_Ambry,Z_Invitae,Z_Fulgent,Z_ASK2ME,Z_Disease Type
+Gene,Gene,,,1,,,,,,,
 TRRAP,TRRAP,,,,1293,,,,,,Cancer
 MYD88,MYD88,,,,1294,,,,,,Cancer
 NTRK,NTRK,,,,1296,,,,,,Cancer

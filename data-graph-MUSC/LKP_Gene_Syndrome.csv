@@ -1,4 +1,5 @@
 ﻿GeneMasterName,GeneNameAloneIfBiallelic,SyndromeMasterName,BiVsMonoAllelic,DiscussBiAllelic,VerbiageFromMedneonAug2022,Syndrome done,MasterName,PrimaryKey,Test,Concatenated,Notes,Invitae84,SPANISH_SyndromeMasterName,CHINESE_SyndromeMasterName,GraphShowGenes,GraphShowSyndrome
+Gene,,Syndrome,,,,,,,,Concatenated,,,,,,
 CDKN2A,CDKN2A,FAMM,Mono,0,,1,1,86,,,,1,el Síndrome de Melanoma y Cáncer de Páncreas Hereditario,遗传性黑色素瘤 - 胰腺癌综合征,1,
 EPCAM-Biallelic,EPCAM,Congenital tufting enteropathy,Biallelic,1,"The EPCAM gene is associated with autosomal recessive congenital tufting enteropathy (CTE) (MedGen UID: 413031).  Congenital tufting enteropathy (CTE) is a gastrointestinal insufficiency syndrome presenting early in infancy as severe watery diarrhea. CTE is usually treated by daily nutritional supplements and occasionally, intestinal transplantation (PMID: 8057225, 18572020).",1,,87,,,,1,la enteropatía con formación de mechones congénitos,先天性丛生性肠病,1,Recessive
 MLH1-Biallelic,MLH1,Constitutional Mismatch Repair Deficiency Syndrome,Biallelic,1,,1,1,88,,,,1,el Síndrome de Deficiencia Constitucional de la Reparación de Errores de Apareamiento (CMMR-D),体质错配修复缺陷综合征,1,
