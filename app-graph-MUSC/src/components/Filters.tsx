@@ -356,13 +356,20 @@ export const Filters = ({
             flex={1}
             flexDirection='column'
             // rowGap={1}
+            height='80%'
             marginTop={1}
         >
+            <Box height='100%'>
                 <FilterHeader name={name}/>
                 <FilterSubGraph name={name}/>
                 <FilterGraph name={name}/>
-                <Divider/>
+            </Box>
+            <Box 
+                height={100}>
                 <FilterAssociation name={name}/>
+                
+
+            </Box>
         </Box>
     )
 

@@ -39,7 +39,7 @@ export const App = () => {
               sx={{
                   splay: 'flex',
                   color: 'white',
-                  height: 'calc(100vh - 75px)',
+                  height: 'calc(100vh - 145px)',
                   direction: 'column',
                   gap: '5px 5px',
                   

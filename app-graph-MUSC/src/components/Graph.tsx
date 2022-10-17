@@ -274,22 +274,27 @@ export const Graph = ( {
                         onMouseOut={handleMouseOut}
                     />
                 </Paper>
-                <Filters 
-                    name={graphName} 
-                    site={site}
-                    genes={genes} 
-                    organs={organs} 
-                    diseases={diseases}
-                    syndromes={syndromes}
-                    finalVerdict={finalVerdict}
-                    graphScheme={graphScheme}
-                    onGraphChange={handleGraphChange}
-                    onGeneChange={handleGeneChange}
-                    onOrganChange={handleOrganChange}
-                    onDiseaseChange={handleDiseaseChange}
-                    onSyndromeChange={handleSyndromeChange}
-                    onFinalVerdictChange={handleFinalVerdictChange}
-                />
+                <Box>
+                    <Filters 
+                        name={graphName} 
+                        site={site}
+                        genes={genes} 
+                        organs={organs} 
+                        diseases={diseases}
+                        syndromes={syndromes}
+                        finalVerdict={finalVerdict}
+                        graphScheme={graphScheme}
+                        onGraphChange={handleGraphChange}
+                        onGeneChange={handleGeneChange}
+                        onOrganChange={handleOrganChange}
+                        onDiseaseChange={handleDiseaseChange}
+                        onSyndromeChange={handleSyndromeChange}
+                        onFinalVerdictChange={handleFinalVerdictChange}
+                    />
+                    <Box>
+                        test
+                    </Box>
+                </Box>
         </Main>
         <Drawer
             sx={{
