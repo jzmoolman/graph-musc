@@ -1,5 +1,5 @@
-import React, { useState, useContext } from 'react'
-import {  BrowserRouter as Router, Routes,Route } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import {  BrowserRouter as Router, Routes, Route, useParams, useLocation } from 'react-router-dom'
 import { CustomBox } from './example/CusstomBox'
 import { ExStack } from './example/ExStack'
 import { ExGrid } from './example/ExGrid'
@@ -7,8 +7,6 @@ import { Box, createTheme, ThemeProvider } from '@mui/material'
 import { HomeGraph } from './components/HomeGraph'
 import { HomeGraphSite } from './components/HomeGraphSite'
 import { HeaderGraph } from './components/HeaderGraph'
-import { SiteName} from './tools/graphtools'
-
 
 import './App.css'
   
@@ -29,7 +27,10 @@ export const App = () => {
     console.log('handleDrawerChange', open)
     setOpenDrawer(open)
   }
-  
+
+  const { params } = useParams<{params?:string}>()
+  console.log(params)
+
   return (<>
     <ThemeProvider theme={theme}>      
       <Router>
@@ -47,10 +48,13 @@ export const App = () => {
           >
             <Routes>
               <Route path='/' element={<HomeGraph/>}/>
+              <Route path='/:generic2' element={<HomeGraph/>}/>
+              <Route path='/:generic2/:1' element={<HomeGraph/>}/>
               <Route path='/gi' element={<HomeGraphSite site='gi'/>}/>
               <Route path='/generic' element={<HomeGraphSite site='generic'/>}/>
               <Route path='/graph/gene' element={<HeaderGraph name='gene-organ' site={'generic'} open={openDrawer} onChange={handleDrawerChange} />} />
               <Route path='/graph/gene/gi' element={<HeaderGraph name='gene-organ' site={'gi'} open={openDrawer} onChange={handleDrawerChange} />} />
+              <Route path='/graph/gene/:gi2' element={<HeaderGraph name='gene-organ' site={'gi'} open={openDrawer} onChange={handleDrawerChange} />} />
               <Route path='/graph/organ' element={<HeaderGraph name='organ' site={'generic'} open={openDrawer} onChange={handleDrawerChange} />} />
               <Route path='/graph/organ/gi' element={<HeaderGraph name='organ' site={'gi'} open={openDrawer} onChange={handleDrawerChange} />} />
               <Route path='/graph/disease' element={<HeaderGraph name='disease'  site={'generic'} open={openDrawer} onChange={handleDrawerChange} />} />

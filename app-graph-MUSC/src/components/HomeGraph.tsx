@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect,  useState } from 'react'
+import { useParams, useLocation } from 'react-router-dom'
 import  { Box,  Button,  Paper, Typography } from '@mui/material'
 import { BaseGraph } from './BaseGraph';
 import { defaultGraphScheme, SiteName } from '../tools/graphtools';
@@ -14,6 +15,15 @@ type Dimension = {
 
 export const HomeGraph = () => {
     const [activeGraph, setActiveGraph] = useState(0)
+
+  const  params  = useParams()
+  console.log('params', params)
+  console.log('params[0]', params[0])
+  console.log('params[1]', params[1])
+
+  const location = useLocation()
+  console.log('location', location.pathname)
+  console.log('location', location)
 
     const MuscHeader = () => {
       return (<>

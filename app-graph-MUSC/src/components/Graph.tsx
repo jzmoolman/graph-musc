@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
+import { useParams, useLocation } from 'react-router-dom'
 import { styled, useTheme } from '@mui/material/styles'
 import  { Box, Divider, useColorScheme, Paper, Drawer, Typography } from '@mui/material'
 import { Configuration } from './Configuration';
@@ -70,6 +71,17 @@ export const Graph = ( {
 } : GraphProps) => {
     console.log('enter - Graph')
     console.log('name', name)
+
+
+    const  params  = useParams()
+    console.log('params', params)
+    console.log('params[0]', params[0])
+    console.log('params[1]', params[1])
+
+    const location = useLocation()
+    console.log('location', location.pathname)
+    console.log('location', location)
+
 
     const [graphName, setGraphName] = useState<GraphName>(name)
     const refresh = useRef(true)
