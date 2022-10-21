@@ -22,7 +22,7 @@ AS row
 WITH row   
 MERGE (g:LKP_GENECANCERFORPRINTOUT {
   GeneMasterName: coalesce(row.GeneMasterName,'Unknown'),
-  Gender: coalesce(row.Gender,'Unkown'),
+  Gender: coalesce(row.Gender,'Unknown'),
   PredominantCancerSubtype: coalesce(row.PredominantCancerSubtype, 'Unknown'),
   Organ: coalesce(row.Organ,'Unknown'),
   DiseaseName: coalesce(row.DiseaseName,'Unknown'),

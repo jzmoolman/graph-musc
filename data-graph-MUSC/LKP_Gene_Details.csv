@@ -1,4 +1,5 @@
 ﻿GeneMasterName,GeneFullName,ClinVarGene ID,Location,Chromosome,ChromosomeArm,NumExons,NumBases,NumAminoAcids,GeneType,Mechanism,Pathway,PathwayGraphic,VariantLevelRisk,GraphicGene,GraphicProtein,GeneInteraction,urlGenecards,urlGenereviews,urlOMIM,RefSeqID1,RefSeqID2,Childhood,RecessiveConditionAlso,Preimplant_PrenatalDx,In_Ask2meWebsite,MedNeon,In_Invitae84,Ambry,Myriad_MyRisk,Geisinger,ACMG,ACMG_3_Dec2021,Helix,Completed,Inheritance,Check,DiseaseTypeMaster,SPANISH_GeneType,CHINESE_GeneType,SPANISH_Mechanism,CHINESE_Mechanism,PreImplantationTesting,NCCN_GuidelinesDec2021,Notes
+Gene,GeneFullname,,,,,,,,,Mechanism,,,,,,,,,,,,,,,,,1,,,,,,,,,,,,,,,,1,
 ASXL1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1,
 PHOXB2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 TRIM37,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1,

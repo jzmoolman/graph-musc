@@ -1,5 +1,6 @@
 ﻿NCCN_OriginalID,Gene,Variant,EntryDate,EntryBy,ModifiedDate,ModifiedBy,IsDeleted,DeleteDate,DeletedBy,Organ_System,Gender,Modality,OriginalAction,GuidelineBody,GuidelineName,GuidelineVersion,GuidelineYear
-1,ANKRD26,,9/7/21,,,,,,,General,0,Gene Insight,"Moderate thrombocytopenia with mild bleeding manifestations; platelet size is usually not enlarged; dysmegakaryopoiesis/AML, MDS.",NCCN,Myelodysplastic Syndromes,3.2021,2021
+,Gene,,,,,,,,,,,,OriginalAction,,,,
+1,ANKRD26,,9/7/21,,,,,,,General,0,Gene Insight,:w,NCCN,Myelodysplastic Syndromes,3.2021,2021
 2,APC,I1307K,9/7/21,,,,,,,Colorectal,0,Endoscopy,"For probands with the I1307K variant who are unaffected by CRC and with a first-degree relative with CRC: Colonoscopy screening every 5 y, beginning at age 40 or 10 y prior to age of first-degree relative's age at CRC diagnosis. 
 
 For probands with the I1307K variant who are unaffected by CRC and no first-degree relative with CRC: Colonoscopy screening every 5 y, beginning at age 40.
