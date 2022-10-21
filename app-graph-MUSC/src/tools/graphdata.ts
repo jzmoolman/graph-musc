@@ -37,6 +37,39 @@ const getSpecialityClause = (site: SiteName) => {
     return clause
 }
 
+export const loadSpecialistsByOrgan= async (
+        driver: Driver | undefined, 
+        onData?:(data:string[]
+    )=> void
+) => {
+
+    let result: string[] = []
+    if (driver == null) {
+        console.log('Driver not loaded')
+        return result
+    }
+    // const query = `MATCH (n:LKP_SPECIALISTS_BY_ORGAN)RETURN DISTINCT n.Organ_System as name ORDER BY name`  
+    const query = `MATCH (n:LKP_SPECIALISTS_BY_ORGAN)RETURN WHERE n.PrimarySpecialist in ["Gynecology", "Urology"] DISTINCT n.PrimarySpecialist as name ORDER BY name`  
+
+    let session = driver.session()
+    try {
+        let res = await session.run(query)
+        result = res.records.map(row => {
+            return row.get('name')
+        })
+        session.close();
+        if (onData !== undefined) {
+            onData( result )
+        }
+    } catch (e) {
+        throw e
+    }
+    finally {
+        await session.close()
+        return result
+    }
+}
+
 export const loadGene= async (
         driver: Driver | undefined, 
         site: SiteName, 
@@ -110,27 +143,6 @@ export const loadOrgan= async (
         return organs
     }
 }
-
-// export const loadOgansAffectedbyOrganGenes = async (driver: Driver | undefined, organs: string[]) => {
-
-//     let organsAffected: string[] = [''];
-
-//     if (driver == null) {
-//         console.log('Driver not loaded')
-//         return  organsAffected
-//     }
-
-//     let query = `MATCH (gg:MGene)--(oo:Organ) call { MATCH (g:MGene)-[:AFFECTS]->(o:Organ) ` + 
-//     `WHERE g.finalVerdict in [1] AND o.name in ${ArrayToStr(organs)} RETURN COLLECT(DISTINCT g.name) as genes} ` + 
-//     `WITH oo, genes WHERE  gg.name in genes RETURN DISTINCT oo.name as name`
-
-//     let result = await driver.session().run(query)
-//     result.records.forEach(record => {
-//         organsAffected.push(record.get('name'))
-//     } )
-
-//     return organsAffected;
-// }
 
 export const loadDisease= async (
     driver: Driver | undefined, 
