@@ -43,7 +43,7 @@ const getSubGraphDesc = (name: GraphName) => {
 
 type FiltersProps = {
     name: GraphName
-    site: SiteName
+    specialist: string
     genes: string[]
     organs: string[]
     diseases: string[]
@@ -60,7 +60,7 @@ type FiltersProps = {
 
 export const Filters = ({
         name,
-        site,  
+        specialist,
         genes,
         organs,
         diseases, 
@@ -83,20 +83,20 @@ export const Filters = ({
             case 'gene-organ': 
             case 'gene-disease': 
             case 'gene-disease-subtype':  {
-                loadGene(driver, site, handleData)
+                loadGene(driver, specialist, handleData)
                 break;
             }
             case 'organ': {
-                loadOrgan(driver, site, handleData)
+                loadOrgan(driver, specialist, handleData)
                 break;
             }
             case 'disease': {
-                loadDisease(driver, site, handleData)
+                loadDisease(driver, specialist, handleData)
                 break;
             }
             case 'syndrome-disease':
             case 'syndrome-gene-disease': {
-                loadSyndrome(driver, site, handleData)
+                loadSyndrome(driver, specialist, handleData)
             }
         }
     },[])

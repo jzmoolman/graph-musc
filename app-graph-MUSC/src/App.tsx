@@ -45,7 +45,9 @@ export const App = () => {
               <Route path='/' element={<Home/>}/>
               <Route path='/homegraph' element={<HomeGraph/>}/>
               <Route path='/site/:specialist' element={<HomeGraphSite/>}/>
-              <Route path='/graph/gene' element={<Header name='gene-organ' site={'generic'} open={openDrawer} onChange={handleDrawerChange} />} />
+              <Route path='/site/gene/:specialist' element={<Header name='gene-organ'  open={openDrawer} onChange={handleDrawerChange} />} />
+              <Route path='/site/organ/:specialist' element={<Header name='organ' open={openDrawer} onChange={handleDrawerChange} />} />
+              {/* <Route path='/graph/gene' element={<Header name='gene-organ' site={'generic'} open={openDrawer} onChange={handleDrawerChange} />} />
               <Route path='/graph/gene/gi' element={<Header name='gene-organ' site={'gi'} open={openDrawer} onChange={handleDrawerChange} />} />
               <Route path='/graph/organ' element={<Header name='organ' site={'generic'} open={openDrawer} onChange={handleDrawerChange} />} />
               <Route path='/graph/organ/gi' element={<Header name='organ' site={'gi'} open={openDrawer} onChange={handleDrawerChange} />} />
@@ -55,7 +57,7 @@ export const App = () => {
               <Route path='/graph/syndrome/gi' element={<Header name='syndrome-disease'  site={'gi'} open={openDrawer} onChange={handleDrawerChange} />} />
               <Route path='/custombox' element={<CustomBox />} />
               <Route path='/exstack' element={<ExStack />} />
-              <Route path='/exgrid' element={<ExGrid />} />
+              <Route path='/exgrid' element={<ExGrid />} /> */}
             </Routes>
           </Box>
       </Router>

@@ -47,7 +47,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 type GraphProps = {
     name: GraphName 
-    site: SiteName
+    specialist: string
     open: boolean
     onChange?: (open: boolean) => void
     onMouseOver?: () => void
@@ -62,7 +62,7 @@ type Dimension = {
 
 export const GraphViewport = ( { 
     name, 
-    site, 
+    specialist, 
     open, 
     onChange,
     onMouseOver,
@@ -247,8 +247,8 @@ export const GraphViewport = ( {
                         drawerOpen={open}
                         width={getWidth()}
                         height={getHeight()}
-                        site={site}
                         name={graphName}
+                        specialist={specialist}
                         genes={genes}
                         organs={organs}
                         syndromes={syndromes}
@@ -265,7 +265,7 @@ export const GraphViewport = ( {
                 <Box>
                     <Filters 
                         name={graphName} 
-                        site={site}
+                        specialist={specialist}
                         genes={genes} 
                         organs={organs} 
                         diseases={diseases}

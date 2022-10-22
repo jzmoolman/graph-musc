@@ -118,8 +118,8 @@ export const HomeGraph = () => {
                         drawerOpen={false}
                         width={getWidth(2)}
                         height={300}
-                        site={'generic'}
                         name={'gene-organ'}
+                        specialist='Generic'
                         genes={['BRCA1', 'BRCA2']}
                         organs={[]}
                         syndromes={[]}
@@ -171,8 +171,8 @@ export const HomeGraph = () => {
                         drawerOpen={false}
                         width={getWidth(2)}
                         height={300}
-                        site={'gi'}
                         name={'gene-organ'}
+                        specialist=''
                         genes={['BRCA1']}
                         organs={[]}
                         syndromes={[]}

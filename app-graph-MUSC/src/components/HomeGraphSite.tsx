@@ -6,9 +6,9 @@ import { Graph } from './Graph';
 import { defaultGraphScheme, SiteName } from '../tools/graphtools';
 import { useNavigate } from 'react-router-dom'
 
-import { MuscFooter, MuscHeader, MuscHeader2, MuscLoading, MuscSpecialistNotFound } from './MuscDecs';
+import { MuscFooter, MuscHeader, MuscHeader2, MuscHeader3, MuscLoading, MuscSpecialistNotFound } from './MuscDecs';
 import { Neo4jContext } from 'use-neo4j';
-import { loadSpecialistsByOrgan } from '../tools/graphdata';
+import { loadSpecialists } from '../tools/graphdata';
 
 type Dimension = {
     width: number
@@ -18,15 +18,21 @@ type Dimension = {
 export const HomeGraphSite = () => {
     const site = 'generic' as SiteName
 
+    const navigate = useNavigate()
     const context = useContext(Neo4jContext), driver = context.driver
     const [data, setData] = useState<string[]>([])
-    const  { specialist } = useParams()
-    const navigate = useNavigate()
+    let { specialist } = useParams()
 
     console.log('specialist', specialist )
+    if ( typeof specialist === undefined) {
+        specialist = 'Generic'
+    } else {
+        specialist = specialist as string
+    }
+
 
     useEffect(()=> {
-        loadSpecialistsByOrgan(driver, handleData )
+        loadSpecialists(driver,  handleData )
     }, [])
 
     const handleData = (data: string[]) => {
@@ -34,17 +40,11 @@ export const HomeGraphSite = () => {
     }
 
     const handleClickGene = () => {
-        switch ( site ) {
-            case 'generic': { navigate('/graph/gene'); break; }
-            case 'gi': { navigate('/graph/gene/gi'); break; }
-        }
+        navigate(`/site/gene/${specialist}`)
     }
 
     const handleClickOrgan = () => {
-        switch ( site ) {
-            case 'generic': { navigate('/graph/organ'); break; }
-            case 'gi': { navigate('/graph/organ/gi'); break; }
-        }
+        navigate(`/site/organ/${specialist}`)
     }
     
     const handleClickDisease = () => {
@@ -62,13 +62,18 @@ export const HomeGraphSite = () => {
     }
 
     const getWidth = (id: number) => {
-        let width = Number(document.getElementById(`graph-box${id}`)?.offsetWidth )
-        if ( typeof width === 'number' && width === width) {
-        } else {
-            width =  200
+        let width = 400;
+        let cnt = Math.floor(Number(document.getElementById(`workspace`)?.offsetWidth) / 400)
+        width = Math.floor(Number(document.getElementById(`workspace`)?.offsetWidth) / cnt)
+        if ( cnt === 0 || cnt === 1 ) {
+            if ( width < 400) {
+                    width = 400
+            } 
+        } else if (cnt == 3 && id == 4) {
+            width = width *3 
         }
         console.log('width',id, width)
-        return width;
+        return width
     }
 
     const getActiveDesciption = (graph: number) => {
@@ -143,11 +148,11 @@ export const HomeGraphSite = () => {
     if ( data.length === 0) {
         return (<>
             <MuscHeader/>
-            <MuscHeader2/>
+            <MuscHeader2 specialist='Generic'/>
             <MuscLoading/>
         </>)
 
-    } else if (data.filter( e => e === specialist).length === 0 ) {
+    } else if (data.filter( e => e === specialist).length === 0 && specialist !== 'Generic' ) {
         return (<>
             <MuscHeader/>
             <MuscSpecialistNotFound specialist={specialist}/>
@@ -158,12 +163,16 @@ export const HomeGraphSite = () => {
         return (<>
 
         <MuscHeader/>
-        <Box display='flex' 
-             flexWrap='wrap'
+        <MuscHeader2 specialist={specialist}/>
+        <Box 
+            display='flex' 
+            flexWrap='wrap'
+            id='graph-box0'
+
         >
             <Box id='graph-box1' display='flex' flex={1}
                 sx={{
-                    minWidth: 300,
+                    width: 400,
                     color: 'white',
                     paddig: '16px',
                 }}
@@ -173,19 +182,21 @@ export const HomeGraphSite = () => {
                     elevation={4}         
                     sx={{
                         color: 'white',
+                        width: '100%',
                         backgroundColor: 'white',
                         margin: '2px',
                         padding:'2px'
+                        
                     }}>
 
                     {data.length!==0?
 
                     <Graph
                         drawerOpen={false}
-                        width={getWidth(1)-16}
+                        width={getWidth(0)-16}
                         height={300}
-                        site={site}
                         name={'gene-organ'}
+                        specialist={specialist}
                         genes={['BRCA1','BRCA2']}
                         organs={[]}
                         syndromes={[]}
@@ -194,7 +205,8 @@ export const HomeGraphSite = () => {
                         graphScheme={defaultGraphScheme}
                         enableZoom={false}
                         onClick={handleClickGene}
-                    />:<Box width={getWidth(1)}></Box>}
+                    />
+                    :<Box width={getWidth(1)-16}></Box>}
                     <Box
                         color='black' 
                         textAlign='center'
@@ -203,7 +215,6 @@ export const HomeGraphSite = () => {
                         <Typography                        
                             textAlign='center'
                             variant='h6' 
-                            // width='100%'
                             color='primary.main'
                             sx= {{
                                 color: getActiveFontColor(1),
@@ -223,7 +234,8 @@ export const HomeGraphSite = () => {
 
             <Box id='graph-box2' display='flex' flex={1}
                 sx={{
-                    minWidth: 300,
+                    // minWidth: 300,
+                    width: 400,
                     color: 'white',
                     paddig: '16px',
                 }}
@@ -243,8 +255,8 @@ export const HomeGraphSite = () => {
                         drawerOpen={false}
                         width={getWidth(2)-16}
                         height={300}
-                        site={site}
                         name={'organ'}
+                        specialist={specialist}
                         genes={[]}
                         organs={['Ovary','Breast']}
                         syndromes={[]}
@@ -278,7 +290,8 @@ export const HomeGraphSite = () => {
 
             <Box id='graph-box3' display='flex' flex={1}
                 sx={{
-                    minWidth: '300px',
+                    // minWidth: '300px',
+                    width: 400,
                     color: 'white',
                     paddig: '16px',
                 }}
@@ -297,8 +310,8 @@ export const HomeGraphSite = () => {
                         drawerOpen={false}
                         width={getWidth(3)-16}
                         height={300}
-                        site={site}
                         name='syndrome-disease'
+                        specialist={specialist}
                         genes={[]}
                         organs={[]}
                         syndromes={['Lynch Syndrome']}
@@ -307,7 +320,7 @@ export const HomeGraphSite = () => {
                         graphScheme={defaultGraphScheme}
                         enableZoom={false}
                         onClick={handleClickSyndrome}
-                    />:<Box width={getWidth(3)}></Box>}
+                    />:<Box width={getWidth(3) -16}></Box>}
                     <Box 
                         color='black' 
                         textAlign='center'
@@ -331,7 +344,8 @@ export const HomeGraphSite = () => {
             </Box>
             <Box id='graph-box4' display='flex' flex={1}
                 sx={{
-                    minWidth: '300px',
+                    // minWidth: '300px',
+                    width: 400,
                     color: 'white',
                     paddig: '16px',
                 }}
@@ -350,8 +364,8 @@ export const HomeGraphSite = () => {
                         drawerOpen={false}
                         width={getWidth(4)-16}
                         height={300}
-                        site={site}
                         name={'disease'}
+                        specialist={specialist}
                         genes={[]}
                         organs={[]}
                         syndromes={[]}
@@ -360,7 +374,7 @@ export const HomeGraphSite = () => {
                         graphScheme={defaultGraphScheme}
                         enableZoom={false}
                         onClick={handleClickDisease}
-                    />:<Box width={getWidth(4)}></Box>}
+                    />:<Box width={getWidth(4)-16}></Box>}
                     <Box 
                         color='black' 
                         textAlign='center'

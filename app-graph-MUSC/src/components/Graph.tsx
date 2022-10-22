@@ -2,7 +2,7 @@ import { useState, useContext, useEffect, useRef, MutableRefObject } from 'react
 import { Neo4jContext } from 'use-neo4j'
 import ForceGraph2D, { ForceGraphMethods, NodeObject }  from 'react-force-graph-2d'
 import { useNavigate } from 'react-router-dom'
-import { CustomNodeObject,  Force2DData, GraphName, GraphScheme, paintNode, GeneNodeObject, SyndromeNodeObject, SubtypeNodeObject, SiteName, TabPanelProps } from '../tools/graphtools'
+import { CustomNodeObject,  Force2DData, GraphName, GraphScheme, paintNode, GeneNodeObject, SyndromeNodeObject, SubtypeNodeObject,  TabPanelProps } from '../tools/graphtools'
 import { defaultGraphScheme, cardNCCNDataObject } from '../tools/graphtools'; //Armando Change
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
@@ -33,7 +33,6 @@ import ReactDOM from 'react-dom'
 
 const drawerWidth = 450;
 
-
 // ARMANDO NEW CODE START
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -60,8 +59,8 @@ type BaseGraphProps = {
     drawerOpen: boolean
     width: number
     height: number
-    site: SiteName
     name: GraphName
+    specialist: string
     genes: string[]
     organs: string[]
     syndromes: string[]
@@ -79,8 +78,8 @@ export const Graph = ( {
     drawerOpen, 
     width=200, 
     height=300, 
-    site,
-    name,  
+    name, 
+    specialist,
     genes, 
     organs, 
     syndromes,
@@ -142,7 +141,7 @@ export const Graph = ( {
     }
   
     const handleBackClick = () => {
-        navigate(`/${site}`)
+        navigate(`/site/${specialist}`)
     }
 
 
@@ -320,10 +319,8 @@ export const Graph = ( {
                                     drawerOpen={false}
                                     width={325}
                                     height={300}
-                                    site={site}
-                                    //name={((nodeHover as CustomNodeObject).nodeType as GraphName)}
-                                    //Do we only want to show the disease grapgh each time?
                                     name='disease'
+                                    specialist='={specialist}'
                                     genes={[_node.name]}
                                     organs={[]}
                                     syndromes={[]}
@@ -437,8 +434,8 @@ export const Graph = ( {
                                         drawerOpen={false}
                                         width={325}
                                         height={300}
-                                        site={site}
                                         name={((nodeHover as CustomNodeObject).nodeType as GraphName)}
+                                        specialist='={specialist}'
                                         genes={[]}
                                         organs={[(nodeHover as CustomNodeObject).name]}
                                         syndromes={[]}
@@ -490,8 +487,8 @@ export const Graph = ( {
                                     drawerOpen={false}
                                     width={325}
                                     height={300}
-                                    site={site}
                                     name={_node.nodeType as GraphName}
+                                    specialist={specialist}
                                     genes={[]}
                                     organs={[]}
                                     syndromes={[]}
@@ -543,8 +540,8 @@ export const Graph = ( {
                                     drawerOpen={false}
                                     width={325}
                                     height={300}
-                                    site={site}
                                     name={'gene-disease-subtype' as GraphName}
+                                    specialist={specialist}
                                     genes={[]}
                                     organs={[]}
                                     syndromes={[]}
@@ -597,8 +594,8 @@ export const Graph = ( {
                                 drawerOpen={false}
                                 width={325}
                                 height={300}
-                                site={site}
                                 name={'syndrome-disease' as GraphName}
+                                specialist={specialist}
                                 genes={[]}
                                 organs={[]}
                                 syndromes={[_node.name]}
@@ -640,31 +637,31 @@ export const Graph = ( {
         }
         switch (name) {
             case 'gene-organ': {
-                loadGeneOrganData(driver, site, genes, organs,finalVerdict, graphScheme, onData)
+                loadGeneOrganData(driver, specialist, genes, organs,finalVerdict, graphScheme, onData)
                 break
             }
             case 'gene-disease': {
-                loadGeneDiseaseData(driver, site, genes, finalVerdict, graphScheme, onData)
+                loadGeneDiseaseData(driver, specialist, genes, finalVerdict, graphScheme, onData)
                 break
             }
             case 'gene-disease-subtype': {
-                loadGeneDiseaseSubtypeData(driver, site,diseases, genes,finalVerdict, graphScheme, onData)
+                loadGeneDiseaseSubtypeData(driver, specialist,diseases, genes,finalVerdict, graphScheme, onData)
                 break
             }
             case 'organ': {
-                loadOrganGeneData(driver, site, genes, organs, finalVerdict, graphScheme, onData)
+                loadOrganGeneData(driver, specialist, genes, organs, finalVerdict, graphScheme, onData)
                 break
             }
             case 'disease': {
-                loadDiseaseData(driver, site, diseases, genes, finalVerdict, graphScheme, onData)
+                loadDiseaseData(driver, specialist, diseases, genes, finalVerdict, graphScheme, onData)
                 break
             }
             case 'syndrome-disease': {
-                loadSyndromeDiseaseData(driver, site, syndromes, finalVerdict, graphScheme, onData)
+                loadSyndromeDiseaseData(driver, specialist, syndromes, finalVerdict, graphScheme, onData)
                 break
             }
             case 'syndrome-gene-disease': {
-                loadSyndromeGeneDiseaseData(driver, site, syndromes, finalVerdict, graphScheme, onData)
+                loadSyndromeGeneDiseaseData(driver, specialist, syndromes, finalVerdict, graphScheme, onData)
                 break
             }
         }

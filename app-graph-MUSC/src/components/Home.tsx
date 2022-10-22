@@ -4,8 +4,8 @@ import { Box,  Button,  Paper, Typography } from '@mui/material'
 import { SiteName } from '../tools/graphtools';
 import { useNavigate } from 'react-router-dom'
 import musc from '../assets/musc.png'
-import { loadSpecialistsByOrgan } from '../tools/graphdata';
-import { MuscHeader, MuscHeader2 } from './MuscDecs';
+import { loadSpecialists } from '../tools/graphdata';
+import { MuscHeader, MuscHeader3 } from './MuscDecs';
 
 
 export const Home = () => {
@@ -16,7 +16,7 @@ export const Home = () => {
     const navigate = useNavigate()
 
     useEffect(()=>{
-        loadSpecialistsByOrgan(driver, handleData)
+        loadSpecialists(driver, handleData)
     },[])
 
     const handleData = (data: string[]) => {
@@ -31,12 +31,12 @@ export const Home = () => {
 
         let array = data.map( (row,index) =>
             <React.Fragment key={index}>
-               <Button variant='outlined' onClick={ ()=>{ handleSpecialistClick(row)}}> {row} </Button> <span/>
+               <Button sx={{margin:1 }} variant='outlined' onClick={ ()=>{ handleSpecialistClick(row)}}> {row} </Button> <span/>
             </React.Fragment> 
         )
         array.push(
             <React.Fragment key={999}>
-                <Button variant='outlined' onClick={ ()=>{ handleSpecialistClick('Generic')}}> Generic </Button> 
+                <Button sx={{margin:1 }} variant='outlined' onClick={ ()=>{ handleSpecialistClick('Generic')}}> Generic </Button> 
             </React.Fragment>
         )
 
@@ -65,7 +65,7 @@ export const Home = () => {
 
     return (<>
         <MuscHeader/>
-        <MuscHeader2/>
+        <MuscHeader3/>
         <Specialists/>
     </>)
 }

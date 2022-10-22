@@ -88,9 +88,39 @@ export const MuscHeader = () => {
       </Paper>
     </>)
 }
+type MuscHeader2Props = {
+    specialist: string
+}
 
+export const MuscHeader2 = ({specialist}:  MuscHeader2Props) => {
 
-export const MuscHeader2 = () => {
+    const getDesc = () => {
+        let result : string = ""
+        switch (specialist) {
+            case 'Generic':
+                result = 'Cancer susceptibility gene visualizations using a Graph Database.'
+                break;
+            default: 
+                result = `${specialist} Cancer susceptibility gene visualizations using a Graph Database.`
+
+        }
+        return result
+    }
+
+    return (<>
+        <Typography 
+            textAlign='center'
+            variant='h3' 
+            component='div'
+            width='100%'
+            color='primary.main'
+        >
+            {getDesc()}
+        </Typography>
+    </>)
+}
+
+export const MuscHeader3 = () => {
 
     const getDesc = () => {
         return 'GI Cancer susceptibility gene visualizations using a Graph Database, Choose the speciality you are interested in.'
@@ -152,7 +182,7 @@ export const MuscFooter = () => {
 
 export const MuscLoading = () => {
     const getDesc = () => {
-        return 'Builing Grap...'
+        return 'Builing Graph...'
     }
     return (<>
             <Typography 
