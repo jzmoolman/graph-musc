@@ -5,8 +5,9 @@ import { ExStack } from './example/ExStack'
 import { ExGrid } from './example/ExGrid'
 import { Box, createTheme, ThemeProvider } from '@mui/material'
 import { HomeGraph } from './components/HomeGraph'
+import { Home } from './components/Home'
 import { HomeGraphSite } from './components/HomeGraphSite'
-import { HeaderGraph } from './components/HeaderGraph'
+import { Header } from './components/Header'
 
 import './App.css'
   
@@ -47,20 +48,17 @@ export const App = () => {
               }} 
           >
             <Routes>
-              <Route path='/' element={<HomeGraph/>}/>
-              <Route path='/:generic2' element={<HomeGraph/>}/>
-              <Route path='/:generic2/:1' element={<HomeGraph/>}/>
-              <Route path='/gi' element={<HomeGraphSite site='gi'/>}/>
-              <Route path='/generic' element={<HomeGraphSite site='generic'/>}/>
-              <Route path='/graph/gene' element={<HeaderGraph name='gene-organ' site={'generic'} open={openDrawer} onChange={handleDrawerChange} />} />
-              <Route path='/graph/gene/gi' element={<HeaderGraph name='gene-organ' site={'gi'} open={openDrawer} onChange={handleDrawerChange} />} />
-              <Route path='/graph/gene/:gi2' element={<HeaderGraph name='gene-organ' site={'gi'} open={openDrawer} onChange={handleDrawerChange} />} />
-              <Route path='/graph/organ' element={<HeaderGraph name='organ' site={'generic'} open={openDrawer} onChange={handleDrawerChange} />} />
-              <Route path='/graph/organ/gi' element={<HeaderGraph name='organ' site={'gi'} open={openDrawer} onChange={handleDrawerChange} />} />
-              <Route path='/graph/disease' element={<HeaderGraph name='disease'  site={'generic'} open={openDrawer} onChange={handleDrawerChange} />} />
-              <Route path='/graph/disease/gi' element={<HeaderGraph name='disease'  site={'gi'} open={openDrawer} onChange={handleDrawerChange} />} />
-              <Route path='/graph/syndrome' element={<HeaderGraph name='syndrome-disease'  site={'generic'} open={openDrawer} onChange={handleDrawerChange} />} />
-              <Route path='/graph/syndrome/gi' element={<HeaderGraph name='syndrome-disease'  site={'gi'} open={openDrawer} onChange={handleDrawerChange} />} />
+              <Route path='/' element={<Home/>}/>
+              <Route path='/homegraph' element={<HomeGraph/>}/>
+              <Route path='/site/:specialist' element={<HomeGraphSite/>}/>
+              <Route path='/graph/gene' element={<Header name='gene-organ' site={'generic'} open={openDrawer} onChange={handleDrawerChange} />} />
+              <Route path='/graph/gene/gi' element={<Header name='gene-organ' site={'gi'} open={openDrawer} onChange={handleDrawerChange} />} />
+              <Route path='/graph/organ' element={<Header name='organ' site={'generic'} open={openDrawer} onChange={handleDrawerChange} />} />
+              <Route path='/graph/organ/gi' element={<Header name='organ' site={'gi'} open={openDrawer} onChange={handleDrawerChange} />} />
+              <Route path='/graph/disease' element={<Header name='disease'  site={'generic'} open={openDrawer} onChange={handleDrawerChange} />} />
+              <Route path='/graph/disease/gi' element={<Header name='disease'  site={'gi'} open={openDrawer} onChange={handleDrawerChange} />} />
+              <Route path='/graph/syndrome' element={<Header name='syndrome-disease'  site={'generic'} open={openDrawer} onChange={handleDrawerChange} />} />
+              <Route path='/graph/syndrome/gi' element={<Header name='syndrome-disease'  site={'gi'} open={openDrawer} onChange={handleDrawerChange} />} />
               <Route path='/custombox' element={<CustomBox />} />
               <Route path='/exstack' element={<ExStack />} />
               <Route path='/exgrid' element={<ExGrid />} />

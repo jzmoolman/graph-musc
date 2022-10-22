@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { padding } from '@mui/system'
-import  { Box, Divider, Typography } from '@mui/material'
+import  { Box, Typography } from '@mui/material'
 import { CustomSelect } from './CustomSelect'
 import { GraphName, GraphScheme, SiteName } from '../tools/graphtools'
 import { Dropdown } from './Dropdown'
@@ -75,13 +74,11 @@ export const Filters = ({
         onSyndromeChange,
         onFinalVerdictChange
 } : FiltersProps ) => {
-    console.log('enter - Filters', name)
 
     const context = useContext(Neo4jContext), driver = context.driver
     const [data, setData] = useState<string[]>([])
 
     useEffect(()=> {
-        console.log('useEffect', name)
         switch (name) { 
             case 'gene-organ': 
             case 'gene-disease': 
@@ -102,16 +99,13 @@ export const Filters = ({
                 loadSyndrome(driver, site, handleData)
             }
         }
-        console.log('loading data')
     },[])
 
     const handleData = (data: string[]) => {
-        console.log('enter - handleData')
         setData(data)
     }
 
     const handleGraphChange = (name: string) => {
-        console.log('handlegraphChange', name, getGraphName(name))
         if (onGraphChange) { 
             onGraphChange(getGraphName(name))
         }

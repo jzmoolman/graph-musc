@@ -1,135 +1,35 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import  { Box,  Button,  Paper, Typography } from '@mui/material'
-import { BaseGraph } from './BaseGraph';
+import { Graph } from './Graph';
 import { defaultGraphScheme, SiteName } from '../tools/graphtools';
 import { useNavigate } from 'react-router-dom'
 
-import musc from '../assets/musc.png'
+import { MuscFooter, MuscHeader, MuscHeader2, MuscLoading, MuscSpecialistNotFound } from './MuscDecs';
+import { Neo4jContext } from 'use-neo4j';
+import { loadSpecialistsByOrgan } from '../tools/graphdata';
 
 type Dimension = {
     width: number
     height: number
 }
 
-type HomeGraphProp =  {
-   site: SiteName
-}
+export const HomeGraphSite = () => {
+    const site = 'generic' as SiteName
 
-export const HomeGraphSite = ({site}: HomeGraphProp) => {
-    console.log('enter - HomeGraph')
-    const [activeGraph, setActiveGraph] = useState(0)
-
-    const MuscHeader = () => {
-      return (<>
-
-        <Paper 
-            elevation={4}         
-            sx={{ 
-                    color: 'white',
-                    width: '100%',
-                    backgroundColor: 'white',
-                    margin: '2px',
-                    padding:'2px'}}
-        >
-            <Box id='heading1' display='flex' 
-                sx={{
-                    backgroundColor:'white',
-                    color: 'black'}}
-            >
-                <Box display='flex' 
-                    sx={{
-                        backgroundColor:'white'}}>
-                    <img src={musc} height={100} />
-                </Box>
-                <Box display='flex' flex='1' flexDirection='column'>
-                    <Typography 
-                        textAlign='right'
-                        width='100%'
-                        color='primary.main'
-                    >
-                        <Box>
-                            Created by
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            &nbsp;&nbsp;&nbsp;&nbsp;  
-                            Zach Moolman II
-                        </Box>
-                        <Box>
-                            Armando Diaz 
-                        </Box>
-                        <Box>
-                            Julie Henderson
-                        </Box>
-                        <Box>
-                            Kiersten Meeder
-                        </Box> 
-                        <Box>
-                            Kevin S. Hughes, MD, FACS
-                        </Box> 
-                    </Typography>
-                </Box>
-                <Box display='flex' flex='1' flexDirection='column'>
-                    <Typography 
-                        textAlign='right'
-                        width='100%'
-                        color='primary.main'
-                    >
-                        <Box>
-                            Department of Surgery 
-                        </Box>
-                        <Box>
-                            Division of Oncologic & Endocrine Surgery
-                        </Box>
-                        <Box>
-                            Medical University of South Carolina
-                        </Box>
-                        <Box>
-                            Graph database software courtesy of Neo4J
-                        </Box>
-                        <Box>
-                            Supported in part by Invitae/Medneon
-                        </Box>
-                    </Typography>
-                </Box>
-            </Box>
-        </Paper>
-      </>)
-  }
-
-    const [dim, setDim] = useState<Dimension[]>([
-        {width:200, height:200},
-        {width:200, height:200},
-        {width:200, height:200}
-    ])
-
+    const context = useContext(Neo4jContext), driver = context.driver
+    const [data, setData] = useState<string[]>([])
+    const  { specialist } = useParams()
     const navigate = useNavigate()
-    
-    useEffect(()=>{
-        console.log('HomeGraph mounted')
-        window.addEventListener("resize", handleResize )
-        setDim( [
-            {width: getWidth(1), height: 200},
-            {width: getWidth(2), height: 200},
-            {width: getWidth(3), height: 200},
-            {width: getWidth(4), height: 200}
-        ])
-    },[])
 
-    const handleResize = () => {
-        console.log('onResize')
-        setDim( ()=> ([
-            {width: getWidth(1), height: 200},
-            {width: getWidth(2), height: 200},
-            {width: getWidth(3), height: 200},
-            {width: getWidth(4), height: 200}
-        ]))
-    }
+    console.log('specialist', specialist )
 
-    const handleImageClick = () => {
-        navigate('/')
+    useEffect(()=> {
+        loadSpecialistsByOrgan(driver, handleData )
+    }, [])
 
+    const handleData = (data: string[]) => {
+        setData(data)
     }
 
     const handleClickGene = () => {
@@ -160,46 +60,11 @@ export const HomeGraphSite = ({site}: HomeGraphProp) => {
         }
     }
 
-    const handleGeneMouseOver = ()=> {
-        setActiveGraph(1)
-    }
-
-    const handleGeneMouseOut = ()=> {
-        setActiveGraph(0)
-    }
-
-    const handleOrganMouseOver = ()=> {
-        setActiveGraph(2)
-    }
-
-    const handleOrganMouseOut = ()=> {
-        setActiveGraph(0)
-    }
-
-    const handleDiseaseMouseOver = ()=> {
-        setActiveGraph(3)
-    }
-
-    const handleDiseaseMouseOut = ()=> {
-        setActiveGraph(0)
-    }
-
-    const handleSyndromeMouseOver = ()=> {
-        setActiveGraph(4)
-    }
-
-    const handleSyndromeMouseOut = ()=> {
-        setActiveGraph(0)
-    }
-
     const getWidth = (box: number) => {
         let number = Number(document.getElementById(`graph-box${box}`)?.offsetWidth )
-        console.log('getWidht', number)
         if ( typeof number === 'number' && number === number) {
-            console.log('getWidth is a number', number)
             return number-12
         } else {
-            console.log('getWidth NaN', number)
             return 200
         }
     }
@@ -224,21 +89,7 @@ export const HomeGraphSite = ({site}: HomeGraphProp) => {
         }
     }
 
-    const getHeaderDesc1 = (name : SiteName) => {
-        switch (name) {
-            case 'gi': return 'GI Cancer susceptibility gene visualizations using a Graph Database'
-            default : return 'Cancer susceptibility gene visualizations using a Graph Database'
-        }
-    }
-
-    const getHeaderDesc2 = (name : SiteName) => {
-        switch (name) {
-            case 'gi': return 'This website provides visualizations of cancer susceptibility genes and gene combinations for gastroenterologist'
-            default : return 'This website provides visualizations of cancer susceptibility genes and gene combinations'
-        }
-    }
-
-    const GraphButtons = ({site}: HomeGraphProp) => {
+    const GraphButtons = () => {
         switch (site) {
             case 'gi': return (<>
             <Box id='graph-box5' display='flex' flex={1}
@@ -287,20 +138,24 @@ export const HomeGraphSite = ({site}: HomeGraphProp) => {
         }
     }
 
-    return (<>
+    if ( data.length === 0) {
+        return (<>
+            <MuscHeader/>
+            <MuscHeader2/>
+            <MuscLoading/>
+        </>)
 
-    <MuscHeader/>
+    } else if (data.filter( e => e === specialist).length === 0 ) {
+        return (<>
+            <MuscHeader/>
+            <MuscSpecialistNotFound specialist={specialist}/>
+        </>)
 
-        <Box id='heading2' display='flex'>
-            <Typography 
-                textAlign='center'
-                variant='h3' 
-                width='100%'
-                color='primary.main'
-            >
-                {getHeaderDesc1(site)}
-            </Typography>
-        </Box>
+    } else {
+    
+        return (<>
+
+        <MuscHeader/>
         <Box display='flex' 
              flexWrap='wrap'
         >
@@ -319,7 +174,10 @@ export const HomeGraphSite = ({site}: HomeGraphProp) => {
                             backgroundColor: 'white',
                             margin: '2px',
                             padding:'2px'}}>
-                    <BaseGraph
+
+                    {data.length!==0?
+
+                    <Graph
                         drawerOpen={false}
                         width={getWidth(1)}
                         height={300}
@@ -333,7 +191,7 @@ export const HomeGraphSite = ({site}: HomeGraphProp) => {
                         graphScheme={defaultGraphScheme}
                         enableZoom={false}
                         onClick={handleClickGene}
-                    />
+                    />:<Box width={getWidth(1)}></Box>}
                     <Box
                         color='black' 
                         textAlign='center'
@@ -343,7 +201,7 @@ export const HomeGraphSite = ({site}: HomeGraphProp) => {
                             textAlign='center'
                             variant='h6' 
                             // width='100%'
-                            color={activeGraph===1?'primary.main':'white'}
+                            color='primary.main'
                             sx= {{
                                 color: getActiveFontColor(1),
                             }}
@@ -362,7 +220,7 @@ export const HomeGraphSite = ({site}: HomeGraphProp) => {
 
             <Box id='graph-box2' display='flex' flex={1}
                 sx={{
-                    minWidth: 400,
+                    minWidth: 300,
                     color: 'white',
                     paddig: '16px',
                 }}
@@ -377,7 +235,8 @@ export const HomeGraphSite = ({site}: HomeGraphProp) => {
                             margin: '2px',
                             padding:'2px'}}
                 >
-                    <BaseGraph 
+                    {data.length!==0?
+                    <Graph 
                         drawerOpen={false}
                         width={getWidth(2)}
                         height={300}
@@ -391,7 +250,7 @@ export const HomeGraphSite = ({site}: HomeGraphProp) => {
                         graphScheme={defaultGraphScheme}
                         enableZoom={false}
                         onClick={handleClickOrgan}
-                    />
+                    />:<Box width={getWidth(2)}></Box>}
                     <Box 
                         color='black' 
                         textAlign='center'
@@ -417,7 +276,6 @@ export const HomeGraphSite = ({site}: HomeGraphProp) => {
             <Box id='graph-box3' display='flex' flex={1}
                 sx={{
                     minWidth: '300px',
-                    // backgroundColor: 'primary.main',
                     color: 'white',
                     paddig: '16px',
                 }}
@@ -431,7 +289,8 @@ export const HomeGraphSite = ({site}: HomeGraphProp) => {
                             margin: '2px',
                             padding:'2px'}}
                 >
-                    <BaseGraph 
+                    {data.length!==0?
+                    <Graph 
                         drawerOpen={false}
                         width={getWidth(3)}
                         height={300}
@@ -445,7 +304,7 @@ export const HomeGraphSite = ({site}: HomeGraphProp) => {
                         graphScheme={defaultGraphScheme}
                         enableZoom={false}
                         onClick={handleClickSyndrome}
-                    />
+                    />:<Box width={getWidth(3)}></Box>}
                     <Box 
                         color='black' 
                         textAlign='center'
@@ -483,7 +342,8 @@ export const HomeGraphSite = ({site}: HomeGraphProp) => {
                             margin: '2px',
                             padding:'2px'}}
                 >
-                    <BaseGraph 
+                    {data.length!==0?
+                    <Graph 
                         drawerOpen={false}
                         width={getWidth(4)}
                         height={300}
@@ -497,7 +357,7 @@ export const HomeGraphSite = ({site}: HomeGraphProp) => {
                         graphScheme={defaultGraphScheme}
                         enableZoom={false}
                         onClick={handleClickDisease}
-                    />
+                    />:<Box width={getWidth(4)}></Box>}
                     <Box 
                         color='black' 
                         textAlign='center'
@@ -519,41 +379,9 @@ export const HomeGraphSite = ({site}: HomeGraphProp) => {
                     </Box>
                 </Paper>
             </Box>
-            <GraphButtons site={site}/>
+            <GraphButtons/>
         </Box>
-        <Box id='heading2' display='flex'>
-            <Typography 
-                textAlign='center'
-                variant='h3' 
-                width='100%'
-                color='primary.main'
-            >
-                {getHeaderDesc2(site)}
-            </Typography>
-        </Box>
-        <Box display='flex'>
-            <Typography 
-                textAlign='left'
-                width='100%'
-                paddingLeft={10}
-                paddingRight={10}
-                color='primary.main'
-            >
-                <p>
-                  Pathogenic variants inherited at birth (Germline) in certain genes increase the risk of certain cancers.
-                </p>
-                <p>
-                    Cancer susceptibility genes can be better understood using a framework of 
-                    <ul>
-                        <li>spectrum of diseases caused</li>
-                        <li>penetrance for each disease</li>
-                        <li>the predominant subtype of each disease</li>
-                        <li>age of onset</li>
-                    </ul>
-                    When managing a patient with a pathogenic variant in a given gene, the spectrum of disease suggests which diseases to address in our management plan and suggests what family history might be indicative of this gene.  The penetrance suggests how aggressive to be in management.  The age of onset tells us when to institute management.
-                    In the past, syndromes have been defined that often predated the understanding of the underlying gene.  Syndromes can be useful to help us remember certain family characteristics of certain genes. 
-                </p>
-            </Typography>
-        </Box>
+        <MuscFooter/>
     </>)
+    }
 }

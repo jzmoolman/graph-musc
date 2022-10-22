@@ -1,108 +1,23 @@
-import React, { useEffect,  useState } from 'react'
-import { useParams, useLocation } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import  { Box,  Button,  Paper, Typography } from '@mui/material'
-import { BaseGraph } from './BaseGraph';
+import { Graph } from './Graph';
 import { defaultGraphScheme, SiteName } from '../tools/graphtools';
 import { useNavigate } from 'react-router-dom'
 
 import musc from '../assets/musc.png'
+import { MuscHeader } from './MuscDecs';
 
 type Dimension = {
     width: number
     height: number
 }
 
-
 export const HomeGraph = () => {
     const [activeGraph, setActiveGraph] = useState(0)
 
-  const  params  = useParams()
-  console.log('params', params)
-  console.log('params[0]', params[0])
-  console.log('params[1]', params[1])
-
-  const location = useLocation()
-  console.log('location', location.pathname)
-  console.log('location', location)
-
-    const MuscHeader = () => {
-      return (<>
-
-        <Paper 
-            elevation={4}         
-            sx={{ 
-                    color: 'white',
-                    width: '100%',
-                    backgroundColor: 'white',
-                    margin: '2px',
-                    padding:'2px'}}
-        >
-            <Box id='heading1' display='flex' 
-                sx={{
-                    backgroundColor:'white',
-                    color: 'black'}}
-            >
-                <Box display='flex' 
-                    sx={{
-                        backgroundColor:'white'}}>
-                    <img src={musc} height={100} />
-                </Box>
-                <Box display='flex' flex='1' flexDirection='column'>
-                    <Typography 
-                        textAlign='right'
-                        width='100%'
-                        color='primary.main'
-                    >
-                        <Box>
-                            Created by
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            &nbsp;&nbsp;&nbsp;&nbsp;  
-                            Zach Moolman II
-                        </Box>
-                        <Box>
-                            Armando Diaz 
-                        </Box>
-                        <Box>
-                            Julie Henderson
-                        </Box>
-                        <Box>
-                            Kiersten Meeder
-                        </Box> 
-                        <Box>
-                            Kevin S. Hughes, MD, FACS
-                        </Box> 
-                    </Typography>
-                </Box>
-                <Box display='flex' flex='1' flexDirection='column'>
-                    <Typography 
-                        textAlign='right'
-                        width='100%'
-                        color='primary.main'
-                    >
-                        <Box>
-                            Department of Surgery 
-                        </Box>
-                        <Box>
-                            Division of Oncologic & Endocrine Surgery
-                        </Box>
-                        <Box>
-                            Medical University of South Carolina
-                        </Box>
-                        <Box>
-                            Graph database software courtesy of Neo4J
-                        </Box>
-                        <Box>
-                            Supported in part by Invitae/Medneon
-                        </Box>
-                    </Typography>
-                </Box>
-            </Box>
-        </Paper>
-      </>)
-  }
+  const  { specialist } = useParams()
+  console.log('specialist', specialist )
 
     const [dim, setDim] = useState<Dimension[]>([
         {width:200, height:200},
@@ -148,12 +63,9 @@ export const HomeGraph = () => {
 
     const getWidth = (box: number) => {
         let number = Number(document.getElementById(`graph-box${box}`)?.offsetWidth )
-        console.log('getWidht', number)
         if ( typeof number === 'number' && number === number) {
-            console.log('getWidth is a number', number)
             return number-12
         } else {
-            console.log('getWidth NaN', number)
             return 200
         }
     }
@@ -202,7 +114,7 @@ export const HomeGraph = () => {
                             margin: '2px',
                             padding:'2px'}}
                 >
-                    <BaseGraph 
+                    <Graph 
                         drawerOpen={false}
                         width={getWidth(2)}
                         height={300}
@@ -255,7 +167,7 @@ export const HomeGraph = () => {
                             margin: '2px',
                             padding:'2px'}}
                 >
-                    <BaseGraph 
+                    <Graph 
                         drawerOpen={false}
                         width={getWidth(2)}
                         height={300}
@@ -298,7 +210,7 @@ export const HomeGraph = () => {
 
     return (<>
 
-    <MuscHeader/>
+        <MuscHeader/>
 
         <Box id='heading2' display='flex'>
             <Typography 

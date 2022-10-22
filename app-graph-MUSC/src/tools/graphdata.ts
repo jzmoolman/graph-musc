@@ -1,7 +1,8 @@
 
+import React, { useContext } from 'react'
 import { GraphScheme, Force2DData, ArrayToStr, GeneNodeObject, SiteName, cardNCCNDataObject } from './graphtools'
+import { Neo4jContext } from 'use-neo4j'
 import { Driver }  from  'neo4j-driver'
-import { ControlCamera } from '@mui/icons-material'
 
 const giOrgans = ['Colorectal', 'Esophagus', 'Gallbladder', 'Gastric', 'GI', 'Liver', 'Pancreas', 'Stomach',
 'Small Bowel','UGI', 'UGI-Small Bowel', 'Bile Duct']
@@ -48,8 +49,8 @@ export const loadSpecialistsByOrgan= async (
         console.log('Driver not loaded')
         return result
     }
-    // const query = `MATCH (n:LKP_SPECIALISTS_BY_ORGAN)RETURN DISTINCT n.Organ_System as name ORDER BY name`  
-    const query = `MATCH (n:LKP_SPECIALISTS_BY_ORGAN)RETURN WHERE n.PrimarySpecialist in ["Gynecology", "Urology"] DISTINCT n.PrimarySpecialist as name ORDER BY name`  
+    const query = `MATCH (n:LKP_SPECIALISTS_BY_ORGAN) WHERE n.PrimarySpecialist in ["Gynecology", "Urology"] RETURN DISTINCT n.PrimarySpecialist as name ORDER BY name`  
+    console.log(query)
 
     let session = driver.session()
     try {
