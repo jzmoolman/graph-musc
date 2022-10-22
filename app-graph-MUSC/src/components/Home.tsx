@@ -5,7 +5,7 @@ import { SiteName } from '../tools/graphtools';
 import { useNavigate } from 'react-router-dom'
 import musc from '../assets/musc.png'
 import { loadSpecialistsByOrgan } from '../tools/graphdata';
-import { MuscHeader } from './MuscDecs';
+import { MuscHeader, MuscHeader2 } from './MuscDecs';
 
 
 export const Home = () => {
@@ -28,15 +28,16 @@ export const Home = () => {
     }
 
     const Specialists = () => {
+
         let array = data.map( (row,index) =>
-            <> 
-                <Button key={index} variant='outlined' onClick={ ()=>{ handleSpecialistClick(row)}}> {row} </Button> <span/>
-            </> 
+            <React.Fragment key={index}>
+               <Button variant='outlined' onClick={ ()=>{ handleSpecialistClick(row)}}> {row} </Button> <span/>
+            </React.Fragment> 
         )
         array.push(
-            <> 
-                <Button variant='outlined' onClick={ ()=>{ handleSpecialistClick('Generic')}}> Generic </Button> <span/>
-            </>
+            <React.Fragment key={999}>
+                <Button variant='outlined' onClick={ ()=>{ handleSpecialistClick('Generic')}}> Generic </Button> 
+            </React.Fragment>
         )
 
         return (<>
@@ -64,6 +65,7 @@ export const Home = () => {
 
     return (<>
         <MuscHeader/>
+        <MuscHeader2/>
         <Specialists/>
     </>)
 }

@@ -13,11 +13,9 @@ import './App.css'
   
 const theme = createTheme({
 
-  typography: { 
-    fontFamily: 'Libre Franklin',
-    allVariants: { fontWeight:  600} 
-
-    
+    typography: { 
+        fontFamily: 'Libre Franklin',
+        allVariants: { fontWeight:  600} 
   }
 })
 
@@ -25,12 +23,8 @@ export const App = () => {
   const [openDrawer, setOpenDrawer] = useState(false)
 
   const handleDrawerChange = (open: boolean) => {
-    console.log('handleDrawerChange', open)
     setOpenDrawer(open)
   }
-
-  const { params } = useParams<{params?:string}>()
-  console.log(params)
 
   return (<>
     <ThemeProvider theme={theme}>      

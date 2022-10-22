@@ -35,6 +35,7 @@ export const MuscHeader = () => {
                       textAlign='right'
                       width='100%'
                       color='primary.main'
+                      component='div'
                   >
                       <Box>
                           Created by
@@ -64,6 +65,7 @@ export const MuscHeader = () => {
                       textAlign='right'
                       width='100%'
                       color='primary.main'
+                      component='div'
                   >
                       <Box>
                           Department of Surgery 

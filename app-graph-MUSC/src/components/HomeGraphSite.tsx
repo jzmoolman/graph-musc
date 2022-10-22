@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
+import { renderToStaticMarkup } from "react-dom/server"
 import { useParams } from 'react-router-dom'
 import  { Box,  Button,  Paper, Typography } from '@mui/material'
 import { Graph } from './Graph';
@@ -60,13 +61,14 @@ export const HomeGraphSite = () => {
         }
     }
 
-    const getWidth = (box: number) => {
-        let number = Number(document.getElementById(`graph-box${box}`)?.offsetWidth )
-        if ( typeof number === 'number' && number === number) {
-            return number-12
+    const getWidth = (id: number) => {
+        let width = Number(document.getElementById(`graph-box${id}`)?.offsetWidth )
+        if ( typeof width === 'number' && width === width) {
         } else {
-            return 200
+            width =  200
         }
+        console.log('width',id, width)
+        return width;
     }
 
     const getActiveDesciption = (graph: number) => {
@@ -170,16 +172,17 @@ export const HomeGraphSite = () => {
                 <Paper 
                     elevation={4}         
                     sx={{
-                            color: 'white',
-                            backgroundColor: 'white',
-                            margin: '2px',
-                            padding:'2px'}}>
+                        color: 'white',
+                        backgroundColor: 'white',
+                        margin: '2px',
+                        padding:'2px'
+                    }}>
 
                     {data.length!==0?
 
                     <Graph
                         drawerOpen={false}
-                        width={getWidth(1)}
+                        width={getWidth(1)-16}
                         height={300}
                         site={site}
                         name={'gene-organ'}
@@ -238,7 +241,7 @@ export const HomeGraphSite = () => {
                     {data.length!==0?
                     <Graph 
                         drawerOpen={false}
-                        width={getWidth(2)}
+                        width={getWidth(2)-16}
                         height={300}
                         site={site}
                         name={'organ'}
@@ -292,7 +295,7 @@ export const HomeGraphSite = () => {
                     {data.length!==0?
                     <Graph 
                         drawerOpen={false}
-                        width={getWidth(3)}
+                        width={getWidth(3)-16}
                         height={300}
                         site={site}
                         name='syndrome-disease'
@@ -345,7 +348,7 @@ export const HomeGraphSite = () => {
                     {data.length!==0?
                     <Graph 
                         drawerOpen={false}
-                        width={getWidth(4)}
+                        width={getWidth(4)-16}
                         height={300}
                         site={site}
                         name={'disease'}

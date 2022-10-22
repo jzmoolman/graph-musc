@@ -50,7 +50,6 @@ export const loadSpecialistsByOrgan= async (
         return result
     }
     const query = `MATCH (n:LKP_SPECIALISTS_BY_ORGAN) WHERE n.PrimarySpecialist in ["Gynecology", "Urology"] RETURN DISTINCT n.PrimarySpecialist as name ORDER BY name`  
-    console.log(query)
 
     let session = driver.session()
     try {
@@ -91,7 +90,6 @@ export const loadGene= async (
     }
     const query = `MATCH (g:MGene)-[:AFFECTS]->(o:Organ) ${whereCLAUSE} RETURN DISTINCT g.name as name ORDER BY name`  
 
-    console.log('loadGenes ', query)
     let session = driver.session()
     try {
         let res = await session.run(query)
@@ -622,8 +620,6 @@ export const  loadOrganGeneData = async (
         }
     }
     const query = `MATCH (g:MGene)-[r]->(o:Organ) ${whereCLAUSE} RETURN g,r,o`
-
-    console.log('Orgran-Gene', query)
 
     let session = driver.session()
 
