@@ -5,7 +5,7 @@ import { SiteName } from '../tools/graphtools';
 import { useNavigate } from 'react-router-dom'
 import musc from '../assets/musc.png'
 import { loadSpecialists } from '../tools/graphdata';
-import { MuscHeader, MuscHeader3 } from './MuscDecs';
+import { MuscHeader,MuscHeader2, MuscHeader3 } from './MuscDecs';
 
 
 export const Home = () => {
@@ -65,7 +65,8 @@ export const Home = () => {
 
     return (<>
         <MuscHeader/>
-        <MuscHeader3/>
+        <MuscHeader2 specialist='Generic'/>
+        <MuscHeader3 />
         <Specialists/>
     </>)
 }

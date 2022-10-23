@@ -68,10 +68,7 @@ export const loadGene= async (
     let whereCLAUSE: string =  `WHERE g.finalVerdict in [1]`
     whereCLAUSE = whereCLAUSE + ` AND o.name in ${ArrayToStr(await loadOrgan(driver, specialist))}`
 
-    console.log(specialist)
     const query = `MATCH (g:MGene)-[:AFFECTS]->(o:Organ) ${whereCLAUSE} RETURN DISTINCT g.name as name ORDER BY name`  
-
-    console.log(query)
 
     let session = driver.session()
     try {
@@ -267,7 +264,6 @@ export const  loadGeneOrganData = async (
     }
 
     const query = `MATCH (g:MGene)-[r]->(o:Organ) ${whereCLAUSE} RETURN g,r,o`
-    console.log(query)
 
     let session = driver.session()
 

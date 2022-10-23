@@ -108,7 +108,13 @@ export const Graph = ( {
     const handleCardClose = () => {
         setNodeHover(null);
         setNodeClick(false);
-      };
+    };
+
+    const [mounted, setMounted] = useState(false)
+
+    useEffect( ()=> {
+        setMounted(true)
+    },[])
 
     const handleMouseMove: React.MouseEventHandler<HTMLDivElement> = (e)  => {
         let position: {x: number, y: number} = {x:0, y:0}
@@ -225,30 +231,30 @@ export const Graph = ( {
         };
     }
 
-    const renderBack = (enable: boolean | undefined) => {
-        if ( enable) {
-            return (
-                ReactDOM.createPortal(
-                <Box
-                    sx={{
-                        position: "absolute",
-                        overflow: "auto",
-                        top: getHeight() + 10,
-                        left: getWidth() - 75,
-                    }}
-                >
-                    <Button  variant="outlined" onClick={handleBackClick}> 
-                        Back
-                    </Button>
-                </Box>
-            , document.body)
-            )
+    const renderBack = () => {
+        if ( enableBack && mounted) {
+            return ( ReactDOM.createPortal(
+                    <Box
+                        sx={{
+                            position: "absolute",
+                            overflow: "auto",
+                            top: getHeight() + 10,
+                            left: getWidth() - 75,
+                        }}
+                    >
+                        <Button  variant="outlined" onClick={handleBackClick}> 
+                            Back
+                        </Button>
+                    </Box>
+                    , document.body
+                ))
         } else {
-            return (<></>)
+            return ( ReactDOM.createPortal(<></>, document.body))
         }
     }
 
     const renderHover = () => {
+
         if (nodeClick) {
             if ((nodeHover as GeneNodeObject).nodeType === 'gene') {
                 const _node = nodeHover as GeneNodeObject; 
@@ -680,26 +686,26 @@ export const Graph = ( {
     if (!graphScheme.fitViewPort) {
         if (forceRef.current) {}
     }
-
-    return (
-        <Box id='graph-box' 
+    return ( 
+        <Box id='graph-box-xx' 
             sx={{
-                padding:'2px'}} 
-                onClick={handleClick}
-                onMouseMove={handleMouseMove}
+                padding:'2px'
+            }} 
+            onClick={handleClick}
+            onMouseMove={handleMouseMove}
             onMouseOver={(e)=>{
-                if (onMouseOver) 
+                if (onMouseOver) {
                     onMouseOver()
+                }
             }}
             onMouseOut={(e)=>{
-                if (onMouseOut) 
+                if (onMouseOut)  {
                     onMouseOut()
+                }
             }}
-            
-            
         >
+            {renderBack()}
             {renderHover()}
-            {renderBack(enableBack)}
             <ForceGraph2D 
                 ref={forceRef}
                 width={width}

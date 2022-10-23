@@ -230,7 +230,8 @@ export const GraphViewport = ( {
 
     return (
         <>
-            <Main open={open}>        
+        <Main open={open}>        
+            {/* <DrawerHeader /> */}
                 <Paper 
                     id='graph-box'
                     elevation={4}         

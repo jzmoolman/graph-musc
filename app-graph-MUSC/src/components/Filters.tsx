@@ -219,6 +219,7 @@ export const Filters = ({
             case 'gene-disease-subtype':
                 return (<>
                     <Typography 
+                        component='div'
                         sx={{
                             textAlign:'left',
                             marginLeft: 1,
@@ -297,22 +298,23 @@ export const Filters = ({
     const FilterGraph = ({name} : FilterProps) => {
         let el : React.ReactElement;
         el = <><Typography 
-                        sx={{
-                            textAlign:'left',
-                            marginLeft: 1,
-                            color: 'black'
-                        }}
-                    > 
-                        <Box paddingTop={2}>                    
-                            <GraphDesc name={name}/>
-                        </Box>
-                    </Typography>
-                    <Dropdown 
-                        label={getGraphDesc(name)}
-                        options={data}
-                        selected={getOnHandleChange(name).selected}
-                        onChange={getOnHandleChange(name).handleChange}
-                    />
+            component='div'
+            sx={{
+                textAlign:'left',
+                marginLeft: 1,
+                color: 'black'
+            }}
+        > 
+            <Box paddingTop={2}>                    
+                <GraphDesc name={name}/>
+            </Box>
+        </Typography>
+        <Dropdown 
+            label={getGraphDesc(name)}
+            options={data}
+            selected={getOnHandleChange(name).selected}
+            onChange={getOnHandleChange(name).handleChange}
+        />
         </>
         return el
     }
@@ -320,6 +322,7 @@ export const Filters = ({
     const FilterAssociation = ({name}:FilterProps) => {
         return (<> 
             <Typography 
+                component='div'
                 sx={{
                     textAlign:'left',
                     marginLeft: 1,
@@ -349,7 +352,6 @@ export const Filters = ({
             display='flex'
             flex={1}
             flexDirection='column'
-            // rowGap={1}
             height='80%'
             marginTop={1}
         >
@@ -361,8 +363,6 @@ export const Filters = ({
             <Box 
                 height={100}>
                 <FilterAssociation name={name}/>
-                
-
             </Box>
         </Box>
     )

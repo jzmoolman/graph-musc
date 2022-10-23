@@ -109,8 +109,7 @@ export const paintNode = (node: NodeObject, ctx: CanvasRenderingContext2D, Globa
 
     const lines = label.split(' ')
     const lineHeight  = fontSize
-
-    ctx.font = `${fontSize}px Sans-Serif`;
+    ctx.font = `${fontSize}px Libre Franklin`
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle'
     ctx.fillStyle = fontColor

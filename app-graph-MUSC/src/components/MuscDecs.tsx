@@ -123,13 +123,13 @@ export const MuscHeader2 = ({specialist}:  MuscHeader2Props) => {
 export const MuscHeader3 = () => {
 
     const getDesc = () => {
-        return 'GI Cancer susceptibility gene visualizations using a Graph Database, Choose the speciality you are interested in.'
+        return 'Choose the speciality you are interested in.'
     }
 
     return (<>
         <Typography 
             textAlign='center'
-            variant='h3' 
+            variant='h5' 
             component='div'
             width='100%'
             color='primary.main'
