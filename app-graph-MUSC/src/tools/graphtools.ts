@@ -100,6 +100,29 @@ export interface TabPanelProps {
 
 
 export const paintNode = (node: NodeObject, ctx: CanvasRenderingContext2D, GlobalScale: number) => {
+    
+    const shrinkToFit = (line: string): string => {
+        let measure = ctx.measureText(line)
+        if (measure.width < 13) {
+            // Base case 
+            return line
+        } else {
+            console.log(line,line.slice(0,line.length-2))
+            return shrinkToFit(line.slice(0,line.length-2))
+        }
+    }
+
+    const scaleToFit = (line: string, scale: number): number => {
+        ctx.font = `${scale*1.05}px Libre Franklin`
+        let measure = ctx.measureText(line)
+        if (measure.width > 12) {
+            // Base case 
+            return scale
+        } else {
+            return scaleToFit(line, scale*1.10)
+        }
+    }
+
     const spaceWords = (line: string ) => {
         let r = ""
         for ( let i = 0; i < line.length; i++) {
@@ -141,7 +164,23 @@ export const paintNode = (node: NodeObject, ctx: CanvasRenderingContext2D, Globa
     
     y = y - lineHeight*((lines2.length-1)/2)
     for ( let i = 0; i < lines2.length; i++ ) {
-        ctx.fillText(lines2[i], x, y)
+        let measure = ctx.measureText(lines2[i])
+        let line = ''
+        if (measure.width > 15) {
+            console.log(lines[i])
+            line = shrinkToFit(lines2[i])
+        } else {
+            line =  lines2[i]
+            if ( lines2.length == 1) {
+                console.log('pre', lineHeight)
+                lineHeight = scaleToFit(lines2[i], lineHeight)
+                console.log('post', lineHeight)
+                ctx.font = `${lineHeight}px Libre Franklin`
+                line =  lines2[i]
+            }
+        }
+        
+        ctx.fillText(line, x, y)
         y = y + (lineHeight)
     }
 }
