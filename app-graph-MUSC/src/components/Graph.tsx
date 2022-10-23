@@ -132,8 +132,11 @@ export const Graph = ( {
         setNodeClick(true);
         setNodeHover(node)
         
-        if ((node as GeneNodeObject).nodeType === 'gene') {
-        const _node = node as GeneNodeObject; 
+        // if ((node as GeneNodeObject).nodeType === 'Gene') {
+        // if ((node as eNodeObject).nodeType === 'Gene') {
+        // if (typeof node  === 'Gene') {
+        if ((node as CustomNodeObject).nodeType === 'Gene') {
+            const _node = node as GeneNodeObject; 
             setNCCNGeneCard([_node.name])  // ARMANDO NEW CODE, ADDED NCNN Data
         } else {
             setNCCNGeneCard(genes)
@@ -256,7 +259,7 @@ export const Graph = ( {
     const renderHover = () => {
 
         if (nodeClick) {
-            if ((nodeHover as GeneNodeObject).nodeType === 'gene') {
+            if ((nodeHover as GeneNodeObject).nodeType === 'Gene') {
                 const _node = nodeHover as GeneNodeObject; 
                 const footnoteArray = [<div></div>];
                 const unique_footnote = Array.from(new Set(nccnData.map(item => item.footnote)));
@@ -401,7 +404,7 @@ export const Graph = ( {
                 </Box>,
                 document.body
             ))
-            } else if ((nodeHover as CustomNodeObject).nodeType === 'organ'){
+            } else if ((nodeHover as CustomNodeObject).nodeType === 'Organ'){
                 const _node = nodeHover as CustomNodeObject
                 return (ReactDOM.createPortal(
                     <Box
@@ -457,7 +460,7 @@ export const Graph = ( {
                     </Box>,
                     document.body
                 ))
-            } else if ((nodeHover as CustomNodeObject).nodeType === 'disease'){
+            } else if ((nodeHover as CustomNodeObject).nodeType === 'Disease'){
                 const _node = nodeHover as CustomNodeObject
                 return (ReactDOM.createPortal(
                     <Box
@@ -510,7 +513,7 @@ export const Graph = ( {
                     </Box>,
                     document.body
                 ))
-            } else if ((nodeHover as CustomNodeObject).nodeType === 'subtype'){
+            } else if ((nodeHover as CustomNodeObject).nodeType === 'Subtype'){
                 const _node = nodeHover as CustomNodeObject
                 return (ReactDOM.createPortal(
                     <Box
@@ -563,7 +566,7 @@ export const Graph = ( {
                     </Box>,
                     document.body
                 ))
-            } else if ((nodeHover as CustomNodeObject).nodeType === 'syndrome'){
+            } else if ((nodeHover as CustomNodeObject).nodeType === 'Syndrome'){
                 const _node = nodeHover as SyndromeNodeObject
                 console.log('hereditaryType',_node.hereditaryType)
 

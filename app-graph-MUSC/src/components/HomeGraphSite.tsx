@@ -3,7 +3,7 @@ import { renderToStaticMarkup } from "react-dom/server"
 import { useParams } from 'react-router-dom'
 import  { Box,  Button,  Paper, Typography } from '@mui/material'
 import { Graph } from './Graph';
-import { defaultGraphScheme, SiteName } from '../tools/graphtools';
+import { defaultGraphScheme } from '../tools/graphtools';
 import { useNavigate } from 'react-router-dom'
 
 import { MuscFooter, MuscHeader, MuscHeader2, MuscHeader3, MuscLoading, MuscSpecialistNotFound } from './MuscDecs';
@@ -16,7 +16,6 @@ type Dimension = {
 }
 
 export const HomeGraphSite = () => {
-    const site = 'generic' as SiteName
 
     const navigate = useNavigate()
     const context = useContext(Neo4jContext), driver = context.driver
@@ -48,17 +47,11 @@ export const HomeGraphSite = () => {
     }
     
     const handleClickDisease = () => {
-        switch ( site ) {
-            case 'generic': { navigate('/graph/disease'); break; }
-            case 'gi': { navigate('/graph/disease/gi'); break; }
-        }
+        navigate(`/site/disease/${specialist}`)
     }
 
     const handleClickSyndrome = () => {
-        switch ( site ) {
-            case 'generic': { navigate('/graph/syndrome'); break; }
-            case 'gi': { navigate('/graph/syndrome/gi'); break; }
-        }
+        navigate(`/site/syndrome/${specialist}`)
     }
 
     const getWidth = (id: number) => {
@@ -97,52 +90,53 @@ export const HomeGraphSite = () => {
     }
 
     const GraphButtons = () => {
-        switch (site) {
-            case 'gi': return (<>
-            <Box id='graph-box5' display='flex' flex={1}
-                sx={{
-                    minWidth: '300px',
-                    color: 'white',
-                    paddig: '16px',
-                }}
-            >
-                <Paper 
-                    elevation={4}         
-                    sx={{ 
-                            color: 'white',
-                            width: '100%',
-                            backgroundColor: 'white',
-                            margin: '2px',
-                            padding:'2px'}}
-                >
-                    <Box height={150}>
+        // switch (site) {
+        //     case 'gi': return (<>
+        //     <Box id='graph-box5' display='flex' flex={1}
+        //         sx={{
+        //             minWidth: '300px',
+        //             color: 'white',
+        //             paddig: '16px',
+        //         }}
+        //     >
+        //         <Paper 
+        //             elevation={4}         
+        //             sx={{ 
+        //                     color: 'white',
+        //                     width: '100%',
+        //                     backgroundColor: 'white',
+        //                     margin: '2px',
+        //                     padding:'2px'}}
+        //         >
+        //             <Box height={150}>
 
-                    </Box>
-                    <Box 
-                        color='black' 
-                        textAlign='center'
-                        paddingBottom={1}
-                    >
-                            <Typography                        
-                                textAlign='center'
-                                variant='h6' 
-                                width='100%'
-                                color='primary.main'
-                            > 
-                                <Button 
-                                    variant="outlined"
-                                    onClick={handleClickDisease}
-                                >
-                                    Eligibility for cancer genetic testing
-                                </Button>
-                            </Typography>
-                    </Box>
-                </Paper>
+        //             </Box>
+        //             <Box 
+        //                 color='black' 
+        //                 textAlign='center'
+        //                 paddingBottom={1}
+        //             >
+        //                     <Typography                        
+        //                         textAlign='center'
+        //                         variant='h6' 
+        //                         width='100%'
+        //                         color='primary.main'
+        //                     > 
+        //                         <Button 
+        //                             variant="outlined"
+        //                             onClick={handleClickDisease}
+        //                         >
+        //                             Eligibility for cancer genetic testing
+        //                         </Button>
+        //                     </Typography>
+        //             </Box>
+        //         </Paper>
 
-            </Box>
-        </>)
-        default: return (<></>)
-        }
+        //     </Box>
+        // </>)
+        // default: return (<></>)
+        // }
+        return (<></>)
     }
 
     if ( data.length === 0) {

@@ -40,8 +40,8 @@ export type Force2DData = {
     links: any[]
 }
 
-export type SiteName = 'generic' | 'gi' 
 export type GraphName = 'gene-organ' | 'gene-disease' | 'gene-disease-subtype' | 'organ' | 'disease' | 'syndrome-disease' | 'syndrome-gene-disease'
+export type NodeType = 'Gene' | 'Organ' | 'Disease' | 'Syndrome' | 'Subtype'
 
 export const ArrayToStr = (data: string[]) => {
     let localFilter = '';
@@ -57,8 +57,8 @@ export const ArrayToStr = (data: string[]) => {
 }
  
 export interface CustomNodeObject extends NodeObject {
+    nodeType: NodeType
     name: string
-    nodeType: string
     nodeColor: string
     fontColor: string
     nodeVal: number
@@ -100,6 +100,17 @@ export interface TabPanelProps {
 
 
 export const paintNode = (node: NodeObject, ctx: CanvasRenderingContext2D, GlobalScale: number) => {
+    const spaceWords = (line: string ) => {
+        let r = ""
+        for ( let i = 0; i < line.length; i++) {
+           r = r + line[i]
+           if (i+1 != line.length)
+           r += " " 
+        }
+        return r
+    }
+
+    const nodeType = (node as CustomNodeObject).nodeType
     const label = (node as CustomNodeObject).name
     const fontColor = (node as CustomNodeObject).fontColor
     const fontSize = (node as CustomNodeObject).nodeRelSize * (node as CustomNodeObject).scaleFont/100
@@ -108,15 +119,29 @@ export const paintNode = (node: NodeObject, ctx: CanvasRenderingContext2D, Globa
     let y = node.y?node.y:0
 
     const lines = label.split(' ')
-    const lineHeight  = fontSize
-    ctx.font = `${fontSize}px Libre Franklin`
+    let lines2 = []
+    for ( let i = 0 ; i< lines.length; i++) {
+        let line = lines[i]
+        if ( nodeType === 'Gene') {
+            lines2.push(spaceWords(line))
+        } else  {
+            lines2.push(line)
+        }
+    }
+    
+    let lineHeight  = fontSize
+    if ( nodeType === 'Gene') {
+        lineHeight = fontSize*1.2
+    }
+
+    ctx.font = `${lineHeight}px Libre Franklin`
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle'
     ctx.fillStyle = fontColor
     
-    y = y - lineHeight*((lines.length-1)/2)
-    for ( let i = 0; i < lines.length; i++ ) {
-        ctx.fillText(lines[i], x, y)
+    y = y - lineHeight*((lines2.length-1)/2)
+    for ( let i = 0; i < lines2.length; i++ ) {
+        ctx.fillText(lines2[i], x, y)
         y = y + (lineHeight)
     }
 }

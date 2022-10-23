@@ -3,7 +3,7 @@ import { useParams, useLocation } from 'react-router-dom'
 import { styled } from '@mui/material/styles'
 import  { Box, Divider, Paper, Drawer, Typography } from '@mui/material'
 import { Configuration } from './Configuration';
-import { GraphScheme, defaultGraphScheme, GraphName, SiteName } from '../tools/graphtools';
+import { GraphScheme, defaultGraphScheme, GraphName } from '../tools/graphtools';
 import { Graph } from './Graph';
 import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -60,7 +60,7 @@ type Dimension = {
     height: number
 }
 
-export const GraphViewport = ( { 
+export const GraphViewport_old = ( { 
     name, 
     specialist, 
     open, 

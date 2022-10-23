@@ -277,7 +277,7 @@ export const  loadGeneOrganData = async (
             const source = row.get('g') 
             if (!ids.has(source.properties.name)) {
                 let node: GeneNodeObject = { 
-                    nodeType: 'gene',
+                    nodeType: 'Gene',
                     id: source.identity,
                     name: source.properties.name,
                     fullName: source.properties.fullName,

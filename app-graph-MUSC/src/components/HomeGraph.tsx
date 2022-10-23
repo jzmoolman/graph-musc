@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import  { Box,  Button,  Paper, Typography } from '@mui/material'
 import { Graph } from './Graph';
-import { defaultGraphScheme, SiteName } from '../tools/graphtools';
+import { defaultGraphScheme } from '../tools/graphtools';
 import { useNavigate } from 'react-router-dom'
 
 import musc from '../assets/musc.png'

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import  { Box, Typography } from '@mui/material'
 import { CustomSelect } from './CustomSelect'
-import { GraphName, GraphScheme, SiteName } from '../tools/graphtools'
+import { GraphName, GraphScheme } from '../tools/graphtools'
 import { Dropdown } from './Dropdown'
 import { Neo4jContext } from 'use-neo4j'
 import { loadGene, loadOrgan, loadDisease, loadSyndrome } from '../tools/graphdata'

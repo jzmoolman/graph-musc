@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Neo4jContext } from 'use-neo4j'
 import { Box,  Button,  Paper, Typography } from '@mui/material'
-import { SiteName } from '../tools/graphtools';
 import { useNavigate } from 'react-router-dom'
 import musc from '../assets/musc.png'
 import { loadSpecialists } from '../tools/graphdata';
