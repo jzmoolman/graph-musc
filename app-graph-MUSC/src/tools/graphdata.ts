@@ -206,12 +206,13 @@ export const  loadNCCNData = async (driver: Driver | undefined,
         return 
     }
 
-    const str_genes = ArrayToStr(genes)
-
     let whereCLAUSE = getFinalVerdictClause(finalVerdict)
 
-    if ( str_genes !== '') {
-        whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + str_genes
+    if ( genes.length === 0 ) { 
+        whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + ArrayToStr(genes)
+        // whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + ArrayToStr(await loadGene(driver,specialist))
+    } else {
+        whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + ArrayToStr(genes)
     }
     
     const query = `MATCH (n:NCCN_GUIDELINES)<-[rn:NCCN_MGENE]-(g:MGene) ${whereCLAUSE} WITH n ORDER BY n.OrganSystem, n.Modality, n.Gender RETURN n.OrganSystem as organ, COLLECT({modality: n.Modality, gender: n.Gender, recommendation: n.OriginalAction}) as data, apoc.text.join([n.GuidelineBody, n.GuidelineName, n.GuidelineVersion, n.GuidelineYear], '_') as footnote
@@ -342,12 +343,11 @@ export const  loadGeneDiseaseData = async (
         return 
     }
 
-    const str_genes = ArrayToStr(genes)
 
     let whereCLAUSE = getFinalVerdictClause(finalVerdict)
     
-    if ( str_genes !== '') {
-        whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + str_genes 
+    if ( genes.length > 0) {
+        whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + ArrayToStr(genes)
     }
 
     whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + ArrayToStr(await loadGene(driver, specialist))
@@ -432,24 +432,13 @@ export const  loadGeneDiseaseSubtypeData = async (
         return 
     }
 
-    const str_diseases = ArrayToStr(diseases)
-    const str_genes = ArrayToStr(genes)
-
     let whereCLAUSE = getFinalVerdictClause(finalVerdict)
     
-    if ( str_diseases !== '') {
-        whereCLAUSE = whereCLAUSE + ' AND d.name IN ' + str_diseases
-    }
-    if ( str_genes !== '') {
-        whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + str_genes
+    if ( genes.length > 0) {
+        whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + ArrayToStr(genes)
     }
 
-    switch ( specialist ) {
-        case 'gi': {
-                whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + ArrayToStr(await loadGene(driver, specialist))
-                break;
-        }
-    }
+    whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + ArrayToStr(await loadGene(driver, specialist))
     
     const query = 
         `MATCH (g:MGene)-[r:CAUSE]->(d:Disease) MATCH(g)-[:AFFECTS]->(o:Organ) ${whereCLAUSE} RETURN g,d,o`
@@ -639,7 +628,8 @@ export const  loadDiseaseData = async (
     finalVerdict: string,
     graphScheme : GraphScheme,
     onData:(data: Force2DData)=> void) => {
-    if (driver == null) {
+
+        if (driver == null) {
         console.log('Driver not loaded')
         return 
     }
@@ -649,20 +639,12 @@ export const  loadDiseaseData = async (
 
     let whereCLAUSE = getFinalVerdictClause(finalVerdict)
     
-    if ( str_diseases !== '') {
+    if ( diseases.length > 0) {
         whereCLAUSE = whereCLAUSE + ' AND d.name IN ' + str_diseases
     }
-    if ( str_genes !== '') {
-        whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + str_genes
-    }
 
-    switch ( specialist ) {
-        case 'gi': {
-                whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + ArrayToStr(await loadGene(driver, specialist))
-                // whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + ArrayToStr(giOrgans)
-                break;
-        }
-    }
+    whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + ArrayToStr(await loadGene(driver, specialist))
+
     const query = 
         `MATCH (g:MGene)-[r:CAUSE]->(d:Disease) MATCH(g)-[:AFFECTS]->(o:Organ) ${whereCLAUSE} RETURN g,r,d,o`
 
@@ -742,20 +724,15 @@ export const  loadSyndromeDiseaseData = async (
         return 
     }
 
-    const str_syndrome = ArrayToStr(syndromes)
 
     let whereCLAUSE = getFinalVerdictClause(finalVerdict)
 
-    if ( str_syndrome !== '') {
-        whereCLAUSE = whereCLAUSE + ' AND s.name IN ' + str_syndrome
+    if ( syndromes.length > 0) {
+        whereCLAUSE = whereCLAUSE + ' AND s.name IN ' + ArrayToStr(syndromes)    
     }
     
-    switch ( specialist ) {
-        case 'gi': {
-                whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + ArrayToStr(await loadGene(driver, specialist))
-                break;
-        }
-    }
+    whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + ArrayToStr(await loadGene(driver, specialist))
+
     const query = `MATCH (g:MGene)-[:ATTR]->(s:Syndrome)-[:ATTR2]->(sv:SyndromeVerbiage)` +
         ` MATCH (g)-[:CAUSE]->(d:Disease)` +
         ` MATCH (g)-[:AFFECTS]->(o:Organ)` +
@@ -836,24 +813,18 @@ export const  loadSyndromeGeneDiseaseData = async (
         return 
     }
 
-    const str_syndrome = ArrayToStr(syndromes)
-
     let whereCLAUSE = getFinalVerdictClause(finalVerdict)
 
-    if ( str_syndrome !== '') {
-        whereCLAUSE = whereCLAUSE + ' AND s.name IN ' + str_syndrome
+    if ( syndromes.length > 0) {
+        whereCLAUSE = whereCLAUSE + ' AND s.name IN ' + ArrayToStr(syndromes)    
     }
     
-    switch ( specialist ) {
-        case 'gi': {
-                whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + ArrayToStr(await loadGene(driver, specialist))
-                break;
-        }
-    }
+    whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + ArrayToStr(await loadGene(driver, specialist))
+
     const query = `MATCH (g:MGene)-[:ATTR]->(s:Syndrome)-[:ATTR2]->(sv:SyndromeVerbiage)` +
         ` MATCH (g)-[:CAUSE]->(d:Disease)` +
         ` MATCH (g)-[:AFFECTS]->(o:Organ)` + 
-        ` ${whereCLAUSE} RETURN g,s,sv,d`
+        ` ${whereCLAUSE} RETURN g, s, sv, d`
 
     let session = driver.session()
 
