@@ -68,6 +68,7 @@ export const GraphViewport = ( {
     onMouseOver,
     onMouseOut
 } : GraphProps) => {
+    console.log('Graphviewport specialt', specialist)
 
     const [graphName, setGraphName] = useState<GraphName>(name)
     const refresh = useRef(true)

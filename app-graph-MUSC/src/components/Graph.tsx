@@ -93,6 +93,7 @@ export const Graph = ( {
     onMouseOver,
     onMouseOut
 } : BaseGraphProps ) => {
+    console.log("graph specialist", specialist)
 
     
     const [nodeHover, setNodeHover] = useState<NodeObject|null>(null)
@@ -135,8 +136,9 @@ export const Graph = ( {
         // if ((node as GeneNodeObject).nodeType === 'Gene') {
         // if ((node as eNodeObject).nodeType === 'Gene') {
         // if (typeof node  === 'Gene') {
+        const _node = node as CustomNodeObject; 
+        console.log(_node.name)
         if ((node as CustomNodeObject).nodeType === 'Gene') {
-            const _node = node as GeneNodeObject; 
             setNCCNGeneCard([_node.name])  // ARMANDO NEW CODE, ADDED NCNN Data
         } else {
             setNCCNGeneCard(genes)
@@ -329,7 +331,7 @@ export const Graph = ( {
                                     width={325}
                                     height={300}
                                     name='disease'
-                                    specialist='={specialist}'
+                                    specialist={specialist}
                                     genes={[_node.name]}
                                     organs={[]}
                                     syndromes={[]}

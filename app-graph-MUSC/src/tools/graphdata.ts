@@ -66,9 +66,13 @@ export const loadGene= async (
         return genes
     }
     let whereCLAUSE: string =  `WHERE g.finalVerdict in [1]`
-    whereCLAUSE = whereCLAUSE + ` AND o.name in ${ArrayToStr(await loadOrgan(driver, specialist))}`
+    if ( !(specialist === 'Generic' ||  specialist==='{specialist}') ) {
+        whereCLAUSE = whereCLAUSE + ` AND o.name in ${ArrayToStr(await loadOrgan(driver, specialist))}`
+    }
+
 
     const query = `MATCH (g:MGene)-[:AFFECTS]->(o:Organ) ${whereCLAUSE} RETURN DISTINCT g.name as name ORDER BY name`  
+    console.log('----->', specialist, query)
 
     let session = driver.session()
     try {
@@ -85,6 +89,7 @@ export const loadGene= async (
     }
     finally {
         await session.close()
+    
         return genes
     }
 }
@@ -209,7 +214,7 @@ export const  loadNCCNData = async (driver: Driver | undefined,
     let whereCLAUSE = getFinalVerdictClause(finalVerdict)
 
     if ( genes.length === 0 ) { 
-        whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + ArrayToStr(genes)
+        // whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + ArrayToStr(genes)
         // whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + ArrayToStr(await loadGene(driver,specialist))
     } else {
         whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + ArrayToStr(genes)
@@ -437,11 +442,11 @@ export const  loadGeneDiseaseSubtypeData = async (
     if ( genes.length > 0) {
         whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + ArrayToStr(genes)
     }
-
     whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + ArrayToStr(await loadGene(driver, specialist))
     
     const query = 
         `MATCH (g:MGene)-[r:CAUSE]->(d:Disease) MATCH(g)-[:AFFECTS]->(o:Organ) ${whereCLAUSE} RETURN g,d,o`
+    
 
 
     let session = driver.session()
@@ -647,6 +652,8 @@ export const  loadDiseaseData = async (
 
     const query = 
         `MATCH (g:MGene)-[r:CAUSE]->(d:Disease) MATCH(g)-[:AFFECTS]->(o:Organ) ${whereCLAUSE} RETURN g,r,d,o`
+
+    console.log('------->', query)    
 
     let session = driver.session()
 

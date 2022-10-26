@@ -107,7 +107,6 @@ export const paintNode = (node: NodeObject, ctx: CanvasRenderingContext2D, Globa
             // Base case 
             return line
         } else {
-            console.log(line,line.slice(0,line.length-2))
             return shrinkToFit(line.slice(0,line.length-2))
         }
     }
@@ -115,7 +114,7 @@ export const paintNode = (node: NodeObject, ctx: CanvasRenderingContext2D, Globa
     const scaleToFit = (line: string, scale: number): number => {
         ctx.font = `${scale*1.05}px Libre Franklin`
         let measure = ctx.measureText(line)
-        if (measure.width > 12) {
+        if (measure.width > 8) {
             // Base case 
             return scale
         } else {
@@ -167,14 +166,11 @@ export const paintNode = (node: NodeObject, ctx: CanvasRenderingContext2D, Globa
         let measure = ctx.measureText(lines2[i])
         let line = ''
         if (measure.width > 15) {
-            console.log(lines[i])
             line = shrinkToFit(lines2[i])
         } else {
             line =  lines2[i]
             if ( lines2.length == 1) {
-                console.log('pre', lineHeight)
                 lineHeight = scaleToFit(lines2[i], lineHeight)
-                console.log('post', lineHeight)
                 ctx.font = `${lineHeight}px Libre Franklin`
                 line =  lines2[i]
             }
