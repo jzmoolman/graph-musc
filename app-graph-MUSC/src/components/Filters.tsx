@@ -354,6 +354,7 @@ export const Filters = ({
             flexDirection='column'
             height='80%'
             marginTop={1}
+            width={350}
         >
             <Box height='100%'>
                 <FilterHeader name={name}/>

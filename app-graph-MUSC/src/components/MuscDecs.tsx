@@ -201,7 +201,7 @@ export const MuscFooter = () => {
 
 export const MuscLoading = () => {
     const getDesc = () => {
-        return 'Builing Graph...'
+        return 'Building Graphs...'
     }
     return (<>
             <Typography 
