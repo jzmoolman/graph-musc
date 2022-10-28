@@ -33,7 +33,7 @@ export const loadSpecialists = async (
         return result
     }
     // const query = `MATCH (n:LKP_SPECIALISTS_BY_ORGAN) WHERE n.PrimarySpecialist in ["Gynecology", "Urology"] RETURN DISTINCT n.PrimarySpecialist as name ORDER BY name`  
-    const query = `MATCH (n:LKP_SPECIALISTS_BY_ORGAN) RETURN DISTINCT n.PrimarySpecialist as name ORDER BY name`  
+    const query = `MATCH (n:LKP_SPECIALISTS_BY_ORGAN) WHERE n.PrimarySpecialist <> "Unknown(I)" RETURN DISTINCT n.PrimarySpecialist as name ORDER BY name`  
     let session = driver.session()
     try {
         let res = await session.run(query)
@@ -72,7 +72,6 @@ export const loadGene= async (
 
 
     const query = `MATCH (g:MGene)-[:AFFECTS]->(o:Organ) ${whereCLAUSE} RETURN DISTINCT g.name as name ORDER BY name`  
-    console.log('----->', specialist, query)
 
     let session = driver.session()
     try {
@@ -307,7 +306,7 @@ export const  loadGeneOrganData = async (
                 let node = { 
                     id: target.identity,
                     name: target.properties.name,
-                    nodeType: 'organ',
+                    nodeType: 'Organ',
                     nodeColor: graphScheme.organNode,
                     fontColor: graphScheme.organFont,
                     nodeVal: graphScheme.nodeVal,
@@ -373,7 +372,7 @@ export const  loadGeneDiseaseData = async (
             let source = row.get('g') 
             if (!ids.has(source.properties.name)) {
                 let node = { 
-                    nodeType: 'gene',
+                    nodeType: 'Gene',
                     id: source.identity,
                     name: source.properties.name,
                     fullName: source.properties.fullName,
@@ -395,7 +394,7 @@ export const  loadGeneDiseaseData = async (
             let target = row.get('d') 
             if (!ids.has(target.properties.name)) {
                 let node = { 
-                    nodeType: 'disease',
+                    nodeType: 'Disease',
                     id: target.identity,
                     name: target.properties.name,
                     nodeColor: graphScheme.diseaseNode, 
@@ -462,7 +461,7 @@ export const  loadGeneDiseaseSubtypeData = async (
             const source = row.get('g') 
             if (!ids.has(source.properties.name)) {
                 let node = { 
-                    nodeType: 'gene',
+                    nodeType: 'Gene',
                     id: source.identity,
                     name: source.properties.name,
                     fullName: source.properties.fullName,
@@ -484,7 +483,7 @@ export const  loadGeneDiseaseSubtypeData = async (
            let target = row.get('d') 
             if (!ids.has(target.properties.name)) {
                 let node = { 
-                    nodeType: 'disease',
+                    nodeType: 'Disease',
                     id: target.identity,
                     name: target.properties.name,
                     nodeColor: graphScheme.diseaseNode, 
@@ -508,7 +507,7 @@ export const  loadGeneDiseaseSubtypeData = async (
                 
                 if (!ids.has(target.properties.subtype)) {
                     let node = { 
-                        nodeType: 'subtype',
+                        nodeType: 'Subtype',
                         id: target.identity,
                         name: target.properties.subtype,
                         disease: target.properties.name,
@@ -575,7 +574,7 @@ export const  loadOrganGeneData = async (
             const source = row.get('o') 
             if (!ids.has(source.properties.name)) {
                 let node = { 
-                    nodeType: 'organ',
+                    nodeType: 'Organ',
                     id: source.identity,
                     name: source.properties.name,
                     nodeColor: graphScheme.organNode,
@@ -594,7 +593,7 @@ export const  loadOrganGeneData = async (
             const target = row.get('g') 
             if (!ids.has(target.properties.name)) {
                 let node = { 
-                    nodeType: 'gene',
+                    nodeType: 'Gene',
                     id: target.identity,
                     name: target.properties.name,
                     fullName: target.properties.fullName,
@@ -640,9 +639,13 @@ export const  loadDiseaseData = async (
     }
 
     const str_diseases = ArrayToStr(diseases)
-    const str_genes = ArrayToStr(genes)
 
     let whereCLAUSE = getFinalVerdictClause(finalVerdict)
+
+
+    if ( genes.length > 0) {
+        whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + ArrayToStr(genes) 
+    }
     
     if ( diseases.length > 0) {
         whereCLAUSE = whereCLAUSE + ' AND d.name IN ' + str_diseases
@@ -651,9 +654,7 @@ export const  loadDiseaseData = async (
     whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + ArrayToStr(await loadGene(driver, specialist))
 
     const query = 
-        `MATCH (g:MGene)-[r:CAUSE]->(d:Disease) MATCH(g)-[:AFFECTS]->(o:Organ) ${whereCLAUSE} RETURN g,r,d,o`
-
-    console.log('------->', query)    
+         `MATCH (g:MGene)-[r:CAUSE]->(d:Disease) ${whereCLAUSE} RETURN g,r,d`
 
     let session = driver.session()
 
@@ -667,7 +668,7 @@ export const  loadDiseaseData = async (
             let source = row.get('g') 
             if (!ids.has(source.properties.name)) {
                 let node = { 
-                    nodeType: 'gene',
+                    nodeType: 'Gene',
                     id: source.identity,
                     name: source.properties.name,
                     fullName: source.properties.fullName,
@@ -689,7 +690,7 @@ export const  loadDiseaseData = async (
             let target = row.get('d') 
             if (!ids.has(target.properties.name)) {
                 let node = { 
-                    nodeType: 'disease',
+                    nodeType: 'Disease',
                     id: target.identity,
                     name: target.properties.name,
                     nodeColor: graphScheme.diseaseNode, 
@@ -761,7 +762,7 @@ export const  loadSyndromeDiseaseData = async (
                     id: source.identity,
                     name: source.properties.name,
                     hereditaryType: source.properties.hereditaryType,
-                    nodeType: 'syndrome',
+                    nodeType: 'Syndrome',
                     nodeColor: graphScheme.syndromeNode,
                     fontColor: graphScheme.syndromeFont,
                     nodeVal: graphScheme.nodeVal,
@@ -778,7 +779,7 @@ export const  loadSyndromeDiseaseData = async (
            let target = row.get('d') 
             if (!ids.has(target.properties.name)) {
                 let node = { 
-                    nodeType: 'disease',
+                    nodeType: 'Disease',
                     id: target.identity,
                     name: target.properties.name,
                     nodeColor: graphScheme.diseaseNode, 
@@ -849,7 +850,7 @@ export const  loadSyndromeGeneDiseaseData = async (
                     id: source.identity,
                     name: source.properties.name,
                     hereditaryType: source.properties.hereditaryType,
-                    nodeType: 'syndrome',
+                    nodeType: 'Syndrome',
                     nodeColor: graphScheme.syndromeNode,
                     fontColor: graphScheme.syndromeFont,
                     nodeVal: graphScheme.nodeVal,
@@ -866,7 +867,7 @@ export const  loadSyndromeGeneDiseaseData = async (
            let target = row.get('g') 
             if (!ids.has(target.properties.name)) {
                 let node = { 
-                    nodeType: 'gene',
+                    nodeType: 'Gene',
                     id: target.identity,
                     name: target.properties.name,
                     fullName: target.properties.fullName,
@@ -892,7 +893,7 @@ export const  loadSyndromeGeneDiseaseData = async (
             target = row.get('d') 
             if (!ids.has(target.properties.name)) {
                 let node = { 
-                    nodeType: 'disease',
+                    nodeType: 'Disease',
                     id: target.identity,
                     name: target.properties.name,
                     nodeColor: graphScheme.diseaseNode, 

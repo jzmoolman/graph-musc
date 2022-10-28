@@ -132,12 +132,9 @@ export const Graph = ( {
     const handleNodeClick = (node: NodeObject, event: MouseEvent  ) => {
         setNodeClick(true);
         setNodeHover(node)
-        
-        // if ((node as GeneNodeObject).nodeType === 'Gene') {
-        // if ((node as eNodeObject).nodeType === 'Gene') {
-        // if (typeof node  === 'Gene') {
         const _node = node as CustomNodeObject; 
-        console.log(_node.name)
+        console.log('handleNodeClick, name', _node.name)
+        console.log('handleNodeClick nodeType', _node.nodeType)
         if ((node as CustomNodeObject).nodeType === 'Gene') {
             setNCCNGeneCard([_node.name])  // ARMANDO NEW CODE, ADDED NCNN Data
         } else {
@@ -263,6 +260,7 @@ export const Graph = ( {
         if (nodeClick) {
             if ((nodeHover as GeneNodeObject).nodeType === 'Gene') {
                 const _node = nodeHover as GeneNodeObject; 
+                console.log('renderHover', _node.name )
                 const footnoteArray = [<div></div>];
                 const unique_footnote = Array.from(new Set(nccnData.map(item => item.footnote)));
                 unique_footnote.map((row) => {
@@ -331,7 +329,7 @@ export const Graph = ( {
                                     width={325}
                                     height={300}
                                     name='disease'
-                                    specialist={specialist}
+                                    specialist='Generic'
                                     genes={[_node.name]}
                                     organs={[]}
                                     syndromes={[]}
@@ -407,6 +405,7 @@ export const Graph = ( {
                 document.body
             ))
             } else if ((nodeHover as CustomNodeObject).nodeType === 'Organ'){
+                console.log('-------------------->',(nodeHover as CustomNodeObject).name   )
                 const _node = nodeHover as CustomNodeObject
                 return (ReactDOM.createPortal(
                     <Box
@@ -445,10 +444,11 @@ export const Graph = ( {
                                         drawerOpen={false}
                                         width={325}
                                         height={300}
-                                        name={((nodeHover as CustomNodeObject).nodeType as GraphName)}
-                                        specialist='={specialist}'
+                                        name='organ'
                                         genes={[]}
+                                        specialist='Generic'
                                         organs={[(nodeHover as CustomNodeObject).name]}
+                                        // organs={[]}
                                         syndromes={[]}
                                         diseases={[]}
                                         finalVerdict='Confirmed'
@@ -498,8 +498,8 @@ export const Graph = ( {
                                     drawerOpen={false}
                                     width={325}
                                     height={300}
-                                    name={_node.nodeType as GraphName}
-                                    specialist={specialist}
+                                    name={'disease'}
+                                    specialist='Generic'                                    
                                     genes={[]}
                                     organs={[]}
                                     syndromes={[]}
