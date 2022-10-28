@@ -8,6 +8,7 @@ import { Graph } from './Graph';
 import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { Filters } from './Filters';
+import { FinalVerdict } from '../tools/graphdata';
 
 const drawerWidth = 450; 
 
@@ -83,7 +84,7 @@ export const GraphViewport = ( {
     const [organs, setOrgans] = useState<string[]>([])
     const [diseases, setDiseases] = useState<string[]>([])
     const [syndromes, setSyndromes] = useState<string[]>([])
-    const [finalVerdict, setFinalVerdict] = useState<string>('Confirmed')
+    const [finalVerdict, setFinalVerdict] = useState<FinalVerdict>('Confirmed')
     const [dim, setDim] = useState<Dimension>( {width:600, height:600})
     
     useEffect(()=>{
@@ -140,7 +141,15 @@ export const GraphViewport = ( {
     }
 
     const handleFinalVerdictChange = (selected: string) => {
-        setFinalVerdict(selected)
+        switch ( selected ) {
+            case 'Confirmed': 
+            case 'Maybe': 
+            case 'Both': {
+                setFinalVerdict(selected)
+                break;
+            }
+            default: setFinalVerdict('Confirmed')
+        }
     }
 
     const handleConfiguationChange = (graphScheme:GraphScheme) => {

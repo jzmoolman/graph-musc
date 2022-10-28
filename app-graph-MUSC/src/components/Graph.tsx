@@ -2,13 +2,9 @@ import { useState, useContext, useEffect, useRef, MutableRefObject } from 'react
 import { Neo4jContext } from 'use-neo4j'
 import ForceGraph2D, { ForceGraphMethods, NodeObject }  from 'react-force-graph-2d'
 import { useNavigate } from 'react-router-dom'
-import { CustomNodeObject,  Force2DData, GraphName, GraphScheme, paintNode, GeneNodeObject, SyndromeNodeObject, SubtypeNodeObject,  TabPanelProps } from '../tools/graphtools'
-import { defaultGraphScheme, cardNCCNDataObject } from '../tools/graphtools'; //Armando Change
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-
 import Typography from '@mui/material/Typography';
-
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -16,6 +12,8 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
+import { CustomNodeObject,  Force2DData, GraphName, GraphScheme, paintNode, GeneNodeObject, SyndromeNodeObject, SubtypeNodeObject,  TabPanelProps } from '../tools/graphtools'
+import { defaultGraphScheme, cardNCCNDataObject } from '../tools/graphtools'; //Armando Change
 
 import { 
     loadGeneOrganData,
@@ -25,7 +23,8 @@ import {
     loadOrganGeneData,
     loadDiseaseData,
     loadSyndromeDiseaseData,
-    loadSyndromeGeneDiseaseData
+    loadSyndromeGeneDiseaseData,
+    FinalVerdict
  } from '../tools/graphdata'
 import { Box, Button, Card, CardContent, CardHeader, Tab, Tabs } from '@mui/material'
 import ReactDOM from 'react-dom'
@@ -65,7 +64,7 @@ type BaseGraphProps = {
     organs: string[]
     syndromes: string[]
     diseases: string[]
-    finalVerdict: string
+    finalVerdict: FinalVerdict
     graphScheme: GraphScheme
     enableHover?: boolean
     enableBack?: boolean
