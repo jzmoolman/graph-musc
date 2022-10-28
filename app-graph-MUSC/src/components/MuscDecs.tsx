@@ -139,6 +139,25 @@ export const MuscHeader3 = () => {
     </>)
 }
 
+export const MuscHeader4 = () => {
+
+    const getDesc = () => {
+        return 'Choose a general option'
+    }
+
+    return (<>
+        <Typography 
+            textAlign='center'
+            variant='h5' 
+            component='div'
+            width='100%'
+            color='primary.main'
+        >
+            {getDesc()}
+        </Typography>
+    </>)
+}
+
 export const MuscFooter = () => {
     const getDesc = () => {
         return 'This website provides visualizations of cancer susceptibility genes and gene combinations'

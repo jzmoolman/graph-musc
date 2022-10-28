@@ -28,7 +28,8 @@ export const loadSpecialists = async (
         console.log('Driver not loaded')
         return result
     }
-    const query = `MATCH (n:LKP_SPECIALISTS_BY_ORGAN) RETURN DISTINCT n.PrimarySpecialist as name ORDER BY name`  
+    // const query = `MATCH (n:LKP_SPECIALISTS_BY_ORGAN) RETURN DISTINCT n.PrimarySpecialist as name ORDER BY name`  
+    const query = `MATCH (n:LKP_SPECIALISTS_BY_ORGAN) MATCH (o:LKP_SPECIALIST_WEBSITE) WHERE n.PrimarySpecialist = o.PrimarySpecialist AND o.ShowAsWebsite_1Yes = 1  RETURN DISTINCT n.PrimarySpecialist as name ORDER BY name`
     let session = driver.session()
     try {
         let res = await session.run(query)
