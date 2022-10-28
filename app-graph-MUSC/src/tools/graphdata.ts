@@ -1,22 +1,18 @@
 
-import React, { useContext } from 'react'
-import { GraphScheme, Force2DData, ArrayToStr, GeneNodeObject, cardNCCNDataObject } from './graphtools'
-import { Neo4jContext } from 'use-neo4j'
+import { GraphScheme, Force2DData, ArrayToStr, GeneNodeObject, cardNCCNDataObject, CustomNodeObject, SubtypeNodeObject, SyndromeNodeObject } from './graphtools'
 import { Driver }  from  'neo4j-driver'
-import { ConnectedTvOutlined } from '@mui/icons-material'
-import { queryByRole } from '@testing-library/react'
 
-const getFinalVerdictClause = (finalVerdict: string) => {
+export type FinalVerdict = 'Confirmed' | 'Maybe' | 'Both'
+
+const getFinalVerdictClause = (finalVerdict: FinalVerdict) => {
     let whereClause = ''
 
     if ( finalVerdict === 'Confirmed' ) {
         whereClause = 'WHERE g.finalVerdict = 1'
     } else if ( finalVerdict === 'Maybe') {
         whereClause = 'WHERE g.finalVerdict = 9'
-    } else if ( finalVerdict === 'Both' ) {
-        whereClause = 'WHERE g.finalVerdict in [1,9]'
     } else {
-        whereClause = 'WHERE g.finalVerdict in [0,1,9]'
+        whereClause = 'WHERE g.finalVerdict in [1,9]'
     }
     return whereClause
 }
@@ -201,7 +197,7 @@ export const loadSyndrome= async (
 
 export const  loadNCCNData = async (driver: Driver | undefined,
     genes: string[],
-    finalVerdict: string,
+    finalVerdict: FinalVerdict,
     onCardData: (nccnData: any[])=> void
     ) => {
 
@@ -250,7 +246,7 @@ export const  loadGeneOrganData = async (
     specialist: string, 
     genes: string[],
     organs: string[],
-    finalVerdict: string,
+    finalVerdict: FinalVerdict,
     graphScheme : GraphScheme,
     onData:(data: Force2DData)=> void) => {
 
@@ -303,7 +299,7 @@ export const  loadGeneOrganData = async (
         
             const target = row.get('o') 
             if (!ids.has(target.properties.name)) {
-                let node = { 
+                let node: CustomNodeObject = { 
                     id: target.identity,
                     name: target.properties.name,
                     nodeType: 'Organ',
@@ -338,7 +334,7 @@ export const  loadGeneDiseaseData = async (
     driver: Driver | undefined,
     specialist: string, 
     genes: string[],
-    finalVerdict: string,
+    finalVerdict: FinalVerdict,
     graphScheme : GraphScheme,
     onData:(data: Force2DData)=> void) => {
 
@@ -371,7 +367,7 @@ export const  loadGeneDiseaseData = async (
             let link1  = { source: '', target: ''}
             let source = row.get('g') 
             if (!ids.has(source.properties.name)) {
-                let node = { 
+                let node: GeneNodeObject = { 
                     nodeType: 'Gene',
                     id: source.identity,
                     name: source.properties.name,
@@ -393,7 +389,7 @@ export const  loadGeneDiseaseData = async (
 
             let target = row.get('d') 
             if (!ids.has(target.properties.name)) {
-                let node = { 
+                let node: CustomNodeObject = { 
                     nodeType: 'Disease',
                     id: target.identity,
                     name: target.properties.name,
@@ -428,7 +424,7 @@ export const  loadGeneDiseaseSubtypeData = async (
     specialist: string,
     diseases: string[],
     genes: string[],
-    finalVerdict: string,
+    finalVerdict: FinalVerdict,
     graphScheme : GraphScheme,
     onData:(data: Force2DData)=> void) => {
     if (driver == null) {
@@ -448,6 +444,7 @@ export const  loadGeneDiseaseSubtypeData = async (
     
 
 
+
     let session = driver.session()
 
     try {
@@ -460,7 +457,7 @@ export const  loadGeneDiseaseSubtypeData = async (
 
             const source = row.get('g') 
             if (!ids.has(source.properties.name)) {
-                let node = { 
+                let node: GeneNodeObject = { 
                     nodeType: 'Gene',
                     id: source.identity,
                     name: source.properties.name,
@@ -482,7 +479,7 @@ export const  loadGeneDiseaseSubtypeData = async (
 
            let target = row.get('d') 
             if (!ids.has(target.properties.name)) {
-                let node = { 
+                let node: CustomNodeObject = { 
                     nodeType: 'Disease',
                     id: target.identity,
                     name: target.properties.name,
@@ -506,7 +503,7 @@ export const  loadGeneDiseaseSubtypeData = async (
                 link2.source = link.target
                 
                 if (!ids.has(target.properties.subtype)) {
-                    let node = { 
+                    let node: SubtypeNodeObject = { 
                         nodeType: 'Subtype',
                         id: target.identity,
                         name: target.properties.subtype,
@@ -543,7 +540,7 @@ export const  loadOrganGeneData = async (
     specialist: string,
     genes: string[],
     organs: string[],
-    finalVerdict : string,
+    finalVerdict : FinalVerdict,
     graphScheme : GraphScheme,
     onData:(data: Force2DData)=> void) => {
 
@@ -573,7 +570,7 @@ export const  loadOrganGeneData = async (
         
             const source = row.get('o') 
             if (!ids.has(source.properties.name)) {
-                let node = { 
+                let node: CustomNodeObject = { 
                     nodeType: 'Organ',
                     id: source.identity,
                     name: source.properties.name,
@@ -592,7 +589,7 @@ export const  loadOrganGeneData = async (
 
             const target = row.get('g') 
             if (!ids.has(target.properties.name)) {
-                let node = { 
+                let node: GeneNodeObject = { 
                     nodeType: 'Gene',
                     id: target.identity,
                     name: target.properties.name,
@@ -629,7 +626,7 @@ export const  loadDiseaseData = async (
     specialist: string,
     diseases: string[],
     genes: string[],
-    finalVerdict: string,
+    finalVerdict: FinalVerdict,
     graphScheme : GraphScheme,
     onData:(data: Force2DData)=> void) => {
 
@@ -667,7 +664,7 @@ export const  loadDiseaseData = async (
             let link1  = { source: '', target: ''}
             let source = row.get('g') 
             if (!ids.has(source.properties.name)) {
-                let node = { 
+                let node: GeneNodeObject = { 
                     nodeType: 'Gene',
                     id: source.identity,
                     name: source.properties.name,
@@ -689,7 +686,7 @@ export const  loadDiseaseData = async (
 
             let target = row.get('d') 
             if (!ids.has(target.properties.name)) {
-                let node = { 
+                let node: CustomNodeObject = { 
                     nodeType: 'Disease',
                     id: target.identity,
                     name: target.properties.name,
@@ -723,7 +720,7 @@ export const  loadSyndromeDiseaseData = async (
     driver: Driver | undefined,
     specialist: string,
     syndromes: string[],
-    finalVerdict:string,
+    finalVerdict: FinalVerdict,
     graphScheme : GraphScheme,
     onData:(data: Force2DData)=> void) => {
 
@@ -758,11 +755,11 @@ export const  loadSyndromeDiseaseData = async (
 
             const source = row.get('sv') 
             if (!ids.has(source.properties.name)) {
-                let node = { 
+                let node: SyndromeNodeObject = { 
+                    nodeType: 'Syndrome',
                     id: source.identity,
                     name: source.properties.name,
                     hereditaryType: source.properties.hereditaryType,
-                    nodeType: 'Syndrome',
                     nodeColor: graphScheme.syndromeNode,
                     fontColor: graphScheme.syndromeFont,
                     nodeVal: graphScheme.nodeVal,
@@ -778,7 +775,7 @@ export const  loadSyndromeDiseaseData = async (
 
            let target = row.get('d') 
             if (!ids.has(target.properties.name)) {
-                let node = { 
+                let node: CustomNodeObject = { 
                     nodeType: 'Disease',
                     id: target.identity,
                     name: target.properties.name,
@@ -812,7 +809,7 @@ export const  loadSyndromeGeneDiseaseData = async (
     driver: Driver | undefined,
     specialist: string,
     syndromes: string[],
-    finalVerdict:string,
+    finalVerdict: FinalVerdict,
     graphScheme : GraphScheme,
     onData:(data: Force2DData)=> void) => {
 
@@ -846,11 +843,11 @@ export const  loadSyndromeGeneDiseaseData = async (
 
             const source = row.get('sv') 
             if (!ids.has(source.properties.name)) {
-                let node = { 
+                let node: SyndromeNodeObject = { 
+                    nodeType: 'Syndrome',
                     id: source.identity,
                     name: source.properties.name,
                     hereditaryType: source.properties.hereditaryType,
-                    nodeType: 'Syndrome',
                     nodeColor: graphScheme.syndromeNode,
                     fontColor: graphScheme.syndromeFont,
                     nodeVal: graphScheme.nodeVal,
@@ -866,12 +863,12 @@ export const  loadSyndromeGeneDiseaseData = async (
 
            let target = row.get('g') 
             if (!ids.has(target.properties.name)) {
-                let node = { 
+                let node:GeneNodeObject = { 
                     nodeType: 'Gene',
                     id: target.identity,
                     name: target.properties.name,
                     fullName: target.properties.fullName,
-                    geneAltName: target.properties.altName,
+                    altName: target.properties.altName,
                     description: target.properties.description,
                     nodeColor: graphScheme.geneNode, 
                     fontColor: graphScheme.geneFont,
@@ -892,7 +889,7 @@ export const  loadSyndromeGeneDiseaseData = async (
             
             target = row.get('d') 
             if (!ids.has(target.properties.name)) {
-                let node = { 
+                let node:CustomNodeObject = { 
                     nodeType: 'Disease',
                     id: target.identity,
                     name: target.properties.name,

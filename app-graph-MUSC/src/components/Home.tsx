@@ -4,7 +4,7 @@ import { Box,  Button,  Paper, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import musc from '../assets/musc.png'
 import { loadSpecialists } from '../tools/graphdata';
-import { MuscHeader,MuscHeader2, MuscHeader3 } from './MuscDecs';
+import { MuscHeader,MuscHeader2, MuscHeader3, MuscHeader4 } from './MuscDecs';
 
 
 export const Home = () => {
@@ -33,11 +33,6 @@ export const Home = () => {
                <Button sx={{margin:1 }} variant='outlined' onClick={ ()=>{ handleSpecialistClick(row)}}> {row} </Button> <span/>
             </React.Fragment> 
         )
-        array.push(
-            <React.Fragment key={999}>
-                <Button sx={{margin:1 }} variant='outlined' onClick={ ()=>{ handleSpecialistClick('Generic')}}> Generic </Button> 
-            </React.Fragment>
-        )
 
         return (<>
             <Box display='flex' flex={1}
@@ -65,6 +60,26 @@ export const Home = () => {
     return (<>
         <MuscHeader/>
         <MuscHeader2 specialist='Generic'/>
+        <MuscHeader4 />
+        <Box display='flex' flex={1}
+            sx={{
+                minWidth: '300px',
+                color: 'white',
+            }}
+        >
+            <Paper 
+                elevation={4}         
+                sx={{ 
+                        color: 'white',
+                        width: '100%',
+                        backgroundColor: 'white',
+                        margin: '2px',
+                        padding:'10px'}}
+            >
+                <Button sx={{margin:1 }} variant='outlined' onClick={ ()=>{ handleSpecialistClick('Generic')}}> Generic </Button> 
+            </Paper>
+
+        </Box>
         <MuscHeader3 />
         <Specialists/>
     </>)
