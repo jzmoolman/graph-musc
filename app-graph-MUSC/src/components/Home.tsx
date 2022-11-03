@@ -76,7 +76,7 @@ export const Home = () => {
                         margin: '2px',
                         padding:'10px'}}
             >
-                <Button sx={{margin:1 }} variant='outlined' onClick={ ()=>{ handleSpecialistClick('Generic')}}> Generic </Button> 
+                <Button sx={{margin:1 }} variant='outlined' onClick={ ()=>{ handleSpecialistClick('Generic')}}>All Genes</Button> 
             </Paper>
 
         </Box>

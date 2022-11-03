@@ -29,7 +29,6 @@ MERGE (g:LKP_GENECANCERFORPRINTOUT {
   DiseaseType: coalesce(row.DiseaseType,'Unknown'),
   FinalVerdict: coalesce(toInteger(row.FinalVerdict),9),
   PredominantCancerSubtype: coalesce(row.PredominantCancerSubtype,'Unknown')
-
 });
 
 
@@ -111,7 +110,7 @@ AS row
 WITH row
 MERGE (s:LKP_SPECIALIST_WEBSITE {
     PrimarySpecialist: coalesce(row.PrimarySpecialist,'Unknown(I)'),
-    ShowAsWebsite_1Yes: coalesce(toInteger(row.ShowAsWebsite_1Yes,0)
+    ShowAsWebsite_1Yes: coalesce(toInteger(row.ShowAsWebsite_1Yes),0)
 });
 
 // Create Relationships between LKP's

@@ -1,6 +1,7 @@
 
 import { GraphScheme, Force2DData, ArrayToStr, GeneNodeObject, cardNCCNDataObject, CustomNodeObject, SubtypeNodeObject, SyndromeNodeObject } from './graphtools'
 import { Driver }  from  'neo4j-driver'
+import { ConnectedTvOutlined } from '@mui/icons-material'
 
 export type FinalVerdict = 'Confirmed' | 'Maybe' | 'Both'
 
@@ -28,8 +29,7 @@ export const loadSpecialists = async (
         console.log('Driver not loaded')
         return result
     }
-    // const query = `MATCH (n:LKP_SPECIALISTS_BY_ORGAN) WHERE n.PrimarySpecialist in ["Gynecology", "Urology"] RETURN DISTINCT n.PrimarySpecialist as name ORDER BY name`  
-    const query = `MATCH (n:LKP_SPECIALISTS_BY_ORGAN) WHERE n.PrimarySpecialist <> "Unknown(I)" RETURN DISTINCT n.PrimarySpecialist as name ORDER BY name`  
+    const query = `MATCH (n:LKP_SPECIALISTS_BY_ORGAN) MATCH (o:LKP_SPECIALIST_WEBSITE) WHERE n.PrimarySpecialist = o.PrimarySpecialist AND o.ShowAsWebsite_1Yes = 1   RETURN DISTINCT n.PrimarySpecialist as name  ORDER BY name`
     let session = driver.session()
     try {
         let res = await session.run(query)
@@ -62,10 +62,9 @@ export const loadGene= async (
         return genes
     }
     let whereCLAUSE: string =  `WHERE g.finalVerdict in [1]`
-    if ( !(specialist === 'Generic' ||  specialist==='{specialist}') ) {
+    if ( (specialist !== 'Generic') ) {
         whereCLAUSE = whereCLAUSE + ` AND o.name in ${ArrayToStr(await loadOrgan(driver, specialist))}`
     }
-
 
     const query = `MATCH (g:MGene)-[:AFFECTS]->(o:Organ) ${whereCLAUSE} RETURN DISTINCT g.name as name ORDER BY name`  
 
@@ -208,10 +207,7 @@ export const  loadNCCNData = async (driver: Driver | undefined,
 
     let whereCLAUSE = getFinalVerdictClause(finalVerdict)
 
-    if ( genes.length === 0 ) { 
-        // whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + ArrayToStr(genes)
-        // whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + ArrayToStr(await loadGene(driver,specialist))
-    } else {
+    if ( genes.length !== 0 ) { 
         whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + ArrayToStr(genes)
     }
     
@@ -355,7 +351,6 @@ export const  loadGeneDiseaseData = async (
     const query = 
         `MATCH (g:MGene)-[r:CAUSE]->(d:Disease) MATCH(g)-[:AFFECTS]->(o:Organ) ${whereCLAUSE} RETURN g,d,o`
 
-
     let session = driver.session()
 
     try {
@@ -442,9 +437,6 @@ export const  loadGeneDiseaseSubtypeData = async (
     const query = 
         `MATCH (g:MGene)-[r:CAUSE]->(d:Disease) MATCH(g)-[:AFFECTS]->(o:Organ) ${whereCLAUSE} RETURN g,d,o`
     
-
-
-
     let session = driver.session()
 
     try {
@@ -498,7 +490,7 @@ export const  loadGeneDiseaseSubtypeData = async (
             links.push(link)
 
             target = row.get('d') 
-            if ( target.properties.subtype !== 'Unknown') {
+            if ( target.properties.subtype !== 'Unknown' && target.properties.subtype !== "") {
                 let link2  = { source: '', target: ''}
                 link2.source = link.target
                 

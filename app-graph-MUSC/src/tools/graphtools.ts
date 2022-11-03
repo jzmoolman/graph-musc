@@ -103,9 +103,10 @@ export const paintNode = (node: NodeObject, ctx: CanvasRenderingContext2D, Globa
     
     const shrinkToFit = (line: string): string => {
         let measure = ctx.measureText(line)
-        if (measure.width < 13) {
+        if (measure.width < 10 ) {
             // Base case 
-            return line
+            return line + ".."
+            
         } else {
             return shrinkToFit(line.slice(0,line.length-2))
         }
@@ -140,6 +141,10 @@ export const paintNode = (node: NodeObject, ctx: CanvasRenderingContext2D, Globa
     const x = node.x?node.x:0
     let y = node.y?node.y:0
 
+    if( typeof label === undefined) {
+        console.log(label)
+    }
+   
     const lines = label.split(' ')
     let lines2 = []
     for ( let i = 0 ; i< lines.length; i++) {
@@ -164,9 +169,11 @@ export const paintNode = (node: NodeObject, ctx: CanvasRenderingContext2D, Globa
     y = y - lineHeight*((lines2.length-1)/2)
     for ( let i = 0; i < lines2.length; i++ ) {
         let measure = ctx.measureText(lines2[i])
-        let line = ''
-        if (measure.width > 15) {
-            line = shrinkToFit(lines2[i])
+        let line = lines2[i]
+        if (measure.width > 13) {
+            if (nodeType !== 'Gene'){
+                line = shrinkToFit(lines2[i])
+            }
         } else {
             line =  lines2[i]
             if ( lines2.length == 1) {
