@@ -55,6 +55,20 @@ export const ArrayToStr = (data: string[]) => {
         }
     return localFilter
 }
+
+export const applayFilter = (list: string[], filter: string[]) => {
+    let result : string[] = []
+    if (filter.length !==  0)
+        filter.forEach( (fe)=> {
+            list.forEach( (le)=>{
+                if (fe == le)
+                    result.push(fe)
+            })
+        })
+    else 
+        result = list;
+    return result
+}
  
 export interface CustomNodeObject extends NodeObject {
     nodeType: NodeType

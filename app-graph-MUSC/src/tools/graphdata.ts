@@ -1,9 +1,17 @@
 
-import { GraphScheme, Force2DData, ArrayToStr, GeneNodeObject, cardNCCNDataObject, CustomNodeObject, SubtypeNodeObject, SyndromeNodeObject } from './graphtools'
+import { GraphScheme, Force2DData, ArrayToStr, applayFilter, GeneNodeObject, cardNCCNDataObject, CustomNodeObject, SubtypeNodeObject, SyndromeNodeObject } from './graphtools'
 import { Driver }  from  'neo4j-driver'
-import { ConnectedTvOutlined } from '@mui/icons-material'
 
 export type FinalVerdict = 'Confirmed' | 'Maybe' | 'Both'
+
+
+const getPreferredGenes =  (specialist: string) => {
+    let list : string[] = []
+    switch (specialist) {
+        case 'Generic': list = ['BRCA1', 'BRCA2']; break;
+    }
+    return list;
+}
 
 const getFinalVerdictClause = (finalVerdict: FinalVerdict) => {
     let whereClause = ''
@@ -251,16 +259,19 @@ export const  loadGeneOrganData = async (
         return 
     }
 
-
     let whereCLAUSE = getFinalVerdictClause(finalVerdict)
 
-    if ( genes.length === 0 ) { 
-        whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + ArrayToStr(await loadGene(driver,specialist))
-    } else {
-        whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + ArrayToStr(genes)
+    const geneSpecialistList = await loadGene(driver, specialist)
+    const geneSpecialistFilteredList = applayFilter(geneSpecialistList, genes)
+    if (geneSpecialistFilteredList.length == 0 ) {
+        console.log('The intersect of list and filter is nil and therefore the result is empty.')
+        return []
     }
+    
+    whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + ArrayToStr(geneSpecialistFilteredList)
 
     const query = `MATCH (g:MGene)-[r]->(o:Organ) ${whereCLAUSE} RETURN g,r,o`
+                                                         console.log("gene-organ", query)
 
     let session = driver.session()
 
