@@ -17,17 +17,23 @@ import { defaultGraphScheme, cardNCCNDataObject } from '../tools/graphtools'; //
 
 import { 
     loadGeneOrganData,
+    loadGeneOrganLegend,
     loadGeneDiseaseData,
-    loadNCCNData,
     loadGeneDiseaseSubtypeData,
+    loadGeneDiseaseSubtypeLegend,
+    loadNCCNData,
     loadOrganGeneData,
     loadDiseaseData,
     loadSyndromeDiseaseData,
     loadSyndromeGeneDiseaseData,
+
     FinalVerdict
  } from '../tools/graphdata'
 import { Box, Button, Card, CardContent, CardHeader, Tab, Tabs } from '@mui/material'
 import ReactDOM from 'react-dom'
+import gene_organ_img from '../assets/gene-organ.png'
+import gene_subtype_img from '../assets/gene-subtype.png'
+
 
 
 const drawerWidth = 450;
@@ -81,6 +87,14 @@ const StyledTableRow2 = styled(TableRow)(({ theme }) => ({
 }));
 
 // ARMANDO NEW CODE END
+
+const getimg = (name: GraphName) => {
+    switch (name) {
+        case 'gene-organ': return gene_organ_img;break;
+        case 'gene-disease-subtype': return gene_subtype_img; break
+        default: return gene_subtype_img; break
+    }
+}
 
 type BaseGraphProps = {
     drawerOpen: boolean
@@ -194,12 +208,27 @@ export const Graph = ( {
         }
     }
 
-    const getHeight = (box?: number) => {
+    const getTop = (box?: number) => {
         let number = 20
         if ( box === undefined) {
             number = Number(document.getElementById(`graph-box`)?.offsetTop )
         } else {
             number = Number(document.getElementById(`graph-box${box}`)?.offsetTop )
+        }
+
+        if ( typeof number === 'number' && number === number) {
+            return number
+        } else {
+            return 200
+        }
+    }
+    
+    const getHeight2 = (box?: number) => {
+        let number = 20
+        if ( box === undefined) {
+            number = Number(document.getElementById(`graph-box`)?.offsetHeight )
+        } else {
+            number = Number(document.getElementById(`graph-box${box}`)?.offsetHeight )
         }
 
         if ( typeof number === 'number' && number === number) {
@@ -262,12 +291,16 @@ export const Graph = ( {
 
     const renderBack = () => {
         if ( enableBack && mounted) {
-            return ( ReactDOM.createPortal(
+            return ( ReactDOM.createPortal(<>
                     <Box
+                        id='back-box'
+                        display='flex'
+                        flex={1}
+                        flexDirection='column'
                         sx={{
                             position: "absolute",
                             overflow: "auto",
-                            top: getHeight() + 10,
+                            top: getTop() + 10,
                             left: getWidth() - 75,
                         }}
                     >
@@ -275,6 +308,35 @@ export const Graph = ( {
                             Back
                         </Button>
                     </Box>
+                    <Box 
+                        id='legend-box'
+                        display='flex'
+                        flex={1}
+                        flexDirection='column'
+                        borderRadius={1}
+                        borderColor='text.primary'
+                        m={1}
+                        border={1}
+                        paddingTop={1}
+                        paddingBottom={1}
+                        sx={{
+                            position: "absolute",
+                            overflow: "auto",
+                            // top: getTop() + getHeight2() - 250,
+                            bottom:  5 ,
+                            // bottom:  getTop() + getHeight2(),
+                            left: getWidth() - 85,
+                        }}
+                    >
+                            <img
+                                src={getimg(name)} 
+                                width={75}
+
+                                
+                            
+                            />
+                    </Box>
+                    </>
                     , document.body
                 ))
         } else {
@@ -758,6 +820,7 @@ export const Graph = ( {
                 width={width}
                 height={height}
                 graphData={data}
+                // graphData={loadGeneDiseaseSubtypeLegend(graphScheme)}
                 nodeId='name'  
                 nodeColor='nodeColor' 
                 nodeLabel='name' 

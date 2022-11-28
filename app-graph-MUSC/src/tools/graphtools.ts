@@ -56,11 +56,14 @@ export const ArrayToStr = (data: string[]) => {
     return localFilter
 }
 
-export const applayFilter = (list: string[], filter: string[]) => {
+export const applyFilter = (list: string[], filter: string[]) => {
     let result : string[] = []
     if (filter.length !==  0)
         filter.forEach( (fe)=> {
+            console.log("filter list items", fe)
             list.forEach( (le)=>{
+                
+                console.log(" list items", fe)
                 if (fe == le)
                     result.push(fe)
             })
@@ -116,25 +119,37 @@ export interface TabPanelProps {
 
 export const paintNode = (node: NodeObject, ctx: CanvasRenderingContext2D, GlobalScale: number) => {
     
-    const shrinkToFit = (line: string): string => {
-        let measure = ctx.measureText(line)
-        if (measure.width < 10 ) {
-            // Base case 
-            return line + ".."
+    // const shrinkToFit = (line: string): string => {
+    //     let measure = ctx.measureText(line)
+    //     if (measure.width < 10 ) {
+    //         // Base case 
+    //         return line + ".."
             
-        } else {
-            return shrinkToFit(line.slice(0,line.length-2))
-        }
-    }
+    //     } else {
+    //         return shrinkToFit(line.slice(0,line.length-2))
+    //     }
+    // }
 
-    const scaleToFit = (line: string, scale: number): number => {
-        ctx.font = `${scale*1.05}px Libre Franklin`
+    // const scaleToFit = (line: string, scale: number): number => {
+    //     ctx.font = `${scale*1.05}px Libre Franklin`
+    //     let measure = ctx.measureText(line)
+    //     if (measure.width > 8) {
+    //         // Base case 
+    //         return scale
+    //     } else {
+    //         return scaleToFit(line, scale*1.10)
+    //     }
+    // }
+
+    const scaleDown = (line: string, scale: number): number => {
+        ctx.font = `${scale}px Libre Franklin`
         let measure = ctx.measureText(line)
-        if (measure.width > 8) {
+        if (measure.width < 12) {
             // Base case 
+            // console.log(measure.width)
             return scale
         } else {
-            return scaleToFit(line, scale*1.10)
+            return scaleDown(line, scale*0.85)
         }
     }
 
@@ -151,14 +166,10 @@ export const paintNode = (node: NodeObject, ctx: CanvasRenderingContext2D, Globa
     const nodeType = (node as CustomNodeObject).nodeType
     const label = (node as CustomNodeObject).name
     const fontColor = (node as CustomNodeObject).fontColor
-    const fontSize = (node as CustomNodeObject).nodeRelSize * (node as CustomNodeObject).scaleFont/100
+    let fontSize = (node as CustomNodeObject).nodeRelSize * (node as CustomNodeObject).scaleFont/100
 
     const x = node.x?node.x:0
     let y = node.y?node.y:0
-
-    if( typeof label === undefined) {
-        console.log(label)
-    }
    
     const lines = label.split(' ')
     let lines2 = []
@@ -170,34 +181,19 @@ export const paintNode = (node: NodeObject, ctx: CanvasRenderingContext2D, Globa
             lines2.push(line)
         }
     }
-    
-    let lineHeight  = fontSize
-    if ( nodeType === 'Gene') {
-        lineHeight = fontSize*1.2
-    }
 
-    ctx.font = `${lineHeight}px Libre Franklin`
+    fontSize  = fontSize*2.25
+    let lineHeight = fontSize
+
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle'
     ctx.fillStyle = fontColor
     
     y = y - lineHeight*((lines2.length-1)/2)
     for ( let i = 0; i < lines2.length; i++ ) {
-        let measure = ctx.measureText(lines2[i])
         let line = lines2[i]
-        if (measure.width > 13) {
-            if (nodeType !== 'Gene'){
-                line = shrinkToFit(lines2[i])
-            }
-        } else {
-            line =  lines2[i]
-            if ( lines2.length == 1) {
-                lineHeight = scaleToFit(lines2[i], lineHeight)
-                ctx.font = `${lineHeight}px Libre Franklin`
-                line =  lines2[i]
-            }
-        }
-        
+        fontSize = scaleDown(line, fontSize)
+        ctx.font = `${fontSize}px Libre Franklin`
         ctx.fillText(line, x, y)
         y = y + (lineHeight)
     }

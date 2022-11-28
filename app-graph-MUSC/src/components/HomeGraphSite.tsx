@@ -5,10 +5,17 @@ import  { Box,  Button,  Paper, Typography } from '@mui/material'
 import { Graph } from './Graph';
 import { defaultGraphScheme } from '../tools/graphtools';
 import { useNavigate } from 'react-router-dom'
+import { Driver }  from  'neo4j-driver'
 
 import { MuscFooter, MuscHeader, MuscHeader2, MuscHeader3, MuscLoading, MuscSpecialistNotFound } from './MuscDecs';
 import { Neo4jContext } from 'use-neo4j';
-import { loadSpecialists } from '../tools/graphdata';
+import { 
+    loadSpecialists, 
+    loadPreferredGenesBySpecialist, 
+    loadPreferredOrgansBySpecialist,
+    loadPreferredSyndromeBySpecialist,
+    loadPreferredDiseaseBySpecialist
+} from '../tools/graphdata';
 
 type Dimension = {
     width: number
@@ -154,6 +161,10 @@ export const HomeGraphSite = () => {
 
     } else {
     
+        let preferredGenes: string[] = loadPreferredGenesBySpecialist(driver, specialist);
+        let preferredOrgans: string[] = loadPreferredOrgansBySpecialist(driver, specialist);
+        let preferredSyndrome: string[] = loadPreferredSyndromeBySpecialist(driver, specialist);
+        let preferredDisease: string[] = loadPreferredDiseaseBySpecialist(driver, specialist);
         return (<>
 
         <MuscHeader/>
@@ -191,7 +202,8 @@ export const HomeGraphSite = () => {
                         height={300}
                         name={'gene-organ'}
                         specialist={specialist}
-                        genes={['BRCA1','BRCA2']}
+                        // genes={['BRCA1','BRCA2']}
+                        genes={preferredGenes}
                         organs={[]}
                         syndromes={[]}
                         diseases={[]}
@@ -252,7 +264,8 @@ export const HomeGraphSite = () => {
                         name={'organ'}
                         specialist={specialist}
                         genes={[]}
-                        organs={['Ovary','Breast']}
+                        // organs={['Ovary','Breast']}
+                        organs={preferredOrgans}
                         syndromes={[]}
                         diseases={[]}
                         finalVerdict='Confirmed'
@@ -308,7 +321,7 @@ export const HomeGraphSite = () => {
                         specialist={specialist}
                         genes={[]}
                         organs={[]}
-                        syndromes={['Lynch Syndrome']}
+                        syndromes={preferredSyndrome}
                         diseases={[]}
                         finalVerdict='Confirmed'
                         graphScheme={defaultGraphScheme}
@@ -363,7 +376,7 @@ export const HomeGraphSite = () => {
                         genes={[]}
                         organs={[]}
                         syndromes={[]}
-                        diseases={['Breast Cancer']}
+                        diseases={preferredDisease}
                         finalVerdict='Confirmed'
                         graphScheme={defaultGraphScheme}
                         enableZoom={false}
