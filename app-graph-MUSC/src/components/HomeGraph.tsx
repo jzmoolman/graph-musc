@@ -4,8 +4,6 @@ import  { Box,  Button,  Paper, Typography } from '@mui/material'
 import { Graph } from './Graph';
 import { defaultGraphScheme } from '../tools/graphtools';
 import { useNavigate } from 'react-router-dom'
-
-import musc from '../assets/musc.png'
 import { MuscHeader } from './MuscDecs';
 
 type Dimension = {

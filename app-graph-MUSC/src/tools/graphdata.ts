@@ -1,5 +1,5 @@
 
-import { GraphScheme, Force2DData, ArrayToStr, applayFilter, GeneNodeObject, cardNCCNDataObject, CustomNodeObject, SubtypeNodeObject, SyndromeNodeObject } from './graphtools'
+import { GraphScheme, Force2DData, ArrayToStr, applyFilter, GeneNodeObject, cardNCCNDataObject, CustomNodeObject, SubtypeNodeObject, SyndromeNodeObject } from './graphtools'
 import { Driver }  from  'neo4j-driver'
 
 export type FinalVerdict = 'Confirmed' | 'Maybe' | 'Both'
@@ -26,11 +26,151 @@ const getFinalVerdictClause = (finalVerdict: FinalVerdict) => {
     return whereClause
 }
 
+export const loadPreferredGenesBySpecialist = (
+        driver: Driver | undefined, 
+        specialist: string,
+ ) => {
+
+    let result: string[] = ['BRCA1','BRCA2']
+    if (driver == null) {
+        console.log('Driver not loaded')
+        return result
+    }
+    switch (specialist) {
+
+        case 'Breast Surgery': result = ['BRCA1','BRCA2']; break
+        case 'Colorectal surgery': result = ['CHEK2','EPCAM']; break
+        case 'Dermatology': return result = ['PTEN','PMS2']; break
+        case 'Endocrine Surgery': return result = ['MEN1', 'FH']; break
+        case 'Endocrinology': return result = ['APC', 'TP53']; break
+        case 'Gastroenterology': return result = ['MLH1', 'MSH2']; break
+        case 'Gynecologic Oncology': return result = ['BRCA1', 'BRCA2']; break
+        case 'Hepatobiliary Surgery': return result = ['BRCA1', 'BRCA2']; break
+        case 'Neurosurgery': return result = ['BRCA1', 'APC']; break //ERRORR WIH ONE???
+        case 'Ophthalmology': return result = ['BAP1', 'BRCA2']; break 
+        case 'Orthopedic Oncology': return result = ['TP53', 'BRCA2']; break 
+        case 'Pediatric surgery': return result = ['BAP1', 'BRCA2']; break // No data???
+        case 'Pulmonology': return result = ['MEN1', 'TERT']; break
+        case 'Surgical Oncology': return result = ['PTEN', 'RB1']; break
+        case 'Thoracic': return result = ['PTEN', 'CHEK2']; break
+        case 'Urology': return result = ['MLH1','MSH2']; break
+    }
+    
+    return result
+}
+
+export const loadPreferredOrgansBySpecialist = (
+        driver: Driver | undefined, 
+        specialist: string,
+ ) => {
+
+    let result: string[] = ['Breast']
+    if (driver == null) {
+        console.log('Driver not loaded')
+        return result
+    }
+    switch (specialist) {
+
+        case 'Breast Surgery': result = ['Breast']; break
+        case 'Colorectal surgery': result = ['Colorectal']; break
+        case 'Dermatology': return result = ['Skin','PMS2']; break
+        case 'Endocrine Surgery': return result = ['Adrenal']; break
+        case 'Endocrinology': return result = ['Adrenal']; break
+
+        case 'Gastroenterology': return result = ['Small Bowel', 'Liver']; break
+        case 'Gynecologic Oncology': return result = ['BRCA1', 'BRCA2']; break
+        case 'Hepatobiliary Surgery': return result = ['BRCA1', 'BRCA2']; break
+        case 'Neurosurgery': return result = ['BRCA1', 'APC']; break //ERRORR WIH ONE???
+        case 'Ophthalmology': return result = ['BAP1', 'BRCA2']; break 
+        case 'Orthopedic Oncology': return result = ['TP53', 'BRCA2']; break 
+        case 'Pediatric surgery': return result = ['BAP1', 'BRCA2']; break // No data???
+        case 'Pulmonology': return result = ['MEN1', 'TERT']; break
+        case 'Surgical Oncology': return result = ['PTEN', 'RB1']; break
+        case 'Thoracic': return result = ['Thyroid']; break
+
+        case 'Urology': return result = ['MLH1','MSH2']; break
+
+    }
+    
+    return result
+}
+
+export const loadPreferredDiseaseBySpecialist = (
+        driver: Driver | undefined, 
+        specialist: string,
+ ) => {
+
+    let result: string[] = ['Breast']
+    if (driver == null) {
+        console.log('Driver not loaded')
+        return result
+    }
+    switch (specialist) {
+
+        case 'Breast Surgery': result = ['Breast Cancer', ]; break
+        case 'Colorectal surgery': result = ['Skin (Benign)','Brain Tumor']; break
+        case 'Dermatology': return result = ['Skin (Benign)','Brain Tumor']; break
+        case 'Endocrinology': return result = ['Skin (Benign)','Brain Tumor']; break
+        case 'Endocrine Surgery': return result = ['Eye (Benign)']; break
+        case 'Endocrinology': return result = ['Adrenal']; break
+        case 'Gastroenterology': return result = ['Skin (Benign)']; break
+
+        case 'Gynecologic Oncology': return result = ['BRCA1', 'BRCA2']; break
+        case 'Hepatobiliary Surgery': return result = ['BRCA1', 'BRCA2']; break
+        case 'Neurosurgery': return result = ['BRCA1', 'APC']; break //ERRORR WIH ONE???
+        case 'Ophthalmology': return result = ['BAP1', 'BRCA2']; break 
+        case 'Orthopedic Oncology': return result = ['TP53', 'BRCA2']; break 
+        case 'Pediatric surgery': return result = ['BAP1', 'BRCA2']; break // No data???
+        case 'Pulmonology': return result = ['MEN1', 'TERT']; break
+        case 'Surgical Oncology': return result = ['PTEN', 'RB1']; break
+        case 'Thoracic': return result = ['Thyroid Cancer']; break
+
+        case 'Urology': return result = ['MLH1','MSH2']; break
+
+    }
+    
+    return result
+}
+export const loadPreferredSyndromeBySpecialist = (
+        driver: Driver | undefined, 
+        specialist: string,
+ ) => {
+
+    let result: string[] = ['Breast']
+    if (driver == null) {
+        console.log('Driver not loaded')
+        return result
+    }
+    switch (specialist) {
+
+        case 'Breast Surgery': result = ['Cowden Syndrome']; break
+        case 'Colorectal surgery': result = ['Cowden Syndrome','Lynch Syndrome']; break
+        case 'Dermatology': return result = ['Lynch Syndrome']; break
+        case 'Endocrine Surgery': return result = ['Lynch Syndrome']; break
+        case 'Endocrinology': return result = ['Watson Syndrome']; break
+        case 'Gastroenterology': return result = ['Lynch Syndrome']; break
+
+        case 'Gynecologic Oncology': return result = ['BRCA1', 'BRCA2']; break
+        case 'Hepatobiliary Surgery': return result = ['BRCA1', 'BRCA2']; break
+        case 'Neurosurgery': return result = ['BRCA1', 'APC']; break //ERRORR WIH ONE???
+        case 'Ophthalmology': return result = ['BAP1', 'BRCA2']; break 
+        case 'Orthopedic Oncology': return result = ['TP53', 'BRCA2']; break 
+        case 'Pediatric surgery': return result = ['BAP1', 'BRCA2']; break // No data???
+        case 'Pulmonology': return result = ['MEN1', 'TERT']; break
+        case 'Surgical Oncology': return result = ['PTEN', 'RB1']; break
+        case 'Thoracic': return result = ['Gorlin Syndrome']; break
+
+
+        case 'Urology': return result = ['Lynch Syndrome']; break
+        
+    }
+    
+    return result
+}
 export const loadSpecialists = async (
         driver: Driver | undefined, 
-        onData?:(data:string[]
-    )=> void
-) => {
+        onData?:(data:string[])=> void
+ ) => {
 
     let result: string[] = []
     if (driver == null) {
@@ -75,6 +215,7 @@ export const loadGene= async (
     }
 
     const query = `MATCH (g:MGene)-[:AFFECTS]->(o:Organ) ${whereCLAUSE} RETURN DISTINCT g.name as name ORDER BY name`  
+                                                        console.log('LoadGene', query)
 
     let session = driver.session()
     try {
@@ -114,6 +255,7 @@ export const loadOrgan= async (
     } else {
         query = `MATCH (o:Organ) MATCH (n:LKP_SPECIALISTS_BY_ORGAN) WHERE o.name = n.Organ_System AND n.PrimarySpecialist ="${specialist}"  RETURN DISTINCT o.name as name ORDER BY name`
     }
+                                                        console.log('load-organ', query)
     let session = driver.session()
     try {
         let res = await session.run(query)
@@ -245,6 +387,46 @@ export const  loadNCCNData = async (driver: Driver | undefined,
     }
 }
 
+export const  loadGeneOrganLegend =  (
+    graphScheme : GraphScheme) => {
+
+    let nodes : any[] = []
+    let links : any[] = []
+    let link  = { source: '', target: ''}
+    let gene: GeneNodeObject = { 
+        nodeType: 'Gene',
+        id: 'Gene',
+        name: 'Gene',
+        fullName: 'Gene',
+        altName: 'Gene',
+        description: 'Gene',
+        nodeColor: graphScheme.geneNode, 
+        fontColor: graphScheme.geneFont,
+        nodeVal: graphScheme.nodeVal,
+        nodeRelSize: graphScheme.nodeRelSize,
+        scaleFont: graphScheme.scaleFont
+    }
+    nodes.push(gene) 
+    link.source = gene.name
+        
+    let organ: CustomNodeObject = { 
+        id: 'Organ',
+        name: 'Organ',
+        nodeType: 'Organ',
+        nodeColor: graphScheme.organNode,
+        fontColor: graphScheme.organFont,
+        nodeVal: graphScheme.nodeVal,
+        nodeRelSize: graphScheme.nodeRelSize,
+        scaleFont: graphScheme.scaleFont
+    }
+    nodes.push(organ) 
+    link.target = organ.name
+    links.push(link)
+    // onData( {nodes, links} )
+    return {nodes, links}
+}
+
+
 export const  loadGeneOrganData = async (
     driver: Driver | undefined,
     specialist: string, 
@@ -254,6 +436,8 @@ export const  loadGeneOrganData = async (
     graphScheme : GraphScheme,
     onData:(data: Force2DData)=> void) => {
 
+
+
     if (driver == null) {
         console.log('Driver not loaded')
         return 
@@ -262,7 +446,7 @@ export const  loadGeneOrganData = async (
     let whereCLAUSE = getFinalVerdictClause(finalVerdict)
 
     const geneSpecialistList = await loadGene(driver, specialist)
-    const geneSpecialistFilteredList = applayFilter(geneSpecialistList, genes)
+    const geneSpecialistFilteredList = applyFilter(geneSpecialistList, genes)
     if (geneSpecialistFilteredList.length == 0 ) {
         console.log('The intersect of list and filter is nil and therefore the result is empty.')
         return []
@@ -271,7 +455,8 @@ export const  loadGeneOrganData = async (
     whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + ArrayToStr(geneSpecialistFilteredList)
 
     const query = `MATCH (g:MGene)-[r]->(o:Organ) ${whereCLAUSE} RETURN g,r,o`
-                                                         console.log("gene-organ", query)
+
+                                                        //  console.log("gene-organ", query)
 
     let session = driver.session()
 
@@ -425,6 +610,61 @@ export const  loadGeneDiseaseData = async (
     }
 }
 
+export const  loadGeneDiseaseSubtypeLegend =  (
+    graphScheme : GraphScheme) => {
+
+    let nodes : any[] = []
+    let links : any[] = []
+    let link  = { source: '', target: ''}
+    let gene: GeneNodeObject = { 
+        nodeType: 'Gene',
+        id: 'Gene',
+        name: 'Gene',
+        fullName: 'Gene',
+        altName: 'Gene',
+        description: 'Gene',
+        nodeColor: graphScheme.geneNode, 
+        fontColor: graphScheme.geneFont,
+        nodeVal: graphScheme.nodeVal,
+        nodeRelSize: graphScheme.nodeRelSize,
+        scaleFont: graphScheme.scaleFont
+    }
+    nodes.push(gene) 
+    link.source = gene.name
+        
+    let disease: CustomNodeObject = { 
+        id: 'Disease',
+        name: 'Disease',
+        nodeType: 'Disease',
+        nodeColor: graphScheme.diseaseNode,
+        fontColor: graphScheme.diseaseFont,
+        nodeVal: graphScheme.nodeVal,
+        nodeRelSize: graphScheme.nodeRelSize,
+        scaleFont: graphScheme.scaleFont
+    }
+    nodes.push(disease) 
+    link.target = disease.name
+    links.push(link)
+
+    let link2  = { source: '', target: ''} 
+    link2.source = disease.name;
+
+    let subtype: CustomNodeObject = { 
+        id: 'Subtype',
+        name: 'Subtype',
+        nodeType: 'Subtype',
+        nodeColor: graphScheme.diseaseSubtypeNode,
+        fontColor: graphScheme.diseaseSubtypeFont,
+        nodeVal: graphScheme.nodeVal,
+        nodeRelSize: graphScheme.nodeRelSize,
+        scaleFont: graphScheme.scaleFont
+    }
+    nodes.push(subtype) 
+    link2.target = subtype.name
+    links.push(link2)
+
+    return {nodes, links}
+}
 export const  loadGeneDiseaseSubtypeData = async (
     driver: Driver | undefined,
     specialist: string,
@@ -560,6 +800,7 @@ export const  loadOrganGeneData = async (
         whereCLAUSE = whereCLAUSE + ' AND o.name IN ' + ArrayToStr(organs)
     }
     const query = `MATCH (g:MGene)-[r]->(o:Organ) ${whereCLAUSE} RETURN g,r,o`
+                                                        // console.log(query)
 
     let session = driver.session()
 
@@ -655,6 +896,7 @@ export const  loadDiseaseData = async (
 
     const query = 
          `MATCH (g:MGene)-[r:CAUSE]->(d:Disease) ${whereCLAUSE} RETURN g,r,d`
+                                                        // console.log('loadDisease------>', query)
 
     let session = driver.session()
 
@@ -745,6 +987,7 @@ export const  loadSyndromeDiseaseData = async (
         ` MATCH (g)-[:CAUSE]->(d:Disease)` +
         ` MATCH (g)-[:AFFECTS]->(o:Organ)` +
         ` ${whereCLAUSE} RETURN g,s,sv,d,o`
+                                                        console.log('loadSyndrome X---->',query)
 
     let session = driver.session()
 
