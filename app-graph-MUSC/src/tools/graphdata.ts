@@ -205,6 +205,7 @@ export const loadSyndrome= async (
 export const  loadNCCNData = async (driver: Driver | undefined,
     genes: string[],
     finalVerdict: FinalVerdict,
+    specialist: string,
     onCardData: (nccnData: any[])=> void
     ) => {
 
@@ -219,8 +220,27 @@ export const  loadNCCNData = async (driver: Driver | undefined,
         whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + ArrayToStr(genes)
     }
     
-    const query = `MATCH (n:NCCN_GUIDELINES)<-[rn:NCCN_MGENE]-(g:MGene) ${whereCLAUSE} WITH n ORDER BY n.OrganSystem, n.Modality, n.Gender RETURN n.OrganSystem as organ, COLLECT({modality: n.Modality, gender: n.Gender, recommendation: n.OriginalAction}) as data, apoc.text.join([n.GuidelineBody, n.GuidelineName, n.GuidelineVersion, n.GuidelineYear], '_') as footnote
+    //const query = `MATCH (n:NCCN_GUIDELINES)<-[rn:NCCN_MGENE]-(g:MGene) ${whereCLAUSE} WITH n ORDER BY n.OrganSystem, n.Modality, n.Gender RETURN n.OrganSystem as organ, COLLECT({modality: n.Modality, gender: n.Gender, recommendation: n.OriginalAction}) as data, apoc.text.join([n.GuidelineBody, n.GuidelineName, n.GuidelineVersion, n.GuidelineYear], '_') as footnote`
+
+    const query = `
+    CALL apoc.cypher.run("
+    MATCH (sp:LKP_SPECIALISTS_BY_ORGAN)<-[rsp:NCCN_ORGSPEC]-(n:NCCN_GUIDELINES)<-[rn:NCCN_MGENE]-(g:MGene) 
+    ${whereCLAUSE} and sp.PrimarySpecialist in ['${specialist}']
+    WITH n ORDER BY n.OrganSystem, n.Modality, n.Gender  RETURN n.OrganSystem as organ, COLLECT({modality: n.Modality, gender: n.Gender, recommendation: n.OriginalAction}) as data, apoc.text.join([n.GuidelineBody, n.GuidelineName, n.GuidelineVersion, n.GuidelineYear], '_') as footnote, toInteger(1) as organ_specialist 
+    UNION 
+    MATCH (sp1:LKP_SPECIALISTS_BY_ORGAN)<-[rsp:NCCN_ORGSPEC]-(n:NCCN_GUIDELINES)<-[rn:NCCN_MGENE]-(g:MGene) 
+    ${whereCLAUSE} AND sp1.PrimarySpecialist in ['${specialist}']
+    WITH collect(sp1.Organ_System) as OrganSystem
+    MATCH (sp2:LKP_SPECIALISTS_BY_ORGAN)<-[rsp:NCCN_ORGSPEC]-(n2:NCCN_GUIDELINES)<-[rn:NCCN_MGENE]-(g:MGene) 
+    ${whereCLAUSE} AND not sp2.Organ_System in OrganSystem
+    WITH n2 ORDER BY n2.OrganSystem, n2.Modality, n2.Gender  RETURN n2.OrganSystem as organ, COLLECT({modality: n2.Modality, gender: n2.Gender, recommendation: n2.OriginalAction}) as data, apoc.text.join([n2.GuidelineBody, n2.GuidelineName, n2.GuidelineVersion, n2.GuidelineYear], '_') as footnote, toInteger(0) as organ_specialist
+    ",
+    {}) yield value
+    WITH value.organ as organ, value.organ_specialist as organ_specialist, value.data as data, value.footnote as footnote
+    RETURN organ, organ_specialist, data, footnote ORDER BY organ
     `
+
+    console.log(query);
     let session = driver.session()
 
     try {
@@ -231,6 +251,7 @@ export const  loadNCCNData = async (driver: Driver | undefined,
                 organ: row.get("organ"),
                 data: row.get("data"),
                 footnote: row.get("footnote"),
+                organ_specialist: row.get("organ_specialist"),
             }
             nccnData.push(card)
         })

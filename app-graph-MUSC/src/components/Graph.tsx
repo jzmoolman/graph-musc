@@ -40,6 +40,20 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     },
     [`&.${tableCellClasses.body}`]: {
       fontSize: 14,
+      fontWeight: "normal",
+    },
+  }));
+
+  const StyledTableCell2 = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: theme.palette.common.black,
+      color: theme.palette.common.white,
+      fontWeight: "bold",
+    },
+    [`&.${tableCellClasses.body}`]: {
+      fontSize: 14,
+      fontWeight: "bold",
+      color: "black"
     },
   }));
 
@@ -52,6 +66,20 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
         border: 0,
     },
 }));
+
+
+const StyledTableRow2 = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(n)': {
+        backgroundColor: "rgba(255,255,224)", ///  "rgba(0, 0, 0, 0.3)", 119,136,153, 128,128,128, 255,250,205
+        fontWeight: "bold",
+    },
+    // hide last border
+    '&:last-child td, &:last-child th': {
+        border: 0,
+        fontWeight: "bold",
+    },
+}));
+
 // ARMANDO NEW CODE END
 
 type BaseGraphProps = {
@@ -187,7 +215,7 @@ export const Graph = ( {
         }
         if (['gene-organ', 'gene-disease', 'organ', 'disease', 'gene-disease-subtype', 'syndrome-gene-disease'].includes(name))  //Armando Change
         {
-            loadNCCNData(driver, nccnGeneCard, finalVerdict, onCardData)
+            loadNCCNData(driver, nccnGeneCard, finalVerdict, specialist, onCardData)
         }
 
     },[name, nccnGeneCard] )
@@ -366,11 +394,26 @@ export const Graph = ( {
                                 </TableHead>
                                 <TableBody>
                                 {nccnData.map((row: cardNCCNDataObject) => {
+                                    
+                                    const nccnRender = []
+                                    
+                                    // console.log(row.organ, "organ")
 
-                                    const nccnRender = [<StyledTableRow key={row.organ}>
-                                                    <StyledTableCell colSpan={3} align="justify" component="th" scope="row">{row.organ}</StyledTableCell>
-                                                    </StyledTableRow>
-                                                    ];
+                                    if (row.organ_specialist == "1")
+                                    {
+                                        //console.log(row.organ, "hehe")
+                                        nccnRender.push (<StyledTableRow2 key={row.organ}>
+                                            <StyledTableCell2 colSpan={3} align="justify" component="th" scope="row" >{row.organ}</StyledTableCell2>
+                                            </StyledTableRow2>
+                                            );
+                                    }  
+                                    else {
+                                        //console.log(row.organ)
+                                        nccnRender.push(<StyledTableRow key={row.organ}>
+                                            <StyledTableCell colSpan={3} align="justify" component="th" scope="row">{row.organ}</StyledTableCell>
+                                            </StyledTableRow>
+                                        );
+                                    }
 
                                     row.data.forEach((element)  => {
                                         nccnRender.push(

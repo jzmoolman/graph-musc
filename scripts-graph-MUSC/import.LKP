@@ -104,6 +104,10 @@ MERGE (s:LKP_SPECIALISTS_BY_ORGAN {
     Organ_System: coalesce(row.Organ_System,'Unknown(I)')
 });
 
+CREATE (s:LKP_SPECIALISTS_BY_ORGAN {PrimarySpecialist: 'All', Organ_System: 'General'});
+CREATE (s:LKP_SPECIALISTS_BY_ORGAN {PrimarySpecialist: 'All', Organ_System: 'Referral'});
+
+
 MATCH (s:LKP_SPECIALIST_WEBSITE) DELETE (s);
 LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/jzmoolman/graph-musc/master/data-graph-MUSC/LKP_Specialist_Website.csv'
 AS row 

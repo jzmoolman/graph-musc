@@ -31,3 +31,10 @@ MATCH (g:MGene)
 MATCH (n:NCCN_GUIDELINES)
 WHERE g.name = n.Gene
 MERGE (g)-[:NCCN_MGENE]->(n);
+
+// Create Relationships between LKP's
+MATCH ()-[r:NCCN_ORGSPEC]-() DETACH DELETE r;
+MATCH (n:NCCN_GUIDELINES)
+MATCH (sp:LKP_SPECIALISTS_BY_ORGAN)
+WHERE n.OrganSystem = sp.Organ_System
+MERGE (n)-[:NCCN_ORGSPEC]->(sp);

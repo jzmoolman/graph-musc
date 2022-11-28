@@ -104,6 +104,7 @@ export interface cardNCCNDataObject {
     organ: string
     data: cardNCCNTableObject[]
     footnote: string
+    organ_specialist: string
 }
 
 export interface TabPanelProps {
