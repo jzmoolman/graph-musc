@@ -38,7 +38,6 @@ import gene_subtype_img from '../assets/gene-subtype.png'
 
 const drawerWidth = 450;
 
-// ARMANDO NEW CODE START
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: theme.palette.common.black,
@@ -85,8 +84,6 @@ const StyledTableRow2 = styled(TableRow)(({ theme }) => ({
         fontWeight: "bold",
     },
 }));
-
-// ARMANDO NEW CODE END
 
 const getimg = (name: GraphName) => {
     switch (name) {
@@ -459,18 +456,14 @@ export const Graph = ( {
                                     
                                     const nccnRender = []
                                     
-                                    // console.log(row.organ, "organ")
-
                                     if (row.organ_specialist == "1")
                                     {
-                                        //console.log(row.organ, "hehe")
                                         nccnRender.push (<StyledTableRow2 key={row.organ}>
                                             <StyledTableCell2 colSpan={3} align="justify" component="th" scope="row" >{row.organ}</StyledTableCell2>
                                             </StyledTableRow2>
                                             );
                                     }  
                                     else {
-                                        //console.log(row.organ)
                                         nccnRender.push(<StyledTableRow key={row.organ}>
                                             <StyledTableCell colSpan={3} align="justify" component="th" scope="row">{row.organ}</StyledTableCell>
                                             </StyledTableRow>
