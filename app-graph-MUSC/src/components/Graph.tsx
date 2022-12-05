@@ -55,6 +55,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
       backgroundColor: theme.palette.common.black,
       color: theme.palette.common.white,
       fontWeight: "bold",
+      //webkitFontSmoothing: "antialiased",
     },
     [`&.${tableCellClasses.body}`]: {
       fontSize: 14,
@@ -76,7 +77,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const StyledTableRow2 = styled(TableRow)(({ theme }) => ({
     '&:nth-of-type(n)': {
-        backgroundColor: "rgba(255,255,224)", ///  "rgba(0, 0, 0, 0.3)", 119,136,153, 128,128,128, 255,250,205
+        backgroundColor: "rgba(0, 0, 0, 0.1)", ///  "rgba(0, 0, 0, 0.3)", 119,136,153, 128,128,128, 255,250,205, 255,255,224
         fontWeight: "bold",
     },
     // hide last border
@@ -459,33 +460,41 @@ export const Graph = ( {
                                     
                                     const nccnRender = []
                                     
-                                    // console.log(row.organ, "organ")
-
                                     if (row.organ_specialist == "1")
                                     {
-                                        //console.log(row.organ, "hehe")
                                         nccnRender.push (<StyledTableRow2 key={row.organ}>
                                             <StyledTableCell2 colSpan={3} align="justify" component="th" scope="row" >{row.organ}</StyledTableCell2>
                                             </StyledTableRow2>
                                             );
+
+                                        row.data.forEach((element)  => {
+                                                nccnRender.push(
+                                                    <TableRow key={element.modality}>
+                                                    <StyledTableCell2 component="th" scope="row">{element.modality}</StyledTableCell2>
+                                                    <StyledTableCell2 align="justify">{element.gender}</StyledTableCell2>
+                                                    <StyledTableCell2 align="justify">{element.recommendation}</StyledTableCell2>
+                                                    </TableRow>
+                                                );
+                                            });
                                     }  
                                     else {
-                                        //console.log(row.organ)
                                         nccnRender.push(<StyledTableRow key={row.organ}>
                                             <StyledTableCell colSpan={3} align="justify" component="th" scope="row">{row.organ}</StyledTableCell>
                                             </StyledTableRow>
                                         );
+
+                                        row.data.forEach((element)  => {
+                                            nccnRender.push(
+                                                <TableRow key={element.modality}>
+                                                <StyledTableCell component="th" scope="row">{element.modality}</StyledTableCell>
+                                                <StyledTableCell align="justify">{element.gender}</StyledTableCell>
+                                                <StyledTableCell align="justify">{element.recommendation}</StyledTableCell>
+                                                </TableRow>
+                                            );
+                                        });
                                     }
 
-                                    row.data.forEach((element)  => {
-                                        nccnRender.push(
-                                            <TableRow key={element.modality}>
-                                            <StyledTableCell component="th" scope="row">{element.modality}</StyledTableCell>
-                                            <StyledTableCell align="justify">{element.gender}</StyledTableCell>
-                                            <StyledTableCell align="justify">{element.recommendation}</StyledTableCell>
-                                            </TableRow>
-                                        );
-                                    });
+
 
                                         return (                                   
                                             nccnRender              
