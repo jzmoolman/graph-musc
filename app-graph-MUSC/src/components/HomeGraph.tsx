@@ -218,13 +218,22 @@ export const HomeGraph = () => {
         <Box id='heading2' display='flex'>
             <Typography 
                 textAlign='center'
-                variant='h4' 
+                variant='h3' 
                 width='100%'
                 color='primary.main'
             >
                 <> 
                 {getHeaderDesc1_1()}
-                <br />
+                </>
+
+            </Typography>
+            <Typography 
+                textAlign='center'
+                variant='h4' 
+                width='100%'
+                color='primary.main'
+            >
+                <> 
                 {getHeaderDesc1_2}
                 </>
 

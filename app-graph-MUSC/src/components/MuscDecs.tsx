@@ -110,14 +110,23 @@ export const MuscHeader2 = ({specialist}:  MuscHeader2Props) => {
     return (<>
         <Typography 
             textAlign='center'
-            variant='h4' 
+            variant='h3' 
             component='div'
             width='100%'
             color='primary.main'
         >   
             <>
             {getDesc()[0]}
-            <br />
+            </>
+        </Typography>
+        <Typography 
+            textAlign='center'
+            variant='h4' 
+            component='div'
+            width='100%'
+            color='primary.main'
+        >   
+            <>
             {getDesc()[1]}
             </>
         </Typography>
