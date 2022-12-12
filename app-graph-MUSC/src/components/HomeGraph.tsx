@@ -84,8 +84,13 @@ export const HomeGraph = () => {
         }
     }
 
-    const getHeaderDesc1 = () => {
-        return 'Cancer susceptibility gene visualizations using a Graph Database'
+    const getHeaderDesc1_1 = () => {
+        return 'Cancer Susceptibility Genes'
+    }
+
+
+    const getHeaderDesc1_2 = () => {
+        return ' Visualizations using Graph Database Technology'
     }
 
     const getHeaderDesc2 = () => {
@@ -217,7 +222,12 @@ export const HomeGraph = () => {
                 width='100%'
                 color='primary.main'
             >
-                {getHeaderDesc1()}
+                <> 
+                {getHeaderDesc1_1()}
+                <br />
+                {getHeaderDesc1_2}
+                </>
+
             </Typography>
         </Box>
         <Box display='flex' 

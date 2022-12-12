@@ -41,6 +41,7 @@ export const Home = () => {
                 sx={{
                     minWidth: '300px',
                     color: 'white',
+                    textAlign: 'center'
                 }}
             >
                 <Paper 
@@ -67,6 +68,7 @@ export const Home = () => {
             sx={{
                 minWidth: '300px',
                 color: 'white',
+                textAlign: 'center'
             }}
         >
             <Paper 
