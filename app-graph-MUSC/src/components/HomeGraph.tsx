@@ -90,7 +90,7 @@ export const HomeGraph = () => {
 
 
     const getHeaderDesc1_2 = () => {
-        return ' Visualizations using Graph Database Technology'
+        return 'Visualizations using Graph Database Technology'
     }
 
     const getHeaderDesc2 = () => {
@@ -218,7 +218,7 @@ export const HomeGraph = () => {
         <Box id='heading2' display='flex'>
             <Typography 
                 textAlign='center'
-                variant='h3' 
+                variant='h4' 
                 width='100%'
                 color='primary.main'
             >
@@ -238,7 +238,7 @@ export const HomeGraph = () => {
         <Box id='heading2' display='flex'>
             <Typography 
                 textAlign='center'
-                variant='h3' 
+                variant='h4' 
                 width='100%'
                 color='primary.main'
             >

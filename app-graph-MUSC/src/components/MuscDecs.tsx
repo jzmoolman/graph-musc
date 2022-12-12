@@ -110,7 +110,7 @@ export const MuscHeader2 = ({specialist}:  MuscHeader2Props) => {
     return (<>
         <Typography 
             textAlign='center'
-            variant='h3' 
+            variant='h4' 
             component='div'
             width='100%'
             color='primary.main'
@@ -137,8 +137,12 @@ export const MuscHeader3 = () => {
             component='div'
             width='100%'
             color='primary.main'
-        >
+        >   
+            <>
+            <br />
             {getDesc()}
+            </>
+
         </Typography>
     </>)
 }
@@ -156,8 +160,11 @@ export const MuscHeader4 = () => {
             component='div'
             width='100%'
             color='primary.main'
-        >
+        >   
+            <>
+            <br />
             {getDesc()}
+            </>
         </Typography>
     </>)
 }
@@ -170,11 +177,13 @@ export const MuscFooter = () => {
             <Typography 
                 textAlign='center'
                 component='div'
-                variant='h3' 
+                variant='h4' 
                 width='100%'
                 color='primary.main'
-            >
+            >   
+                <>
                 {getDesc()}
+                </>
             </Typography>
             <Typography
                 id='ZZZZZ-parent' 
