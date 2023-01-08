@@ -95,13 +95,13 @@ type MuscHeader2Props = {
 export const MuscHeader2 = ({specialist}:  MuscHeader2Props) => {
 
     const getDesc = () => {
-        let result : string = ""
+        let result : string[] = [""]
         switch (specialist) {
             case 'Generic':
-                result = 'Cancer susceptibility gene visualizations using a Graph Database.'
+                result = ['Cancer Susceptibility Genes', 'Visualizations using Graph Database Technology']
                 break;
             default: 
-                result = `${specialist} Cancer susceptibility gene visualizations using a Graph Database.`
+                result = [`${specialist} Cancer Susceptibility Genes`,  'Visualizations using Graph Database Technology']
 
         }
         return result
@@ -114,8 +114,21 @@ export const MuscHeader2 = ({specialist}:  MuscHeader2Props) => {
             component='div'
             width='100%'
             color='primary.main'
-        >
-            {getDesc()}
+        >   
+            <>
+            {getDesc()[0]}
+            </>
+        </Typography>
+        <Typography 
+            textAlign='center'
+            variant='h4' 
+            component='div'
+            width='100%'
+            color='primary.main'
+        >   
+            <>
+            {getDesc()[1]}
+            </>
         </Typography>
     </>)
 }
@@ -123,7 +136,7 @@ export const MuscHeader2 = ({specialist}:  MuscHeader2Props) => {
 export const MuscHeader3 = () => {
 
     const getDesc = () => {
-        return 'Choose the speciality you are interested in.'
+        return 'View genes specific to a given specialty'
     }
 
     return (<>
@@ -133,8 +146,12 @@ export const MuscHeader3 = () => {
             component='div'
             width='100%'
             color='primary.main'
-        >
+        >   
+            <>
+            <br />
             {getDesc()}
+            </>
+
         </Typography>
     </>)
 }
@@ -142,7 +159,7 @@ export const MuscHeader3 = () => {
 export const MuscHeader4 = () => {
 
     const getDesc = () => {
-        return 'Choose a general option'
+        return 'View all genes'
     }
 
     return (<>
@@ -152,8 +169,11 @@ export const MuscHeader4 = () => {
             component='div'
             width='100%'
             color='primary.main'
-        >
+        >   
+            <>
+            <br />
             {getDesc()}
+            </>
         </Typography>
     </>)
 }
@@ -166,11 +186,13 @@ export const MuscFooter = () => {
             <Typography 
                 textAlign='center'
                 component='div'
-                variant='h3' 
+                variant='h4' 
                 width='100%'
                 color='primary.main'
-            >
+            >   
+                <>
                 {getDesc()}
+                </>
             </Typography>
             <Typography
                 id='ZZZZZ-parent' 
