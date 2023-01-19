@@ -100,7 +100,7 @@ export const loadPreferredDiseaseBySpecialist = (
         specialist: string,
  ) => {
 
-    let result: string[] = ['Breast']
+    let result: string[] = ['Breast Cancer']
     if (driver == null) {
         console.log('Driver not loaded')
         return result
@@ -136,7 +136,7 @@ export const loadPreferredSyndromeBySpecialist = (
         specialist: string,
  ) => {
 
-    let result: string[] = ['Breast']
+    let result: string[] = ['Cowden Syndrome']
     if (driver == null) {
         console.log('Driver not loaded')
         return result

@@ -28,7 +28,7 @@ export const MuscHeader = () => {
               <Box display='flex' 
                   sx={{
                       backgroundColor:'white'}}>
-                  <img src={musc} height={100}  onClick={handleImageClick}/>
+                {/*<img src={musc} height={100}  onClick={handleImageClick}/>*/}
               </Box>
               <Box display='flex' flex='1' flexDirection='column'>
                   <Typography 
