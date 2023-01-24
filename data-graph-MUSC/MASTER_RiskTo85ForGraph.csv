@@ -1,0 +1,180 @@
+﻿gene,cancer,gender,age,MaxOfcr85
+ATM,Breast,Female,25,39.61
+ATM,Colorectal,Male,25,8.34
+ATM,Colorectal,Female,25,7.08
+ATM,Gastric,Male,25,4.32
+ATM,Gastric,Female,25,2.51
+ATM,Pancreatic,Male,25,5.02
+ATM,Pancreatic,Female,25,4.47
+ATM,Prostate,Male,25,28.87
+BARD1,Breast,Female,25,26.17
+BARD1,Ovarian,Female,25,4.76
+BRCA1,Breast,Female,25,68.57
+BRCA1,Ovarian,Female,25,67.76
+BRCA1,Pancreatic,Male,25,5.43
+BRCA1,Pancreatic,Female,25,4.82
+BRCA2,Breast,Female,25,61.1
+BRCA2,Breast,Male,25,12.86
+BRCA2,Ovarian,Female,25,36.46
+BRCA2,Pancreatic,Male,25,7.64
+BRCA2,Pancreatic,Female,25,6.8
+BRCA2,Prostate,Male,25,21.46
+BRIP1,Ovarian,Female,25,5.55
+CDH1,Breast,Female,25,57.03
+CDH1,Gastric,Male,25,70.63
+CDH1,Gastric,Female,25,55.48
+CDK4,Melanoma,Male,25,46.59
+CDK4,Melanoma,Female,25,37.94
+CDKN2A/p16,Melanoma,Male,25,46.29
+CDKN2A/p16,Melanoma,Female,25,37.63
+CDKN2A/p16,Pancreatic,Male,25,28.61
+CDKN2A/p16,Pancreatic,Female,25,24.39
+CHEK2/1100delC,Breast,Female,25,23.47
+CHEK2/1100delC,Colorectal,Male,25,7.96
+CHEK2/1100delC,Colorectal,Female,25,6.75
+CHEK2/1100delC,Kidney,Female,25,6.58
+CHEK2/1100delC,Kidney,Male,25,3.81
+CHEK2/1100delC,Prostate,Male,25,46.61
+EPCAM,Colorectal,Male,25,89.8
+EPCAM,Colorectal,Female,25,79.5
+HOXB13,Prostate,Male,25,53.47
+MLH1,Brain,Male,25,1.41
+MLH1,Brain,Female,25,1.02
+MLH1,Colorectal,Female,25,51.13
+MLH1,Colorectal,Male,25,41.65
+MLH1,Endometrial,Female,25,21.13
+MLH1,Gastric,Male,25,28.27
+MLH1,Gastric,Female,25,13.71
+MLH1,Ovarian,Female,25,5.26
+MLH1,Pancreatic,Male,25,6.83
+MLH1,Pancreatic,Female,25,6.56
+MLH1,Small Intestine,Male,25,9.88
+MLH1,Small Intestine,Female,25,8.6
+MLH1,Upper Urinary Tract,Male,25,6.51
+MLH1,Upper Urinary Tract,Female,25,3.68
+MLH1,Urinary Bladder,Male,25,7.87
+MLH1,Urinary Bladder,Female,25,2.35
+MSH2,Brain,Female,25,3.24
+MSH2,Brain,Male,25,2.64
+MSH2,Colorectal,Male,25,60.93
+MSH2,Colorectal,Female,25,45.74
+MSH2,Endometrial,Female,25,30.71
+MSH2,Gastric,Female,25,16.96
+MSH2,Ovarian,Female,25,10.95
+MSH2,Pancreatic,Male,25,21.5
+MSH2,Pancreatic,Female,25,5.4
+MSH2,Small Intestine,Male,25,10.43
+MSH2,Small Intestine,Female,25,9.09
+MSH2,Upper Urinary Tract,Male,25,24.06
+MSH2,Upper Urinary Tract,Female,25,13.11
+MSH2,Urinary Bladder,Male,25,14.12
+MSH2,Urinary Bladder,Female,25,4.24
+MSH6,Brain,Female,25,3.24
+MSH6,Brain,Male,25,2.64
+MSH6,Colorectal,Male,25,40.72
+MSH6,Colorectal,Female,25,32.82
+MSH6,Endometrial,Female,25,17.46
+MSH6,Gastric,Female,25,2.85
+MSH6,Gastric,Male,25,2.14
+MSH6,Ovarian,Female,25,13.76
+MSH6,Small Intestine,Male,25,3.47
+MSH6,Small Intestine,Female,25,2.93
+MSH6,Upper Urinary Tract,Male,25,4.69
+MSH6,Upper Urinary Tract,Female,25,2.57
+MSH6,Urinary Bladder,Male,25,14.27
+MSH6,Urinary Bladder,Female,25,4.28
+MUTYH-Biallelic,Ovarian,Female,25,14.27
+MUTYH-Biallelic,Urinary Bladder,Male,25,37.73
+MUTYH-Biallelic,Urinary Bladder,Female,25,8.23
+MUTYH-Biallelic/Compound Heterozygous,Colorectal,Female,25,58.39
+MUTYH-Biallelic/Compound Heterozygous,Colorectal,Male,25,29.07
+MUTYH-Biallelic/G396D,Colorectal,Female,25,55.01
+MUTYH-Biallelic/G396D,Colorectal,Male,25,36.28
+MUTYH-Monoallelic,Colorectal,Female,25,14.02
+MUTYH-Monoallelic,Colorectal,Male,25,11.27
+MUTYH-Monoallelic,Endometrial,Female,25,4.26
+MUTYH-Monoallelic,Gastric,Male,25,5.62
+MUTYH-Monoallelic,Gastric,Female,25,2.63
+MUTYH-Monoallelic,Hepatobiliary,Male,25,3.39
+MUTYH-Monoallelic,Hepatobiliary,Female,25,1.63
+NBN/657del5,Breast,Female,25,35.77
+NBN/657del5,Prostate,Male,25,33.35
+NF1,Brain,Male,25,22.09
+NF1,Brain,Female,25,16.35
+NF1,Breast,Female,25,38.54
+NF1,Malignant peripheral nerve sheath tumor,Female,25,14.68
+NF1,Malignant peripheral nerve sheath tumor,Male,25,14.59
+PALB2,Breast,Female,25,44.53
+PALB2,Pancreatic,Male,25,7.64
+PALB2,Pancreatic,Female,25,6.8
+PMS2,Colorectal,Male,25,21.39
+PMS2,Colorectal,Female,25,12.81
+PMS2,Endometrial,Female,25,12.9
+PMS2,Ovarian,Female,25,5.26
+POLD1,Colorectal,Male,25,100
+POLD1,Colorectal,Female,25,100
+POLE,Colorectal,Male,25,58.02
+POLE,Colorectal,Female,25,48.02
+Population,Brain,Male,25,0.57
+Population,Brain,Female,25,0.43
+Population,Breast,Female,25,13.66
+Population,Breast,Male,25,0.13
+Population,Colorectal,Male,25,4.24
+Population,Colorectal,Female,25,3.6
+Population,Endometrial,Female,25,2.63
+Population,Gastric,Male,25,0.91
+Population,Gastric,Female,25,0.53
+Population,Hepatobiliary,Male,25,1.22
+Population,Hepatobiliary,Female,25,0.46
+Population,Kidney,Male,25,1.88
+Population,Kidney,Female,25,1.87
+Population,Kidney,Male,25,1.07
+Population,Kidney,Female,25,1.06
+Population,Leukemia,Male,25,1.39
+Population,Leukemia,Female,25,0.9
+Population,Malignant peripheral nerve sheath tumor,Female,25,0
+Population,Malignant peripheral nerve sheath tumor,Male,25,0
+Population,Melanoma,Male,25,3.85
+Population,Melanoma,Female,25,2.5
+Population,Osteosarcoma,Male,25,0.06
+Population,Osteosarcoma,Female,25,0.04
+Population,Ovarian,Female,25,1.13
+Population,Pancreatic,Male,25,1.32
+Population,Pancreatic,Female,25,1.17
+Population,Prostate,Male,25,13.31
+Population,Small Intestine,Male,25,0.25
+Population,Small Intestine,Female,25,0.21
+Population,Soft Tissue Sarcoma,Male,25,0.31
+Population,Soft Tissue Sarcoma,Female,25,0.23
+Population,Thyroid,Female,25,1.61
+Population,Thyroid,Male,25,0.57
+Population,Upper Urinary Tract,Male,25,1.88
+Population,Upper Urinary Tract,Female,25,1.06
+Population,Urinary Bladder,Male,25,3.14
+Population,Urinary Bladder,Female,25,0.89
+PTEN,Breast,Female,25,92.54
+PTEN,Colorectal,Male,25,13.96
+PTEN,Colorectal,Female,25,12.29
+PTEN,Endometrial,Female,25,30.18
+PTEN,Kidney,Male,25,39.45
+PTEN,Kidney,Female,25,21.87
+PTEN,Melanoma,Male,25,10.25
+PTEN,Melanoma,Female,25,7.59
+PTEN,Thyroid,Female,25,51.92
+PTEN,Thyroid,Male,25,15.1
+RAD51C,Ovarian,Female,25,5.89
+RAD51D,Ovarian,Female,25,13.59
+STK11,Breast,Female,25,38.42
+STK11,Colorectal,Male,25,16.6
+STK11,Colorectal,Female,25,14.27
+STK11,Gastric,Male,25,37.76
+STK11,Gastric,Female,25,21.99
+TP53,Brain,Female,25,12.07
+TP53,Brain,Male,25,1.49
+TP53,Breast,Female,25,62.23
+TP53,Leukemia,Male,25,1.48
+TP53,Leukemia,Female,25,1.4
+TP53,Osteosarcoma,Female,25,2.03
+TP53,Osteosarcoma,Male,25,0.67
+TP53,Soft Tissue Sarcoma,Male,25,17.86
+TP53,Soft Tissue Sarcoma,Female,25,10.17
