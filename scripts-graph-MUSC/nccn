@@ -1,0 +1,8 @@
+
+// Create Relationships between LKP's
+MATCH ()-[r:NCCN_GENE]-() DETACH DELETE r;
+
+MATCH (g:LKP_GENE_DETAILS)
+MATCH (n:NCCN_GUIDELINES)
+WHERE g.GeneMasterName = n.Gene
+MERGE (g)-[:NCCN_GENE]->(n);

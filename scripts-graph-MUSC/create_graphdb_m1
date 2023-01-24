@@ -1,3 +1,4 @@
 cat import.LKP  | /opt/homebrew/Cellar/neo4j/4.4.11/libexec/bin/cypher-shell -u neo4j -p p6YURX5bFlooyM3vRQizhc0uXY_cSpP_gfgJJQ7v_j8 -a neo4j+s://813893ea.databases.neo4j.io:7687
 cat mgene.organ.LKP  | /opt/homebrew/Cellar/neo4j/4.4.11/libexec/bin/cypher-shell -u neo4j -p p6YURX5bFlooyM3vRQizhc0uXY_cSpP_gfgJJQ7v_j8 -a neo4j+s://813893ea.databases.neo4j.io:7687
 cat syndrome.LKP  | /opt/homebrew/Cellar/neo4j/4.4.11/libexec/bin/cypher-shell -u neo4j -p p6YURX5bFlooyM3vRQizhc0uXY_cSpP_gfgJJQ7v_j8 -a neo4j+s://813893ea.databases.neo4j.io:7687
+cat nccn  | /opt/homebrew/Cellar/neo4j/4.4.11/libexec/bin/cypher-shell -u neo4j -p p6YURX5bFlooyM3vRQizhc0uXY_cSpP_gfgJJQ7v_j8 -a neo4j+s://813893ea.databases.neo4j.io:7687

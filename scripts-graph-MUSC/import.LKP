@@ -126,10 +126,14 @@ MERGE (s:LKP_SPECIALIST_PREFERREDGENES {
     GeneMasterName: coalesce(row.GeneMasterName,'Unknown_')
 });
 
-// Create Relationships between LKP's
-MATCH ()-[r:NCCN_GENE]-() DETACH DELETE r;
-
-MATCH (g:LKP_GENE_DETAILS)
-MATCH (n:NCCN_GUIDELINES)
-WHERE g.GeneMasterName = n.Gene
-MERGE (g)-[:NCCN_GENE]->(n);
+MATCH (n:LKP_MASTER_RISKTO85FORGRAPH) DELETE (n);
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/jzmoolman/graph-musc/master/data-graph-MUSC/LKP_MASTER_RiskTo85ForGraph.csv'
+AS row 
+WITH row
+MERGE (n:LKP_MASTER_RISKTO85FORGRAPH {
+    gene: coalesce(row.gene,'Unknown'),
+    cancer: coalesce(row.cancer,'Unknown'),
+    gender: coalesce(row.gender,'Unknown'),
+    age: coalesce(row.age,'Unknown'),
+    MaxOfcr85: coalesce(row.maxofcr85,'Unknown')
+});
