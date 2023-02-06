@@ -1,17 +1,8 @@
 
-import { GraphScheme, Force2DData, ArrayToStr, applyFilter, GeneNodeObject, cardNCCNDataObject, CustomNodeObject, SubtypeNodeObject, SyndromeNodeObject } from './graphtools'
+import { GraphScheme, Force2DData, ArrayToStr, applyFilter, GeneNodeObject, OrganNodeObject, cardNCCNDataObject, CustomNodeObject, SubtypeNodeObject, SyndromeNodeObject } from './graphtools'
 import { Driver }  from  'neo4j-driver'
 
 export type FinalVerdict = 'Confirmed' | 'Maybe' | 'Both'
-
-
-const getPreferredGenes =  (specialist: string) => {
-    let list : string[] = []
-    switch (specialist) {
-        case 'Generic': list = ['BRCA1', 'BRCA2']; break;
-    }
-    return list;
-}
 
 const getFinalVerdictClause = (finalVerdict: FinalVerdict) => {
     let whereClause = ''
@@ -215,7 +206,7 @@ export const loadGene= async (
     }
 
     const query = `MATCH (g:MGene)-[:AFFECTS]->(o:Organ) ${whereCLAUSE} RETURN DISTINCT g.name as name ORDER BY name`  
-                                                        console.log('LoadGene', query)
+                                                                                // console.log('LoadGene', query)
 
     let session = driver.session()
     try {
@@ -250,12 +241,12 @@ export const loadOrgan= async (
     }
 
     let query = ''
-    if (specialist == 'Generic') {
+    if (specialist === 'Generic') {
         query = `MATCH (o:Organ) RETURN DISTINCT o.name as name ORDER BY name`
     } else {
         query = `MATCH (o:Organ) MATCH (n:LKP_SPECIALISTS_BY_ORGAN) WHERE o.name = n.Organ_System AND n.PrimarySpecialist ="${specialist}"  RETURN DISTINCT o.name as name ORDER BY name`
     }
-                                                        console.log('load-organ', query)
+                                                                                // console.log('load-organ', query)
     let session = driver.session()
     try {
         let res = await session.run(query)
@@ -382,7 +373,7 @@ export const  loadNCCNData = async (driver: Driver | undefined,
     RETURN organ, organ_specialist, data, footnote ORDER BY organ
     `
 
-    console.log(query);
+                                                                                // console.log(query);
     let session = driver.session()
 
     try {
@@ -468,8 +459,8 @@ export const  loadGeneOrganData = async (
 
     const geneSpecialistList = await loadGene(driver, specialist)
     const geneSpecialistFilteredList = applyFilter(geneSpecialistList, genes)
-    if (geneSpecialistFilteredList.length == 0 ) {
-        console.log('The intersect of list and filter is nil and therefore the result is empty.')
+    if (geneSpecialistFilteredList.length === 0 ) {
+                                                                                // console.log('The intersect of list and filter is nil and therefore the result is empty.')
         return []
     }
     
@@ -477,7 +468,7 @@ export const  loadGeneOrganData = async (
 
     const query = `MATCH (g:MGene)-[r]->(o:Organ) ${whereCLAUSE} RETURN g,r,o`
 
-                                                        //  console.log("gene-organ", query)
+                                                                                //  console.log("gene-organ", query)
 
     let session = driver.session()
 
@@ -486,6 +477,7 @@ export const  loadGeneOrganData = async (
         let ids = new  Set<string>()
         let nodes : any[] = []
         let links : any[] = []
+        let test = 0
         res.records.forEach(row => {
             let link  = { source: '', target: ''}
             const source = row.get('g') 
@@ -503,6 +495,7 @@ export const  loadGeneOrganData = async (
                     nodeRelSize: graphScheme.nodeRelSize,
                     scaleFont: graphScheme.scaleFont
                 }
+                                                                    // console.log('node.name', node.name)
                 nodes.push(node) 
                 link.source = node.name
                 ids.add(node.name)
@@ -512,7 +505,7 @@ export const  loadGeneOrganData = async (
         
             const target = row.get('o') 
             if (!ids.has(target.properties.name)) {
-                let node: CustomNodeObject = { 
+                let node: OrganNodeObject = { 
                     id: target.identity,
                     name: target.properties.name,
                     nodeType: 'Organ',
@@ -520,7 +513,15 @@ export const  loadGeneOrganData = async (
                     fontColor: graphScheme.organFont,
                     nodeVal: graphScheme.nodeVal,
                     nodeRelSize: graphScheme.nodeRelSize,
-                    scaleFont: graphScheme.scaleFont
+                    scaleFont: graphScheme.scaleFont,
+                    male_risk: row.get('r').properties.male_risk,
+                    female_risk: row.get('r').properties.female_risk
+                }
+                if (test === 1)  {
+                    node.nodeVal = node.nodeVal*6
+                    node.nodeRelSize = node.nodeRelSize*2
+                                                                                console.log('node.nodeVal', node.nodeVal)
+                                                                                console.log('node.nodeRelSize', node.nodeRelSize)
                 }
                 nodes.push(node) 
                 link.target = node.name
@@ -917,7 +918,7 @@ export const  loadDiseaseData = async (
 
     const query = 
          `MATCH (g:MGene)-[r:CAUSE]->(d:Disease) ${whereCLAUSE} RETURN g,r,d`
-                                                        // console.log('loadDisease------>', query)
+                                                                                // console.log('loadDisease------>', query)
 
     let session = driver.session()
 
@@ -1008,7 +1009,7 @@ export const  loadSyndromeDiseaseData = async (
         ` MATCH (g)-[:CAUSE]->(d:Disease)` +
         ` MATCH (g)-[:AFFECTS]->(o:Organ)` +
         ` ${whereCLAUSE} RETURN g,s,sv,d,o`
-                                                        console.log('loadSyndrome X---->',query)
+                                                                                // console.log('loadSyndrome X---->',query)
 
     let session = driver.session()
 

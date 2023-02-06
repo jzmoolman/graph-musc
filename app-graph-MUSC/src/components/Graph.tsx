@@ -132,7 +132,7 @@ export const Graph = ( {
     onMouseOver,
     onMouseOut
 } : BaseGraphProps ) => {
-    console.log("graph specialist", specialist)
+                                                                                // console.log("graph specialist", specialist)
 
     
     const [nodeHover, setNodeHover] = useState<NodeObject|null>(null)
@@ -163,22 +163,32 @@ export const Graph = ( {
     }
 
     const handleClick:React.MouseEventHandler<HTMLDivElement> = (event) => {
+                                                                                console.log('handleClick')
         if (onClick) {
             onClick()
         }
     }
 
     const handleNodeClick = (node: NodeObject, event: MouseEvent  ) => {
+                                                                                console.log('handleNodeClick')
         setNodeClick(true);
         setNodeHover(node)
         const _node = node as CustomNodeObject; 
-        console.log('handleNodeClick, name', _node.name)
-        console.log('handleNodeClick nodeType', _node.nodeType)
+                                                                                console.log('handleNodeClick, name', _node.name)
+                                                                                console.log('handleNodeClick nodeType', _node.nodeType)
         if ((node as CustomNodeObject).nodeType === 'Gene') {
             setNCCNGeneCard([_node.name])  // ARMANDO NEW CODE, ADDED NCNN Data
         } else {
             setNCCNGeneCard(genes)
         }
+    }
+
+    const handleNodeHover = (node: NodeObject | null , previousNode: NodeObject | null) => {
+        const _node = node as CustomNodeObject; 
+                                                                                console.log('handleNodeHover, name', _node.name)
+
+
+
     }
 
     const navigate = useNavigate()
@@ -347,7 +357,7 @@ export const Graph = ( {
         if (nodeClick) {
             if ((nodeHover as GeneNodeObject).nodeType === 'Gene') {
                 const _node = nodeHover as GeneNodeObject; 
-                console.log('renderHover', _node.name )
+                                                                                console.log('renderHover', _node.name )
                 const footnoteArray = [<div></div>];
                 const unique_footnote = Array.from(new Set(nccnData.map(item => item.footnote)));
                 unique_footnote.map((row) => {
@@ -515,7 +525,7 @@ export const Graph = ( {
                 document.body
             ))
             } else if ((nodeHover as CustomNodeObject).nodeType === 'Organ'){
-                console.log('-------------------->',(nodeHover as CustomNodeObject).name   )
+                                                                                console.log('-------------------->',(nodeHover as CustomNodeObject).name   )
                 const _node = nodeHover as CustomNodeObject
                 return (ReactDOM.createPortal(
                     <Box
@@ -680,7 +690,6 @@ export const Graph = ( {
                 ))
             } else if ((nodeHover as CustomNodeObject).nodeType === 'Syndrome'){
                 const _node = nodeHover as SyndromeNodeObject
-                console.log('hereditaryType',_node.hereditaryType)
 
                 return (ReactDOM.createPortal(
                     <Box
@@ -752,10 +761,11 @@ export const Graph = ( {
     const [data, setData] =  useState<Force2DData>( {nodes: [], links: []} )
 
     useEffect( () => {
+
         const onData = (data: Force2DData) =>{
-            console.log(data)
             setData(data)
         }
+
         switch (name) {
             case 'gene-organ': {
                 loadGeneOrganData(driver, specialist, genes, organs,finalVerdict, graphScheme, onData)
@@ -826,20 +836,23 @@ export const Graph = ( {
                 width={width}
                 height={height}
                 graphData={data}
-                // graphData={loadGeneDiseaseSubtypeLegend(graphScheme)}
                 nodeId='name'  
                 nodeColor='nodeColor' 
                 nodeLabel='name' 
                 linkDirectionalArrowRelPos={1} 
                 linkDirectionalArrowLength={2} 
                 cooldownTicks={100}
-                onEngineStop={handleEngineStop} 
+                onEngineStop={handleEngineStop}
                 nodeVal={graphScheme.nodeVal}
                 nodeRelSize={graphScheme.nodeRelSize}
-                nodeCanvasObjectMode={() => 'after'} 
-                nodeCanvasObject={paintNode}
+                nodeCanvasObjectMode={() => 'after'}
+                // nodeCanvasObject={paintNode}
+                nodeCanvasObject={(node, ctx, current) => paintNode(node,'Red',ctx,current)}
+                nodePointerAreaPaint={paintNode}
                 onNodeClick={handleNodeClick}
+                onNodeHover={handleNodeHover}
                 enableZoomInteraction={enableZoom}
+                // enableNodeDrag={false}
             />
             
         </Box>

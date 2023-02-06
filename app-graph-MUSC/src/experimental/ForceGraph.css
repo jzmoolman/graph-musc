@@ -1,0 +1,10 @@
+.node {
+    cursor: move;
+    /* fill: #ccc; */
+    stroke: #000;
+    stroke-width: 0.5px;
+  }
+  
+  .node.fixed {
+    stroke-width: 2.5px;
+  }
