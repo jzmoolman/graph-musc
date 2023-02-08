@@ -5,7 +5,7 @@ import './ForceGraph.css'
 
 const  MANY_BODY_STRENGTH = -30;
 
-export const ForceGraph = ({ nodes, links}) => {
+export const ForceGraphFill = ({ nodes, links}) => {
     const ref = useRef(null);
     useEffect(()=>{
         buildGraph();
@@ -58,32 +58,47 @@ export const ForceGraph = ({ nodes, links}) => {
             .data(links)
             .join('line')
 
-        const pie = d3.pie()
-            .sort(null)
-            .value( d => d.value)
-
-        const arc = d3.arc()
-            .outerRadius(30)
-            .innerRadius(0);
-             
-        const node = svg.selectAll(".node")
-            .data(nodes)
-            .enter().append("g")
-                .classed('node', true)
-                .attr("fill", d => d.color)
-                .attr("r", d=>d.size)
+        const node = svg.selectAll('#node')
+           .data(nodes)
+           .join('circle')
+                    .classed('node', true)
+                    .attr('id', 'node')
+                    .attr("fill", d => d.color)
+                    .attr("r", d=>d.size)
+                    .attr('stoke', d=>d.color)
                 .on('click', click)
                 .call(drag(simulation));
 
-        node.selectAll('path')
-            .data((d,i)=> { 
-                console.log(d)
-                return pie(d.proportions)}
-            )
-            .enter().append('svg:path')
-               .attr('d', arc)
-               .attr('fill', (d,i) => {return d.data.group == 1? d.clipColor: d.color})
-                
+        const clipPath = svg.selectAll('clipPath')
+                .data(nodes)
+                .join('clipPath')
+                    .attr('id', (d,i)=> 'clip_' + i)
+                .append('rect')
+                    .attr('height', (d,i) => {
+                        let percentage = 1;
+                        if (!d.proportions || d.proportions.length <= 1) {
+                        } else {
+                            const sum = d.proportions.reduce((a,b) => a.value + b.value)
+                            percentage = d.proportions[0].value/sum;
+                        }
+                        const height = 2*d.size -(2*d.size* percentage);
+                        console.log(i, height)
+                        return height
+                    })
+                    .attr('width',d=>2*d.size)
+
+        const clipNode = svg.selectAll('#clipNode')
+            .data(nodes)
+            .join('circle')
+                .attr('id', 'clipNodes')
+                .attr('clip-path', (d,i)=> `url(#clip_${i})`)
+                // Clip color
+                .attr('fill', d=>{ 
+                    console.log(d.clipColor)
+                    return d.clipColor
+                })
+                .on('click', click)
+                .call(drag(simulation));
 
         const text = svg.append("g")
                 // .attr('text-anchor', 'middle')
@@ -103,7 +118,19 @@ export const ForceGraph = ({ nodes, links}) => {
             node
                 .attr('cx', d => d.x)
                 .attr('cy', d => d.y)
-                .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"}); ;
+            clipPath
+                .attr('x', d=>d.x - (d.size))
+                .attr('y', d=>d.y - (d.size))
+            clipNode
+                .attr('r', d=>{ 
+                    if ( d.fixed) {
+                        return d.size-(d.size*0.10)
+                    } else {
+                        return d.size-(d.size*0.05)
+                    }
+                })
+                .attr('cx', d => d.x)
+                .attr('cy', d => d.y)
             text
                 .attr('text-anchor', (d) => { 
                     return d.type ==='gene'? 'middle':'end'
@@ -114,11 +141,13 @@ export const ForceGraph = ({ nodes, links}) => {
         }
        
         function drag(simulation)  {
-            function dragstarted(event) {
+            function dragstarted(event, d) {
 
                 d3.select(this).classed('fixed', true)
+                d.fixed = true;
+                
 
-                console.log('dragstart', d3.select(this).classed)
+
                 if (!event.active) simulation.alphaTarget(0.3).restart();
                 event.subject.fx = event.subject.x;
                 event.subject.fy = event.subject.y;
@@ -146,6 +175,7 @@ export const ForceGraph = ({ nodes, links}) => {
             delete d.fx;
             delete d.fy;
             d3.select(this).classed("fixed", false);
+            delete d.fixed;
             simulation.alpha(1).restart();  
         }
     }

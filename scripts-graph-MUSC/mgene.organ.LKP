@@ -7,7 +7,11 @@ WHERE g.In_Invitae84 = 1
 WITH gg, g
 MERGE (mg:MGene {name:gg.GeneMasterName, fullName:g.GeneFullName, finalVerdict:gg.FinalVerdict, mechanism: g.Mechanism} )
 MERGE (o:Organ {name:gg.Organ})
-CREATE (mg)-[:AFFECTS {name:gg.PredominantCancerSubtype}]->(o)
+CREATE (mg)-[:AFFECTS{
+      name:gg.PredominantCancerSubtype,
+      male_risk: 0,
+      female_risk: 0 
+}]->(o)
 MERGE (d:Disease {name:gg.DiseaseName, subtype:gg.PredominantCancerSubtype})
 CREATE (mg)-[:CAUSE]->(d);
 

@@ -9,6 +9,7 @@ import { Home } from './components/Home'
 import { HomeGraphSite } from './components/HomeGraphSite'
 import { Header } from './components/Header'
 import { ForceGraph } from './experimental/ForceGraph'
+import { ForceGraphFill} from './experimental/ForceGraphFill'
 import { gene_data } from './experimental/gene.data'
 
 import './App.css'
@@ -63,8 +64,8 @@ export const App = () => {
               <Route path='/site/organ/:specialist' element={<Header name='organ' open={openDrawer} onChange={handleDrawerChange} />} />
               <Route path='/site/disease/:specialist' element={<Header name='disease' open={openDrawer} onChange={handleDrawerChange} />} />
               <Route path='/site/syndrome/:specialist' element={<Header name='syndrome-disease'  open={openDrawer} onChange={handleDrawerChange} />} />
-!
               <Route path='riskgraph' element= {data?<ForceGraph nodes={data.nodes} links={data.links}></ForceGraph>:<div></div>}/>
+              <Route path='riskgraphfill' element= {data?<ForceGraphFill nodes={data.nodes} links={data.links}></ForceGraphFill>:<div></div>}/>
               {/* <Rpute path='riskgraph' element={<ForceGraph nodes={data.nodes} links={data.links}/>} */}
               {/* <Route path='/graph/gene' element={<Header name='gene-organ' site={'generic'} open={openDrawer} onChange={handleDrawerChange} />} />
               <Route path='/graph/gene/gi' element={<Header name='gene-organ' site={'gi'} open={openDrawer} onChange={handleDrawerChange} />} />

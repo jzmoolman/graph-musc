@@ -1,4 +1,5 @@
 import * as d3 from 'd3'
+import { colors2 } from './colors'
 
 // const csvUrl = 'https://gist.githubusercontent.com/jzmoolman/f881f64c521dd67999799469ecc7e53d/raw/riskData'
 const csvUrl = 'https://gist.githubusercontent.com/jzmoolman/c247a548be7ff701d34eb9a668bb0e91/raw/gistfile1.txt'
@@ -8,8 +9,15 @@ export const gene_data = async (onData) => {
             return  item.gene
         }))];
         let nodes = genes.map(row => {
-            const  proportions = [{ group:1, value: 1}];
-            return { type:'gene', id:row, color:'red', size:30, proportions}
+            const  proportions = [{ group:1, value: 1}
+                                  ,{ group:1, value: 1}];
+            console.log(colors2)
+            return { 
+                type:'gene', id:row,
+                color:colors2[1][0],
+                clipColor:colors2[1][1],
+                size:30,
+                proportions}
         })
         let links = [];
 
@@ -20,7 +28,14 @@ export const gene_data = async (onData) => {
 
                     ];
 
-                nodes.push({ type:'organ', id:row.cancer, color:'blue', size:30 , proportions})
+                nodes.push({ 
+                    type:'organ', 
+                    id:row.cancer, 
+                    color:colors2[0][0],
+                    clipColor:colors2[0][1],
+                    size:30,
+                    proportions})
+
                 links.push({source: row.gene, target:row.cancer, risk:row.MaxOfcr85, distance: 160,})
             }
 

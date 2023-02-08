@@ -134,6 +134,6 @@ MERGE (n:LKP_MASTER_RISKTO85FORGRAPH {
     gene: coalesce(row.gene,'Unknown'),
     cancer: coalesce(row.cancer,'Unknown'),
     gender: coalesce(row.gender,'Unknown'),
-    age: coalesce(row.age,'Unknown'),
-    MaxOfcr85: coalesce(row.maxofcr85,'Unknown')
+    age: coalesce(toInteger(row.age),25),
+    maxofcr85: coalesce(toFloat(row.MaxOfcr85),0)
 });
