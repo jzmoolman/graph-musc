@@ -10,7 +10,7 @@ export const gene_data = async (onData) => {
         }))];
         let nodes = genes.map(row => {
             const  proportions = [{ group:1, value: 1}
-                                  ,{ group:1, value: 1}];
+                                  ];
             console.log(colors2)
             return { 
                 type:'gene', id:row,
