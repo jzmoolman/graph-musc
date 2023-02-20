@@ -64,49 +64,62 @@ export const ForceGraphFill = ({ nodes, links}) => {
                     .classed('node', true)
                     .attr('id', 'node')
                     .attr("fill", d => d.color)
-                    .attr("r", d=>d.size)
+                    .attr("r", d=>
+                        {
+                            if ( d.type === 'organ') {
+                                let percentage = 1;
+                                if (!d.proportions || d.proportions.length <= 1) {
+                                } else {
+                                    const sum = d.proportions.reduce((a,b) => a.value + b.value)
+                                    percentage = d.proportions[0].value/sum;
+                                }
+                                // return d.size + d.size * percentage;
+                                return d.size * percentage*4;
+                            } else {
+                                return d.size;
+                            }
+                        })
                     .attr('stoke', d=>d.color)
                 .on('click', click)
                 .call(drag(simulation));
 
-        const clipPath = svg.selectAll('clipPath')
-                .data(nodes)
-                .join('clipPath')
-                    .attr('id', (d,i)=> 'clip_' + i)
-                .append('rect')
-                    .attr('height', (d,i) => {
-                        let percentage = 1;
-                        if (!d.proportions || d.proportions.length <= 1) {
-                        } else {
-                            const sum = d.proportions.reduce((a,b) => a.value + b.value)
-                            percentage = d.proportions[0].value/sum;
-                        }
-                        const height = 2*d.size -(2*d.size* percentage);
-                        console.log(i, height)
-                        return height
-                    })
-                    .attr('width',d=>2*d.size)
+        // const clipPath = svg.selectAll('clipPath')
+        //         .data(nodes)
+        //         .join('clipPath')
+        //             .attr('id', (d,i)=> 'clip_' + i)
+        //         .append('rect')
+        //             .attr('height', (d,i) => {
+        //                 let percentage = 1;
+        //                 if (!d.proportions || d.proportions.length <= 1) {
+        //                 } else {
+        //                     const sum = d.proportions.reduce((a,b) => a.value + b.value)
+        //                     percentage = d.proportions[0].value/sum;
+        //                 }
+        //                 const height = 2*d.size - (2*d.size* percentage);
+        //                 return height
+        //             })
+        //             .attr('width',d=>2*d.size)
 
-        const clipNode = svg.selectAll('#clipNode')
-            .data(nodes)
-            .join('circle')
-                .attr('id', 'clipNodes')
-                .attr('clip-path', (d,i)=> `url(#clip_${i})`)
-                // Clip color
-                .attr('fill', d=>{ 
-                    console.log(d.clipColor)
-                    return d.clipColor
-                })
-                .on('click', click)
-                .call(drag(simulation));
+        // const clipNode = svg.selectAll('#clipNode')
+        //     .data(nodes)
+        //     .join('circle')
+        //         .attr('id', 'clipNodes')
+        //         .attr('clip-path', (d,i)=> `url(#clip_${i})`)
+        //         // Clip color
+        //         .attr('fill', d=>{ 
+        //             console.log(d.clipColor)
+        //             return d.clipColor
+        //         })
+        //         .on('click', click)
+        //         .call(drag(simulation));
 
         const text = svg.append("g")
                 // .attr('text-anchor', 'middle')
                 .attr('alignment-baseline', 'middle')
-                .style('pointer-events', 'none')
             .selectAll('text')
             .data(nodes)
             .join("text")
+                .attr('pointer-events', 'none')
                 .text(d=>d.id);
 
         function ticked () {
@@ -118,19 +131,20 @@ export const ForceGraphFill = ({ nodes, links}) => {
             node
                 .attr('cx', d => d.x)
                 .attr('cy', d => d.y)
-            clipPath
-                .attr('x', d=>d.x - (d.size))
-                .attr('y', d=>d.y - (d.size))
-            clipNode
-                .attr('r', d=>{ 
-                    if ( d.fixed) {
-                        return d.size-(d.size*0.10)
-                    } else {
-                        return d.size-(d.size*0.05)
-                    }
-                })
-                .attr('cx', d => d.x)
-                .attr('cy', d => d.y)
+            // clipPath
+            //     .attr('x', d=>d.x - (d.size))
+            //     .attr('y', d=>d.y - (d.size))
+            // clipNode
+            //     .attr('r', d=>{ 
+            //         if ( d.fixed) {
+
+            //             return d.size-(d.size*0.10)
+            //         } else {
+            //             return d.size-(d.size*0.05)
+            //         }
+            //     })
+                // .attr('cx', d => d.x)
+                // .attr('cy', d => d.y)
             text
                 .attr('text-anchor', (d) => { 
                     return d.type ==='gene'? 'middle':'end'
