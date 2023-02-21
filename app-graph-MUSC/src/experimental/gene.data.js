@@ -70,7 +70,7 @@ export const geneNodes = async (onData) => {
                     type:'cancer',
                     id: row.cancer,
                     male_populationRisk:  population?population.male_risk:0,
-                    female_polulationRisk:  population?population.female_risk:0,
+                    female_populationRisk:  population?population.female_risk:0,
                 }
                     
                 if ( row.gender === 'Male' ) {
