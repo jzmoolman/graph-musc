@@ -5,27 +5,35 @@ import * as d3 from "d3"
 
 import './ForceGraph.css'
 
-const  MANY_BODY_STRENGTH = -30;
+const DEBUG_ON = 0
+const MANY_BODY_STRENGTH = -30;
 
-export const GeneRiskGraph = ({ nodes, links}) => {
+export const GeneRiskGraph = ({ nodes, links, gene, gender}) => {
     const ref = useRef(null);
     const genes = nodes.filter(d=>d.type === 'gene')
 
                 
-    let currentSelect = null
+    let currentGeneSelect = gene
+    let currentGenderSelect = gender
 
-    useEffect(()=>{
+    useEffect( ()=>   {
+        d3.select(ref.current)
+            .selectAll('*')
+            .remove()
         buildGraph();
-    },[])
+    }, [currentGenderSelect, currentGeneSelect])
+    
 
     const buildGraph = () => {
-        if (!currentSelect) return 
         
-        function intern(value) {
-            return value !== null && typeof value === "object" ? value.valueOf() : value;
+        if (!currentGeneSelect || !currentGenderSelect)  return 
+
+        let filterNodes = nodes.filter( node => node.id === currentGeneSelect )
+        if (filterNodes.length !== 1 ) {
+            console.log('Nodes data invalid')
         }
 
-        let filterNodes = nodes.filter( node => node.id === currentSelect )
+        // filterNodes can ony have one node at thit point 
         let filterLinks = links.filter( link => {
             let source
             let target
@@ -41,15 +49,47 @@ export const GeneRiskGraph = ({ nodes, links}) => {
                 target = link.target
             }
 
-            if ( source === currentSelect ) {
-                let tmp = nodes.find(node => {
+            if ( source === currentGeneSelect ) {
+                let cancerNode = nodes.find(node => {
                     return node.id === target
                 })
-                filterNodes.push(tmp)
-                return true;
+
+                if ( currentGenderSelect === 'male') {
+                    cancerNode.risk = (d) => {
+                        return +d.male_risk
+                    }
+                    cancerNode.populationRisk = (d) => {
+                        return +d.male_populationRisk
+                    }
+                    if ( +cancerNode.male_populationRisk !== 0) {
+                        filterNodes.push(cancerNode)
+                        return true
+                    } else {
+                        return false
+                    }
+                } else if ( currentGenderSelect === 'female') {
+                    cancerNode.risk = (d) => {
+                        return +d.female_risk
+                    }
+                    cancerNode.populationRisk = (d) => {
+                        return +d.female_populationRisk
+                    }
+                    if ( +cancerNode.female_populationRisk !== 0) {
+                        filterNodes.push(cancerNode)
+                        return true
+                    } else {
+                        return false
+                    }
+                } else {
+                    // Data invalid format: gender option 1 -> male
+                    //                      gender option 2 -> female
+                }
+                return false;
 
             } else return false
         })
+
+        console.log('Debug: filterNodes', filterNodes)
 
         const svg = d3.select(ref.current);
     
@@ -104,7 +144,7 @@ export const GeneRiskGraph = ({ nodes, links}) => {
                 .attr("fill", node => node.color)
                 .attr("r", node => {
                     if ( node.type === 'cancer') {
-                        return scaleRadius(node.size, scaleFactor, +node.male_risk/100)
+                        return scaleRadius(node.size, scaleFactor, +node.risk(node)/100)
                     } else {
                         return node.size;
                     }
@@ -124,13 +164,13 @@ export const GeneRiskGraph = ({ nodes, links}) => {
                         let r;
 
                         if ( node.type ==='cancer') {
-                            let p = +node.male_risk/100
+                            let p = +node.risk(node)/100
                             r = scaleRadius(node.size, scaleFactor, p) // r is radius of scaled circle, and the height is 2r
                                                                           // however we want to fill on % of the clipNode, therefore.
-                            if (+node.male_risk === 0) {
+                            if (+node.risk(node) === 0) {
                                 height = 0; // clip nothing, think how we can present this?
                             } else {
-                                let ratio = +node.male_populationRisk/+node.male_risk
+                                let ratio = +node.populationRisk(node)/+node.risk(node)
                                 height = 2*r - 2*r*ratio
                             }
                         } else {
@@ -143,7 +183,7 @@ export const GeneRiskGraph = ({ nodes, links}) => {
                     .attr('width', node=> {
                         let r;
                         if ( node.type ==='cancer' ) {
-                            let p = +node.male_risk/100
+                            let p = +node.risk(node)/100
                             r = scaleRadius(node.size, scaleFactor, p) // r is radius of scaled circle, and the width is 2r
                         } else {
                             r = node.size
@@ -203,7 +243,7 @@ export const GeneRiskGraph = ({ nodes, links}) => {
                 .attr('r', node=> { 
                     let r; 
                     if (node.type === 'cancer' ) {
-                        r  = scaleRadius(node.size, scaleFactor,+node.male_risk/100)
+                        r  = scaleRadius(node.size, scaleFactor,+node.risk(node)/100)
                     } else {
                         r = node.size
                     } 
@@ -259,20 +299,29 @@ export const GeneRiskGraph = ({ nodes, links}) => {
         }
     }
 
-    function handleChange(e) {
-        currentSelect = e.target.value
+        
+    function handleGeneChange(e) {
+        currentGeneSelect = e.target.value
         d3.select(ref.current)
             .selectAll('*')
             .remove()
-
         buildGraph()
     }
-        
+    
+    function handleGenderChange(e) {
+        currentGenderSelect = e.target.value
+        console.log(e.target.value)
+        d3.select(ref.current)
+            .selectAll('*')
+            .remove()
+        buildGraph()
+    }
     return (<>
-        // debugging purpose to select a single gene
+
+        {DEBUG_ON?
         <div>
             <select
-                onChange={handleChange}
+                onChange={handleGeneChange}
             >
                 <option>Please choose one option</option>
                 {genes.map((option, index) => {
@@ -281,10 +330,14 @@ export const GeneRiskGraph = ({ nodes, links}) => {
                     </option>
                 })}
             </select>
-        </div>
-
-        // svg -
-
+            <select
+                onChange={handleGenderChange}
+            >
+                <option >Please choose one option</option>
+                <option key='male' value='male'>Male</option>
+                <option key='female' value='female'>Female</option>
+            </select>
+        </div>:<></>}
         <svg id="graph-contrainer" width={500}  height={500} ref={ref}>
         </svg>
     </>)

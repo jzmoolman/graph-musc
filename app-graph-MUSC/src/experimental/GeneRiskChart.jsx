@@ -3,15 +3,23 @@
 import { useEffect, useRef } from "react"
 import * as d3 from "d3"
 
-export function GeneRiskChart({data}) {
+const DEBUG_ON = 0
+
+export function GeneRiskChart({data, gene, gender}) {
         const ref = useRef(null);
 
-    let currentGeneSelect = null
-    let currentGenderSelect = null
+    console.log('Debug: GeneriskChart')
+    let currentGeneSelect = gene
+    let currentGenderSelect = gender
+    console.log('Debug: currentGeneSelect', currentGeneSelect)
+    console.log('Debug: currentGenderSelect', currentGenderSelect)
 
     useEffect( ()=>   {
+        d3.select(ref.current)
+            .selectAll('*')
+            .remove()
         buildGraph();
-    }, [])
+    }, [currentGenderSelect, currentGeneSelect])
 
     function buildGraph({
         marginTop = 30, // the top margin, in pixels
@@ -26,7 +34,7 @@ export function GeneRiskChart({data}) {
         if (!currentGeneSelect || !currentGenderSelect) return
 
         const gene = data.find( d => d.id === currentGeneSelect )
-        console.log('Gender', currentGenderSelect)
+
         let filterCancers = gene.cancers.filter(cancer => {
             if ( currentGenderSelect === 'male') {
                 cancer.risk = (d) => {
@@ -58,12 +66,6 @@ export function GeneRiskChart({data}) {
                 return false
             }
         })
-
-        // // test riks funtions
-        // filterCancers.forEach(d=> {
-        //     console.log('Cancers', d.id)
-        //     console.log('Cancer.risk', d.risk(d))
-        // })
 
         const x = d3.scaleLinear()
             .domain([0,100])
@@ -249,7 +251,9 @@ export function GeneRiskChart({data}) {
         buildGraph()
     }
 
+    
     return (<div>
+        {DEBUG_ON?
         <div>
             <select
                 onChange={handleGeneChange}
@@ -268,7 +272,7 @@ export function GeneRiskChart({data}) {
                 <option key='male' value='male'>Male</option>
                 <option key='female' value='female'>Female</option>
             </select>
-        </div>
+        </div>:<></>}
         <div ref={ref}> 
         </div>
     </div>)

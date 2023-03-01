@@ -119,7 +119,7 @@ export const buildGeneGraph = (data) => {
         return { 
             type:'gene', 
             id: gene.id,
-            color:zcolors[1][1],
+            color:zcolors[1][0],
             clipColor:zcolors[1][1],
             size:30,
         }
