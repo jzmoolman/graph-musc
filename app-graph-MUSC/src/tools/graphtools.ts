@@ -42,6 +42,7 @@ export type Force2DData = {
 
 export type GraphName = 'gene-organ' | 'gene-disease' | 'gene-disease-subtype' | 'organ' | 'disease' | 'syndrome-disease' | 'syndrome-gene-disease'
 export type NodeType = 'Gene' | 'Organ' | 'Disease' | 'Syndrome' | 'Subtype'
+export type FinalVerdict = 'Confirmed' | 'Maybe' | 'Both'
 
 export const ArrayToStr = (data: string[]) => {
     let localFilter = '';

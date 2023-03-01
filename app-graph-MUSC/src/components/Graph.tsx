@@ -12,8 +12,21 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
-import { CustomNodeObject,  Force2DData, GraphName, GraphScheme, paintNode, GeneNodeObject, SyndromeNodeObject, SubtypeNodeObject,  TabPanelProps } from '../tools/graphtools'
-import { defaultGraphScheme, cardNCCNDataObject } from '../tools/graphtools'; //Armando Change
+import { 
+    defaultGraphScheme,
+    cardNCCNDataObject,
+    FinalVerdict,
+    CustomNodeObject, 
+    Force2DData,
+    GraphName,
+    GraphScheme,
+    paintNode,
+    GeneNodeObject,
+    SyndromeNodeObject, 
+    SubtypeNodeObject,
+    TabPanelProps } from '../tools/graphtools'
+
+import {  } from '../tools/graphtools'; //Armando Change
 
 import { 
     loadGeneOrganData,
@@ -26,9 +39,8 @@ import {
     loadDiseaseData,
     loadSyndromeDiseaseData,
     loadSyndromeGeneDiseaseData,
-
-    FinalVerdict
  } from '../tools/graphdata'
+
 import { Box, Button, Card, CardContent, CardHeader, Tab, Tabs } from '@mui/material'
 import ReactDOM from 'react-dom'
 import gene_organ_img from '../assets/gene-organ.png'

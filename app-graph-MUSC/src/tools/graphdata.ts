@@ -1,8 +1,19 @@
 
-import { GraphScheme, Force2DData, ArrayToStr, applyFilter, GeneNodeObject, OrganNodeObject, cardNCCNDataObject, CustomNodeObject, SubtypeNodeObject, SyndromeNodeObject } from './graphtools'
+import { 
+    FinalVerdict,
+    GraphScheme,
+    Force2DData,
+    ArrayToStr,
+    applyFilter,
+    GeneNodeObject,
+    OrganNodeObject,
+    cardNCCNDataObject,
+    CustomNodeObject,
+    SubtypeNodeObject,
+    SyndromeNodeObject } from './graphtools'
+
 import { Driver }  from  'neo4j-driver'
 
-export type FinalVerdict = 'Confirmed' | 'Maybe' | 'Both'
 
 const getFinalVerdictClause = (finalVerdict: FinalVerdict) => {
     let whereClause = ''

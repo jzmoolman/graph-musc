@@ -8,7 +8,7 @@ import { Graph } from './Graph';
 import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { Filters } from './Filters';
-import { FinalVerdict } from '../tools/graphdata';
+import { FinalVerdict } from '../tools/graphtools';
 
 const drawerWidth = 450; 
 
