@@ -13,10 +13,9 @@ import { GeneRiskChart } from './experimental/GeneRiskChart'
 import { GeneCardV2 } from './componentsv2/GeneCardv2'
   
 const theme = createTheme({
-
     typography: { 
         fontFamily: 'Libre Franklin',
-        allVariants: { fontWeight:  600} 
+        // allVariants: { fontWeight:  400} 
   }
 })
 
@@ -61,9 +60,16 @@ const [data, setData] = useState<any>(null);
               <Route path='/site/disease/:specialist' element={<Header name='disease' open={openDrawer} onChange={handleDrawerChange} />} />
               <Route path='/site/syndrome/:specialist' element={<Header name='syndrome-disease'  open={openDrawer} onChange={handleDrawerChange} />} />
               {/* <Route path='riskgraph' element= {data?<ForceGraph nodes={data.nodes} links={data.links}></ForceGraph>:<div></div>}/> */}
+
+
+
               <Route path='generiskgraph' element= {data?<GeneRiskGraph nodes={buildGeneGraph(data).nodes} links={buildGeneGraph(data).links} gene='' gender=''></GeneRiskGraph>:<div></div>}/>
               <Route path='generiskchart' element= {data?<GeneRiskChart data={data} gene='' gender=''></GeneRiskChart>:<div></div>}/>
               <Route path='genecardv2' element= {data?<GeneCardV2 data={data}></GeneCardV2>:<div></div>}/>
+
+
+
+
               {/* <Rpute path='riskgraph' element={<ForceGraph nodes={data.nodes} links={data.links}/>} */}
               {/* <Route path='/graph/gene' element={<Header name='gene-organ' site={'generic'} open={openDrawer} onChange={handleDrawerChange} />} />
               <Route path='/graph/gene/gi' element={<Header name='gene-organ' site={'gi'} open={openDrawer} onChange={handleDrawerChange} />} />

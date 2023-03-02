@@ -14,16 +14,26 @@ import {
 
 import { Driver }  from  'neo4j-driver'
 
-
 const getFinalVerdictClause = (finalVerdict: FinalVerdict) => {
     let whereClause = ''
-
     if ( finalVerdict === 'Confirmed' ) {
         whereClause = 'WHERE g.finalVerdict = 1'
     } else if ( finalVerdict === 'Maybe') {
         whereClause = 'WHERE g.finalVerdict = 9'
     } else {
         whereClause = 'WHERE g.finalVerdict in [1,9]'
+    }
+    return whereClause
+}
+
+export const finalVerdictClauseV2 = (finalVerdict: FinalVerdict) => {
+    let whereClause = ''
+    if ( finalVerdict === 'Confirmed' ) {
+        whereClause = 'g.finalVerdict = 1'
+    } else if ( finalVerdict === 'Maybe') {
+        whereClause = 'g.finalVerdict = 9'
+    } else {
+        whereClause = 'g.finalVerdict in [1,9]'
     }
     return whereClause
 }

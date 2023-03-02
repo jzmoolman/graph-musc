@@ -170,6 +170,10 @@ export const GeneRiskGraph = ({ nodes, links, gene, gender}) => {
                             if (+node.risk(node) === 0) {
                                 height = 0; // clip nothing, think how we can present this?
                             } else {
+                                console.log('------>Debug')
+                                console.log(node)
+                                console.log(node.risk(node))
+                                console.log(node.populationRisk(node))
                                 let ratio = +node.populationRisk(node)/+node.risk(node)
                                 height = 2*r - 2*r*ratio
                             }

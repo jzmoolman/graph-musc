@@ -45,9 +45,6 @@ body {
   }
 }
 
-@import url('https://fonts.googleapis.com/css?family=Sofia&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Libre+Franklin&display=swap');
-
-* {
-  /* font-family: 'Sofia'; */
-}
+/* @import url('https://fonts.googleapis.com/css?family=Sofia&display=swap'); */
+/* @import url('https://fonts.googleapis.com/css?family=Libre+Franklin&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@200;400;700&display=swap');

@@ -6,6 +6,7 @@ import {
 from '../tools/graphtools'
 
 export interface cardNCCNTableObjectV2 {
+    organ_specialist: string
     gender: string
     modality: string
     recommendation: string
@@ -30,24 +31,24 @@ const getFinalVerdictClause = (finalVerdict: FinalVerdict) => {
     return whereClause
 }
 
-export const  loadNCCNDataV2 = async (driver: Driver | undefined,
-    genes: string[],
-    finalVerdict: FinalVerdict,
-    specialist: string,
-    onCardData: (nccnData: any[])=> void
-    ) => {
+export const  loadNCCNDataV2 = async (
+            driver: Driver | undefined,
+            gene: string,
+            finalVerdict: FinalVerdict,
+            specialist: string,
+            onCardData: (nccnData: any[])=> void
+        ) => {
 
     if (driver == null) {
-        console.log('Driver not loaded')
+        console.log('error: Driver not loaded')
         return 
     }
 
     let whereCLAUSE = getFinalVerdictClause(finalVerdict)
 
-    if ( genes.length !== 0 ) { 
-        whereCLAUSE = whereCLAUSE + ' AND g.name IN ' + ArrayToStr(genes)
+    if ( gene !== '' ) { 
+        whereCLAUSE = whereCLAUSE + ` AND g.name = '${gene}'`
     }
-    
 
     const query = `
     CALL apoc.cypher.run("
@@ -73,7 +74,7 @@ export const  loadNCCNDataV2 = async (driver: Driver | undefined,
 
     try {
         let res = await session.run(query)
-        let nccnData : any[] = []
+        let nccnData : cardNCCNDataObjectV2[] = []
         res.records.forEach(row => {
             let card: cardNCCNDataObjectV2 = { 
                 organ: row.get("organ"),

@@ -1,6 +1,15 @@
 
 import { NodeObject }  from 'react-force-graph-2d'
 
+export type Force2DData = {
+    nodes : any[]
+    links: any[]
+}
+
+export type GraphName = 'gene-organ' | 'gene-disease' | 'gene-disease-subtype' | 'organ' | 'disease' | 'syndrome-disease' | 'syndrome-gene-disease'
+export type NodeType = 'Gene' | 'Organ' | 'Disease' | 'Syndrome' | 'Subtype'
+export type FinalVerdict = 'Confirmed' | 'Maybe' | 'Both'
+
 export type GraphScheme = {
     geneNode: string
     geneFont: string
@@ -35,16 +44,26 @@ export const defaultGraphScheme: GraphScheme = {
     fitViewPort: false
 }
 
-export type Force2DData = {
-    nodes : any[]
-    links: any[]
-}
-
-export type GraphName = 'gene-organ' | 'gene-disease' | 'gene-disease-subtype' | 'organ' | 'disease' | 'syndrome-disease' | 'syndrome-gene-disease'
-export type NodeType = 'Gene' | 'Organ' | 'Disease' | 'Syndrome' | 'Subtype'
-export type FinalVerdict = 'Confirmed' | 'Maybe' | 'Both'
 
 export const ArrayToStr = (data: string[]) => {
+
+   
+
+
+    let localFilter = '';
+    data.forEach(value => { 
+        if (localFilter === '') localFilter = '['
+        localFilter = localFilter + '\'' + value + '\','
+    })
+    if (localFilter !== '') {
+        localFilter = localFilter.slice(0, localFilter.length - 1);
+        localFilter = localFilter + ']'
+    }
+
+    return localFilter
+}
+
+export const arrayToStrV2 = (data: string[]) => {
     let localFilter = '';
     data.forEach(value => { 
         if (localFilter === '') localFilter = '['
@@ -74,6 +93,7 @@ export const applyFilter = (list: string[], filter: string[]) => {
     return result
 }
  
+
 export interface CustomNodeObject extends NodeObject {
     nodeType: NodeType
     name: string

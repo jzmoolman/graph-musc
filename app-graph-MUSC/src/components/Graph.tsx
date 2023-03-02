@@ -30,10 +30,8 @@ import {  } from '../tools/graphtools'; //Armando Change
 
 import { 
     loadGeneOrganData,
-    loadGeneOrganLegend,
     loadGeneDiseaseData,
     loadGeneDiseaseSubtypeData,
-    loadGeneDiseaseSubtypeLegend,
     loadNCCNData,
     loadOrganGeneData,
     loadDiseaseData,
@@ -175,19 +173,19 @@ export const Graph = ( {
     }
 
     const handleClick:React.MouseEventHandler<HTMLDivElement> = (event) => {
-                                                                                console.log('handleClick')
+                                                                                // console.log('handleClick')
         if (onClick) {
             onClick()
         }
     }
 
     const handleNodeClick = (node: NodeObject, event: MouseEvent  ) => {
-                                                                                console.log('handleNodeClick')
+                                                                                // console.log('handleNodeClick')
         setNodeClick(true);
         setNodeHover(node)
         const _node = node as CustomNodeObject; 
-                                                                                console.log('handleNodeClick, name', _node.name)
-                                                                                console.log('handleNodeClick nodeType', _node.nodeType)
+                                                                                // console.log('handleNodeClick, name', _node.name)
+                                                                                // console.log('handleNodeClick nodeType', _node.nodeType)
         if ((node as CustomNodeObject).nodeType === 'Gene') {
             setNCCNGeneCard([_node.name])  // ARMANDO NEW CODE, ADDED NCNN Data
         } else {
@@ -262,6 +260,7 @@ export const Graph = ( {
         const onCardData = (nccnData: any[]) =>{
              setNCCNData(nccnData)
         }
+        
         if (['gene-organ', 'gene-disease', 'organ', 'disease', 'gene-disease-subtype', 'syndrome-gene-disease'].includes(name))  //Armando Change
         {
             loadNCCNData(driver, nccnGeneCard, finalVerdict, specialist, onCardData)
@@ -770,6 +769,8 @@ export const Graph = ( {
     }
     
     const context = useContext(Neo4jContext), driver = context.driver
+
+
     const [data, setData] =  useState<Force2DData>( {nodes: [], links: []} )
 
     useEffect( () => {

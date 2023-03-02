@@ -3,23 +3,30 @@ import CSS from 'csstype'
 
 import { GeneRiskGraph } from "../experimental/GeneRiskGraph"
 import { GeneRiskChart } from "../experimental/GeneRiskChart"
-
 import { buildGeneGraph } from '../experimental/gene.data'
+import { 
+    Box,
+    Card,
+    CardContent,
+    CardHeader,
+    Tab,
+    Tabs,
+    Typography } from '@mui/material'
 
-
-import { Box, Card, CardContent, CardHeader, Tab, Tabs, Typography } from '@mui/material'
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { TabPanelProps } from '../tools/graphtools'
+import { NCCN } from './NCCN'
+import { GeneDesc } from './GeneDesc'
 
 type GeneCardv2Props =  {
-    data: any
+    data: any,
 }
 
+export const GeneCardV2 = ({
+            data,
+        }: GeneCardv2Props) => {
 
-
-
-export const GeneCardV2 = ({data}:GeneCardv2Props) => {
     const [currentOptions, setCurrentOptions] = useState({ 
         gene: '',
         gender: ''
@@ -65,7 +72,6 @@ export const GeneCardV2 = ({data}:GeneCardv2Props) => {
               </Box>
             )}
           </div>)
-
     }
 
     function a11yProps(index: number) {
@@ -109,6 +115,7 @@ export const GeneCardV2 = ({data}:GeneCardv2Props) => {
                     minWidth:275, 
                     borderColor: 'primary.main',
                     padding: 1
+                    
                 }}
         >
             <CardHeader 
@@ -128,26 +135,30 @@ export const GeneCardV2 = ({data}:GeneCardv2Props) => {
                         <Tab label="NCCN Guidelines" {...a11yProps(2)} />
                     </Tabs>
                 </Box>
-                <TabPanel value={tabIndex} index={0}>
-                    <GeneRiskGraph 
-                        nodes={buildGeneGraph(data).nodes} 
-                        links={buildGeneGraph(data).links}
-                        gene={currentOptions.gene}
-                        gender={currentOptions.gender}/>
-                    <GeneRiskChart data={data}
-                        gene={currentOptions.gene}
-                        gender={currentOptions.gender}
-                    /> 
-                </TabPanel>
+                <Box sx={{ 
+                    // Hardcode height for now.  This allow for the scolling to be active
+                    height: 600, 
+                    overflow:'auto'}}>
+                    <TabPanel value={tabIndex} index={0}>
+                        <GeneRiskGraph 
+                            nodes={buildGeneGraph(data).nodes} 
+                            links={buildGeneGraph(data).links}
+                            gene={currentOptions.gene}
+                            gender={currentOptions.gender}/>
+                        <GeneRiskChart data={data}
+                            gene={currentOptions.gene}
+                            gender={currentOptions.gender}
+                        /> 
+                    </TabPanel>
 
-                <TabPanel value={tabIndex} index={1}>
-                    <span>Summary</span>
-                
-                </TabPanel>
-                <TabPanel value={tabIndex} index={2}>
-                    <span>NCCN GUIDE COME HERE</span>
-
-                </TabPanel>
+                    <TabPanel value={tabIndex} index={1}>
+                        <GeneDesc gene={currentOptions.gene}></GeneDesc>
+                    
+                    </TabPanel>
+                    <TabPanel value={tabIndex} index={2}>
+                        <NCCN gene={currentOptions.gene}></NCCN>
+                    </TabPanel>
+                </Box>
           </CardContent>
         </Card>
         </div>
