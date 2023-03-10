@@ -108,7 +108,7 @@ export function GeneRiskChart({data, gene, gender}) {
                 .attr('width', d => x( d.populationRisk(d)) - x(0) )
                 .attr('height', y.bandwidth() / 2)
 
-        // Carried Gene Risk - Rect
+        // Carrier Gene Risk - Rect
         svg.append('g')
             .selectAll('rect')
             .data(filterCancers)
@@ -136,7 +136,7 @@ export function GeneRiskChart({data, gene, gender}) {
                 .attr('dy', -y.bandwidth()/8 )
                 .text(d => d.populationRisk(d) + '%' )
 
-        // Carried Risk  - Text
+        // Carrier Risk  - Text
         svg.append('g')
                 .attr('fill', 'black')
                 .attr('text-anchor','start')
@@ -170,7 +170,7 @@ export function GeneRiskChart({data, gene, gender}) {
             y:height-marginBottom,
             color: color(20)
         }, {
-            text:'Carried', x:-10,
+            text:'Carrier', x:-10,
             y:height-marginBottom +12,
             color: color(25)}
         ]
