@@ -4,11 +4,12 @@ import { useEffect, useRef } from "react"
 import * as d3 from "d3"
 
 import './ForceGraph.css'
+import { width } from "@mui/system";
 
-const DEBUG_ON = 0
+const DEBUG = false
 const MANY_BODY_STRENGTH = -30;
 
-export const GeneRiskGraph = ({ nodes, links, gene, gender}) => {
+export const GeneRiskGraph = ({ nodes, links, gene, gender, debug=DEBUG}) => {
     const ref = useRef(null);
     const genes = nodes.filter(d=>d.type === 'gene')
 
@@ -16,17 +17,24 @@ export const GeneRiskGraph = ({ nodes, links, gene, gender}) => {
     let currentGeneSelect = gene
     let currentGenderSelect = gender
 
+
     useEffect( ()=>   {
         d3.select(ref.current)
             .selectAll('*')
             .remove()
         buildGraph();
+
     }, [currentGenderSelect, currentGeneSelect])
     
-
     const buildGraph = () => {
         
+        console.log('---->buildGraph.gene', gene)
+        console.log('---->buildGraph.gender', gender)
+
         if (!currentGeneSelect || !currentGenderSelect)  return 
+
+        console.log('---->buildGraph ok')
+
 
         let filterNodes = nodes.filter( node => node.id === currentGeneSelect )
         if (filterNodes.length !== 1 ) {
@@ -89,14 +97,29 @@ export const GeneRiskGraph = ({ nodes, links, gene, gender}) => {
             } else return false
         })
 
-        console.log('Debug: filterNodes', filterNodes)
+        console.log('---->Debug: filterNodes', filterNodes)
 
-        const svg = d3.select(ref.current);
+        const svg = d3.select(ref.current)
+        console.log('---->Debug: svg', svg)
+        console.log('---->Debug: 1')
     
-        const width = +svg.attr('width');
-        const height = +svg.attr('height');
+        const width = +svg.attr('width')
+        console.log('---->Debug: 2')
+        console.log('width', width)
+       
+        console.log('---->Debug: 3')
+        const height = 500//+svg.attr('height')
+
+        console.log('---->Debug: 4')
+        console.log('height', height)
+      
         const centerX = width/2;
         const centerY = height/2;
+
+        console.log(centerX)
+        console.log(centerY)
+
+        console.log('---->Debug width', svg.attr('width'))
 
         const forceNode = d3.forceManyBody()
             .strength(MANY_BODY_STRENGTH);
@@ -114,7 +137,6 @@ export const GeneRiskGraph = ({ nodes, links, gene, gender}) => {
             .force("center", forceCenter)
             .on('tick', ticked);
 
-
         const link = svg.append('g')
                 .attr('stroke', 'black')
             .selectAll('line')
@@ -122,16 +144,29 @@ export const GeneRiskGraph = ({ nodes, links, gene, gender}) => {
             .join('line')
         
         /*
-            scale
+            scale - scaleRadius
             |------|------|------|
             0      r/2    R      s*r/2      | where s is scaleFactor, in this case is 1
                    min Scale     Max scale
+
+                   Replace with new method 
         */
 
-        const scaleFactor = 1
-
-        function scaleRadius(r,s,p)  {
-            return r/2 + s*r*p;
+        // function scaleRadius(r,s,p)  {
+        //     return r/2 + s*r*p;
+        // }
+        
+        // function scaleRadiusv2(r,p)  {
+        //     return Math.sqrt((1+p)*r*r);
+        // }
+        
+        /* 
+            r = max radius
+            p | where between 0 and 1 and represent the % of scale applied to r
+        */
+        function scaleRadiusv3(r, p) {
+            const DEAULT_AREA = Math.PI*Math.pow(r,2)
+            return r*.20 + Math.sqrt(DEAULT_AREA*p/Math.PI)  // min(r) = r*0.1
         }
 
 
@@ -144,11 +179,13 @@ export const GeneRiskGraph = ({ nodes, links, gene, gender}) => {
                 .attr("fill", node => node.color)
                 .attr("r", node => {
                     if ( node.type === 'cancer') {
-                        return scaleRadius(node.size, scaleFactor, +node.risk(node)/100)
+                        const newR = scaleRadiusv3(node.size, +node.risk(node)/100)
+                        console.log('------>circle.node', node, newR)
+                        return newR;                  
                     } else {
-                        return node.size;
+                        return node.size
                     }
-                    })
+                })
                 .attr('stoke', node => node.color)
             .on('click', click)
             .call(drag(simulation));
@@ -165,15 +202,11 @@ export const GeneRiskGraph = ({ nodes, links, gene, gender}) => {
 
                         if ( node.type ==='cancer') {
                             let p = +node.risk(node)/100
-                            r = scaleRadius(node.size, scaleFactor, p) // r is radius of scaled circle, and the height is 2r
+                            r = scaleRadiusv3(node.size, p) // r is radius of scaled circle, and the height is 2r
                                                                           // however we want to fill on % of the clipNode, therefore.
                             if (+node.risk(node) === 0) {
                                 height = 0; // clip nothing, think how we can present this?
                             } else {
-                                console.log('------>Debug')
-                                console.log(node)
-                                console.log(node.risk(node))
-                                console.log(node.populationRisk(node))
                                 let ratio = +node.populationRisk(node)/+node.risk(node)
                                 height = 2*r - 2*r*ratio
                             }
@@ -188,7 +221,7 @@ export const GeneRiskGraph = ({ nodes, links, gene, gender}) => {
                         let r;
                         if ( node.type ==='cancer' ) {
                             let p = +node.risk(node)/100
-                            r = scaleRadius(node.size, scaleFactor, p) // r is radius of scaled circle, and the width is 2r
+                            r = scaleRadiusv3(node.size, p) // r is radius of scaled circle, and the width is 2r
                         } else {
                             r = node.size
                         }
@@ -209,16 +242,12 @@ export const GeneRiskGraph = ({ nodes, links, gene, gender}) => {
             .call(drag(simulation));
 
         const text = svg.append("g")
-                .attr('alignment-baseline', 'middle')
             .selectAll('text')
             .data(filterNodes)
             .join("text")
+                .attr('alignment-baseline', 'middle') 
                 .attr('pointer-events', 'none')
-                .text(d=>d.id);
-        
-        
-
-        console.log('----->', '5')
+                .text(d=>d.name);
 
         function ticked () {
             link
@@ -230,16 +259,53 @@ export const GeneRiskGraph = ({ nodes, links, gene, gender}) => {
                 .attr('y2', d => d.target.y);
 
             node
-                .attr('cx', d => d.x)
-                .attr('cy', d => d.y)
+                .attr('cx', d => {
+                    if (d.type === 'gene') {
+                        d.fx = centerX
+                    }
+                    return d.x
+                })
+                .attr('cy', d => {
+                    if (d.type === 'gene') {
+                        d.fy = centerY
+                    }
+                    return d.y
+                }
+                )
             text
-                .attr('text-anchor', (d) => { 
-                    return d.type === 'gene'?'middle':'start'
+                .attr('text-anchor', (d) => {
+                    if (d.type === 'gene' ) {
+                        return 'middle'
+
+                    } else {
+                        if ( d.x > centerX) {
+                            return 'start'
+
+                        } else {
+                            return 'end'
+
+                        }
+                    }
                 })
                 .attr('x', (d) => {
-                    return d.type === 'gene'? d.x : d.x - d.dx
+                    if (d.type === 'gene' ) {
+                        return centerX
+                    } else {
+                        if ( d.x > centerX) {
+                            return d.x - d.dx
+                        } else {
+                            return d.x + d.dx
+
+                        }
+                    }
                 })
-                .attr('y', (d) => {return d.y});
+                .attr('y', (d) => {
+                    if (d.type === 'gene' ) {
+                        return centerY
+                    } else {
+                        return d.y 
+                    }
+                });
             clipPath
                 .attr('x', node => node.x + node.dx )
                 .attr('y', node => node.y + node.dy )
@@ -247,7 +313,7 @@ export const GeneRiskGraph = ({ nodes, links, gene, gender}) => {
                 .attr('r', node=> { 
                     let r; 
                     if (node.type === 'cancer' ) {
-                        r  = scaleRadius(node.size, scaleFactor,+node.risk(node)/100)
+                        r  = scaleRadiusv3(node.size, +node.risk(node)/100)
                     } else {
                         r = node.size
                     } 
@@ -277,9 +343,13 @@ export const GeneRiskGraph = ({ nodes, links, gene, gender}) => {
             }
 
             function dragged(event) {
-                event.subject.fx = event.x;
-                event.subject.fy = event.y;
-                simulation.alpha(1).restart();
+                if (event.subject.type === 'gene') {
+ 
+                } else {
+                    event.subject.fx = event.x;
+                    event.subject.fy = event.y;
+                    simulation.alpha(1).restart();
+                }
             }
 
             function dragend(event) {
@@ -320,10 +390,9 @@ export const GeneRiskGraph = ({ nodes, links, gene, gender}) => {
             .remove()
         buildGraph()
     }
-    return (<>
 
-        {DEBUG_ON?
-        <div>
+    return (<>
+        {debug?<div>
             <select
                 onChange={handleGeneChange}
             >
@@ -342,8 +411,64 @@ export const GeneRiskGraph = ({ nodes, links, gene, gender}) => {
                 <option key='female' value='female'>Female</option>
             </select>
         </div>:<></>}
-        <svg id="graph-contrainer" width={500}  height={500} ref={ref}>
-        </svg>
+        <div 
+            style={debug?{
+                position: 'absolute',
+                top: '40px',
+                right: '10px',
+                bottom: '10px',
+                left: '10px',
+                border: '3px solid #73AD21',
+            }:{
+                display: 'inline-block',
+                border: '1px solid #73AD21',
+            }
+        }  
+        >
+            <div 
+                style={debug?{
+                    display: 'inline-block',
+                    width: '500px',
+                    height: '535px',
+                    border: '2px solid blue',
+                }:{
+                    display: 'inline-block',
+                    width: '500px',
+                    height: '535px',
+                    border: '1px solid blue',
+                }
+            }
+            >
+                <svg  
+                    width={500}
+                    height={500}
+                    style={debug?{
+                        border: '3px solid red',
+                    }:{
+                        border: '0px',
+                    }
+                }
+                    id="graph-contrainer"
+                    ref={ref}
+                >
+                </svg>
+                <div 
+                    style={{
+                        textAlign: 'center'
+
+                    }}
+                >
+                    <label htmlFor='graph-gender-select'>Gender</label>
+                    <select id='graph-gender-select'
+                        onChange={handleGenderChange}
+                    >
+                        {/* <option>Please choose one option</option> */}
+                        <option key='male' value='male'>Male</option>
+                        <option key='female' value='female'>Female</option>
+                    </select>
+                </div>
+            </div>
+        </div>
     </>)
 }
 

@@ -108,6 +108,7 @@ export const buildGeneGraph = (data) => {
                 size:30,
                 ...cancer,
                 id: gene.id + '_' + cancer.id,
+                name: cancer.id
             })
             links.push(
                 {
@@ -120,6 +121,7 @@ export const buildGeneGraph = (data) => {
         return { 
             type:'gene', 
             id: gene.id,
+            name: gene.id,
             color:zcolors[1][1],
             clipColor:zcolors[1][1],
             size:30,

@@ -29,7 +29,7 @@ export const App = () => {
 const [data, setData] = useState<any>(null);
   
  const handleData = (data: any) => {
-       setData(data)
+    setData(data)
   }
 
   useEffect(()=>{
@@ -63,7 +63,8 @@ const [data, setData] = useState<any>(null);
 
 
 
-              <Route path='generiskgraph' element= {data?<GeneRiskGraph nodes={buildGeneGraph(data).nodes} links={buildGeneGraph(data).links} gene='' gender=''></GeneRiskGraph>:<div></div>}/>
+              <Route path='generiskgraph' element= {data?<GeneRiskGraph nodes={buildGeneGraph(data).nodes} links={buildGeneGraph(data).links} gene='' gender='' debug={true}></GeneRiskGraph>:<div></div>}/>
+              {/* <Route path='generiskgraph' element= {data?<GeneRiskGraph nodes={[buildGeneGraph(data).nodes[0]]} links={[]} gene='' gender='' debug={true}></GeneRiskGraph>:<div></div>}/> */}
               <Route path='generiskchart' element= {data?<GeneRiskChart data={data} gene='' gender=''></GeneRiskChart>:<div></div>}/>
               <Route path='genecardv2' element= {data?<GeneCardV2 data={data}></GeneCardV2>:<div></div>}/>
 

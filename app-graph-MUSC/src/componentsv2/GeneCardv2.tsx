@@ -130,32 +130,36 @@ export const GeneCardV2 = ({
             <CardContent>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <Tabs value={tabIndex} onChange={handleTabChange} aria-label="basic tabs example">
-                        <Tab label="Gene" {...a11yProps(0)} />
-                        <Tab label="Summary" {...a11yProps(1)}/>
-                        <Tab label="NCCN Guidelines" {...a11yProps(2)} />
+                        <Tab label="Summary" {...a11yProps(0)}/>
+                        <Tab label="Graph" {...a11yProps(1)} />
+                        <Tab label="Chart" {...a11yProps(2)} />
+                        <Tab label="NCCN Guidelines" {...a11yProps(3)} />
                     </Tabs>
                 </Box>
-                <Box sx={{ 
-                    // Hardcode height for now.  This allow for the scolling to be active
-                    height: 600, 
-                    overflow:'auto'}}>
+                <Box component={'div'} sx={{ 
+                        // Hardcode height for now.  This allow for the scolling to be active
+                        height: 600, 
+                        overflow:'auto'
+                    }}
+                >
                     <TabPanel value={tabIndex} index={0}>
+                        <GeneDesc gene={currentOptions.gene}></GeneDesc>
+                    
+                    </TabPanel>
+                    <TabPanel value={tabIndex} index={1}>
                         <GeneRiskGraph 
                             nodes={buildGeneGraph(data).nodes} 
                             links={buildGeneGraph(data).links}
                             gene={currentOptions.gene}
                             gender={currentOptions.gender}/>
+                    </TabPanel>
+                    <TabPanel value={tabIndex} index={2}>
                         <GeneRiskChart data={data}
                             gene={currentOptions.gene}
                             gender={currentOptions.gender}
                         /> 
                     </TabPanel>
-
-                    <TabPanel value={tabIndex} index={1}>
-                        <GeneDesc gene={currentOptions.gene}></GeneDesc>
-                    
-                    </TabPanel>
-                    <TabPanel value={tabIndex} index={2}>
+                    <TabPanel value={tabIndex} index={3}>
                         <NCCN gene={currentOptions.gene}></NCCN>
                     </TabPanel>
                 </Box>

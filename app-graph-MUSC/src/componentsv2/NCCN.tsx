@@ -174,7 +174,7 @@ export const NCCN = ( {gene}: NCCNProps) => {
                 {footNoteArray}
             </div>
         </>
-        :<span> TEST</span>}
+        :<span> Loading...</span>}
 
 
       </div>
