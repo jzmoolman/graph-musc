@@ -347,37 +347,27 @@ export const Filters = ({
     }
 
     return (
-        <>
-            <Box  
-                id='filter-box' 
-                display='grid'
-                width='calc(100%-25)'
-                height='100%'
-                
-                gridTemplateRows='calc(100% - 175px) 175px' 
-            >
-                <Box 
-                    id='filter-box1' 
-                    // sx={{
-                    //     backgroundColor:'blue',
-                    // }}
-                >
-
-                    <FilterHeader name={name}/>
-                    <FilterSubGraph name={name}/>
-                    <FilterGraph name={name}/>
-
-                </Box>
-                <Box 
-                    id='filter-box2' 
-                    // sx={{
-                    //     backgroundColor:'red',
-                    // }}
-                >
-                    <FilterAssociation name={name}/>
-                </Box>
+        <Box 
+            id='filter-box'
+            display='flex'
+            flex={1}
+            flexDirection='column'
+            height='80%'
+            marginTop={1}
+            width={350}
+            // style={{background: 'black'}}
+            
+        >
+            <Box height='100%'>
+                <FilterHeader name={name}/>
+                <FilterSubGraph name={name}/>
+                <FilterGraph name={name}/>
             </Box>
-        </>
+            <Box 
+                height={100}>
+                <FilterAssociation name={name}/>
+            </Box>
+        </Box>
     )
 
 }

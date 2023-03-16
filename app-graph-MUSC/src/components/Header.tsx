@@ -24,7 +24,7 @@ type GraphProps = {
 
 export const Header = ({
     name, 
-    open , 
+    open, 
     onChange,
     onMouseOver,
     onMouseOut
@@ -42,7 +42,6 @@ export const Header = ({
 
     const handleImageClick = () => {
         navigate('/')
-
     }
 
     return (<>

@@ -14,6 +14,7 @@ type GeneDescProps = {
 }
 
 export const GeneDesc = ({gene}:GeneDescProps) => {
+    console.log('----->Debug: GeneDesc.gene ', gene)
 
     const context = useContext(Neo4jContext), driver = context.driver
     const [data, setData] = useState<GeneNode[]>([])

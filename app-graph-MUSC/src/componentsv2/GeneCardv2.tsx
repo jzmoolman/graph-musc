@@ -21,10 +21,12 @@ import { GeneDesc } from './GeneDesc'
 
 type GeneCardv2Props =  {
     data: any,
+    visable?: boolean,
 }
 
 export const GeneCardV2 = ({
             data,
+            visable,
         }: GeneCardv2Props) => {
 
     const [currentOptions, setCurrentOptions] = useState({ 

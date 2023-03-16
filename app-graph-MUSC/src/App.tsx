@@ -9,13 +9,15 @@ import { GeneRiskGraph } from './experimental/GeneRiskGraph'
 import { geneNodes, buildGeneGraph } from './experimental/gene.data'
 
 import './App.css'
+import { GraphViewV2 } from './componentsv2/GraphViewV2' 
 import { GeneRiskChart } from './experimental/GeneRiskChart'
 import { GeneCardV2 } from './componentsv2/GeneCardv2'
+import { DivTest } from './experimental/DivTest'
+import { DivTest2 } from './experimental/divtest2'
   
 const theme = createTheme({
     typography: { 
         fontFamily: 'Libre Franklin',
-        // allVariants: { fontWeight:  400} 
   }
 })
 
@@ -63,10 +65,14 @@ const [data, setData] = useState<any>(null);
 
 
 
+
+              <Route path='graphview' element={<GraphViewV2/>}/>
               <Route path='generiskgraph' element= {data?<GeneRiskGraph nodes={buildGeneGraph(data).nodes} links={buildGeneGraph(data).links} gene='' gender='' debug={true}></GeneRiskGraph>:<div></div>}/>
               {/* <Route path='generiskgraph' element= {data?<GeneRiskGraph nodes={[buildGeneGraph(data).nodes[0]]} links={[]} gene='' gender='' debug={true}></GeneRiskGraph>:<div></div>}/> */}
               <Route path='generiskchart' element= {data?<GeneRiskChart data={data} gene='' gender=''></GeneRiskChart>:<div></div>}/>
               <Route path='genecardv2' element= {data?<GeneCardV2 data={data}></GeneCardV2>:<div></div>}/>
+              <Route path='divtest' element= {<DivTest></DivTest>}/>
+              <Route path='divtest2' element= {<DivTest2></DivTest2>}/>
 
 
 

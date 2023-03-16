@@ -1,15 +1,50 @@
 import React, { useState, useRef, useEffect } from 'react'
+import { useParams, useLocation } from 'react-router-dom'
 import { styled } from '@mui/material/styles'
-import  { Box,  Paper,} from '@mui/material'
+import  { Box, Divider, Paper, Drawer, Typography } from '@mui/material'
+import { Configuration } from './Configuration';
 import { GraphScheme, defaultGraphScheme, GraphName } from '../tools/graphtools';
 import { Graph } from './Graph';
+import IconButton from '@mui/material/IconButton';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { Filters } from './Filters';
 import { FinalVerdict } from '../tools/graphtools';
-import { flexbox } from '@mui/system';
 
-import { geneNodes} from '../experimental/gene.data'
-import { GeneCardV3 } from '../componentsv2/GenecardV3';
-import { Padding } from '@mui/icons-material';
+const drawerWidth = 450; 
+
+const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })
+    <{
+        open?: boolean;
+    }>(({ theme, open }) => ({
+        id: 'main-zzz',
+        display: 'flex',
+        flex: 1,
+        height: '100%',
+
+        padding: theme.spacing(0),
+        transition: theme.transitions.create('margin', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+        marginRight: 0,
+        ...(open && {
+            transition: theme.transitions.create('margin', {
+                easing: theme.transitions.easing.easeOut,
+                duration: theme.transitions.duration.enteringScreen,
+            }),
+            marginRight: 0
+        })
+    }));
+
+const DrawerHeader = styled('div')(({ theme }) => ({
+  id: 'drawerHeader-zzz',
+  display: 'flex',
+  alignItems: 'center',
+  padding: theme.spacing(0, 1),
+  // necessary for content to be below app bar
+//   ...theme.mixins.toolbar,
+  justifyContent: 'flex-start',
+}));
 
 type GraphProps = {
     name: GraphName 
@@ -35,10 +70,7 @@ export const GraphViewport = ( {
     onMouseOut
 } : GraphProps) => {
 
-
     const [graphName, setGraphName] = useState<GraphName>(name)
-    const [gene, setGene] = useState('')
-
     const refresh = useRef(true)
     if ( refresh.current) {
         refresh.current = true;
@@ -54,37 +86,37 @@ export const GraphViewport = ( {
     const [syndromes, setSyndromes] = useState<string[]>([])
     const [finalVerdict, setFinalVerdict] = useState<FinalVerdict>('Confirmed')
     const [dim, setDim] = useState<Dimension>( {width:600, height:600})
-    const ref = useRef<HTMLInputElement>(null)
-    const [data, setData] = useState<any>(null);
-
-    const handleData = (data: any) => {
-        console.log('--->Debug: handle.data', data) 
-        setData(data)
-      }
     
-      useEffect(()=>{
-        geneNodes(handleData)
-      },[]) 
-
-    useEffect(()=> {
+    useEffect(()=>{
         window.addEventListener("resize", handleResize )
-        const width = ref.current?ref.current.offsetWidth:0
-        let height = ref.current?ref.current.offsetHeight:0
-        if (height < 600) {
-            height = 600;
-        }
-        console.log("---->Debug: width, height", width, height)
-        setDim({width, height})
-    }, [])
+        setDim( {width: getWidth(), height: getHeight()},)
+    },[])
 
     const handleResize = () => {
-        const width = ref.current?ref.current.offsetWidth:0
-        let height = ref.current?ref.current.offsetHeight:0
-        console.log("---->Debug before: width, height", width, height)
-        if (height < 600) {
-            height = 600;
+        setDim( ()=> ( {width: getWidth(), height: getHeight()}))
+    }
+
+    const getWidth = () => {
+        let number = Number(document.getElementById(`graph-box`)?.offsetWidth )
+        if ( typeof number === 'number' && number === number) {
+            return number-12
+        } else {
+            return 400
         }
-        setDim({width, height})
+    }
+
+    const getHeight = () => {
+        let number = Number(document.getElementById(`graph-box`)?.offsetHeight )
+        if ( typeof number === 'number' && number === number) {
+            return number-12
+        } else {
+            return 400
+        }
+    }
+
+    const handleDrawerClose = () => {
+        if (onChange)
+            onChange(false)
     }
 
     const handleGraphChange = (name: GraphName) => {
@@ -131,15 +163,6 @@ export const GraphViewport = ( {
     const handleMouseOut = () => {
         if (onMouseOut) 
             onMouseOut()
-    }
-
-    const handleGeneClick = (gene: string) => {
-        setGene(gene)
-        console.log('---->handleGraphGeneClicked.gene', gene)
-    }
-
-    const handleGeneCardClose = () => {
-        setGene('')
     }
 
     switch (name) { 
@@ -206,45 +229,48 @@ export const GraphViewport = ( {
         } 
     }
 
-    return (<>
-        <Paper 
-            ref={ref}
-            id='graph-box'
-            elevation={4}         
-            sx={{ 
-                // display: 'flex',
-                margin: '2px',
-                width:'100%',
-                height: '100%',
-                color: 'white',
-            }}
-        >
-            <Box  display='grid' gridTemplateColumns='auto 355px' >
-                <Graph 
-                    drawerOpen={open}
-                    width={dim.width-358}
-                    height={dim.height-5}
-                    name={graphName}
-                    specialist={specialist}
-                    genes={genes}
-                    organs={organs}
-                    syndromes={syndromes}
-                    diseases={diseases}
-                    finalVerdict={finalVerdict}
-                    graphScheme={graphScheme}
-                    enableHover
-                    enableBack
-                    enableZoom
-                    geneData={data}
-                    onMouseOver={handleMouseOver}
-                    onMouseOut={handleMouseOut}
-                    onGeneClick={handleGeneClick}
-                />
-                <Box style={{
-                        // background: 'grey',
-                        background: '#f5f5f5',
-                        margin: '5px'
-                    }}>
+    const DisplayPanel = () => {
+        return (
+            <Typography sx={{textAlign: 'center'}}>
+                Configuration Tool
+            </Typography>
+        )
+    }
+
+    return (
+        <>
+            <Main open={open}>        
+                <Paper 
+                    id='graph-box'
+                    elevation={4}         
+                    sx={{ 
+                        display: 'flex',
+                        margin: '2px',
+                        width:'100%',
+                        height: '100%',
+                        color: 'white',
+                    }}
+                >
+                    <Graph 
+                        drawerOpen={open}
+                        width={getWidth()-100}
+                        height={getHeight()}
+                        name={graphName}
+                        specialist={specialist}
+                        genes={genes}
+                        organs={organs}
+                        syndromes={syndromes}
+                        diseases={diseases}
+                        finalVerdict={finalVerdict}
+                        graphScheme={graphScheme}
+                        enableHover
+                        enableBack
+                        enableZoom
+                        onMouseOver={handleMouseOver}
+                        onMouseOut={handleMouseOut}
+                    />
+                </Paper>
+                <Box>
                     <Filters 
                         name={graphName} 
                         specialist={specialist}
@@ -261,11 +287,38 @@ export const GraphViewport = ( {
                         onSyndromeChange={handleSyndromeChange}
                         onFinalVerdictChange={handleFinalVerdictChange}
                     />
+                    <Box>
+                        test
+                    </Box>
                 </Box>
-                
+        </Main>
+        <Drawer
+            sx={{
+            width: drawerWidth,
+            flexShrink: 0,
+            '& .MuiDrawer-paper': {
+                width: drawerWidth,
+            },
+            }}
+            variant="persistent"
+            anchor="right"
+            open={open}
+        >
+            <DrawerHeader>
+                <IconButton onClick={handleDrawerClose}>
+                    <ChevronLeftIcon />
+                </IconButton>
+            </DrawerHeader>
+            {/* <Divider /> */}
+            <Box 
+                sx={{ width: drawerWidth, }}
+                role='presentation'
+            >
+                <DisplayPanel />
+                <Divider sx={{marginLeft:'8px', width:'95%'}} />
+                <Configuration graphScheme={graphScheme} onChange={handleConfiguationChange} /> 
             </Box>
-        </Paper>
-        <GeneCardV3 data={data} visable={gene!==''} gene={gene} gender={'male'} onClose={handleGeneCardClose}/>
+        </Drawer>
     </>
     )
 }
