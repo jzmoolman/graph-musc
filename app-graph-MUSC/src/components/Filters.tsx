@@ -351,7 +351,6 @@ export const Filters = ({
             <Box  
                 id='filter-box' 
                 display='grid'
-                width='calc(100%-25)'
                 height='100%'
                 
                 gridTemplateRows='calc(100% - 175px) 175px' 
