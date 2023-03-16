@@ -45,7 +45,7 @@ export const GeneDesc = ({gene}:GeneDescProps) => {
         <div style={{height:20}}>
         </div>
         <Box sx={{fontWeight: 'bold'}}>
-                Desctiption
+                Description
         </Box>
         <div>
                 {data[0].description}

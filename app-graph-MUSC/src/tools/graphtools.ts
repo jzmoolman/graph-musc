@@ -40,11 +40,14 @@ export const defaultGraphScheme: GraphScheme = {
     // organNode: '#b71c1c',
     organNode: '#c62828',
     organFont: 'White',
-    diseaseNode: 'Purple',
+    // diseaseNode: 'Purple',
+    diseaseNode: '#673ab7',
     diseaseFont: 'White',
     diseaseSubtypeNode: 'Green',
     diseaseSubtypeFont: 'White',
-    syndromeNode: '#DE970B',  // Organge 
+    // syndromeNode: '#DE970B',  // Organge 
+    // syndromeNode: '#c0ca33',
+    syndromeNode: '#ff5722',
     syndromeFont: 'Black', 
     nodeVal: 1,
     nodeRelSize: 7,
