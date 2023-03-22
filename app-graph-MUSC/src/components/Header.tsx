@@ -15,7 +15,7 @@ type Dimension = {
 
 type GraphProps = {
     name: GraphName 
-    open: boolean
+    // open: boolean
     onChange?: (open: boolean) => void
     onMouseOver?: () => void
     onMouseOut?: () => void
@@ -24,7 +24,7 @@ type GraphProps = {
 
 export const Header = ({
     name, 
-    open, 
+    // open, 
     onChange,
     onMouseOver,
     onMouseOut
@@ -46,6 +46,6 @@ export const Header = ({
 
     return (<>
        <MuscHeader/>
-       <GraphViewport name={name} specialist={specialist} open={open} onChange={onChange} />
+       <GraphViewport name={name} specialist={specialist} onChange={onChange} />
     </>)
 }

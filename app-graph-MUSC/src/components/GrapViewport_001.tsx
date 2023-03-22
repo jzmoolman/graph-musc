@@ -252,7 +252,6 @@ export const GraphViewport = ( {
                     }}
                 >
                     <Graph 
-                        drawerOpen={open}
                         width={getWidth()-100}
                         height={getHeight()}
                         name={graphName}

@@ -88,6 +88,7 @@ export const geneNodes = async (onData) => {
                     nodes[gene_index].cancers[cancer_index].female_risk = +row.MaxOfcr85
                 }
             }
+
         });
         return nodes
     })
@@ -128,8 +129,6 @@ export const buildGeneGraph = (data) => {
         }
      })
      nodes = [...nodes, ...cancerNodes]
-    //  console.log('buildGene', nodes)
-
 
     return {nodes, links}
 }

@@ -14,7 +14,7 @@ import { Padding } from '@mui/icons-material';
 type GraphProps = {
     name: GraphName 
     specialist: string
-    open: boolean
+    // open: boolean
     onChange?: (open: boolean) => void
     onMouseOver?: () => void
     onMouseOut?: () => void
@@ -29,7 +29,6 @@ type Dimension = {
 export const GraphViewport = ( { 
     name, 
     specialist, 
-    open, 
     onChange,
     onMouseOver,
     onMouseOut
@@ -221,7 +220,6 @@ export const GraphViewport = ( {
         >
             <Box  display='grid' gridTemplateColumns='auto 355px' >
                 <Graph 
-                    drawerOpen={open}
                     width={dim.width-358}
                     height={dim.height-5}
                     name={graphName}

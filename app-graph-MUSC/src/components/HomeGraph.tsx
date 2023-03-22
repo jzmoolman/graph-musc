@@ -118,7 +118,6 @@ export const HomeGraph = () => {
                             padding:'2px'}}
                 >
                     <Graph 
-                        drawerOpen={false}
                         width={getWidth(2)}
                         height={300}
                         name={'gene-organ'}
@@ -171,7 +170,6 @@ export const HomeGraph = () => {
                             padding:'2px'}}
                 >
                     <Graph 
-                        drawerOpen={false}
                         width={getWidth(2)}
                         height={300}
                         name={'gene-organ'}

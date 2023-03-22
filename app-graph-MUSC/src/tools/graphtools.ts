@@ -175,7 +175,7 @@ export const paintNode = (
         let r = ""
         for ( let i = 0; i < line.length; i++) {
            r = r + line[i]
-           if (i+1 != line.length)
+           if (i+1 !== line.length)
            r += " " 
         }
         return r

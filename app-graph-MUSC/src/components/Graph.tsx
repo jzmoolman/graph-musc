@@ -39,7 +39,6 @@ const getimg = (name: GraphName) => {
 }
 
 type GraphProps = {
-    drawerOpen: boolean
     width: number
     height: number
     name: GraphName
@@ -60,7 +59,6 @@ type GraphProps = {
     onGeneClick?: (gene: string) => void
 }
 export const Graph = ( { 
-    drawerOpen, 
     width=600, 
     height=500, 
     name, 

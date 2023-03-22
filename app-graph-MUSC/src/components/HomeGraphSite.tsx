@@ -197,7 +197,6 @@ export const HomeGraphSite = () => {
                     {data.length!==0?
 
                     <Graph
-                        drawerOpen={false}
                         width={getWidth(0)-16}
                         height={300}
                         name={'gene-organ'}
@@ -258,7 +257,6 @@ export const HomeGraphSite = () => {
                 >
                     {data.length!==0?
                     <Graph 
-                        drawerOpen={false}
                         width={getWidth(2)-16}
                         height={300}
                         name={'organ'}
@@ -314,7 +312,6 @@ export const HomeGraphSite = () => {
                 >
                     {data.length!==0?
                     <Graph 
-                        drawerOpen={false}
                         width={getWidth(3)-16}
                         height={300}
                         name='syndrome-disease'
@@ -368,7 +365,6 @@ export const HomeGraphSite = () => {
                 >
                     {data.length!==0?
                     <Graph 
-                        drawerOpen={false}
                         width={getWidth(4)-16}
                         height={300}
                         name={'disease'}

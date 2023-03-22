@@ -1,7 +1,6 @@
 import { Driver, }  from  'neo4j-driver'
 
 import { 
-    ArrayToStr,
     arrayToStrV2,
     CustomNodeObject, defaultGraphScheme, GraphScheme}
 from '../tools/graphtools'

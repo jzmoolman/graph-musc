@@ -6,7 +6,7 @@ import React, {
     useEffect,
     useState } from 'react'
 import { Neo4jContext } from 'use-neo4j'
-import { GeneNode, loadGenesV2 } from '../experimental/gene.neo4j'
+import { GeneNode, loadGenesV2 } from '../data/gene.neo4j'
 
 
 type GeneDescProps = {
