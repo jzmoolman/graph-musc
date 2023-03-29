@@ -11,8 +11,8 @@ BARD1,Breast,Female,25,26.17,Breast
 BARD1,Ovarian,Female,25,4.76,Ovary
 BRCA1,Breast,Female,25,68.57,Breast
 BRCA1,Ovarian,Female,25,67.76,Ovary
-BRCA1,Pancreatic,Male,25,5.43,Pancreatic
-BRCA1,Pancreatic,Female,25,4.82,Pancreatic
+BRCA1,Pancreatic,Male,25,5.43,Pancreas
+BRCA1,Pancreatic,Female,25,4.82,Pancreas
 BRCA2,Breast,Female,25,61.1,Breast
 BRCA2,Breast,Male,25,12.86,Breast
 BRCA2,Ovarian,Female,25,36.46,Ovary
