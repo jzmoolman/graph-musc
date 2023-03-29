@@ -1,0 +1,43 @@
+MATCH (g:MGene {name : "BRCA2"})--(o:Organ)
+MATCH (n:LKP_MASTER_RISKTO85FORGRAPH)
+WHERE n.gene = g.name
+AND n.organ = o.name  
+WITH g, o, collect(n.gender) as gender, collect(n.maxofcr85) as risk,
+(CASE collect(n.gender)[0]
+  WHEN 'Male'  THEN collect(n.maxofcr85)[0]
+  ELSE collect(n.maxofcr85)[1]
+END) AS male_risk,
+(CASE collect(n.gender)[0]
+  WHEN 'Female'  THEN collect(n.maxofcr85)[0]
+  ELSE collect(n.maxofcr85)[1]
+END) AS female_risk
+SET
+   o.male_risk = male_risk, 
+   o.female_risk = female_risk;
+
+
+MATCH (g:MGene)--(o:Organ)
+CALL { 
+  WITH  o
+  MATCH (n:LKP_MASTER_RISKTO85FORGRAPH)
+  WHERE n.gene = 'Population'  
+   AND n.organ = o.name
+   AND n.gender = 'Male'
+  RETURN n
+}
+// RETURN g.name, o.name, n.maxofcr85
+SET 
+    o.male_population_risk = n.maxofcr85;
+
+MATCH (g:MGene)--(o:Organ)
+CALL { 
+  WITH  o
+  MATCH (n:LKP_MASTER_RISKTO85FORGRAPH)
+  WHERE n.gene = 'Population'  
+   AND n.organ = o.name
+   AND n.gender = 'Female'
+  RETURN n
+}
+// RETURN g.name, o.name, n.maxofcr85
+SET 
+    o.female_population_risk = n.maxofcr85;

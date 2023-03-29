@@ -1,0 +1,28 @@
+
+
+// Partialy forked from  mgene.organ.LKP
+
+// Dependencies
+// import.LKP
+
+
+// Delete relationships
+MATCH (gene)-[r:NCCN_MGENE]-() DELETE r;
+MATCH (NCCN_GUIDELINES)-[r:NCCN_ORGSPEC]-() DELETE r;
+MATCH ()-[r:NCCN_GENE]-() DELETE r;
+
+// Create Relationships between LKP's
+MATCH (g:gene)
+MATCH (n:NCCN_GUIDELINES)
+WHERE g.name = n.Gene
+CREATE (g)-[:NCCN_MGENE]->(n);
+
+MATCH (n:NCCN_GUIDELINES)
+MATCH (sp:LKP_SPECIALISTS_BY_ORGAN)
+WHERE n.OrganSystem = sp.Organ_System
+CREATE (n)-[:NCCN_ORGSPEC]->(sp);
+
+MATCH (g:LKP_GENE_DETAILS)
+MATCH (n:NCCN_GUIDELINES)
+WHERE g.GeneMasterName = n.Gene
+MERGE (g)-[:NCCN_GENE]->(n);

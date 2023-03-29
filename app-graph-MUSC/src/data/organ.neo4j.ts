@@ -9,8 +9,10 @@ import {
 import { finalVerdictClauseV2 } from '../tools/graphdata'
 
 export interface OrganNode extends CustomNodeObject {
-    male_risk: number
-    female_risk: number
+    male_risk: number|undefined,
+    female_risk: number|undefined,
+    male_population_risk: number|undefined,
+    female_population_risk: number|undefined,
 }
 
 type loadOrgansProps = {
@@ -57,8 +59,10 @@ export const  loadOrgans_filterby_gene = async (
                 nodeVal: graphScheme.nodeVal,
                 nodeRelSize: graphScheme.nodeRelSize,
                 scaleFont: graphScheme.scaleFont,
-                male_risk: 0,
-                female_risk: 0,
+                male_risk: undefined,
+                female_risk: undefined,
+                male_population_risk: undefined,
+                female_population_risk: undefined,
             }
             data.push(organ)
         })
@@ -75,21 +79,11 @@ export const  loadOrgans_filterby_gene = async (
     }
 }
 
-export const expandGeneOrgans = async (
+export const loadGeneOrgans = async (
     driver: Driver | undefined,
-     data:[any]
+    
 ) => {
     console.log('---->Debug: expandGeneOrgans')
-    data.forEach( async row => {
-        console.log(row.type = 'gene', row.id)
-        if ( row.type = 'gene') {
-            let genes = await loadOrgans_filterby_gene(driver, 
-                {
-                    graphScheme: defaultGraphScheme,
-                    geneFilter: row.id,
-                } )
-            console.log(genes)
-        }
-    })
+
     console.log('---->Debug: expandGeneOrgans - end')
 }

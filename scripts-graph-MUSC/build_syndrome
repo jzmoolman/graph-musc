@@ -1,0 +1,46 @@
+// Forked from mgene.organ.LKP
+
+// Dependencies
+// import.LKP
+
+// Delete node and relationships
+MATCH (n:syndrome) DETACH DELETE n;
+MATCH ()-[r:ASSOCIATED]-() DELETE r;
+
+// Building syndrome
+MATCH (n:LKP_GENE_SYNDROME)
+WITH DISTINCT n.SyndromeMasterName as name
+MERGE (s:syndrome 
+    {
+        name:name,
+        hereditaryType: "Unknown",
+        verbiage: "Unknown"
+    }
+);
+
+// Building relationship between gene->syndrome
+MATCH (g:gene)
+MATCH (gsl:LKP_GENE_SYNDROME)
+MATCH (s:syndrome)
+WHERE gsl.GeneMasterName = g.name
+    AND gsl.SyndromeMasterName = s.name
+CREATE (g)-[r:ASSOCIATED]->(s);
+
+//Expand syndrome with verbiage 
+MATCH (s:syndrome)
+MATCH (svl:LKP_SYNDROME_VERBIAGE) 
+WHERE 
+    s.name = svl.SyndromeMasterName 
+WITH s, collect(svl.HereditaryType) as verbiageTypes, svl.VerbiageFromMedneonAug2022 as verbiage
+SET s.hereditaryType =
+    (CASE 
+        WHEN apoc.coll.containsAll(verbiageTypes, ['Dominant', 'Recessive']) THEN 'Dominant' 
+        WHEN apoc.coll.containsAll(verbiageTypes, ['Dominant']) THEN 'Dominant' 
+        ELSE 'Recessive' END
+    ),
+    s.verbiage = verbiage
+    ;
+
+
+
+

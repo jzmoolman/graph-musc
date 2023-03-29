@@ -1,7 +1,0 @@
-MATCH (g:MGene)-[l:AFFECTS]->(o:Organ)
-MATCH (r:LKP_MASTER_RISKTO85FORGRAPH)
-WHERE r.gene = g.name
-AND r.cancer = o.name
-WITH g, o,l, collect(r.gender) AS gender, collect(r.maxofcr85) AS risk
-SET l.male_risk = risk[0],
-    l.female_risk = risk[1]

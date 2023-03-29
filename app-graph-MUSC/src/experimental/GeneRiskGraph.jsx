@@ -10,13 +10,12 @@ const DEBUG = false
 const MANY_BODY_STRENGTH = -30;
 
 export const GeneRiskGraph = ({ nodes, links, gene, gender, debug=DEBUG}) => {
+    // console.log("GeneRiskGraph", nodes, links)
     const ref = useRef(null);
     const genes = nodes.filter(d=>d.type === 'gene')
 
-                
     let currentGeneSelect = gene
     let currentGenderSelect = gender
-
 
     useEffect( ()=>   {
         d3.select(ref.current)
@@ -27,30 +26,34 @@ export const GeneRiskGraph = ({ nodes, links, gene, gender, debug=DEBUG}) => {
     }, [currentGenderSelect, currentGeneSelect])
     
     const buildGraph = () => {
-        
-        console.log('---->buildGraph.gene', gene)
-        console.log('---->buildGraph.gender', gender)
+        console.log('---->buildGraph')
 
         if (!currentGeneSelect || !currentGenderSelect)  return 
 
-        console.log('---->buildGraph ok')
-
+        console.log('---->buildGraph.gene', gene)
+        console.log('---->buildGraph.gender', gender)
 
         let filterNodes = nodes.filter( node => node.id === currentGeneSelect )
         if (filterNodes.length !== 1 ) {
             console.log('Nodes data invalid')
         }
 
+        filterNodes[0].getColor = (node) => node.color
+        // console.log('---->Debug gene : ' , filterNodes[0])
+        // console.log('---->Debug gene color: ' , filterNodes[0].getColor(filterNodes[0]))
+
+        
+
         // filterNodes can ony have one node at thit point 
         let filterLinks = links.filter( link => {
             let source
             let target
+            // D3 Change the stucture of the nodes
             if (typeof link.source === 'object') {
                 source = link.source.id
             } else {
                 source = link.source
             }
-
             if (typeof link.target === 'object') {
                 target = link.target.id
             } else {
@@ -58,43 +61,50 @@ export const GeneRiskGraph = ({ nodes, links, gene, gender, debug=DEBUG}) => {
             }
 
             if ( source === currentGeneSelect ) {
-                let cancerNode = nodes.find(node => {
+                let organNode = nodes.find(node => {
                     return node.id === target
                 })
 
                 if ( currentGenderSelect === 'male') {
-                    cancerNode.risk = (d) => {
+                    organNode.risk = (d) => {
                         return +d.male_risk
                     }
-                    cancerNode.populationRisk = (d) => {
-                        return +d.male_populationRisk
+                    organNode.populationRisk = (d) => {
+                        return +d.male_population_risk
                     }
-                    if ( +cancerNode.male_populationRisk !== 0) {
-                        filterNodes.push(cancerNode)
-                        return true
-                    } else {
-                        return false
-                    }
+                    organNode.hasrisk = organNode.male_population_risk && organNode.male_risk
                 } else if ( currentGenderSelect === 'female') {
-                    cancerNode.risk = (d) => {
+                    organNode.risk = (d) => {
                         return +d.female_risk
                     }
-                    cancerNode.populationRisk = (d) => {
-                        return +d.female_populationRisk
+                    organNode.populationRisk = (d) => {
+                        return +d.female_population_risk
                     }
-                    if ( +cancerNode.female_populationRisk !== 0) {
-                        filterNodes.push(cancerNode)
-                        return true
-                    } else {
-                        return false
-                    }
+                    organNode.hasrisk = organNode.female_population_risk && organNode.female_risk
                 } else {
-                    // Data invalid format: gender option 1 -> male
-                    //                      gender option 2 -> female
+                    organNode.risk = (d) => {
+                        return null
+                    }
+                    organNode.populationRisk = (d) => {
+                        return null
+                    }
+                    organNode.hasrisk = false
                 }
-                return false;
 
-            } else return false
+                organNode.getColor = (n) => {
+                    if (n.hasrisk) {
+                        return n.color 
+                    } else {
+                        return 'grey'
+                    }
+                }
+
+                filterNodes.push(organNode)
+                return true
+
+            } else {
+                return false
+            }
         })
 
         console.log('---->Debug: filterNodes', filterNodes)
@@ -176,9 +186,12 @@ export const GeneRiskGraph = ({ nodes, links, gene, gender, debug=DEBUG}) => {
            .join('circle')
                 .classed('node', true)
                 .attr('id', 'node')
-                .attr("fill", node => node.color)
+                .attr("fill", node => {
+                    console.log('---->Debug: node.getcolor', node.getColor(node))
+                    return node.getColor(node)
+                })
                 .attr("r", node => {
-                    if ( node.type === 'cancer') {
+                    if ( node.type === 'organ' && node.hasrisk) {
                         const newR = scaleRadiusv3(node.size, +node.risk(node)/100)
                         console.log('------>circle.node', node, newR)
                         return newR;                  
@@ -186,7 +199,9 @@ export const GeneRiskGraph = ({ nodes, links, gene, gender, debug=DEBUG}) => {
                         return node.size
                     }
                 })
-                .attr('stoke', node => node.color)
+                .attr('stoke', node => {
+                        return node.getColor(node)
+                })
             .on('click', click)
             .call(drag(simulation));
 
@@ -199,8 +214,7 @@ export const GeneRiskGraph = ({ nodes, links, gene, gender, debug=DEBUG}) => {
                     .attr('height', node => {
                         let height;
                         let r;
-
-                        if ( node.type ==='cancer') {
+                        if ( node.type ==='organ' && node.hasrisk) {
                             let p = +node.risk(node)/100
                             r = scaleRadiusv3(node.size, p) // r is radius of scaled circle, and the height is 2r
                                                                           // however we want to fill on % of the clipNode, therefore.
@@ -219,7 +233,7 @@ export const GeneRiskGraph = ({ nodes, links, gene, gender, debug=DEBUG}) => {
                     })
                     .attr('width', node=> {
                         let r;
-                        if ( node.type ==='cancer' ) {
+                        if ( node.type ==='organ' && node.hasrisk ) {
                             let p = +node.risk(node)/100
                             r = scaleRadiusv3(node.size, p) // r is radius of scaled circle, and the width is 2r
                         } else {
@@ -312,7 +326,7 @@ export const GeneRiskGraph = ({ nodes, links, gene, gender, debug=DEBUG}) => {
             clipNode
                 .attr('r', node=> { 
                     let r; 
-                    if (node.type === 'cancer' ) {
+                    if (node.type === 'organ' && node.hasrisk ) {
                         r  = scaleRadiusv3(node.size, +node.risk(node)/100)
                     } else {
                         r = node.size

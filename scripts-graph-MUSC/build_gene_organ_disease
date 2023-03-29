@@ -1,0 +1,111 @@
+// Forked from mgene.organ.LKP
+
+// Dependencies
+// import.LKP
+
+// WARNING: Executing script will DELETE all nodes and relationships
+// MATCH (n) DETACH DELETE n;
+// OR only DELELTE gene, organ & disease and their relationships
+MATCH (n:gene) DETACH DELETE n;
+MATCH (n:organ) DETACH DELETE n;
+MATCH (n:disease) DETACH DELETE n;
+
+// HELPER SCRIPT
+//
+// MATCH (g:LKP_GENECANCERFORPRINTOUT)
+// WITH DISTINCT 
+//     g.GeneMasterName AS Name, 
+//     g.Organ as Organ,
+//     g.Gender AS Gender,
+//     collect(g.FinalVerdict) as FinalVerdict,
+//     g.PredominantCancerSubtype as PredominantCancerSubtype,
+//     g.DiseaseType AS DiseaseType,
+//     g.DiseaseName AS DiseaseName,
+//     COUNT(*) AS cnt
+// WHERE cnt > 0
+// // AND Name ='ALK'
+// // AND Organ = 'PNS'
+// RETURN Name, Organ, Gender,FinalVerdict,DiseaseType,DiseaseName,PredominantCancerSubtype, cnt
+
+// The DISTINCT properites should make each row unique.  If not validate data
+// The relationship have to use the same properties to keep data integrity that is not represented by a node
+
+// Building gene
+// Key: name
+MATCH (gl:LKP_GENE_DETAILS)
+WHERE gl.In_Invitae84 = 1
+WITH gl
+CREATE (g:gene 
+	{ name: gl.GeneMasterName, // KEY
+	  fullName: gl.GeneFullName,
+	  mechanism: gl.Mechanism
+	}
+);
+
+// Building organ
+MATCH (gcl:LKP_GENECANCERFORPRINTOUT)
+WITH DISTINCT gcl.Organ AS name
+CREATE (o:organ 
+	{ name: name // KEY
+});
+
+// Building disease
+MATCH (gcl:LKP_GENECANCERFORPRINTOUT)
+WITH DISTINCT gcl.DiseaseName AS diseaseName
+CREATE (d:disease
+	{ name: diseaseName // KEY
+});
+
+// Building relationshiop between gene->organ,
+MATCH (gcl:LKP_GENECANCERFORPRINTOUT)
+WITH DISTINCT gcl.GeneMasterName as geneName,
+    gcl.Organ as organName, 
+    gcl.Gender as gender,
+    gcl.FinalVerdict as finalVerdict
+MATCH (g:gene)
+MATCH (o:organ)
+WHERE  g.name = geneName
+AND o.name = organName
+//RETURN geneName, organName, gender, finalVerdict, g, o
+CREATE (g)-[:AFFECTS {
+    gender: gender,
+    finalVerdict: finalVerdict
+}]->(o);
+
+// // Building relationshiop between gene->disease
+MATCH (gcl:LKP_GENECANCERFORPRINTOUT)
+WITH DISTINCT gcl.GeneMasterName as geneName,
+    gcl.DiseaseName as diseaseName,
+    gcl.Gender as gender,
+    gcl.FinalVerdict as finalVerdict,
+    gcl.DiseaseType as diseaseType,
+    gcl.PredominantCancerSubtype as predominantCancerSubtype
+MATCH (g:gene)
+WHERE  g.name = geneName
+
+MATCH (d:disease)
+WHERE  d.name = diseaseName
+// RETURN *
+    
+CREATE (g)-[:CAUSE {
+    gender: gender,
+    finalVerdict: finalVerdict,
+    diseaseType: diseaseType,
+    predominantCancerSubType: predominantCancerSubtype
+}]->(d);
+
+// Building relationshiop between disease->organ
+MATCH (gcl:LKP_GENECANCERFORPRINTOUT)
+WITH DISTINCT
+    gcl.Organ as organName,
+    gcl.DiseaseName as diseaseName
+
+MATCH (d:disease)
+WHERE  d.name = diseaseName
+
+MATCH (o:organ)
+WHERE o.name = organName
+
+// RETURN *
+CREATE (d)-[:AFFECTS {
+}]->(o);

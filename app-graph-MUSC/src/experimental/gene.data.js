@@ -133,3 +133,39 @@ export const buildGeneGraph = (data) => {
     return {nodes, links}
 }
 
+export const buildGeneGraphV2 = (data) => {
+    let nodes = []
+    let organNodes = []
+    let links = [] 
+    nodes = data.map( gene => {
+        gene.organs.forEach(  organ => {
+            organNodes.push({ 
+                type:'organ', 
+                color:zcolors[0][0],
+                clipColor:zcolors[0][1],
+                size:30,
+                ...organ,
+                id: gene.name + '_' + organ.name,
+                name: organ.name
+            })
+            links.push(
+                {
+                    source: gene.name,
+                    target: gene.name + '_' + organ.name, 
+                }
+            )
+        })
+        
+        return { 
+            type:'gene', 
+            id: gene.name,
+            name: gene.name,
+            color:zcolors[1][1],
+            clipColor:zcolors[1][1],
+            size:30,
+        }
+     })
+     nodes = [...nodes, ...organNodes]
+    console.log('----> Debug: 5')
+    return {nodes, links}
+}

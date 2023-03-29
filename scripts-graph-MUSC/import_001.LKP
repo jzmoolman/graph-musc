@@ -1,9 +1,5 @@
 // Import Lookup tables
 MATCH (g:LKP_GENE_DETAILS) DETACH DELETE (g);
-
-// LOAD CSV WITH HEADERS FROM 'file:///LKP_Gene_Details.csv' AS row
-// LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/jzmoolman/_-data/master/LKP_Gene_Details.csv' AS row
-
 LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/jzmoolman/graph-musc/master/data-graph-MUSC/LKP_Gene_Details.csv' 
 AS row
 MERGE (g:LKP_GENE_DETAILS {
@@ -15,7 +11,6 @@ MERGE (g:LKP_GENE_DETAILS {
 
 
 MATCH (g:LKP_GENECANCERFORPRINTOUT) DELETE (g);
-
 //LOAD CSV WITH HEADERS FROM 'file:///LKP_GeneCancerForPrintout.csv' AS row
 LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/jzmoolman/graph-musc/master/data-graph-MUSC/LKP_GeneCancerForPrintout.csv'
 AS row
@@ -28,7 +23,6 @@ MERGE (g:LKP_GENECANCERFORPRINTOUT {
   DiseaseName: coalesce(row.DiseaseName,'Unknown'),
   DiseaseType: coalesce(row.DiseaseType,'Unknown'),
   FinalVerdict: coalesce(toInteger(row.FinalVerdict),9),
-  PredominantCancerSubtype: coalesce(row.PredominantCancerSubtype,'Unknown')
 });
 
 
@@ -135,5 +129,8 @@ MERGE (n:LKP_MASTER_RISKTO85FORGRAPH {
     cancer: coalesce(row.cancer,'Unknown'),
     gender: coalesce(row.gender,'Unknown'),
     age: coalesce(toInteger(row.age),25),
-    maxofcr85: coalesce(toFloat(row.MaxOfcr85),0)
+    maxofcr85: coalesce(toFloat(row.MaxOfcr85),0.0),
+    organ: CASE left(row.organ, 1) 
+        WHEN '?' THEN 'Unknown'
+        ELSE coalesce(row.organ,'Unknown') END
 });

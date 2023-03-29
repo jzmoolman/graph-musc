@@ -1,0 +1,34 @@
+// Forked from expand_organ_risks
+
+// Dependencies build_gene_organ_disease
+
+MATCH (g:gene)-[:AFFECTS]->(o:organ)
+MATCH (n:LKP_MASTER_RISKTO85FORGRAPH)
+WHERE n.gene = g.name
+AND n.organ = o.name  
+CALL {
+  WITH o
+  MATCH (t:LKP_MASTER_RISKTO85FORGRAPH)
+  WHERE t.gene = 'Population' 
+  AND t.organ = o.name
+  AND t.gender ='Male'
+  RETURN t.maxofcr85 as male_population_risk
+}
+CALL {
+  WITH o 
+  MATCH (t:LKP_MASTER_RISKTO85FORGRAPH)
+  WHERE t.gene = 'Population' 
+  AND t.organ = o.name
+  AND t.gender ='Female'
+  RETURN t.maxofcr85 as female_population_risk
+}
+
+WITH g, o, collect(n.gender) AS gender, 
+collect(n.maxofcr85) AS risk,
+male_population_risk, female_population_risk
+CREATE (g)-[:RISK {
+    male_risk: risk[0],  
+    female_risk: risk[1],
+    male_population_risk: male_population_risk,
+    female_population_risk: female_population_risk
+}]->(o)

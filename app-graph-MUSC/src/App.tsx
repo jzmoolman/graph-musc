@@ -6,17 +6,17 @@ import { Home } from './components/Home'
 import { HomeGraphSite } from './components/HomeGraphSite'
 import { Header } from './components/Header'
 import { GeneRiskGraph } from './experimental/GeneRiskGraph'
-import { geneNodes, buildGeneGraph } from './experimental/gene.data'
-
-import './App.css'
+import { geneNodes, buildGeneGraph, buildGeneGraphV2 } from './experimental/gene.data'
 import { GraphViewV2 } from './componentsv2/GraphViewV2' 
 import { GeneRiskChart } from './experimental/GeneRiskChart'
 import { GeneCardV2 } from './componentsv2/GeneCardv2'
 import { DivTest } from './experimental/DivTest'
 import { DivTest2 } from './experimental/divtest2'
-import { expandGeneOrgans } from './data/organ.neo4j'
 import { Neo4jContext } from 'use-neo4j'
-  
+import { load_gene_organs } from './data/gene-organ.neo4j'
+
+import './App.css'  
+
 const theme = createTheme({
     typography: { 
         fontFamily: 'Libre Franklin',
@@ -28,14 +28,19 @@ export const App = () => {
 
 
     const [data, setData] = useState<any>(null);
+    const [data2, setData2] = useState<any>(null);
   
     const handleData = (data: any) => {
         setData(data)
-        expandGeneOrgans( driver, data)
     }
 
-    useEffect(()=>{
+    const handleData2 = (data: any) => {
+        setData2(data)
+    }
+
+    useEffect(()=> {
         geneNodes(handleData)
+        load_gene_organs( driver, {onData: handleData2})
     },[])
 
     return (<>
@@ -63,7 +68,7 @@ export const App = () => {
                         <Route path='/site/syndrome/:specialist' element={<Header name='syndrome-disease'/>} />
 
                         <Route path='graphview' element={<GraphViewV2/>}/>
-                        <Route path='generiskgraph' element= {data?<GeneRiskGraph nodes={buildGeneGraph(data).nodes} links={buildGeneGraph(data).links} gene='' gender='' debug={true}></GeneRiskGraph>:<div></div>}/>
+                        <Route path='generiskgraph' element= {data2?<GeneRiskGraph nodes={buildGeneGraphV2(data2).nodes} links={buildGeneGraphV2(data2).links} gene='' gender='' debug={true}></GeneRiskGraph>:<div></div>}/>
                         <Route path='generiskchart' element= {data?<GeneRiskChart data={data} gene='' gender=''></GeneRiskChart>:<div></div>}/>
                         <Route path='genecardv2' element= {data?<GeneCardV2 data={data}></GeneCardV2>:<div></div>}/>
                         <Route path='divtest' element= {<DivTest></DivTest>}/>
@@ -77,3 +82,5 @@ export const App = () => {
 }
 
 export default App;
+
+

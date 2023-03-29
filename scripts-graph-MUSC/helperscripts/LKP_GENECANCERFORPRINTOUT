@@ -1,0 +1,10 @@
+MATCH (g:LKP_GENECANCERFORPRINTOUT)
+WITH DISTINCT g.GeneMasterName AS Name, g.Organ as Organ, g.Gender AS Gender,  collect(g.FinalVerdict) as FinalVerdict,
+    g.PredominantCancerSubtype as PredominantCancerSubtype,
+    g.DiseaseType AS DiseaseType,
+    g.DiseaseName AS DiseaseName,
+    COUNT(*) AS cnt
+WHERE cnt > 0
+// AND Name ='ALK'
+// AND Organ = 'PNS'
+RETURN Name, Organ, Gender,FinalVerdict,DiseaseType,DiseaseName,PredominantCancerSubtype, cnt

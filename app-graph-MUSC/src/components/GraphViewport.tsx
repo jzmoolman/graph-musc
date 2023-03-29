@@ -1,15 +1,14 @@
-import React, { useState, useRef, useEffect } from 'react'
-import { styled } from '@mui/material/styles'
+import React, { useState, useRef, useEffect, useContext } from 'react'
 import  { Box,  Paper,} from '@mui/material'
 import { GraphScheme, defaultGraphScheme, GraphName } from '../tools/graphtools';
 import { Graph } from './Graph';
 import { Filters } from './Filters';
 import { FinalVerdict } from '../tools/graphtools';
-import { flexbox } from '@mui/system';
 
 import { geneNodes} from '../experimental/gene.data'
 import { GeneCardV3 } from '../componentsv2/GenecardV3';
-import { Padding } from '@mui/icons-material';
+import { load_gene_organs } from '../data/gene-organ.neo4j';
+import { Neo4jContext } from 'use-neo4j';
 
 type GraphProps = {
     name: GraphName 
@@ -33,6 +32,7 @@ export const GraphViewport = ( {
     onMouseOver,
     onMouseOut
 } : GraphProps) => {
+    const context = useContext(Neo4jContext), driver = context.driver   
 
 
     const [graphName, setGraphName] = useState<GraphName>(name)
@@ -55,14 +55,19 @@ export const GraphViewport = ( {
     const [dim, setDim] = useState<Dimension>( {width:600, height:600})
     const ref = useRef<HTMLInputElement>(null)
     const [data, setData] = useState<any>(null);
-
+    const [data2, setData2] = useState<any>(null);
+    
     const handleData = (data: any) => {
         console.log('--->Debug: handle.data', data) 
         setData(data)
-      }
-    
+    }
+
+    const handleData2 = (data: any) => {
+        setData2(data)
+    } 
       useEffect(()=>{
         geneNodes(handleData)
+        load_gene_organs( driver, {onData: handleData2})
       },[]) 
 
     useEffect(()=> {
@@ -263,7 +268,10 @@ export const GraphViewport = ( {
                 
             </Box>
         </Paper>
-        <GeneCardV3 data={data} visable={gene!==''} gene={gene} gender={'male'} onClose={handleGeneCardClose}/>
+        {data2?
+            <GeneCardV3 data={data} visable={gene!==''} gene={gene} gender={'male'} onClose={handleGeneCardClose}/>:
+            <></>
+        }
     </>
     )
 }
