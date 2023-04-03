@@ -7,17 +7,15 @@ import { FinalVerdict } from '../tools/graphtools';
 
 import { geneNodes} from '../experimental/gene.data'
 import { GeneCardV3 } from '../componentsv2/GenecardV3';
-import { load_gene_organs } from '../data/gene-organ.neo4j';
+import { load_gene_affects_organ, load_gene_affects_risk_organ } from '../data/gene-organ.neo4j';
 import { Neo4jContext } from 'use-neo4j';
 
 type GraphProps = {
     name: GraphName 
     specialist: string
-    // open: boolean
     onChange?: (open: boolean) => void
     onMouseOver?: () => void
     onMouseOut?: () => void
-
 }
 
 type Dimension = {
@@ -33,7 +31,6 @@ export const GraphViewport = ( {
     onMouseOut
 } : GraphProps) => {
     const context = useContext(Neo4jContext), driver = context.driver   
-
 
     const [graphName, setGraphName] = useState<GraphName>(name)
     const [gene, setGene] = useState('')
@@ -66,8 +63,12 @@ export const GraphViewport = ( {
         setData2(data)
     } 
       useEffect(()=>{
-        geneNodes(handleData)
-        load_gene_organs( driver, {onData: handleData2})
+        // here am i now
+
+        // geneNodes(handleData)
+        //load_gene_affects_organ( driver, {onData: handleData2})
+        load_gene_affects_risk_organ(driver, {onData: handleData })
+
       },[]) 
 
     useEffect(()=> {
@@ -268,7 +269,7 @@ export const GraphViewport = ( {
                 
             </Box>
         </Paper>
-        {data2?
+        {data?
             <GeneCardV3 data={data} visable={gene!==''} gene={gene} gender={'male'} onClose={handleGeneCardClose}/>:
             <></>
         }

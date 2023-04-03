@@ -210,10 +210,74 @@ export const paintNode = (
     y = y - lineHeight*((lines2.length-1)/2)
     for ( let i = 0; i < lines2.length; i++ ) {
         let line = lines2[i]
-        nodeRelSize = scaleDown(line, nodeRelSize)
+        nodeRelSize = scaleDown(line, 16)
         ctx.font = `${nodeRelSize}px Libre Franklin`
         ctx.fillText(line, x, y)
         y = y + (lineHeight)
     }
 }
+
+export const paintNodev2 = (
+    node: NodeObject, 
+    ctx: CanvasRenderingContext2D, 
+    GlobalScale: number) => {
+    
+    const scaleDown = (line: string, scale: number): number => {
+        ctx.font = `${scale}px Libre Franklin`
+        let measure = ctx.measureText(line)
+        if (measure.width < 12) {
+            // Base case 
+            // console.log(measure.width)
+            return scale
+        } else {
+            return scaleDown(line, scale*0.85)
+        }
+    }
+
+    const spaceWords = (line: string ) => {
+        let r = ""
+        for ( let i = 0; i < line.length; i++) {
+           r = r + line[i]
+           if (i+1 !== line.length)
+           r += " " 
+        }
+        return r
+    }
+
+    const nodeType = (node as CustomNodeObject).nodeType
+    const label = (node as CustomNodeObject).name
+    const fontColor = (node as CustomNodeObject).fontColor
+    let nodeRelSize = (node as CustomNodeObject).nodeRelSize * (node as CustomNodeObject).scaleFont/100
+    console.log('nodeRelSize', nodeRelSize)
+
+    const x = node.x?node.x:0
+    let y = node.y?node.y:0
+   
+    const lines = label.split(' ')
+    let lines2 = []
+    for ( let i = 0; i < lines.length; i++) {
+        let line = lines[i]
+        if ( nodeType === 'Gene') {
+            lines2.push(spaceWords(line))
+        } else  {
+            lines2.push(line)
+        }
+    }
+
+    let lineHeight = 7
+
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle'
+    ctx.fillStyle = fontColor
+    
+    y = y - lineHeight*((lines2.length-1)/2)
+    for ( let i = 0; i < lines2.length; i++ ) {
+        let line = lines2[i]
+        nodeRelSize = scaleDown(line, 16)
+        ctx.font = `${nodeRelSize}px Libre Franklin`
+        ctx.fillText(line, x, y)
+        y = y + (lineHeight)
+    }
+}
+
 

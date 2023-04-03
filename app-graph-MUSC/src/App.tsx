@@ -6,14 +6,15 @@ import { Home } from './components/Home'
 import { HomeGraphSite } from './components/HomeGraphSite'
 import { Header } from './components/Header'
 import { GeneRiskGraph } from './experimental/GeneRiskGraph'
-import { geneNodes, buildGeneGraph, buildGeneGraphV2 } from './experimental/gene.data'
+import { geneNodes,  buildGeneGraphV2 } from './experimental/gene.data'
 import { GraphViewV2 } from './componentsv2/GraphViewV2' 
 import { GeneRiskChart } from './experimental/GeneRiskChart'
-import { GeneCardV2 } from './componentsv2/GeneCardv2'
+// import { GeneCardV2 } from './componentsv2/GeneCardv2'
+import { GeneCardV3 } from './componentsv2/GenecardV3'
 import { DivTest } from './experimental/DivTest'
 import { DivTest2 } from './experimental/divtest2'
 import { Neo4jContext } from 'use-neo4j'
-import { load_gene_organs } from './data/gene-organ.neo4j'
+import { load_gene_affects_organ } from './data/gene-organ.neo4j'
 
 import './App.css'  
 
@@ -40,7 +41,7 @@ export const App = () => {
 
     useEffect(()=> {
         geneNodes(handleData)
-        load_gene_organs( driver, {onData: handleData2})
+        load_gene_affects_organ( driver, {onData: handleData2})
     },[])
 
     return (<>
@@ -70,7 +71,18 @@ export const App = () => {
                         <Route path='graphview' element={<GraphViewV2/>}/>
                         <Route path='generiskgraph' element= {data2?<GeneRiskGraph nodes={buildGeneGraphV2(data2).nodes} links={buildGeneGraphV2(data2).links} gene='' gender='' debug={true}></GeneRiskGraph>:<div></div>}/>
                         <Route path='generiskchart' element= {data?<GeneRiskChart data={data} gene='' gender=''></GeneRiskChart>:<div></div>}/>
-                        <Route path='genecardv2' element= {data?<GeneCardV2 data={data}></GeneCardV2>:<div></div>}/>
+
+                        {/* <Route path='genecardv2' element= {data?<GeneCardV2 data={data}></GeneCardV2>:<div></div>}/> */}
+                        <Route 
+                            path='genecard' 
+                            element= {data?
+                                <GeneCardV3 
+                                    data={data} 
+                                    visable={true} 
+                                    gene={'BRCA1'} 
+                                    gender={'male'}
+                                />
+                                :<div></div>}/>
                         <Route path='divtest' element= {<DivTest></DivTest>}/>
                         <Route path='divtest2' element= {<DivTest2></DivTest2>}/>
 

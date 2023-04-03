@@ -1,12 +1,11 @@
 
-
-import { Box } from '@mui/material'
 import React, { 
     useContext,
     useEffect,
     useState } from 'react'
 import { Neo4jContext } from 'use-neo4j'
-import { GeneNode, loadGenesV2 } from '../data/gene.neo4j'
+import { Box } from '@mui/material'
+import { Gene, loadGenes } from '../data/gene.neo4j'
 
 
 type GeneDescProps = {
@@ -17,15 +16,15 @@ export const GeneDesc = ({gene}:GeneDescProps) => {
     console.log('----->Debug: GeneDesc.gene ', gene)
 
     const context = useContext(Neo4jContext), driver = context.driver
-    const [data, setData] = useState<GeneNode[]>([])
+    const [data, setData] = useState<Gene[]>([])
 
-    function handleData(data:GeneNode[]) {
+    function handleData(data:Gene[]) {
         console.log('----->handleData', data)
         setData(data)
     }
     
     useEffect(()=>{
-        loadGenesV2(driver, { filter: [gene], onData: handleData })
+        loadGenes(driver, { filterGenes: [gene], onData: handleData })
     },[])
 
 

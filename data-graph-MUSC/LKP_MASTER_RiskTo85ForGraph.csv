@@ -61,8 +61,8 @@ MSH2,Colorectal,Female,25,45.74,Colorectal
 MSH2,Endometrial,Female,25,30.71,?
 MSH2,Gastric,Female,25,16.96,Gastric
 MSH2,Ovarian,Female,25,10.95,Ovary
-MSH2,Pancreatic,Male,25,21.5,Pancreatic
-MSH2,Pancreatic,Female,25,5.4,Pancreatic
+MSH2,Pancreatic,Male,25,21.5,Pancreas
+MSH2,Pancreatic,Female,25,5.4,Pancreas
 MSH2,Small Intestine,Male,25,10.43,?
 MSH2,Small Intestine,Female,25,9.09,?
 MSH2,Upper Urinary Tract,Male,25,24.06,Upper Urinary Tract

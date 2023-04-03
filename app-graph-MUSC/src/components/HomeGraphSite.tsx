@@ -29,7 +29,8 @@ export const HomeGraphSite = () => {
     const [data, setData] = useState<string[]>([])
     let { specialist } = useParams()
 
-    console.log('specialist', specialist )
+    console.log('---->Debug: specialist', specialist )
+
     if ( typeof specialist === undefined) {
         specialist = 'Generic'
     } else {
@@ -96,7 +97,7 @@ export const HomeGraphSite = () => {
         }
     }
 
-    const GraphButtons = () => {
+    // const GraphButtons = () => {
         // switch (site) {
         //     case 'gi': return (<>
         //     <Box id='graph-box5' display='flex' flex={1}
@@ -143,8 +144,8 @@ export const HomeGraphSite = () => {
         // </>)
         // default: return (<></>)
         // }
-        return (<></>)
-    }
+        // return (<></>)
+    // }
 
     if ( data.length === 0) {
         return (<>
@@ -399,7 +400,8 @@ export const HomeGraphSite = () => {
                     </Box>
                 </Paper>
             </Box>
-            <GraphButtons/>
+            {/* What does this do again? */}
+            {/* <GraphButtons/> */}
         </Box>
         <MuscFooter/>
     </>)

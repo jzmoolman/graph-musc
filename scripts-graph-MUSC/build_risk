@@ -2,33 +2,31 @@
 
 // Dependencies build_gene_organ_disease
 
-MATCH (g:gene)-[:AFFECTS]->(o:organ)
-MATCH (n:LKP_MASTER_RISKTO85FORGRAPH)
-WHERE n.gene = g.name
-AND n.organ = o.name  
-CALL {
-  WITH o
-  MATCH (t:LKP_MASTER_RISKTO85FORGRAPH)
-  WHERE t.gene = 'Population' 
-  AND t.organ = o.name
-  AND t.gender ='Male'
-  RETURN t.maxofcr85 as male_population_risk
-}
-CALL {
-  WITH o 
-  MATCH (t:LKP_MASTER_RISKTO85FORGRAPH)
-  WHERE t.gene = 'Population' 
-  AND t.organ = o.name
-  AND t.gender ='Female'
-  RETURN t.maxofcr85 as female_population_risk
-}
+// DELETE relationships
+MATCH (g:gene)-[r:RISK]->(o:organ) DELETE r;
 
-WITH g, o, collect(n.gender) AS gender, 
-collect(n.maxofcr85) AS risk,
-male_population_risk, female_population_risk
+// Build relationship (gene-)[RISK]->(organ)
+
+MATCH (g:gene)-[:AFFECTS]->(o:organ)
+MATCH (rl:LKP_MASTER_RISKTO85FORGRAPH)
+WHERE rl.gene = g.name
+AND rl.organ = o.name  
+
+CALL { WITH rl
+  MATCH (rli:LKP_MASTER_RISKTO85FORGRAPH 
+    {
+      gene: 'Population',
+      organ: rl.organ, 
+      gender: rl.gender
+    }
+  )
+  RETURN rli.gender AS population_gender, rli.maxofcr85 AS population_risk
+}
 CREATE (g)-[:RISK {
-    male_risk: risk[0],  
-    female_risk: risk[1],
-    male_population_risk: male_population_risk,
-    female_population_risk: female_population_risk
+    population_gender: population_gender,
+    population_risk: population_risk,
+    gender: rl.gender,
+    risk: rl.maxofcr85 
 }]->(o)
+  
+  

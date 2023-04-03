@@ -18,6 +18,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { TabPanelProps } from '../tools/graphtools'
 import { NCCN } from './NCCN'
 import { GeneDesc } from './GeneDesc'
+import { build_gene_affecs_risk_organ_graph } from '../data/gene-organ.forcegraph'
 
 type GeneCardProps =  {
     data: any,
@@ -43,6 +44,7 @@ export const GeneCardV3 = ({
         gene,
         gender,
     }
+
     console.log('--->Debug: GendCardV3.tmp', _co)
     const [currentOptions, setCurrentOptions] = useState({gene,gender})
 
@@ -147,12 +149,11 @@ export const GeneCardV3 = ({
                         <TabPanel value={tabIndex} index={0}>
                             {/* <GeneDesc gene={currentOptions.gene}></GeneDesc> */}
                             <GeneDesc gene={gene}></GeneDesc>
-                        
                         </TabPanel>
                         <TabPanel value={tabIndex} index={1}>
                             <GeneRiskGraph 
-                                nodes={buildGeneGraph(data).nodes} 
-                                links={buildGeneGraph(data).links}
+                                nodes={build_gene_affecs_risk_organ_graph(data).nodes} 
+                                links={build_gene_affecs_risk_organ_graph(data).links}
                                 // gene={currentOptions.gene}
                                 gene={gene}
                                 gender={currentOptions.gender}/>

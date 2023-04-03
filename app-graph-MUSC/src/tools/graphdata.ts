@@ -1,4 +1,5 @@
 
+import { GraphData } from 'react-force-graph-2d'
 import { 
     FinalVerdict,
     GraphScheme,
@@ -571,11 +572,15 @@ export const  loadGeneDiseaseData = async (
     genes: string[],
     finalVerdict: FinalVerdict,
     graphScheme : GraphScheme,
-    onData:(data: Force2DData)=> void) => {
+    onData:(data: GraphData)=> void) => {
+    let result : GraphData = { 
+        nodes: [],
+        links: [],
+    }
 
     if (driver == null) {
-        console.log('Driver not loaded')
-        return 
+        console.log('Error: Driver not loaded')
+        return result
     }
 
 
@@ -595,8 +600,6 @@ export const  loadGeneDiseaseData = async (
     try {
         let res = await session.run(query)
         let ids = new  Set<string>()
-        let nodes : any[] = []
-        let links : any[] = []
         res.records.forEach(row => {
             let link1  = { source: '', target: ''}
             let source = row.get('g') 
@@ -614,7 +617,7 @@ export const  loadGeneDiseaseData = async (
                     nodeRelSize: graphScheme.nodeRelSize,
                     scaleFont: graphScheme.scaleFont
                 }
-                nodes.push(node) 
+                result.nodes.push(node) 
                 link1.source = node.name
                 ids.add(node.name)
             } else {
@@ -633,18 +636,20 @@ export const  loadGeneDiseaseData = async (
                     nodeRelSize: graphScheme.nodeRelSize,
                     scaleFont: graphScheme.scaleFont
                 }
-                nodes.push(node) 
+                result.nodes.push(node) 
                 link1.target = node.name
                 ids.add(node.name)
             } else {
                 link1.target = target.properties.name
             }
-            links.push(link1)
+            result.links.push(link1)
 
         })
         session.close();
-        onData( {nodes, links} )
+        onData( result )
     } catch (e) {
+        console.log('Error: new4j query')
+        onData( result)
         throw e
     }
     finally {

@@ -1,80 +1,131 @@
 import { Driver, }  from  'neo4j-driver'
+import { Integer } from 'neo4j-driver-core'
 
 import { 
     arrayToStrV2,
-    CustomNodeObject, defaultGraphScheme, GraphScheme}
+}
 from '../tools/graphtools'
 
-import { finalVerdictClauseV2 } from '../tools/graphdata'
-
-
-export interface GeneNode extends CustomNodeObject {
+export interface Gene {
+    id: string
+    name: string
     fullName: string
     altName: string
     description: string
+    mechanism: string
 }
 
 type loadGenesProps = {
-    graphScheme?: GraphScheme,
-    filter?: string[],
-    onData: (data: GeneNode[]) => void
+    filterGenes?: string[],
+    onData?: (data: Gene[]) => void
 }
 
-export const  loadGenesV2 = async (
+export const  loadGenes = async (
     driver: Driver | undefined,
     {
-        graphScheme = defaultGraphScheme, 
-        filter = [],
-        onData}: loadGenesProps
+        filterGenes = [],
+        onData
+    }: loadGenesProps
 ) => {
 
+    let result : Gene[] = []
     if (driver == null) {
         console.log('error: Driver not loaded')
-        return 
+        return  result
     }
-    let filterStr = ''
-    if (filter.length > 0) {
-        filterStr = `AND g.name in ${arrayToStrV2(filter)}`
+    
+    let WHERE = ''
+    if (filterGenes.length > 0) {
+        WHERE = `WHERE g.name in ${arrayToStrV2(filterGenes)}`
     }
 
     const query = 
-        `MATCH (g:MGene) 
-         WHERE ${finalVerdictClauseV2('Confirmed')}      
-         ${filterStr}
+        `MATCH (g:gene)
+         ${WHERE}
+         RETURN g`
+
+    let session = driver.session()
+
+    try {
+        let r = await session.run(query)
+        r.records.forEach(row => {
+            const g = row.get('g')
+            let gene: Gene = { 
+                id: Integer.toString(g.identity),
+                name: g.properties.name,
+                fullName: g.properties.fullName,
+                altName: g.properties.altName,
+                description: g.properties.description,
+                mechanism: g.properties.machanism
+            }
+            result.push(gene)
+        })
+        session.close();
+        if (onData !== undefined) {
+            onData(result);
+        }
+    } catch (e) {
+        console.log('error: loadGenes', e, query )
+        // throw e
+    }
+    finally {
+        await session.close()
+        return result;
+
+    }
+}
+
+export const  loadGenes_hasFinalVerdict = async (
+    driver: Driver | undefined,
+    {
+        filterGenes = [],
+        onData
+    }: loadGenesProps
+) => {
+    let result : Gene[] = []
+    if (driver == null) {
+        console.log('error: Driver not loaded')
+        return result
+    }
+    let WHERE = ''
+    if (filterGenes.length > 0) {
+        WHERE = `WHERE g.name in ${arrayToStrV2(filterGenes)}`
+    }
+
+    const query = 
+        `MATCH p=(g:gene)-[:AFFECTS {finalVerdict:1}]->(o:organ) 
+         ${WHERE}
+         WITH DISTINCT g.name as name, g
          RETURN g`
     console.log('---->query', query)
 
     let session = driver.session()
 
-    let data : GeneNode[] = []
+    
     try {
-        console.log('---->debug', 1)
         let r = await session.run(query)
         r.records.forEach(row => {
             const g = row.get('g')
-            let gene: GeneNode = { 
-                nodeType: 'Gene',
+            let gene: Gene = { 
+                id: Integer.toString(g.identity),
                 name: g.properties.name,
-                id: g.identity,
                 fullName: g.properties.fullName,
                 altName: g.properties.altName,
                 description: g.properties.description,
-                nodeColor: graphScheme.geneNode, 
-                fontColor: graphScheme.geneFont,
-                nodeVal: graphScheme.nodeVal,
-                nodeRelSize: graphScheme.nodeRelSize,
-                scaleFont: graphScheme.scaleFont,
+                mechanism: g.properties.machanism
             }
-            data.push(gene)
+            result.push(gene)
         })
-        session.close();
-        onData(data);
+        await session.close()
+        if ( onData !== undefined) {
+            onData(result);
+        }
     } catch (e) {
-        throw e
+        console.log('error: loadGenes_hasFinalVerdict', e, query )
+        // throw e
     }
     finally {
-        await session.close()
-        return data;
+        return result;
 
     }
 }

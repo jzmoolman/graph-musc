@@ -1,120 +1,192 @@
 import { Driver, }  from  'neo4j-driver'
+import { Integer } from 'neo4j-driver-core'
 
 import { 
     arrayToStrV2,
-    defaultGraphScheme, 
-    FinalVerdict, 
-    GraphScheme
 } from '../tools/graphtools'
 
-import { finalVerdictClauseV2 } from '../tools/graphdata'
-import { GeneNode } from './gene.neo4j'
-import { OrganNode } from './organ.neo4j'
+import { Gene } from './gene.neo4j'
+import { Organ } from './organ.neo4j'
 
-export interface GeneOrgansNode extends GeneNode {
-    organs: OrganNode[]
+export interface OrganRisk extends Organ{
+    gender: string,
+    risk: number,
+    population_gender: string,      // . Temp to make data integrity.  Should match gender
+    population_risk: number,
 }
 
-type loadGenesProps = {
-    graphScheme?: GraphScheme,
+export interface Gene_Organs {
+    gene: Gene,
+    organs: Organ[],
+}
+
+export interface Gene_OrganRisks {
+    gene: Gene,
+    organs: Organ[],
+}
+
+type loadGeneOrgansProps = {
     geneFilter?: string[],
     organFilter?: string[],
     specialistFilter?: string,
-    finalVerdict?:  FinalVerdict,
-    onData?: (data: GeneNode[]) => void
+    onData?: (data: Gene_Organs[]) => void
 }
 
-export const  load_gene_organs = async (
+type loadGeneOrganRisksProps = {
+    geneFilter?: string[],
+    organFilter?: string[],
+    specialistFilter?: string,
+    onData?: (data: Gene_OrganRisks[]) => void
+}
+
+export const load_gene_affects_organ = async (
     driver: Driver | undefined,
     {
-        graphScheme = defaultGraphScheme, 
+        specialistFilter ='Generic',
         geneFilter = [],
         organFilter = [],
-        specialistFilter ='Generic',
-        finalVerdict = 'Confirmed',
-        onData}: loadGenesProps
+        onData}: loadGeneOrgansProps
 ) => {
 
+    // console.log('---->Debug: load_gene_affects_organ')
+    let result : Gene_Organs[] = []
     if (driver == null) {
         console.log('error: Driver not loaded')
-        return 
+        return result
     }
    
-    let filterStr = ''
+    let WHERE = 'WHERE 1=1' // Dummy WHERE that is always true
     if (geneFilter.length > 0) {
-        filterStr += `AND g.name in ${arrayToStrV2(geneFilter)}`
+        WHERE += ` AND g.name in ${arrayToStrV2(geneFilter)}`
     }
 
     if (organFilter.length > 0) {
-        filterStr += `AND o.name in ${arrayToStrV2(organFilter)}`
+        WHERE += ` AND o.name in ${arrayToStrV2(organFilter)}`
     }
     
     const query = 
-        `MATCH (g:MGene)--(o:Organ)
-         WHERE ${finalVerdictClauseV2(finalVerdict)}      
-         ${filterStr}
-         RETURN g,o`
-    console.log('---->query', query)
+        `MATCH p=(g:gene)-[r:AFFECTS {finalVerdict:1}]->(o:organ) 
+         ${WHERE}
+         RETURN g,r,o`
 
     let session = driver.session()
 
-    let data : GeneOrgansNode[] = []
     try {
-        // console.log('---->debug', 1)
         let r = await session.run(query)
         r.records.forEach(row => {
             const g = row.get('g')
-            let gene = data.find( d => d.name === g.properties.name )
-            if ( !gene ) {
-                gene = { 
-                    nodeType: 'Gene',
-                    name: g.properties.name,
-                    id: g.identity,
-                    fullName: g.properties.fullName,
-                    altName: g.properties.altName,
-                    description: g.properties.description,
-                    nodeColor: graphScheme.geneNode, 
-                    fontColor: graphScheme.geneFont,
-                    nodeVal: graphScheme.nodeVal,
-                    nodeRelSize: graphScheme.nodeRelSize,
-                    scaleFont: graphScheme.scaleFont,
+            let gene_organs = result.find( d => d.gene.name === g.properties.name )
+            if ( gene_organs ===  undefined) {
+                gene_organs = { 
+                    gene:  { 
+                        id: Integer.toString(g.identity),
+                        name: g.properties.name,
+                        fullName: g.properties.fullName,
+                        altName: g.properties.altName,
+                        description: g.properties.description,
+                        mechanism: g.properties.mechanism,
+                    },
                     organs: [],
                 }
-                data.push(gene)
+                result.push(gene_organs)
             }
             const o = row.get('o') 
-            let organ: OrganNode = { 
+            let organ: Organ= { 
                     id: o.identity,
                     name: o.properties.name,
-                    nodeType: 'Organ',
-                    nodeColor: graphScheme.organNode,
-                    fontColor: graphScheme.organFont,
-                    nodeVal: graphScheme.nodeVal,
-                    nodeRelSize: graphScheme.nodeRelSize,
-                    scaleFont: graphScheme.scaleFont,
-                    male_risk: o.properties.male_risk,
-                    female_risk: o.properties.female_risk,
-                    male_population_risk: o.properties.male_population_risk,
-                    female_population_risk: o.properties.female_population_risk,
             }
-            if ( gene.name === 'BRCA2') {
-                console.log('---->Debug: load gene-organs organ', gene.name, organ)
-            }
-            gene.organs.push(organ) 
+            gene_organs.organs.push(organ) 
         })
-
-        session.close();
-        // console.log('---->Debug: data', data)
-        if ( onData) {
-            console.log('---->Debug: before onData')
-            onData(data);
-            console.log('---->Debug: after onData')
-        }
+        await session.close();
     } catch (e) {
-        throw e
+        console.log('error: load_gene_affects_organ', e, query )
+        // throw e
     } finally {
-        await session.close()
-        return data;
+        if ( onData !== undefined) {
+            onData(result);
+        }
+        return result;
+    }
+}
 
+export const load_gene_affects_risk_organ = async (
+    driver: Driver | undefined,
+    {
+        specialistFilter ='Generic',
+        geneFilter = [],
+        organFilter = [],
+        onData}: loadGeneOrganRisksProps
+) => {
+
+    // console.log('---->Debug: load_gene_affects_organ')
+    let result : Gene_Organs[] = []
+    if (driver == null) {
+        console.log('error: Driver not loaded')
+        return result
+    }
+   
+    let WHERE = `WHERE (type(r) = 'AFFECTS'\
+        AND r.finalVerdict =1) OR type(r) = 'RISK'`
+
+    if (geneFilter.length > 0) {
+        WHERE += ` AND g.name in ${arrayToStrV2(geneFilter)}`
+    }
+
+    if (organFilter.length > 0) {
+        WHERE += ` AND o.name in ${arrayToStrV2(organFilter)}`
+    }
+    
+    const query = `MATCH p=(g:gene {name:'BRCA1'} )-[r:AFFECTS |RISK ]->(o:organ)\
+        ${WHERE}\
+        RETURN g, collect(r) as r, o`
+
+
+    let session = driver.session()
+
+    try {
+        let r = await session.run(query)
+        r.records.forEach(row => {
+            const g = row.get('g')
+            let gene_organs = result.find( d => d.gene.name === g.properties.name )
+            if ( gene_organs ===  undefined) {
+                gene_organs = { 
+                    gene:  { 
+                        id: Integer.toString(g.identity),
+                        name: g.properties.name,
+                        fullName: g.properties.fullName,
+                        altName: g.properties.altName,
+                        description: g.properties.description,
+                        mechanism: g.properties.mechanism,
+                    },
+                    organs: [],
+                }
+                result.push(gene_organs)
+            }
+            const rl = row.get('r')
+            // console.log('---->Debug: relationship-list', rl)
+            rl.forEach( (r: any) => {
+                if ( r.type === 'RISK') {
+                    const o = row.get('o') 
+                    let organRisk: OrganRisk= { 
+                            id: Integer.toString(g.identity),
+                            name: o.properties.name,
+                            gender: r.properties.gender,
+                            risk: r.properties.risk,
+                            population_gender: r.properties.population_gender,
+                            population_risk: r.properties.population_risk, 
+                    }
+                    gene_organs!.organs.push(organRisk) 
+                }
+            } )
+        })
+        await session.close();
+    } catch (e) {
+        console.log('error: load_gene_affects_organ', e, query )
+        // throw e
+    } finally {
+        if ( onData !== undefined) {
+            onData(result);
+        }
+        return result;
     }
 }

@@ -1,16 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Neo4jContext } from 'use-neo4j'
-import { Box,  Button,  Paper, Typography } from '@mui/material'
+import { Box,  Button,  Paper,  } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 
-import { loadSpecialists } from '../tools/graphdata';
+// import { loadSpecialists } from '../tools/graphdata';
+import { loadSpecialists } from '../data/specialist.neo4j'
 import { MuscHeader,MuscHeader2, MuscHeader3, MuscHeader4 } from './MuscDecs';
 
 import musc from '../assets/musc.png'
 
 
 export const Home = () => {
-    const [activeGraph, setActiveGraph] = useState(0)
     
     const context = useContext(Neo4jContext), driver = context.driver
     const [data, setData] = useState<string[]>([])

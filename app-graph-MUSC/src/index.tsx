@@ -13,10 +13,16 @@ import { Neo4jProvider} from 'use-neo4j';
 import neo4j  from  'neo4j-driver'
 
 const uri = 'neo4j+s://813893ea.databases.neo4j.io'
+const uri2 = 'neo4j+s://21918b16.databases.neo4j.io'
 const user = 'neo4j'
 const password = 'p6YURX5bFlooyM3vRQizhc0uXY_cSpP_gfgJJQ7v_j8'
+const password2 = 'n2YRPwz5WoXAn_sU6VVNzGg0BJYC5tyWptfbg2eDKd8'
 
-const driver = neo4j.driver(uri, neo4j.auth.basic(user, password))
+
+
+
+// const driver = neo4j.driver(uri, neo4j.auth.basic(user, password))
+const driver = neo4j.driver(uri2, neo4j.auth.basic(user, password2))
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
