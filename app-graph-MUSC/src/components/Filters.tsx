@@ -5,6 +5,9 @@ import { GraphName, GraphScheme } from '../tools/graphtools'
 import { Dropdown } from './Dropdown'
 import { Neo4jContext } from 'use-neo4j'
 import { loadGene, loadOrgan, loadDisease, loadSyndrome } from '../tools/graphdata'
+import { GraphSchemeV2, defaultGraphSchemeV2 } from '../data/types.forcegraph'
+import { loadGenes_hasFinalVerdict } from '../data/gene.neo4j'
+import { RssFeed } from '@mui/icons-material'
 
 const getGraphName = (name: string): GraphName => {
     switch (name) {
@@ -79,11 +82,13 @@ export const Filters = ({
     const [data, setData] = useState<string[]>([])
 
     useEffect(()=> {
+        console.log('---->Debug: Filters.tsx useEffect')
         switch (name) { 
             case 'gene-organ': 
             case 'gene-disease': 
             case 'gene-disease-subtype':  {
-                loadGene(driver, specialist, handleData)
+                // loadGene(driver, specialist, handleData)
+                loadGenes_hasFinalVerdict(driver,{filterGenes:[], onData:handleData2})
                 break;
             }
             case 'organ': {
@@ -101,8 +106,36 @@ export const Filters = ({
         }
     },[])
 
-    const handleData = (data: string[]) => {
-        setData(data)
+    const handleData = (data: string[]) => { 
+         setData(data)
+    }
+
+
+    const build_lookup = (data:any[], value:string)=> {
+
+        let result: string[] = []
+        data.forEach(row => { 
+            type ObjectKey = keyof typeof row;
+            const myVar = value as ObjectKey;
+            if (row.hasOwnProperty(value)) {
+                result.push(row[myVar])
+            }
+        });
+        return result
+    }
+
+    
+    const handleData2 = (data: any[]) => {
+        console.log('---->Debug: Filters.tsx handleData2 data=', data)
+        switch (name) { 
+            case 'gene-organ': 
+            case 'gene-disease': 
+            case 'gene-disease-subtype':  {
+                let list = build_lookup(data, 'name').sort()
+                setData(list)
+                break;
+            }
+        }
     }
 
     const handleGraphChange = (name: string) => {
@@ -163,25 +196,23 @@ export const Filters = ({
         switch(name) {
             case 'gene-organ':
                 return  (<>
-                    This graph shows all [<span style={{color: graphScheme.geneNode}}>gene</span>]-
-                            [<span style={{color: graphScheme.organNode}}>organ</span>] associations.
+                    This graph shows all [<span style={{color: defaultGraphSchemeV2.gene_stroke}}>gene</span>]-[<span style={{color: defaultGraphSchemeV2.organ_stroke}}>organ</span>] associations.
                 </>)
             case 'gene-disease':
                 return  (<>
-                    This graph shows all [<span style={{color: graphScheme.geneNode}}>gene</span>]-
-                        [<span style={{color: graphScheme.diseaseNode}}>disease</span>] associations.
+                    This graph shows all [<span style={{color: defaultGraphSchemeV2.gene_stroke}}>gene</span>]-[<span style={{color: graphScheme.diseaseNode}}>disease</span>] associations.
                 </>)
             case 'gene-disease-subtype':
                 return  (<>
-                    This graph shows all [<span style={{color: graphScheme.geneNode}}>gene</span>]-[<span style={{color: graphScheme.diseaseNode}}>disease</span>]-[<span style={{color: graphScheme.diseaseSubtypeNode}}>subtype</span>] associations.
+                    This graph shows all [<span style={{color: graphScheme.diseaseNode}}>gene</span>]-[<span style={{color: graphScheme.diseaseNode}}>disease</span>]-[<span style={{color: graphScheme.diseaseSubtypeNode}}>subtype</span>] associations.
                 </>)
             case 'organ': 
                 return (<>
-                    This graph shows ALL [<span style={{color: graphScheme.organNode}}>organ</span>]-[<span style={{color: graphScheme.geneNode}}>gene</span>] associations.
+                    This graph shows ALL [<span style={{color: defaultGraphSchemeV2.organ_stroke}}>organ</span>]-[<span style={{color: defaultGraphSchemeV2.gene_stroke}}>gene</span>] associations.
                 </>)
             case 'disease':
                 return (<>
-                    This graph shows ALL [<span style={{color: graphScheme.diseaseNode}}>disease</span>]-[<span style={{color: graphScheme.geneNode}}>gene</span>] associations.
+                    This graph shows ALL [<span style={{color: graphScheme.diseaseNode}}>disease</span>]-[<span style={{color: defaultGraphSchemeV2.gene_stroke }}>gene</span>] associations.
                 </>)
             case 'syndrome-disease': 
                 return (<>
@@ -275,11 +306,11 @@ export const Filters = ({
             case 'gene-disease':
             case 'gene-disease-subtype':
                 return (<>
-                    To limit the graph to one or just a few [<span style={{color: 'blue'}}>genes</span>], select as many [<span style={{color: 'blue'}}>genes</span>] as you wish compare.
+                    To limit the graph to one or just a few [<span style={{color: defaultGraphSchemeV2.gene_stroke}}>genes</span>], select as many [<span style={{color: defaultGraphSchemeV2.gene_stroke}}>genes</span>] as you wish compare.
                 </>)
             case 'organ': 
                 return (<>
-                    To limit the graph to one or just a few [<span style={{color: 'red'}}>organs</span>], select as many [<span style={{color: 'red'}}>organs</span>] as you wish compare.
+                    To limit the graph to one or just a few [<span style={{color: defaultGraphSchemeV2.gene_stroke}}>organs</span>], select as many [<span style={{color: 'red'}}>organs</span>] as you wish compare.
                 </>)
             case 'disease': 
                 return (<>
@@ -295,28 +326,33 @@ export const Filters = ({
         }
     }
 
+ 
     const FilterGraph = ({name} : FilterProps) => {
-        let el : React.ReactElement;
-        el = <><Typography 
-            component='div'
-            sx={{
-                textAlign:'left',
-                marginLeft: 1,
-                color: 'black'
-            }}
+        console.log('---->Debug: Filters.tsx FilterGraph')
+        console.log('---->Debug: name=', name)
+
+        return (<>
+            <Typography 
+                component='div'
+                sx={{
+                    textAlign:'left',
+                    marginLeft: 1,
+                    color: 'black'
+                }}
         > 
-            <Box paddingTop={2}>                    
-                <GraphDesc name={name}/>
-            </Box>
-        </Typography>
-        <Dropdown 
-            label={getGraphDesc(name)}
-            options={data}
-            selected={getOnHandleChange(name).selected}
-            onChange={getOnHandleChange(name).handleChange}
-        />
-        </>
-        return el
+                <Box paddingTop={2}>                    
+                    <GraphDesc name={name}/>
+                </Box>
+            </Typography>
+            <Dropdown 
+                label={getGraphDesc(name)}
+                options={data}
+                selected={getOnHandleChange(name).selected}
+                onChange={getOnHandleChange(name).handleChange}
+            />
+
+
+        </>)
     }
 
     const FilterAssociation = ({name}:FilterProps) => {
@@ -346,37 +382,27 @@ export const Filters = ({
         </>)
     }
 
-    return (
-        <>
-            <Box  
-                id='filter-box' 
-                display='grid'
-                height='100%'
-                
-                gridTemplateRows='calc(100% - 175px) 175px' 
+    return (<>
+        <Box  
+            id='filter-box' 
+            display='grid'
+            height='100%'
+            gridTemplateRows='calc(100% - 175px) 175px' 
+        >
+            <Box 
+                id='filter-box1' 
             >
-                <Box 
-                    id='filter-box1' 
-                    // sx={{
-                    //     backgroundColor:'blue',
-                    // }}
-                >
+                <FilterHeader name={name}/>
+                <FilterSubGraph name={name}/>
+                <FilterGraph name={name}/>
 
-                    <FilterHeader name={name}/>
-                    <FilterSubGraph name={name}/>
-                    <FilterGraph name={name}/>
-
-                </Box>
-                <Box 
-                    id='filter-box2' 
-                    // sx={{
-                    //     backgroundColor:'red',
-                    // }}
-                >
-                    <FilterAssociation name={name}/>
-                </Box>
             </Box>
-        </>
-    )
+            <Box 
+                id='filter-box2' 
+            >
+                <FilterAssociation name={name}/>
+            </Box>
+        </Box>
+    </>)
 
 }

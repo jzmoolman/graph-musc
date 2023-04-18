@@ -7,21 +7,21 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 4;
 const MenuProps = {
-    PaperProps: {
-        style: {
-            marginTop:5,
-            minHeight:200,
-            //maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-            maxHeight: window.innerHeight-300,
-            width: 250,
-        },
+  PaperProps: {
+    style: {
+      //  maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      marginTop:5,
+      minHeight:200,
+      maxHeight: window.innerHeight-300,
+      width: 250,
     },
-}
+  },
+};
 
-function getStyles(value: string, values: string[], theme: Theme) {
+function getStyles(value: string, Values: string[], theme: Theme) {
     return {
       fontWeight:
-        values.indexOf(value) === -1
+        Values.indexOf(value) === -1
           ? theme.typography.fontWeightRegular
           : theme.typography.fontWeightMedium,
     };
@@ -80,43 +80,44 @@ export const Dropdown = ({
           
           }}
         >
-            <FormControl sx={{
-                m:1,
-                width:'100%',
-            }}>
-
-            <InputLabel id='multiple-chip-label' style={{zIndex:0}}>{label}</InputLabel>
+          <FormControl sx={{width:'100%'}} size='small'>
+            <InputLabel 
+              variant='outlined'
+              id='multiple-dropdown-label'>{label}
+            </InputLabel>
             <Select 
-                //   ref={ref}
-                labelId='multiple-chip-label'
-                id='multiple-dropdown'
-                multiple
-                value={values} 
-                onChange={handleChange}
-                input={<OutlinedInput id='select-multiple-chip' label={label} />}
-                renderValue={(selected) => (
-                    <Box sx={{display: 'flex', flexWrap: 'wrap', gap:0.25 }}>
-                        {selected.map(( value)=> (
-                            <Chip 
-                                key={value}
-                                label={value}
-                                onMouseDown={(e)=>{e.stopPropagation()}}
-                                onDelete={(e)=>handleDelete(e, value)}
-                            />
-                        ))}   
-                    </Box>
-                )}
-                MenuProps={MenuProps}
+              ref={ref}
+            //   size='small'
+              labelId='multiple-dropdown-label'
+              id='multiple-dropdown'
+              multiple
+              value={values} 
+              onChange={handleChange}
+              input={<OutlinedInput label={label + "zzz"} />}
+              renderValue={(selected)=>(
+                <Box sx={{display: 'flex', flexWrap: 'wrap', gap:0.25 }}>
+                  {selected.map(( value)=> (
+                    <Chip 
+                      key={value}
+                      label={value}
+                      onMouseDown={(e)=>{e.stopPropagation()}}
+                      onDelete={(e)=>handleDelete(e, value)}
+                    />
+                  ))}   
+                </Box>
+              )}
+              MenuProps={MenuProps}
+              
             >
-                {options?.map((value) => (
-                    <MenuItem
-                        key={value}
-                        value={value}
-                        style={getStyles(value, values ? values : [], theme)}
-                    >
-                    {value}
-                    </MenuItem>
-                ))}
+              {options?.map((value)=>(
+                <MenuItem
+                    key={value}
+                    value={value}
+                    style={getStyles(value, values ? values : [], theme)}
+                >
+                  {value}
+                </MenuItem>
+              ))}
             </Select>
         </FormControl>
       </Box>

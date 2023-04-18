@@ -1,46 +1,58 @@
-// Forked from mgene.organ.LKP
-
-// Dependencies
-// import.LKP
-
-// Delete node and relationships
-MATCH (n:syndrome) DETACH DELETE n;
-MATCH ()-[r:ASSOCIATED]-() DELETE r;
-
-// Building syndrome
+// Syndrome
+MATCH (s:syndrome) DETACH DELETE s;
 MATCH (n:LKP_GENE_SYNDROME)
+WHERE NOT(n.GeneMasterName = 'Unknown'
+    OR n.SyndromeMasterName = 'Unknown')
 WITH DISTINCT n.SyndromeMasterName as name
-MERGE (s:syndrome 
-    {
-        name:name,
-        hereditaryType: "Unknown",
-        verbiage: "Unknown"
-    }
-);
+MERGE (s:syndrome {name:name});
 
-// Building relationship between gene->syndrome
+MATCH (gslk:LKP_GENE_SYNDROME)
 MATCH (g:gene)
-MATCH (gsl:LKP_GENE_SYNDROME)
 MATCH (s:syndrome)
-WHERE gsl.GeneMasterName = g.name
-    AND gsl.SyndromeMasterName = s.name
+WHERE g.name = gslk.GeneMasterName 
+AND s.name = gslk.SyndromeMasterName
 CREATE (g)-[r:ASSOCIATED]->(s);
 
-//Expand syndrome with verbiage 
+
+//SyndromeVerbiage
 MATCH (s:syndrome)
-MATCH (svl:LKP_SYNDROME_VERBIAGE) 
+MATCH (sv:LKP_SYNDROME_VERBIAGE) 
 WHERE 
-    s.name = svl.SyndromeMasterName 
-WITH s, collect(svl.HereditaryType) as verbiageTypes, svl.VerbiageFromMedneonAug2022 as verbiage
-SET s.hereditaryType =
-    (CASE 
-        WHEN apoc.coll.containsAll(verbiageTypes, ['Dominant', 'Recessive']) THEN 'Dominant' 
-        WHEN apoc.coll.containsAll(verbiageTypes, ['Dominant']) THEN 'Dominant' 
-        ELSE 'Recessive' END
-    ),
-    s.verbiage = verbiage
-    ;
+    s.name = sv.SyndromeMasterName 
+WITH s, collect(sv.SyndromeMasterName) AS syndromes, COLLECT(sv.HereditaryType) AS types, COLLECT(sv.VerbiageFromMedneonAug2022 ) as verbiages
+// RETURN *
+SET s.types = types,
+    s.verbiages = verbiages
 
 
+//SyndromeVerbiage - Olde way - rather store the diffefrent type with in syndrome node, 
+// MVATCH (s:syndrome)
+// MATCH (sv:LKP_SYNDROME_VERBIAGE) 
+// WHERE 
+//     s.name = sv.SyndromeMasterName 
+// WITH s, collect(sv.SyndromeMasterName) as syndromes, collect(sv.HereditaryType) AS types
+// RETURN s, syndromes, types, apoc.coll.indexOf(types, 'Dominant') AS dominantIndex,apoc.coll.indexOf(types, 'Recessive') As recessiveIndexA
 
 
+// //SyndromeVerbiage
+// MATCH (s:syndrome)
+// MATCH (sv:LKP_SYNDROME_VERBIAGE) 
+// WHERE 
+//     s.name = sv.SyndromeMasterName 
+// WITH s, collect(sv.SyndromeMasterName) as syndromes, collect(sv.HereditaryType) AS types
+// WITH s, syndromes, types, apoc.coll.indexOf(types, 'Dominant') AS dominantIndex,apoc.coll.indexOf(types, 'Recessive') As recessiveIndex
+// RETURN
+// (CASE WHEN dominantIndex <> -1 THEN 'Dominant' ELSE 'Recessive' END),
+// (CASE WHEN dominantIndex <> -1 THEN syndromes[dominantIndex] ELSE syndromes[recessiveIndex] END)
+
+
+// //   hereditaryType: (CASE WHEN apoc.coll.containsAll(verbiages, ['Dominant', 'Recessive']) THEN 'Dominant' WHEN apoc.coll.containsAll(verbiages, ['Dominant']) THEN 'Dominant' ELSE 'Recessive' END)
+
+
+// // WITH s, sv, collect(sv.HereditaryType) AS verbiages
+
+// //WITH s, sv, collect(sv.HereditaryType) as verbiages
+// // CREATE (sv:SyndromeVerbiage {
+// //   name: v.SyndromeMasterName,
+// //   hereditaryType: (CASE WHEN apoc.coll.containsAll(verbiages, ['Dominant', 'Recessive']) THEN 'Dominant' WHEN apoc.coll.containsAll(verbiages, ['Dominant']) THEN 'Dominant' ELSE 'Recessive' END)
+// // })<-[:ATTR2]-(s);

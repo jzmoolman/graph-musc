@@ -6,27 +6,38 @@ import React, {
 import { Neo4jContext } from 'use-neo4j'
 import { Box } from '@mui/material'
 import { Gene, loadGenes } from '../data/gene.neo4j'
-import { Gene_OrganRisks } from '../data/gene-organ.neo4j'
 
 
 type GeneDescProps = {
-    gene: Gene_OrganRisks
+    gene: string
 }
 
 export const GeneDesc = ({gene}:GeneDescProps) => {
     console.log('----->Debug: GeneDesc.gene ', gene)
 
+    const context = useContext(Neo4jContext), driver = context.driver
+    const [data, setData] = useState<Gene[]>([])
+
+    function handleData(data:Gene[]) {
+        // console.log('----->handleData', data)
+        setData(data)
+    }
+    
+    useEffect(()=>{
+        loadGenes(driver, { filterGenes: [gene], onData: handleData })
+    },[])
+
 
     return (<div> 
-        {gene?<>
+        {data.length === 1?<>
         <div>
             <span>
-                <b> Fullname:</b> {gene.gene.fullName}
+                <b> Fullname:</b> {data[0].fullName}
             </span>
         </div>
         <div>
             <span>
-                <b>Alternative Name:</b> {gene.gene.altName}
+                <b>Alternative Name:</b> {data[0].altName}
             </span>
                 <br></br>
         </div>
@@ -36,7 +47,7 @@ export const GeneDesc = ({gene}:GeneDescProps) => {
                 Description
         </Box>
         <div>
-                {gene.gene.description}
+                {data[0].description}
         </div>
         </>
         :<span>Loading ...</span>}

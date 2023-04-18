@@ -1,5 +1,21 @@
-cat import.LKP  | /usr/local/opt/neo4j/bin/cypher-shell -u neo4j -p p6YURX5bFlooyM3vRQizhc0uXY_cSpP_gfgJJQ7v_j8 -a neo4j+s://813893ea.databases.neo4j.io:7687
-cat mgene.organ.LKP  | /usr/local/opt/neo4j/bin/cypher-shell -u neo4j -p p6YURX5bFlooyM3vRQizhc0uXY_cSpP_gfgJJQ7v_j8 -a neo4j+s://813893ea.databases.neo4j.io:7687
-cat syndrome.LKP  | /usr/local/opt/neo4j/bin/cypher-shell -u neo4j -p p6YURX5bFlooyM3vRQizhc0uXY_cSpP_gfgJJQ7v_j8 -a neo4j+s://813893ea.databases.neo4j.io:7687
-cat nccn  | /usr/local/opt/neo4j/bin/cypher-shell -u neo4j -p p6YURX5bFlooyM3vRQizhc0uXY_cSpP_gfgJJQ7v_j8 -a neo4j+s://813893ea.databases.neo4j.io:7687
-cat expand_organ_risks  | /usr/local/opt/neo4j/bin/cypher-shell -u neo4j -p p6YURX5bFlooyM3vRQizhc0uXY_cSpP_gfgJJQ7v_j8 -a neo4j+s://813893ea.databases.neo4j.io:7687
+# zach@scapticom.co.za 
+# NEO4J_URI=neo4j+s://21918b16.databases.neo4j.io
+# NEO4J_USERNAME=neo4j
+# NEO4J_PASSWORD=n2YRPwz5WoXAn_sU6VVNzGg0BJYC5tyWptfbg2eDKd8
+# AURA_INSTANCEID=21918b16
+# AURA_INSTANCENAME=Instance01
+
+cat import_raw_data | /usr/local/opt/neo4j/bin/cypher-shell -u neo4j -p n2YRPwz5WoXAn_sU6VVNzGg0BJYC5tyWptfbg2eDKd8 -a neo4j+s://21918b16.databases.neo4j.io:7687
+cat build_gene_organ_disease  | /usr/local/opt/neo4j/bin/cypher-shell -u neo4j -p n2YRPwz5WoXAn_sU6VVNzGg0BJYC5tyWptfbg2eDKd8 -a neo4j+s://21918b16.databases.neo4j.io:7687
+cat expand_gene  | /usr/local/opt/neo4j/bin/cypher-shell -u neo4j -p n2YRPwz5WoXAn_sU6VVNzGg0BJYC5tyWptfbg2eDKd8 -a neo4j+s://21918b16.databases.neo4j.io:7687
+cat build_syndrome  | /usr/local/opt/neo4j/bin/cypher-shell -u neo4j -p n2YRPwz5WoXAn_sU6VVNzGg0BJYC5tyWptfbg2eDKd8 -a neo4j+s://21918b16.databases.neo4j.io:7687
+cat build_risk  | /usr/local/opt/neo4j/bin/cypher-shell -u neo4j -p n2YRPwz5WoXAn_sU6VVNzGg0BJYC5tyWptfbg2eDKd8 -a neo4j+s://21918b16.databases.neo4j.io:7687
+
+# jzmoolman@scapticom.co.za
+#cat import  | /usr/local/opt/neo4j/bin/cypher-shell -u neo4j -p p6YURX5bFlooyM3vRQizhc0uXY_cSpP_gfgJJQ7v_j8 -a neo4j+s://813893ea.databases.neo4j.io:7687
+#cat build_gene_organ_disease  | /usr/local/opt/neo4j/bin/cypher-shell -u neo4j -p p6YURX5bFlooyM3vRQizhc0uXY_cSpP_gfgJJQ7v_j8 -a neo4j+s://813893ea.databases.neo4j.io:7687
+#cat import_cvs  | /usr/local/opt/neo4j/bin/cypher-shell -u neo4j -p p6YURX5bFlooyM3vRQizhc0uXY_cSpP_gfgJJQ7v_j8 -a neo4j+s://813893ea.databases.neo4j.io:7687
+#cat build_gene_organ_disease  | /usr/local/opt/neo4j/bin/cypher-shell -u neo4j -p p6YURX5bFlooyM3vRQizhc0uXY_cSpP_gfgJJQ7v_j8 -a neo4j+s://813893ea.databases.neo4j.io:7687
+#cat expand_gene  | /usr/local/opt/neo4j/bin/cypher-shell -u neo4j -p p6YURX5bFlooyM3vRQizhc0uXY_cSpP_gfgJJQ7v_j8 -a neo4j+s://813893ea.databases.neo4j.io:7687
+#cat build_syndrome  | /usr/local/opt/neo4j/bin/cypher-shell -u neo4j -p p6YURX5bFlooyM3vRQizhc0uXY_cSpP_gfgJJQ7v_j8 -a neo4j+s://813893ea.databases.neo4j.io:7687
+#cat build_risk | /usr/local/opt/neo4j/bin/cypher-shell -u neo4j -p p6YURX5bFlooyM3vRQizhc0uXY_cSpP_gfgJJQ7v_j8 -a neo4j+s://813893ea.databases.neo4j.io:7687

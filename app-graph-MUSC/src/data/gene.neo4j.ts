@@ -97,11 +97,9 @@ export const  loadGenes_hasFinalVerdict = async (
          ${WHERE}
          WITH DISTINCT g.name as name, g
          RETURN g`
-    console.log('---->query', query)
+    // console.log('---->query', query)
 
     let session = driver.session()
-
-    
     try {
         let r = await session.run(query)
         r.records.forEach(row => {

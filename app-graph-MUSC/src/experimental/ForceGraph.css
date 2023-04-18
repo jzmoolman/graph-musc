@@ -1,8 +1,8 @@
 .node {
     cursor: move;
     /* fill: #ccc; */
-    stroke: #000;
-    stroke-width: 0.0px;
+    /* stroke: #000; */
+    /* stroke-width: 0.0px; */
   }
   
   /* .node.fixed {

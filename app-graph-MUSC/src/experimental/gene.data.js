@@ -164,8 +164,7 @@ export const buildGeneGraphV2 = (data) => {
             clipColor:zcolors[1][1],
             size:30,
         }
-     })
-     nodes = [...nodes, ...organNodes]
-    console.log('----> Debug: 5')
+    })
+    nodes = [...nodes, ...organNodes]
     return {nodes, links}
 }

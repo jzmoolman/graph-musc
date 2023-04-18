@@ -5,9 +5,8 @@ import { Graph } from './Graph';
 import { Filters } from './Filters';
 import { FinalVerdict } from '../tools/graphtools';
 
-import { geneNodes} from '../experimental/gene.data'
 import { GeneCardV3 } from '../componentsv2/GenecardV3';
-import { load_gene_affects_organ, load_gene_affects_risk_organ } from '../data/gene-organ.neo4j';
+import { load_gene_affects_risk_organ } from '../data/gene-organ.neo4j';
 import { Neo4jContext } from 'use-neo4j';
 
 type GraphProps = {
@@ -52,24 +51,16 @@ export const GraphViewport = ( {
     const [dim, setDim] = useState<Dimension>( {width:600, height:600})
     const ref = useRef<HTMLInputElement>(null)
     const [data, setData] = useState<any>(null);
-    const [data2, setData2] = useState<any>(null);
+    // const [data2, setData2] = useState<any>(null);
     
     const handleData = (data: any) => {
-        console.log('--->Debug: handle.data', data) 
+        // console.log('--->Debug: GraphViewport.tsx.handleData data', data) 
         setData(data)
     }
 
-    const handleData2 = (data: any) => {
-        setData2(data)
-    } 
-      useEffect(()=>{
-        // here am i now
-
-        // geneNodes(handleData)
-        //load_gene_affects_organ( driver, {onData: handleData2})
+    useEffect(()=>{
         load_gene_affects_risk_organ(driver, {onData: handleData })
-
-      },[]) 
+    },[]) 
 
     useEffect(()=> {
         window.addEventListener("resize", handleResize )
@@ -78,14 +69,14 @@ export const GraphViewport = ( {
         if (height < 600) {
             height = 600;
         }
-        console.log("---->Debug: width, height", width, height)
+        // console.log("---->Debug: width, height", width, height)
         setDim({width, height})
     }, [])
 
     const handleResize = () => {
         const width = ref.current?ref.current.offsetWidth:0
         let height = ref.current?ref.current.offsetHeight:0
-        console.log("---->Debug before: width, height", width, height)
+        // console.log("---->Debug before: width, height", width, height)
         if (height < 600) {
             height = 600;
         }
@@ -130,17 +121,19 @@ export const GraphViewport = ( {
     }
 
     const handleMouseOver = () => {
-        if (onMouseOver) 
+        if (onMouseOver) {
             onMouseOver()
+        }
     }
     const handleMouseOut = () => {
-        if (onMouseOut) 
+        if (onMouseOut) {
             onMouseOut()
+        }
     }
 
     const handleGeneClick = (gene: string) => {
+        // console.log('---->handleGraphGeneClicked.gene', gene)
         setGene(gene)
-        console.log('---->handleGraphGeneClicked.gene', gene)
     }
 
     const handleGeneCardClose = () => {
@@ -237,6 +230,7 @@ export const GraphViewport = ( {
                     finalVerdict={finalVerdict}
                     graphScheme={graphScheme}
                     enableHover
+                    enableTitle
                     enableBack
                     enableZoom
                     geneData={data}

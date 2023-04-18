@@ -1,0 +1,5 @@
+cat import.LKP  | /usr/local/opt/neo4j/bin/cypher-shell -u neo4j -p p6YURX5bFlooyM3vRQizhc0uXY_cSpP_gfgJJQ7v_j8 -a neo4j+s://813893ea.databases.neo4j.io:7687
+cat mgene.organ.LKP  | /usr/local/opt/neo4j/bin/cypher-shell -u neo4j -p p6YURX5bFlooyM3vRQizhc0uXY_cSpP_gfgJJQ7v_j8 -a neo4j+s://813893ea.databases.neo4j.io:7687
+cat syndrome.LKP  | /usr/local/opt/neo4j/bin/cypher-shell -u neo4j -p p6YURX5bFlooyM3vRQizhc0uXY_cSpP_gfgJJQ7v_j8 -a neo4j+s://813893ea.databases.neo4j.io:7687
+cat nccn  | /usr/local/opt/neo4j/bin/cypher-shell -u neo4j -p p6YURX5bFlooyM3vRQizhc0uXY_cSpP_gfgJJQ7v_j8 -a neo4j+s://813893ea.databases.neo4j.io:7687
+cat expand_organ_risks  | /usr/local/opt/neo4j/bin/cypher-shell -u neo4j -p p6YURX5bFlooyM3vRQizhc0uXY_cSpP_gfgJJQ7v_j8 -a neo4j+s://813893ea.databases.neo4j.io:7687

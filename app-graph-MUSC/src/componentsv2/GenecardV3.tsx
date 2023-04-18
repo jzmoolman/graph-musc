@@ -3,7 +3,6 @@ import CSS from 'csstype'
 
 import { GeneRiskGraph } from "../experimental/GeneRiskGraph"
 import { GeneRiskChart } from "../experimental/GeneRiskChart"
-import { buildGeneGraph } from '../experimental/gene.data'
 import { 
     Box,
     Card,
@@ -19,9 +18,10 @@ import { TabPanelProps } from '../tools/graphtools'
 import { NCCN } from './NCCN'
 import { GeneDesc } from './GeneDesc'
 import { build_gene_affecs_risk_organ_graph } from '../data/gene-organ.forcegraph'
+import { Gene_OrganRisks } from '../data/gene-organ.neo4j'
 
 type GeneCardProps =  {
-    data: any,
+    data: Gene_OrganRisks[],
     gene: string,
     gender: string,
     visable?: boolean
@@ -35,38 +35,32 @@ export const GeneCardV3 = ({
     visable,
     onClose, }: GeneCardProps) => {
 
-    console.log('--->Debug: GendCardV3.data', data)
-    console.log('--->Debug: GendCardV3.gene', gene)
-    console.log('--->Debug: GendCardV3.gender', gender)
+    console.log('--->Debug: GendCardV3')
+
+    const [currentGene, setCurrentGene] = useState('')
+    const [currentGender, setCurrentGender] = useState('')
     
 
-    const _co = {
-        gene,
-        gender,
-    }
-
-    console.log('--->Debug: GendCardV3.tmp', _co)
-    const [currentOptions, setCurrentOptions] = useState({gene,gender})
-
-    console.log('--->Debug: GendCardV3.currentOptions', currentOptions)
+    // console.log('--->Debug: GendCardV3.currentOptions', currentOptions)
 
     const [tabIndex, setTabIndex] = useState(0)
 
 
     function handleGeneChange(e:React.ChangeEvent<HTMLSelectElement>) {
-        let options = {...currentOptions}
-        options.gene = e.target.value 
-        setCurrentOptions(options)
+        // let options = {...currentOptions}
+        // options.gene = e.target.value 
+        // setCurrentOptions(options)
+        setCurrentGene(e.target.value)
     }
     
-    const  handleGenderChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        let options = {...currentOptions}
-        options.gender = event.target.value 
-        setCurrentOptions(options)
+    const  handleGenderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        // let options = {...currentOptions}
+        // options.gender = event.target.value 
+        // setCurrentOptions(options)
+        setCurrentGender(e.target.value)
     }
 
     const handleClose = () => {
-        console.log('Close GeneCard')
         if (onClose) {
             onClose();
         }
@@ -89,7 +83,7 @@ export const GeneCardV3 = ({
           >
             {value === index && (
               <Box sx={{ p: 3 }}>
-                <Typography>{children}</Typography>
+                    <Typography component='div'>{children}</Typography> 
               </Box>
             )}
           </div>)
@@ -111,7 +105,14 @@ export const GeneCardV3 = ({
         // border: '3px solid #73AD21',
     }
 
-    return ( visable && data?
+    // data contain all the genes/gender information
+    // Filter gene and gender
+    let geneFiltered  = data.find(_gene => _gene.gene.name === (currentGene==''?gene:currentGene))
+    // console.log('---->Debug: GeneCardV3.tsx geneFiltered', geneFiltered)
+
+
+
+    return ( visable && geneFiltered?
         <div style={absolute}>
             <Card 
                 sx={{ 
@@ -136,11 +137,11 @@ export const GeneCardV3 = ({
                         <Tabs value={tabIndex} onChange={handleTabChange} aria-label="basic tabs example">
                             <Tab label="Summary" {...a11yProps(0)}/>
                             <Tab label="Graph" {...a11yProps(1)} />
-                            <Tab label="Chart" {...a11yProps(2)} />
+                            <Tab label="Bar Chart" {...a11yProps(2)} />
                             <Tab label="NCCN Guidelines" {...a11yProps(3)} />
                         </Tabs>
                     </Box>
-                    <Box component={'div'} sx={{ 
+                    <Box id='BOX-CHECK_ID' component={'div'} sx={{ 
                             // Hardcode height for now.  This allow for the scolling to be active
                             height: 600, 
                             overflow:'auto'
@@ -148,21 +149,19 @@ export const GeneCardV3 = ({
                     >
                         <TabPanel value={tabIndex} index={0}>
                             {/* <GeneDesc gene={currentOptions.gene}></GeneDesc> */}
-                            <GeneDesc gene={gene}></GeneDesc>
+                            <GeneDesc gene={geneFiltered}></GeneDesc>
                         </TabPanel>
                         <TabPanel value={tabIndex} index={1}>
                             <GeneRiskGraph 
-                                nodes={build_gene_affecs_risk_organ_graph(data).nodes} 
-                                links={build_gene_affecs_risk_organ_graph(data).links}
-                                // gene={currentOptions.gene}
-                                gene={gene}
-                                gender={currentOptions.gender}/>
+                                data={build_gene_affecs_risk_organ_graph([geneFiltered])} 
+                                gene={geneFiltered}
+                                gender={currentGender===''?gender:currentGender}
+                            />
                         </TabPanel>
                         <TabPanel value={tabIndex} index={2}>
                             <GeneRiskChart data={data}
-                                gene={gene}
-                                // gene={currentOptions.gene}
-                                gender={currentOptions.gender}
+                                gene={currentGene}
+                                gender={currentGender===''?gender:currentGender}
                             /> 
                         </TabPanel>
                         <TabPanel value={tabIndex} index={3}>

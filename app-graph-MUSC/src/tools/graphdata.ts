@@ -216,19 +216,22 @@ export const loadGene= async (
         onData?:(data:string[]
     )=> void
 ) => {
+    console.log('---->Debug: graphdata.ts loadGene')
 
     let genes: string[] = []
     if (driver == null) {
-        console.log('Driver not loaded')
+        console.log('error: Driver not loaded')
         return genes
     }
-    let whereCLAUSE: string =  `WHERE g.finalVerdict in [1]`
+    let WHERE: string =  `WHERE g.finalVerdict in [1]`
     if ( (specialist !== 'Generic') ) {
-        whereCLAUSE = whereCLAUSE + ` AND o.name in ${ArrayToStr(await loadOrgan(driver, specialist))}`
+        WHERE = WHERE + ` AND o.name in ${ArrayToStr(await loadOrgan(driver, specialist))}`
     }
 
-    const query = `MATCH (g:MGene)-[:AFFECTS]->(o:Organ) ${whereCLAUSE} RETURN DISTINCT g.name as name ORDER BY name`  
-                                                                                // console.log('LoadGene', query)
+    const query = `MATCH (g:gene)-[:AFFECTS]->(o:organ)\n\
+        ${WHERE}\n\
+        RETURN DISTINCT g.name as name\n\
+        ORDER BY name`  
 
     let session = driver.session()
     try {
@@ -236,16 +239,16 @@ export const loadGene= async (
         genes = res.records.map(row => {
             return row.get('name')
         })
-        session.close();
+        await session.close();
         if (onData !== undefined) {
             onData( genes )
         }
     } catch (e) {
-        throw e
+        console.log('error: graphdata.ts loadGene query=', query)
+        // throw e
     }
     finally {
-        await session.close()
-    
+        console.log('---->Debug: graphdata.ts finally data dump', genes)
         return genes
     }
 }

@@ -12,10 +12,11 @@ type Dimension = {
 }
 
 export const HomeGraph = () => {
+    console.log('---->Debug: HomeGraph.tsx HomeGraph')
     const [activeGraph, setActiveGraph] = useState(0)
 
-  const  { specialist } = useParams()
-  console.log('specialist', specialist )
+    const  { specialist } = useParams()
+    console.log('specialist', specialist )
 
     const [dim, setDim] = useState<Dimension[]>([
         {width:200, height:200},
@@ -76,13 +77,13 @@ export const HomeGraph = () => {
         else return ''
     }
     
-    const getActiveFontColor = (graph: number) => {
-        if (graph in [1,2,3,4]) {
-            return 'primary.main'
-        } else {
-            return 'white'
-        }
-    }
+    // const getActiveFontColor = (graph: number) => {
+    //     if (graph in [1,2,3,4]) {
+    //         return 'primary.main'
+    //     } else {
+    //         return 'white'
+    //     }
+    // }
 
     const getHeaderDesc1_1 = () => {
         return 'Cancer Susceptibility Genes'

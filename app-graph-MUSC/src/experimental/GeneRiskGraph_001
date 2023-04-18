@@ -10,7 +10,7 @@ const DEBUG = false
 const MANY_BODY_STRENGTH = -30;
 
 export const GeneRiskGraph = ({ nodes, links, gene, gender, debug=DEBUG}) => {
-    // console.log("GeneRiskGraph", nodes, links)
+    console.log("---->Debug: GeneRiskGraph", nodes, links)
     const ref = useRef(null);
     const genes = nodes.filter(d=>d.type === 'gene')
 

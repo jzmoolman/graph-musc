@@ -22,6 +22,7 @@ CALL { WITH rl
   )
   RETURN rli.gender AS population_gender, rli.maxofcr85 AS population_risk
 }
+
 CREATE (g)-[:RISK {
     population_gender: population_gender,
     population_risk: population_risk,

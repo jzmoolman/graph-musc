@@ -1,0 +1,13 @@
+
+MATCH (rl:LKP_MASTER_RISKTO85FORGRAPH)
+WITH COLLECT( DISTINCT rl.gene) as genes
+UNWIND genes as g
+CALL {
+   MATCH (g:gene) RETURN COLLECT(g.name) as gene_list
+}
+RETURN g, g in gene_list, SIZE(gene_list)
+
+
+
+
+

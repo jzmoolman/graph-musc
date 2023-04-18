@@ -145,15 +145,15 @@ export const GeneCardV2 = ({
                     }}
                 >
                     <TabPanel value={tabIndex} index={0}>
-                        <GeneDesc gene={currentOptions.gene}></GeneDesc>
+                        {/* <GeneDesc gene={currentOptions.gene}></GeneDesc> */}
                     
                     </TabPanel>
                     <TabPanel value={tabIndex} index={1}>
-                        <GeneRiskGraph 
+                        {/* <GeneRiskGraph 
                             nodes={buildGeneGraph(data).nodes} 
                             links={buildGeneGraph(data).links}
                             gene={currentOptions.gene}
-                            gender={currentOptions.gender}/>
+                            gender={currentOptions.gender}/> */}
                     </TabPanel>
                     <TabPanel value={tabIndex} index={2}>
                         <GeneRiskChart data={data}

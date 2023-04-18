@@ -3,9 +3,10 @@
 // Dependencies build_gene_organ_disease
 
 // DELETE relationships
-MATCH (g:gene)-[r:RISK]->(o:organ) DELETE r;
+MATCH (g:gene)-[r:RISK]->(o:orga) DELETE r;
 
 // Build relationship (gene-)[RISK]->(organ)
+
 
 MATCH (g:gene )-[:AFFECTS]->(o:organ)
 MATCH (n:LKP_MASTER_RISKTO85FORGRAPH)
@@ -21,23 +22,15 @@ END) AS male_risk,
   ELSE collect(n.maxofcr85)[1]
 END) AS female_risk
 
-CALL { WITH o 
+CALL { WITH g 
   MATCH (rl:LKP_MASTER_RISKTO85FORGRAPH 
-    {
-      gene: 'Population',
-      organ: o.name, 
-      gender:'Male'
-    }
+    {gene: g.name, gender:'Male'}
   )
-  RETURN coalesce(rl.maxofcr85,-1) as mpr
+  RETURN rl.maxofcr85 as mpr
 }
-CALL { WITH o 
+CALL { WITH g 
   MATCH (rl:LKP_MASTER_RISKTO85FORGRAPH 
-    {
-        gene: 'Population',
-        organ: o.name, 
-        gender:'Female'
-    }
+    {gene: g.name, gender:'Female'}
   )
   RETURN rl.maxofcr85 as fpr
 }
@@ -48,4 +41,3 @@ CREATE (g)-[:RISK {
    male_population_risk: mpr,
    female_population_risk: fpr
 }]->(o)
-  

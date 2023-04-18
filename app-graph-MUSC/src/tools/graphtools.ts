@@ -183,9 +183,9 @@ export const paintNode = (
 
     const nodeType = (node as CustomNodeObject).nodeType
     const label = (node as CustomNodeObject).name
-    const fontColor = (node as CustomNodeObject).fontColor
-    let nodeRelSize = (node as CustomNodeObject).nodeRelSize * (node as CustomNodeObject).scaleFont/100
-    console.log('nodeRelSize', nodeRelSize)
+    // const fontColor = (node as CustomNodeObject).fontColor
+    // let nodeRelSize = (node as CustomNodeObject).nodeRelSize * (node as CustomNodeObject).scaleFont/100
+    // console.log('nodeRelSize', nodeRelSize)
 
     const x = node.x?node.x:0
     let y = node.y?node.y:0
@@ -194,7 +194,7 @@ export const paintNode = (
     let lines2 = []
     for ( let i = 0; i < lines.length; i++) {
         let line = lines[i]
-        if ( nodeType === 'Gene') {
+        if ( (node as { type: string }).type === 'Gene') {
             lines2.push(spaceWords(line))
         } else  {
             lines2.push(line)
@@ -205,12 +205,12 @@ export const paintNode = (
 
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle'
-    ctx.fillStyle = fontColor
+    ctx.fillStyle = (node as { stroke: string }).stroke
     
     y = y - lineHeight*((lines2.length-1)/2)
     for ( let i = 0; i < lines2.length; i++ ) {
         let line = lines2[i]
-        nodeRelSize = scaleDown(line, 16)
+        let nodeRelSize = scaleDown(line, 16)
         ctx.font = `${nodeRelSize}px Libre Franklin`
         ctx.fillText(line, x, y)
         y = y + (lineHeight)
@@ -247,8 +247,8 @@ export const paintNodev2 = (
     const nodeType = (node as CustomNodeObject).nodeType
     const label = (node as CustomNodeObject).name
     const fontColor = (node as CustomNodeObject).fontColor
-    let nodeRelSize = (node as CustomNodeObject).nodeRelSize * (node as CustomNodeObject).scaleFont/100
-    console.log('nodeRelSize', nodeRelSize)
+    // let nodeRelSize = (node as CustomNodeObject).nodeRelSize * (node as CustomNodeObject).scaleFont/100
+    // console.log('nodeRelSize', nodeRelSize)
 
     const x = node.x?node.x:0
     let y = node.y?node.y:0
@@ -273,8 +273,8 @@ export const paintNodev2 = (
     y = y - lineHeight*((lines2.length-1)/2)
     for ( let i = 0; i < lines2.length; i++ ) {
         let line = lines2[i]
-        nodeRelSize = scaleDown(line, 16)
-        ctx.font = `${nodeRelSize}px Libre Franklin`
+        // nodeRelSize = scaleDown(line, 16)
+        // ctx.font = `${nodeRelSize}px Libre Franklin`
         ctx.fillText(line, x, y)
         y = y + (lineHeight)
     }

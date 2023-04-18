@@ -10,10 +10,10 @@ import { MuscFooter, MuscHeader, MuscHeader2, MuscHeader3, MuscLoading, MuscSpec
 import { Neo4jContext } from 'use-neo4j';
 import { 
     // loadSpecialists, 
-    // loadPreferredGenesBySpecialist, 
-    // loadPreferredOrgansBySpecialist,
-    // loadPreferredSyndromeBySpecialist,
-    // loadPreferredDiseaseBySpecialist
+    loadPreferredGenesBySpecialist, 
+    loadPreferredOrgansBySpecialist,
+    loadPreferredSyndromeBySpecialist,
+    loadPreferredDiseaseBySpecialist
 } from '../tools/graphdata';
 
 import { loadSpecialists } from '../data/specialist.neo4j';
@@ -32,7 +32,6 @@ export const HomeGraphSite = () => {
     let { specialist } = useParams()
 
     console.log('---->Debug: HomeGraphsite specialist', specialist )
-
 
     if ( typeof specialist === undefined) {
         specialist = 'Generic'
@@ -99,6 +98,55 @@ export const HomeGraphSite = () => {
         }
     }
 
+    // const GraphButtons = () => {
+        // switch (site) {
+        //     case 'gi': return (<>
+        //     <Box id='graph-box5' display='flex' flex={1}
+        //         sx={{
+        //             minWidth: '300px',
+        //             color: 'white',
+        //             paddig: '16px',
+        //         }}
+        //     >
+        //         <Paper 
+        //             elevation={4}         
+        //             sx={{ 
+        //                     color: 'white',
+        //                     width: '100%',
+        //                     backgroundColor: 'white',
+        //                     margin: '2px',
+        //                     padding:'2px'}}
+        //         >
+        //             <Box height={150}>
+
+        //             </Box>
+        //             <Box 
+        //                 color='black' 
+        //                 textAlign='center'
+        //                 paddingBottom={1}
+        //             >
+        //                     <Typography                        
+        //                         textAlign='center'
+        //                         variant='h6' 
+        //                         width='100%'
+        //                         color='primary.main'
+        //                     > 
+        //                         <Button 
+        //                             variant="outlined"
+        //                             onClick={handleClickDisease}
+        //                         >
+        //                             Eligibility for cancer genetic testing
+        //                         </Button>
+        //                     </Typography>
+        //             </Box>
+        //         </Paper>
+
+        //     </Box>
+        // </>)
+        // default: return (<></>)
+        // }
+        // return (<></>)
+    // }
 
     if ( data.length === 0) {
         return (<>
@@ -115,10 +163,10 @@ export const HomeGraphSite = () => {
 
     } else {
     
-        let preferredGenes: string[] = getPreferredGenesBySpecialist(specialist);
-        let preferredOrgans: string[] = getPreferredOrgansBySpecialist(specialist);
-        let preferredSyndrome: string[] = getPreferredSyndromeBySpecialist(specialist);
-        let preferredDisease: string[] = getPreferredDiseaseBySpecialist(specialist);
+        let preferredGenes: string[] = loadPreferredGenesBySpecialist(driver, specialist);
+        let preferredOrgans: string[] = loadPreferredOrgansBySpecialist(driver, specialist);
+        let preferredSyndrome: string[] = loadPreferredSyndromeBySpecialist(driver, specialist);
+        let preferredDisease: string[] = loadPreferredDiseaseBySpecialist(driver, specialist);
         return (<>
 
         <MuscHeader/>
@@ -215,6 +263,7 @@ export const HomeGraphSite = () => {
                         name={'organ'}
                         specialist={specialist}
                         genes={[]}
+                        // organs={['Ovary','Breast']}
                         organs={preferredOrgans}
                         syndromes={[]}
                         diseases={[]}
@@ -266,12 +315,12 @@ export const HomeGraphSite = () => {
                     <Graph 
                         width={getWidth(3)-16}
                         height={300}
-                        name={'disease'}
+                        name='syndrome-disease'
                         specialist={specialist}
                         genes={[]}
                         organs={[]}
-                        syndromes={[]}
-                        diseases={preferredDisease}
+                        syndromes={preferredSyndrome}
+                        diseases={[]}
                         finalVerdict='Confirmed'
                         graphScheme={defaultGraphScheme}
                         enableZoom={false}
@@ -290,9 +339,9 @@ export const HomeGraphSite = () => {
                         > 
                             <Button 
                                 variant="outlined"
-                                onClick={handleClickDisease}
+                                onClick={handleClickSyndrome}
                             >
-                                {getActiveDesciption(3)}
+                                {getActiveDesciption(4)}
                             </Button>
                         </Typography>
                     </Box>
@@ -319,12 +368,12 @@ export const HomeGraphSite = () => {
                     <Graph 
                         width={getWidth(4)-16}
                         height={300}
-                        name={'syndrome-disease'}
+                        name={'disease'}
                         specialist={specialist}
                         genes={[]}
                         organs={[]}
-                        syndromes={preferredSyndrome}
-                        diseases={[]}
+                        syndromes={[]}
+                        diseases={preferredDisease}
                         finalVerdict='Confirmed'
                         graphScheme={defaultGraphScheme}
                         enableZoom={false}
@@ -343,9 +392,9 @@ export const HomeGraphSite = () => {
                             > 
                                 <Button 
                                     variant="outlined"
-                                    onClick={handleClickSyndrome}
+                                    onClick={handleClickDisease}
                                 >
-                                    {getActiveDesciption(4)}
+                                    {getActiveDesciption(3)}
                                 </Button>
                             </Typography>
                     </Box>

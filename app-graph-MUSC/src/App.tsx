@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import {  BrowserRouter as Router, Routes, Route,  } from 'react-router-dom'
 import { Box, createTheme, ThemeProvider } from '@mui/material'
-import { HomeGraph } from './components/HomeGraph'
+// import { HomeGraph } from './components/HomeGraph'
 import { Home } from './components/Home'
 import { HomeGraphSite } from './components/HomeGraphSite'
 import { Header } from './components/Header'
@@ -9,14 +9,15 @@ import { GeneRiskGraph } from './experimental/GeneRiskGraph'
 import { geneNodes,  buildGeneGraphV2 } from './experimental/gene.data'
 import { GraphViewV2 } from './componentsv2/GraphViewV2' 
 import { GeneRiskChart } from './experimental/GeneRiskChart'
-// import { GeneCardV2 } from './componentsv2/GeneCardv2'
 import { GeneCardV3 } from './componentsv2/GenecardV3'
 import { DivTest } from './experimental/DivTest'
 import { DivTest2 } from './experimental/divtest2'
 import { Neo4jContext } from 'use-neo4j'
-import { load_gene_affects_organ } from './data/gene-organ.neo4j'
+import { load_gene_affects_organ, load_gene_affects_risk_organ } from './data/gene-organ.neo4j'
 
 import './App.css'  
+import { NodeLegends } from './experimental/NodeLegends'
+import { build_gene_affecs_risk_organ_graph } from './data/gene-organ.forcegraph'
 
 const theme = createTheme({
     typography: { 
@@ -30,6 +31,7 @@ export const App = () => {
 
     const [data, setData] = useState<any>(null);
     const [data2, setData2] = useState<any>(null);
+    const [data3, setData3] = useState<any>(null);
   
     const handleData = (data: any) => {
         setData(data)
@@ -39,9 +41,14 @@ export const App = () => {
         setData2(data)
     }
 
+    const handleData3 = (data: any) => {
+        setData3(data)
+    }
+
     useEffect(()=> {
         geneNodes(handleData)
         load_gene_affects_organ( driver, {onData: handleData2})
+        load_gene_affects_risk_organ( driver, {onData: handleData3})
     },[])
 
     return (<>
@@ -61,7 +68,7 @@ export const App = () => {
                 >
                     <Routes>
                         <Route path='/' element={<Home/>}/>
-                        <Route path='/homegraph' element={<HomeGraph/>}/>
+                        {/* <Route path='/homegraph' element={<HomeGraph/>}/> */}
                         <Route path='/site/:specialist' element={<HomeGraphSite/>}/>
                         <Route path='/site/gene/:specialist' element={<Header name='gene-organ'/>} />
                         <Route path='/site/organ/:specialist' element={<Header name='organ'  />} />
@@ -69,8 +76,9 @@ export const App = () => {
                         <Route path='/site/syndrome/:specialist' element={<Header name='syndrome-disease'/>} />
 
                         <Route path='graphview' element={<GraphViewV2/>}/>
-                        <Route path='generiskgraph' element= {data2?<GeneRiskGraph nodes={buildGeneGraphV2(data2).nodes} links={buildGeneGraphV2(data2).links} gene='' gender='' debug={true}></GeneRiskGraph>:<div></div>}/>
+                        <Route path='generiskgraph' element= {data2?<GeneRiskGraph data={buildGeneGraphV2(data2)} gender='' debug={true}></GeneRiskGraph>:<div></div>}/>
                         <Route path='generiskchart' element= {data?<GeneRiskChart data={data} gene='' gender=''></GeneRiskChart>:<div></div>}/>
+                        <Route path='nodelegends' element= {data3?<NodeLegends data={build_gene_affecs_risk_organ_graph(data3)}></NodeLegends>:<div></div>}/>
 
                         {/* <Route path='genecardv2' element= {data?<GeneCardV2 data={data}></GeneCardV2>:<div></div>}/> */}
                         <Route 

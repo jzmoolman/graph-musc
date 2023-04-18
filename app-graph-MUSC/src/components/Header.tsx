@@ -33,7 +33,7 @@ export const Header = ({
     const navigate = useNavigate()
     let { specialist } = useParams()
 
-    console.log('specialist', specialist )
+    // console.log('---->Debug: Header.tsx.Header specialist', specialist )
     if ( typeof specialist === undefined) {
         specialist = 'Generic'
     } else {
