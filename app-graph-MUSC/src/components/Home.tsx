@@ -62,7 +62,7 @@ export const Home = () => {
 
     return (<>
         <MuscHeader/>
-        <MuscHeader2 specialist='Generic'/>
+        <MuscHeader2 specialist='None'/>
         <MuscHeader4 />
         <Box display='flex' flex={1}
             sx={{
@@ -80,7 +80,7 @@ export const Home = () => {
                         margin: '2px',
                         padding:'10px'}}
             >
-                <Button sx={{margin:1 }} variant='outlined' onClick={ ()=>{ handleSpecialistClick('Generic')}}>All Genes</Button> 
+                <Button sx={{margin:1 }} variant='outlined' onClick={ ()=>{ handleSpecialistClick('None')}}>All Genes</Button> 
             </Paper>
 
         </Box>

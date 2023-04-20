@@ -6,7 +6,7 @@ import React, {
 import { Neo4jContext } from 'use-neo4j'
 import { Box } from '@mui/material'
 import { Gene, loadGenes } from '../data/gene.neo4j'
-import { Gene_OrganRisks } from '../data/gene-organ.neo4j'
+import { Gene_OrganRisks } from '../data/neo4j/gene-affect-organ.neo4j'
 
 
 type GeneDescProps = {

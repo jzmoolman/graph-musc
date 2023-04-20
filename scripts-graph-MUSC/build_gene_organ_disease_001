@@ -8,7 +8,7 @@ MATCH (g:gene)-[r:RISK]->(o:orga) DELETE r;
 // Build relationship (gene-)[RISK]->(organ)
 
 
-MATCH (g:gene )-[:AFFECTS]->(o:organ)
+MATCH (g:gene )-[:AFFECT]->(o:organ)
 MATCH (n:LKP_MASTER_RISKTO85FORGRAPH)
 WHERE n.gene = g.name
 AND n.organ = o.name  

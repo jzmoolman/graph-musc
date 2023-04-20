@@ -34,7 +34,7 @@ export const HomeGraphSite = () => {
     console.log('---->Debug: HomeGraphsite specialist', specialist )
 
     if ( typeof specialist === undefined) {
-        specialist = 'Generic'
+        specialist = 'None'
     } else {
         specialist = specialist as string
     }
@@ -151,11 +151,11 @@ export const HomeGraphSite = () => {
     if ( data.length === 0) {
         return (<>
             <MuscHeader/>
-            <MuscHeader2 specialist='Generic'/>
+            <MuscHeader2 specialist='None'/>
             <MuscLoading/>
         </>)
 
-    } else if (data.findIndex( d => d === specialist) === -1  && specialist !== 'Generic' ) {
+    } else if (data.findIndex( d => d === specialist) === -1  && specialist !== 'None' ) {
         return (<>
             <MuscHeader/>
             <MuscSpecialistNotFound specialist={specialist}/>

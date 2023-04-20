@@ -17,8 +17,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import { TabPanelProps } from '../tools/graphtools'
 import { NCCN } from './NCCN'
 import { GeneDesc } from './GeneDesc'
-import { build_gene_affecs_risk_organ_graph } from '../data/gene-organ.forcegraph'
-import { Gene_OrganRisks } from '../data/gene-organ.neo4j'
+import { build_gene_affecs_risk_organ_graph } from '../data/forcegraph/gene-organ.forcegraph'
+import { Gene_OrganRisks } from '../data/neo4j/gene-affect-organ.neo4j'
 
 type GeneCardProps =  {
     data: Gene_OrganRisks[],

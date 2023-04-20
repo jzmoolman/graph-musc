@@ -6,7 +6,7 @@ import { Filters } from './Filters';
 import { FinalVerdict } from '../tools/graphtools';
 
 import { GeneCardV3 } from '../componentsv2/GenecardV3';
-import { load_gene_affects_risk_organ } from '../data/gene-organ.neo4j';
+import { load_gene_affects_risk_organ } from '../data/neo4j/gene-affect-organ.neo4j';
 import { Neo4jContext } from 'use-neo4j';
 
 type GraphProps = {
@@ -48,19 +48,21 @@ export const GraphViewport = ( {
     const [diseases, setDiseases] = useState<string[]>([])
     const [syndromes, setSyndromes] = useState<string[]>([])
     const [finalVerdict, setFinalVerdict] = useState<FinalVerdict>('Confirmed')
+    const [gender, setGender] = useState<string>('Male')
     const [dim, setDim] = useState<Dimension>( {width:600, height:600})
     const ref = useRef<HTMLInputElement>(null)
     const [data, setData] = useState<any>(null);
-    // const [data2, setData2] = useState<any>(null);
     
+    console.log('--->Debug: GraphViewport.tsx', gender) 
+
     const handleData = (data: any) => {
-        // console.log('--->Debug: GraphViewport.tsx.handleData data', data) 
+        console.log('--->Debug: GraphViewport.tsx.handleData data', data) 
         setData(data)
     }
 
     useEffect(()=>{
         load_gene_affects_risk_organ(driver, {onData: handleData })
-    },[]) 
+    },[gene]) 
 
     useEffect(()=> {
         window.addEventListener("resize", handleResize )
@@ -104,6 +106,11 @@ export const GraphViewport = ( {
         setSyndromes(selected)
     }
 
+    const handleGenderChange =(selected: string) => {
+        console.log('--->Debug: GraphViewport handleGenderChange')
+        setGender(selected)
+    }
+
     const handleFinalVerdictChange = (selected: string) => {
         switch ( selected ) {
             case 'Confirmed': 
@@ -132,7 +139,7 @@ export const GraphViewport = ( {
     }
 
     const handleGeneClick = (gene: string) => {
-        // console.log('---->handleGraphGeneClicked.gene', gene)
+         console.log('---->handleGraphGeneClicked.gene', gene)
         setGene(gene)
     }
 
@@ -155,7 +162,7 @@ export const GraphViewport = ( {
             }
             break
         }
-        case 'organ': {
+        case 'organ-gene': {
             if (genes.length !== 0 ) {
                 setGenes([])
             }
@@ -167,7 +174,7 @@ export const GraphViewport = ( {
             }
             break
         } 
-        case 'disease': {
+        case 'disease-gene': {
             if (genes.length !== 0 ) {
                 setGenes([])
             }
@@ -228,6 +235,7 @@ export const GraphViewport = ( {
                     syndromes={syndromes}
                     diseases={diseases}
                     finalVerdict={finalVerdict}
+                    gender={gender}
                     graphScheme={graphScheme}
                     enableHover
                     enableTitle
@@ -251,12 +259,14 @@ export const GraphViewport = ( {
                         diseases={diseases}
                         syndromes={syndromes}
                         finalVerdict={finalVerdict}
+                        gender={gender}
                         graphScheme={graphScheme}
                         onGraphChange={handleGraphChange}
                         onGeneChange={handleGeneChange}
                         onOrganChange={handleOrganChange}
                         onDiseaseChange={handleDiseaseChange}
                         onSyndromeChange={handleSyndromeChange}
+                        onGenderChange={handleGenderChange}
                         onFinalVerdictChange={handleFinalVerdictChange}
                     />
                 </Box>

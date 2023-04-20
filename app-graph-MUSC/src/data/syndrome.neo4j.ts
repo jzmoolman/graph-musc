@@ -18,7 +18,7 @@ type loadProps = {
 export const load_syndrome = async (
     driver: Driver | undefined,
     {
-        specialist ='Generic',
+        specialist ='None',
         syndromeFilter = [],
         onData}: loadProps
 ) => {

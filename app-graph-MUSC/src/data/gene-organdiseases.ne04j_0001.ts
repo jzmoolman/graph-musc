@@ -54,7 +54,7 @@ type loadGeneOrganRisksProps = {
 export const load_gene_affect_organs_affect_disease = async (
     driver: Driver | undefined,
     {
-        specialist ='Generic',
+        specialist ='None',
         geneFilter = [],
         organFilter = [],
         onData}: loadGeneOrgansDiseaseProps

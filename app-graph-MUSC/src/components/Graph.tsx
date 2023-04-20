@@ -29,13 +29,13 @@ import { GeneNode, Node } from '../data/types.forcegraph'
 import { Box, Button, Hidden, useTheme,  } from '@mui/material'
 import gene_organ_img from '../assets/gene-organ.png'
 import gene_subtype_img from '../assets/gene-subtype.png'
-import { Gene_Organs, load_gene_affects_organ_filter_specialist } from '../data/gene-organ.neo4j'
-import { build_gene_affects_organ_graph } from '../data/gene-organ.forcegraph'
-import { Gene_OrganDiseases, load_gene_affect_organs_affect_disease } from '../data/gene-organdiseases.ne04j'
+import { GeneAffectOrgan, Gene_Organs, load_gene_affect_organ, load_gene_affects_organ_filter_specialist } from '../data/neo4j/gene-affect-organ.neo4j'
+import { build_gene_affect_organ_forcegraph2d, build_gene_affects_organ_graph_old } from '../data/forcegraph/gene-organ.forcegraph'
+import { Gene_OrganDiseases } from '../data/gene-organdiseases.ne04j_0001'
 import { build_gene_organ_disease_graph } from '../data/gene-organ-disease.forcegraph'
-import { GeneCauseDisease, load_gene_cause_disease } from '../data/gene-cause-disease.neo4j'
-import { build_gene_disease_graph_2d } from '../data/gene-disease.forcegraph2d'
-import { build_syndrome_disease,  } from '../data/syndrome-disease.forcegraph2d'
+import { GeneCauseDisease, load_gene_cause_disease } from '../data/neo4j/gene-cause-disease.neo4j'
+import { build_gene_disease_forcegraph2d, build_gene_disease_subtype_foregraph2d } from '../data/gene-disease.forcegraph2d'
+import { build_syndrome_disease, build_syndrome_gene_disease,  } from '../data/syndrome-disease.forcegraph2d'
 import { SyndromeGeneCauseDisease, load_syndrome_gene_cause_disease } from '../data/syndryome-gene-disesae.neo4j'
 
 
@@ -57,6 +57,7 @@ type GraphProps = {
     syndromes: string[]
     diseases: string[]
     finalVerdict: FinalVerdict
+    gender: string,
     graphScheme: GraphScheme
     enableHover?: boolean
     enableTitle?: boolean
@@ -78,6 +79,7 @@ export const Graph = ( {
     syndromes,
     diseases,
     finalVerdict,
+    gender,
     graphScheme,
     enableTitle,
     enableHover,
@@ -143,23 +145,40 @@ export const Graph = ( {
         const onData = (data: Force2DData) =>{
             setData(data)
         }
-
-        const handleGene_Organs_Data = ( data: Gene_Organs[]) => {
+        // Gene Centric
+        // const handleGene_Organs_Data = ( data: Gene_Organs[]) => {
+        //     // console.log('---->Debug: handleGene_Organs_Data data', data)
+        //     let _data = build_gene_affects_organ_graph_old(data);
+        //     setData(_data)
+        // }
+        const handleGeneOrganData = ( data: GeneAffectOrgan[]) => {
             // console.log('---->Debug: handleGene_Organs_Data data', data)
-            let _data = build_gene_affects_organ_graph(data);
+            let _data = build_gene_affect_organ_forcegraph2d(data);
             setData(_data)
         }
+        
+        const handleGeneDiseaseData = (data: GeneCauseDisease[]) => {
+            // console.log('---->Debug: handleGeneDiseaseData data', data)
+            let _data = build_gene_disease_forcegraph2d(data);
+            // console.log('---->Debug: handleGeneDiseaseData _data', _data)
+            setData(_data)
+        }
+       
+        const handleGeneDiseaseSubtypeData =(data: GeneCauseDisease[]) => {
+            console.log('---->Debug: handleGeneDiseaseSubtypeData data', data)
+            let _data = build_gene_disease_subtype_foregraph2d(data);
+            console.log('---->Debug: handleGeneDiseaseSubtypeData data', _data)
+            setData(_data)
+
+        }
+
+
         const handleGene_OrganDisease_Data = (data: Gene_OrganDiseases[]) => {
             // console.log('---->Debug: handleGene_OrganDisease_Data data', data)
             let _data = build_gene_organ_disease_graph(data);
             setData(_data)
         }
-        const handleGeneDiseaseData = (data: GeneCauseDisease[]) => {
-            // console.log('---->Debug: handleGeneDiseaseData data', data)
-            let _data = build_gene_disease_graph_2d(data);
-            // console.log('---->Debug: handleGeneDiseaseData _data', _data)
-            setData(_data)
-        }
+
         const handleSydromeDiseaseData = (data: SyndromeGeneCauseDisease[]) => {
             // console.log('---->Debug: handleSydromeDiseaseData data', data)
             let _data = build_syndrome_disease(data);
@@ -167,41 +186,55 @@ export const Graph = ( {
             setData(_data)
         }
 
+        const handleSydromeGeneDiseaseData = (data: SyndromeGeneCauseDisease[]) => {
+            // console.log('---->Debug: handleSydromeDiseaseData data', data)
+            let _data = build_syndrome_gene_disease(data);
+            // console.log('---->Debug: handleGeneDiseaseData _data', _data)
+            setData(_data)
+        }
         switch (name) {
             case 'gene-organ': {
-                load_gene_affects_organ_filter_specialist(driver, { 
+                load_gene_affect_organ( driver, {
                     specialist: specialist, 
+                    gender: gender,
                     geneFilter: genes,
                     organFilter: organs,
-                    onData: handleGene_Organs_Data,
-                })
+                    onData: handleGeneOrganData,
+                    })
                 break
             }
             case 'gene-disease': {
-                load_gene_affect_organs_affect_disease(driver, {
+                // load_gene_affect_organs_affect_disease(driver, {
+                    load_gene_cause_disease(driver,{
                     specialist: specialist,
+                    gender: gender,
                     geneFilter: genes,
-                    organFilter: organs,
-                    onData: handleGene_OrganDisease_Data,
+                    diseaseFilter: diseases,
+                    onData: handleGeneDiseaseData,
                 })
                 break
             }
             case 'gene-disease-subtype': {
-                // loadGeneDiseaseSubtypeData(driver, specialist,diseases, genes,finalVerdict, graphScheme, onData)
-             
-                break
-            }
-            case 'organ': {
-                // loadOrganGeneData(driver, specialist, genes, organs, finalVerdict, graphScheme, onData)
-                load_gene_affects_organ_filter_specialist(driver, { 
-                    specialist: specialist, 
+                load_gene_cause_disease(driver,{
+                    specialist: specialist,
+                    gender: gender,
                     geneFilter: genes,
-                    organFilter: organs,
-                    onData: handleGene_Organs_Data,
+                    diseaseFilter: diseases,
+                    onData: handleGeneDiseaseSubtypeData,
                 })
                 break
             }
-            case 'disease': {
+            case 'organ-gene': {
+                load_gene_affect_organ( driver, {
+                    specialist: specialist, 
+                    gender: gender,
+                    geneFilter: genes,
+                    organFilter: organs,
+                    onData: handleGeneOrganData,
+                })
+                break
+            }
+            case 'disease-gene': {
                 load_gene_cause_disease(driver, {
                     specialist: specialist,
                     geneFilter: genes,
@@ -221,12 +254,19 @@ export const Graph = ( {
                 break
             }
             case 'syndrome-gene-disease': {
-                // loadSyndromeGeneDiseaseData(driver, specialist, syndromes, finalVerdict, graphScheme, onData)
+                load_syndrome_gene_cause_disease(driver, {
+                    specialist: specialist,
+                    syndromeFilter: syndromes,
+                    geneFilter: genes,
+                    diseaseFilter: diseases,
+                    onData: handleSydromeGeneDiseaseData,
+                })
+                break
                 break
             }
         }
 
-    },[ name, genes, organs, diseases, syndromes, finalVerdict, graphScheme] )
+    },[ name, genes, organs, diseases, syndromes, finalVerdict, gender, graphScheme] )
     
     const forceRef : MutableRefObject<ForceGraphMethods | undefined> = useRef()      
 
@@ -266,7 +306,6 @@ export const Graph = ( {
                 }}
             >
                 {specialist === 'Genric'?'Specialist: General':`Specialist: ${specialist}`}
-                                
             </Box>:<></>
         )
     }
@@ -290,7 +329,6 @@ export const Graph = ( {
                 }
             }}
         > 
-
             <ForceGraph2D 
                 ref={forceRef}
                 width={width}

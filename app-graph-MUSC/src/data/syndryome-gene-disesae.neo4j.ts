@@ -28,6 +28,7 @@ export type SyndromeGeneCauseDisease = {
 
 type loadProps = {
     specialist?: string,
+    gender?: string,
     syndromeFilter?: string[],
     geneFilter?: string[],
     diseaseFilter?: string[],
@@ -38,7 +39,8 @@ type loadProps = {
 export const load_syndrome_gene_cause_disease = async (
     driver: Driver | undefined,
     {
-        specialist ='Generic',
+        specialist ='None',
+        gender = 'None',
         syndromeFilter = [],
         geneFilter = [],
         diseaseFilter = [],

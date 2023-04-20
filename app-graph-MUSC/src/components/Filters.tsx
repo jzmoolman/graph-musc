@@ -4,10 +4,9 @@ import { CustomSelect } from './CustomSelect'
 import { GraphName, GraphScheme } from '../tools/graphtools'
 import { Dropdown } from './Dropdown'
 import { Neo4jContext } from 'use-neo4j'
-import { loadGene, loadOrgan, loadDisease, loadSyndrome } from '../tools/graphdata'
-import { GraphSchemeV2, defaultGraphSchemeV2 } from '../data/types.forcegraph'
-import { loadGenes_hasFinalVerdict } from '../data/gene.neo4j'
-import { RssFeed } from '@mui/icons-material'
+import {  loadOrgan, loadDisease, loadSyndrome } from '../tools/graphdata'
+import { defaultGraphSchemeV2 } from '../data/types.forcegraph'
+import { GeneAffectOrgan, load_gene_affect_organ } from '../data/neo4j/gene-affect-organ.neo4j'
 
 const getGraphName = (name: string): GraphName => {
     switch (name) {
@@ -25,8 +24,8 @@ const getGraphDesc = (name: GraphName) => {
         case 'gene-organ': return 'Gene'
         case 'gene-disease': return 'Gene'
         case 'gene-disease-subtype': return 'Gene'
-        case 'organ': return 'Organ'
-        case 'disease': return 'Disease'
+        case 'organ-gene': return 'Organ'
+        case 'disease-gene': return 'Disease'
         case 'syndrome-disease': return 'Syndrome'
         case 'syndrome-gene-disease': return 'Syndrome'
         default: return 'Unknown'
@@ -52,12 +51,14 @@ type FiltersProps = {
     diseases: string[]
     syndromes: string[]
     finalVerdict: string
+    gender: string
     graphScheme: GraphScheme
     onGraphChange?: (name: GraphName) => void
     onGeneChange?: (selcetd: string[]) => void
     onOrganChange?: (selcetd: string[]) => void
     onDiseaseChange?: (selected: string[]) => void
     onSyndromeChange?: (selected: string[]) => void
+    onGenderChange?:(name: string)=> void
     onFinalVerdictChange?: (verdicts: string) => void
 }
 
@@ -69,12 +70,14 @@ export const Filters = ({
         diseases, 
         syndromes, 
         finalVerdict,
+        gender,
         graphScheme, 
         onGraphChange,
         onGeneChange,
         onOrganChange,
         onDiseaseChange,
         onSyndromeChange,
+        onGenderChange,
         onFinalVerdictChange
 } : FiltersProps ) => {
 
@@ -88,14 +91,21 @@ export const Filters = ({
             case 'gene-disease': 
             case 'gene-disease-subtype':  {
                 // loadGene(driver, specialist, handleData)
-                loadGenes_hasFinalVerdict(driver,{filterGenes:[], onData:handleData2})
+                // loadGenes_hasFinalVerdict(driver,{filterGenes:genes, onData:handleData2})
+                load_gene_affect_organ( driver, 
+                    {   
+                        specialist: specialist,
+                        geneFilter: genes,
+                        organFilter: organs,
+                        onData:handleDataGene
+                    }, )
                 break;
             }
-            case 'organ': {
+            case 'organ-gene': {
                 loadOrgan(driver, specialist, handleData)
                 break;
             }
-            case 'disease': {
+            case 'disease-gene': {
                 loadDisease(driver, specialist, handleData)
                 break;
             }
@@ -105,6 +115,18 @@ export const Filters = ({
             }
         }
     },[])
+
+    const handleDataGene = (data:GeneAffectOrgan[]) => { 
+        let _data : string[]= []
+        data.forEach( gene_affect_organ => {
+            let index = _data.findIndex( s=> s===gene_affect_organ.gene.name)
+            if (index === -1) {
+                _data.push(gene_affect_organ.gene.name)
+            }
+        })
+        console.log('--->Debug: count genes', _data.length)
+        setData(_data.sort())
+    }
 
     const handleData = (data: string[]) => { 
          setData(data)
@@ -143,6 +165,12 @@ export const Filters = ({
             onGraphChange(getGraphName(name))
         }
     }
+    
+    const handleGenderChange = (name: string) => {
+        if (onGenderChange) { 
+            onGenderChange(name)
+        }
+    }
 
     const handleGeneChange = (selected: string[]) => {
         if ( onGeneChange)
@@ -175,9 +203,9 @@ export const Filters = ({
             case 'gene-disease':
             case 'gene-disease-subtype':
                 return {handleChange: handleGeneChange, selected: genes}
-            case 'organ':
+            case 'organ-gene':
                 return {handleChange: handleOrganChange, selected: organs}
-            case 'disease':
+            case 'disease-gene':
                 return {handleChange: handleDiseaseChange, selected: diseases}
             case 'syndrome-disease':
             case 'syndrome-gene-disease':
@@ -206,11 +234,11 @@ export const Filters = ({
                 return  (<>
                     This graph shows all [<span style={{color: graphScheme.diseaseNode}}>gene</span>]-[<span style={{color: graphScheme.diseaseNode}}>disease</span>]-[<span style={{color: graphScheme.diseaseSubtypeNode}}>subtype</span>] associations.
                 </>)
-            case 'organ': 
+            case 'organ-gene': 
                 return (<>
                     This graph shows ALL [<span style={{color: defaultGraphSchemeV2.organ_stroke}}>organ</span>]-[<span style={{color: defaultGraphSchemeV2.gene_stroke}}>gene</span>] associations.
                 </>)
-            case 'disease':
+            case 'disease-gene':
                 return (<>
                     This graph shows ALL [<span style={{color: graphScheme.diseaseNode}}>disease</span>]-[<span style={{color: defaultGraphSchemeV2.gene_stroke }}>gene</span>] associations.
                 </>)
@@ -308,18 +336,18 @@ export const Filters = ({
                 return (<>
                     To limit the graph to one or just a few [<span style={{color: defaultGraphSchemeV2.gene_stroke}}>genes</span>], select as many [<span style={{color: defaultGraphSchemeV2.gene_stroke}}>genes</span>] as you wish compare.
                 </>)
-            case 'organ': 
+            case 'organ-gene': 
                 return (<>
-                    To limit the graph to one or just a few [<span style={{color: defaultGraphSchemeV2.gene_stroke}}>organs</span>], select as many [<span style={{color: 'red'}}>organs</span>] as you wish compare.
+                    To limit the graph to one or just a few [<span style={{color: defaultGraphSchemeV2.gene_stroke}}>organs</span>], select as many [<span style={{color: defaultGraphSchemeV2.organ_fill}}>organs</span>] as you wish compare.
                 </>)
-            case 'disease': 
+            case 'disease-gene': 
                 return (<>
-                    To limit the graph to one or just a few [<span style={{color: graphScheme.diseaseNode}}>organs</span>], select as many [<span style={{color: 'red'}}>organs</span>] as you wish compare.
+                    To limit the graph to one or just a few [<span style={{color: defaultGraphSchemeV2.disease_fill}}>organs</span>], select as many [<span style={{color: defaultGraphSchemeV2.organ_fill}}>organs</span>] as you wish compare.
                 </>)
             case 'syndrome-disease':
             case 'syndrome-gene-disease':
                 return (<>
-                    To limit the graph to one or just a few [<span style={{color: graphScheme.syndromeNode}}>Syndromes</span>], select as many [<span style={{color: graphScheme.syndromeNode}}>syndromes</span>] as you wish compare.
+                    To limit the graph to one or just a few [<span style={{color: defaultGraphSchemeV2.syndrome_fill}}>syndromes</span>], select as many [<span style={{color: defaultGraphSchemeV2.syndrome_fill}}>syndromes</span>] as you wish compare.
                 </>)
             default : 
             return (<>Not Implemented</>)
@@ -329,7 +357,7 @@ export const Filters = ({
  
     const FilterGraph = ({name} : FilterProps) => {
         console.log('---->Debug: Filters.tsx FilterGraph')
-        console.log('---->Debug: name=', name)
+        console.log('---->Debug: name=',name)
 
         return (<>
             <Typography 
@@ -350,8 +378,27 @@ export const Filters = ({
                 selected={getOnHandleChange(name).selected}
                 onChange={getOnHandleChange(name).handleChange}
             />
-
-
+            <Typography 
+                component='div'
+                sx={{
+                    textAlign:'left',
+                    marginLeft: 1,
+                    color: 'black'
+                }}
+            > 
+                <Box paddingTop={2}>                    
+                Choose how you want to filter by gender.
+                </Box>
+            </Typography>
+            <CustomSelect 
+                        options={[
+                            {key:'Male', value: 'Male'},
+                            {key:'Female', value: 'Female'},
+                        ]}
+                        label='Graph' 
+                        defaultSelected={gender}
+                        onChange={handleGenderChange}
+                    />
         </>)
     }
 
@@ -406,3 +453,4 @@ export const Filters = ({
     </>)
 
 }
+

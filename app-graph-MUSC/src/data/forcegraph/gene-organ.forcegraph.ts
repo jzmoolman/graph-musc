@@ -1,9 +1,60 @@
 
 import { GraphData } from "react-force-graph-2d";
-import { defaultGraphSchemeV2, GeneNode, GREY_FILL, GREY_STROKE, Node, OrganNode, OrganRiskNode } from "./types.forcegraph"
-import { Gene_OrganRisks, Gene_Organs, OrganRisk } from "./gene-organ.neo4j";
+import { defaultGraphSchemeV2, GeneNode, GREY_FILL, GREY_STROKE, Node, OrganNode, OrganRiskNode } from "../types.forcegraph"
+import { Gene_OrganRisks, Gene_Organs, GeneAffectOrgan, OrganRisk } from "../neo4j/gene-affect-organ.neo4j";
 
-export const build_gene_affects_organ_graph = (data:Gene_Organs[])  => {
+export const build_gene_affect_organ_forcegraph2d = (data:GeneAffectOrgan[])  => {
+    let result : GraphData = { 
+        nodes: [],
+        links: [],
+    }
+    data.forEach(gene_affect_organ => {
+        let node
+        node = result.nodes.find(d => d.id === gene_affect_organ.gene.id )
+
+        let geneNode: GeneNode 
+        if (node) {
+            geneNode = node as GeneNode
+        } else {
+            geneNode = {
+                group: 'Gene',
+                type : 'gene',
+                fill: defaultGraphSchemeV2.gene_fill,
+                stroke:defaultGraphSchemeV2.gene_stroke,
+                size: 30,
+                text_anchor: 'middle',
+                proportions: [],
+                ...gene_affect_organ.gene
+            }
+            result.nodes.push(geneNode)
+        }
+
+
+        node = result.nodes.find( d => d.id == gene_affect_organ.organ.id)
+        let organNode: OrganNode
+
+        if (node) {
+            organNode = node as OrganNode
+        } else {
+            organNode =  {
+                group: 'Organ',
+                type: 'organ',
+                fill:defaultGraphSchemeV2.organ_fill,
+                stroke:defaultGraphSchemeV2.organ_stroke,
+                size: 30,
+                text_anchor: 'auto-start-end',
+                proportions: [],
+                ...gene_affect_organ.organ
+            }
+            result.nodes.push(organNode)
+        }
+        result.links.push( {source: geneNode.id, target: organNode.id})
+    })
+
+    return result
+}
+
+export const build_gene_affects_organ_graph_old = (data:Gene_Organs[])  => {
     let result : GraphData = { 
         nodes: [],
         links: [],

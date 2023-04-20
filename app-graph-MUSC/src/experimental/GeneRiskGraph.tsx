@@ -7,7 +7,7 @@ import * as d3 from "d3"
 import './ForceGraph.css'
 import { buildForceGraph } from "../packagesz/forcegraphz"
 import { GraphData } from "react-force-graph-2d"
-import { Gene_OrganRisks } from "../data/gene-organ.neo4j"
+import { Gene_OrganRisks } from "../data/neo4j/gene-affect-organ.neo4j"
 import { Node } from '../data/types.forcegraph'
 import { NodeLegends } from "./NodeLegends"
 import { GREY_A_FILL, GeneNode } from "../data/types.forcegraph"

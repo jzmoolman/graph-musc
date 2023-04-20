@@ -52,8 +52,8 @@ export const HomeGraph = () => {
 
     }
 
-    const handleClickGeneric = () => {
-        navigate('/generic')
+    const handleClickNone = () => {
+        navigate('/none')
     }
 
     const handleClickGI = () => {
@@ -122,15 +122,16 @@ export const HomeGraph = () => {
                         width={getWidth(2)}
                         height={300}
                         name={'gene-organ'}
-                        specialist='Generic'
+                        specialist='None'
                         genes={['BRCA1', 'BRCA2']}
                         organs={[]}
                         syndromes={[]}
                         diseases={[]}
                         finalVerdict='Confirmed'
+                        gender='All'
                         graphScheme={defaultGraphScheme}
                         enableZoom={false}
-                        onClick={handleClickGeneric}
+                        onClick={handleClickNone}
                     />
                     <Box 
                         color='black' 
@@ -145,7 +146,7 @@ export const HomeGraph = () => {
                         > 
                             <Button 
                                 variant="outlined"
-                                onClick={handleClickGeneric}
+                                onClick={handleClickNone}
                             >
                                 {getActiveDesciption(1)}
                             </Button>
@@ -180,6 +181,7 @@ export const HomeGraph = () => {
                         syndromes={[]}
                         diseases={[]}
                         finalVerdict='Confirmed'
+                        gender='All'
                         graphScheme={defaultGraphScheme}
                         enableZoom={false}
                         onClick={handleClickGI}

@@ -1,4 +1,4 @@
-MATCH (g:MGene)-[l:AFFECTS]->(o:Organ)
+MATCH (g:MGene)-[l:AFFECT]->(o:Organ)
 MATCH (r:LKP_MASTER_RISKTO85FORGRAPH)
 WHERE r.gene = g.name
 AND r.cancer = o.name

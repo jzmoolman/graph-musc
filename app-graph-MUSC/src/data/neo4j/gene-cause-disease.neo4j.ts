@@ -3,19 +3,20 @@ import { Integer } from 'neo4j-driver-core'
 
 import { 
     arrayToStrV2,
-} from '../tools/graphtools'
+} from '../../tools/graphtools'
 
-import { Gene } from './gene.neo4j'
-import { Disease } from './disease.neo4j'
+import { Gene } from '../gene.neo4j'
+import { Disease } from '../disease.neo4j'
 
 
 
 type Cause = {
     id: string,
-    diseaseType: string,
     gender: string,
     finalVerdict: number,
-    predominantCancerSubType: number,
+    diseaseName: string,
+    diseaseType: string,
+    predominantCancerSubType: string,
 }
 
 export type GeneCauseDisease = {
@@ -26,6 +27,7 @@ export type GeneCauseDisease = {
 
 type loadProps = {
     specialist?: string,
+    gender?: string,
     geneFilter?: string[],
     diseaseFilter?: string[],
     onData?: (data: GeneCauseDisease[]) => void
@@ -35,7 +37,8 @@ type loadProps = {
 export const load_gene_cause_disease = async (
     driver: Driver | undefined,
     {
-        specialist ='Generic',
+        specialist ='None',
+        gender = 'None',
         geneFilter = [],
         diseaseFilter = [],
         onData}: loadProps
@@ -47,24 +50,32 @@ export const load_gene_cause_disease = async (
         return result
     }
    
-    let WHERE = 'WHERE 1=1' // Dummy WHERE that is always true
-    if (geneFilter.length > 0) {
-        WHERE += ` AND g.name in ${arrayToStrV2(geneFilter)}`
-    }
-    if (diseaseFilter.length > 0) {
-        WHERE += ` AND d.name in ${arrayToStrV2(diseaseFilter)}`
-    }
+    let query = ''
+    if (specialist !== 'None' ) {
 
-    //Example
-    // MATCH p=(g:gene {name:'BRCA2'})-[c:CAUSE {finalVerdict:1}]->(d:disease)
-    //      WHERE 1=1
-    //      RETURN g,c,d
-    
-    const query = 
-        `MATCH p=(g:gene)-[c:CAUSE {finalVerdict:1}]->(d:disease)\ 
-         ${WHERE}
-         RETURN g,c,d`
-    // console.log('---->Debug: load_gene_cause_disease', query)
+    } else {
+        //Example
+        // MATCH p=(g:gene {name:'BRCA2'})-[c:CAUSE {finalVerdict:1}]->(d:disease)
+        //      WHERE 1=1
+        //      RETURN g,c,d
+        query = 
+            `MATCH p=(g:gene)-[c:CAUSE {finalVerdict:1}]->(d:disease)\
+            WHERE 1=1\n` // Dummy WHERE that is always true
+            if  ( gender !== 'None' ) {
+                query += ` AND c.gender in ["${gender}","Either"]\n` 
+            }
+            if (geneFilter.length > 0) {
+                query += ` AND g.name in ${arrayToStrV2(geneFilter)}\n`
+            }
+            if (diseaseFilter.length > 0) {
+                query += ` AND d.name in ${arrayToStrV2(diseaseFilter)}\n`
+            }
+
+            query += ' RETURN g, c, d'
+
+        // console.log('---->Debug: load_gene_cause_disease', query)
+
+    }
 
     let session = driver.session()
 
@@ -85,9 +96,10 @@ export const load_gene_cause_disease = async (
                 },
                 cause: {
                     id: Integer.toString(c.identity),
-                    diseaseType: c.properties.diseaseType,
                     gender: c.properties.gender,
                     finalVerdict: c.properties.finalVerdict,
+                    diseaseName: c.properties.diseaseName,
+                    diseaseType: c.properties.diseaseType,
                     predominantCancerSubType: c.properties.predominantCancerSubType,
                 },
                 disease: {

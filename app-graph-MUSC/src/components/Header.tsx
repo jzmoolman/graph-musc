@@ -35,7 +35,7 @@ export const Header = ({
 
     // console.log('---->Debug: Header.tsx.Header specialist', specialist )
     if ( typeof specialist === undefined) {
-        specialist = 'Generic'
+        specialist = 'None'
     } else {
         specialist = specialist as string
     }

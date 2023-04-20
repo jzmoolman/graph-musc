@@ -7,7 +7,7 @@ export type Force2DData = {
 }
 
 export type CentricView = 'gene' | 'organ'
-export type GraphName = 'gene-organ' | 'gene-disease' | 'gene-disease-subtype' | 'organ' | 'disease' | 'syndrome-disease' | 'syndrome-gene-disease'
+export type GraphName = 'gene-organ' | 'gene-disease' | 'gene-disease-subtype' | 'organ-gene' | 'disease-gene' | 'syndrome-disease' | 'syndrome-gene-disease'
 export type GraphNameV2 = 'gene-organ' | 'gene-disease' | 'gene-disease-subtype' | 'organ' | 'disease' | 'syndrome-disease' | 'syndrome-gene-disease'
 
 export type NodeType = 'Gene' | 'Organ' | 'Disease' | 'Syndrome' | 'Subtype'

@@ -97,7 +97,7 @@ export const MuscHeader2 = ({specialist}:  MuscHeader2Props) => {
     const getDesc = () => {
         let result : string[] = [""]
         switch (specialist) {
-            case 'Generic':
+            case 'None':
                 result = ['Cancer Susceptibility Genes', 'Visualizations using Graph Database Technology']
                 break;
             default: 

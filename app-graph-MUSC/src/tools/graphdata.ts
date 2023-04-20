@@ -224,7 +224,7 @@ export const loadGene= async (
         return genes
     }
     let WHERE: string =  `WHERE g.finalVerdict in [1]`
-    if ( (specialist !== 'Generic') ) {
+    if ( (specialist !== 'None') ) {
         WHERE = WHERE + ` AND o.name in ${ArrayToStr(await loadOrgan(driver, specialist))}`
     }
 
@@ -266,7 +266,7 @@ export const loadOrgan= async (
     }
 
     let query = ''
-    if (specialist === 'Generic') {
+    if (specialist === 'None') {
         query = `MATCH (o:Organ) RETURN DISTINCT o.name as name ORDER BY name`
     } else {
         query = `MATCH (o:Organ) MATCH (n:LKP_SPECIALISTS_BY_ORGAN) WHERE o.name = n.Organ_System AND n.PrimarySpecialist ="${specialist}"  RETURN DISTINCT o.name as name ORDER BY name`

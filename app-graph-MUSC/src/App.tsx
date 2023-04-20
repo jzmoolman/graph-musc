@@ -13,11 +13,11 @@ import { GeneCardV3 } from './componentsv2/GenecardV3'
 import { DivTest } from './experimental/DivTest'
 import { DivTest2 } from './experimental/divtest2'
 import { Neo4jContext } from 'use-neo4j'
-import { load_gene_affects_organ, load_gene_affects_risk_organ } from './data/gene-organ.neo4j'
+import { load_gene_affects_organ_old,load_gene_affects_risk_organ } from './data/neo4j/gene-affect-organ.neo4j'
 
 import './App.css'  
 import { NodeLegends } from './experimental/NodeLegends'
-import { build_gene_affecs_risk_organ_graph } from './data/gene-organ.forcegraph'
+import { build_gene_affecs_risk_organ_graph } from './data/forcegraph/gene-organ.forcegraph'
 
 const theme = createTheme({
     typography: { 
@@ -47,7 +47,7 @@ export const App = () => {
 
     useEffect(()=> {
         geneNodes(handleData)
-        load_gene_affects_organ( driver, {onData: handleData2})
+        load_gene_affects_organ_old( driver, {onData: handleData2})
         load_gene_affects_risk_organ( driver, {onData: handleData3})
     },[])
 
@@ -68,11 +68,10 @@ export const App = () => {
                 >
                     <Routes>
                         <Route path='/' element={<Home/>}/>
-                        {/* <Route path='/homegraph' element={<HomeGraph/>}/> */}
                         <Route path='/site/:specialist' element={<HomeGraphSite/>}/>
                         <Route path='/site/gene/:specialist' element={<Header name='gene-organ'/>} />
-                        <Route path='/site/organ/:specialist' element={<Header name='organ'  />} />
-                        <Route path='/site/disease/:specialist' element={<Header name='disease'/>} />
+                        <Route path='/site/organ/:specialist' element={<Header name='organ-gene'  />} />
+                        <Route path='/site/disease/:specialist' element={<Header name='disease-gene'/>} />
                         <Route path='/site/syndrome/:specialist' element={<Header name='syndrome-disease'/>} />
 
                         <Route path='graphview' element={<GraphViewV2/>}/>
@@ -80,7 +79,6 @@ export const App = () => {
                         <Route path='generiskchart' element= {data?<GeneRiskChart data={data} gene='' gender=''></GeneRiskChart>:<div></div>}/>
                         <Route path='nodelegends' element= {data3?<NodeLegends data={build_gene_affecs_risk_organ_graph(data3)}></NodeLegends>:<div></div>}/>
 
-                        {/* <Route path='genecardv2' element= {data?<GeneCardV2 data={data}></GeneCardV2>:<div></div>}/> */}
                         <Route 
                             path='genecard' 
                             element= {data?

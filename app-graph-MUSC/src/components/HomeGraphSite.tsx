@@ -35,7 +35,7 @@ export const HomeGraphSite = () => {
 
 
     if ( typeof specialist === undefined) {
-        specialist = 'Generic'
+        specialist = 'None'
     } else {
         specialist = specialist as string
     }
@@ -103,11 +103,11 @@ export const HomeGraphSite = () => {
     if ( data.length === 0) {
         return (<>
             <MuscHeader/>
-            <MuscHeader2 specialist='Generic'/>
+            <MuscHeader2 specialist='None'/>
             <MuscLoading/>
         </>)
 
-    } else if (data.findIndex( d => d === specialist) === -1  && specialist !== 'Generic' ) {
+    } else if (data.findIndex( d => d === specialist) === -1  && specialist !== 'None' ) {
         return (<>
             <MuscHeader/>
             <MuscSpecialistNotFound specialist={specialist}/>
@@ -160,6 +160,7 @@ export const HomeGraphSite = () => {
                         syndromes={[]}
                         diseases={[]}
                         finalVerdict='Confirmed'
+                        gender='None'
                         graphScheme={defaultGraphScheme}
                         enableZoom={false}
                         onClick={handleClickGene}
@@ -212,13 +213,14 @@ export const HomeGraphSite = () => {
                     <Graph 
                         width={getWidth(2)-16}
                         height={300}
-                        name={'organ'}
+                        name={'organ-gene'}
                         specialist={specialist}
                         genes={[]}
                         organs={preferredOrgans}
                         syndromes={[]}
                         diseases={[]}
                         finalVerdict='Confirmed'
+                        gender='None'
                         graphScheme={defaultGraphScheme}
                         enableZoom={false}
                         onClick={handleClickOrgan}
@@ -266,8 +268,9 @@ export const HomeGraphSite = () => {
                     <Graph 
                         width={getWidth(3)-16}
                         height={300}
-                        name={'disease'}
+                        name={'disease-gene'}
                         specialist={specialist}
+                        gender='None'
                         genes={[]}
                         organs={[]}
                         syndromes={[]}
@@ -326,6 +329,7 @@ export const HomeGraphSite = () => {
                         syndromes={preferredSyndrome}
                         diseases={[]}
                         finalVerdict='Confirmed'
+                        gender='None'
                         graphScheme={defaultGraphScheme}
                         enableZoom={false}
                         onClick={handleClickDisease}
