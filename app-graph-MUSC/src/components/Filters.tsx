@@ -5,8 +5,8 @@ import { GraphName, GraphScheme } from '../tools/graphtools'
 import { Dropdown } from './Dropdown'
 import { Neo4jContext } from 'use-neo4j'
 import {  loadOrgan, loadDisease, loadSyndrome } from '../tools/graphdata'
-import { defaultGraphSchemeV2 } from '../data/types.forcegraph'
-import { GeneAffectOrgan, load_gene_affect_organ } from '../data/neo4j/gene-affect-organ.neo4j'
+import { defaultGraphSchemeV2 } from '../data/forcegraph/types.forcegraph'
+import { GeneAffectOrgan, load_gene_affect_organ } from '../data/neo4j/gene-_-organ.neo4j'
 
 const getGraphName = (name: string): GraphName => {
     switch (name) {
@@ -356,8 +356,8 @@ export const Filters = ({
 
  
     const FilterGraph = ({name} : FilterProps) => {
-        console.log('---->Debug: Filters.tsx FilterGraph')
-        console.log('---->Debug: name=',name)
+        // console.log('---->Debug: Filters.tsx FilterGraph')
+        // console.log('---->Debug: name=',name)
 
         return (<>
             <Typography 

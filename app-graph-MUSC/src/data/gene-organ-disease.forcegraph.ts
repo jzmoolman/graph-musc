@@ -1,9 +1,9 @@
 
 import { GraphData } from "react-force-graph-2d";
-import { DiseaseNode, Node } from "./types.forcegraph";
+import { DiseaseNode, Node } from "./forcegraph/types.forcegraph";
 
 import { Gene_OrganDiseases } from "./gene-organdiseases.ne04j_0001";
-import { GeneNode, OrganNode, OrganRiskNode, defaultGraphSchemeV2 } from "./types.forcegraph";
+import { GeneNode, OrganNode, defaultGraphSchemeV2 } from "./forcegraph/types.forcegraph";
 
 // General Affect collect all organs with no risk data 
 // Used with Force-Graph-2d

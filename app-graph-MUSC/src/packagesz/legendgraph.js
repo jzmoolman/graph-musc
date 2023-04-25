@@ -33,7 +33,7 @@ export const build_legends =( svg, data, onLabel) => {
     const stroke_width = 2
     let index = -1
     console.log(legendNodes.length)
-    let width = (node_size+stroke_width)*2*legendNodes.length
+    let width = (node_size*1.5+stroke_width)*2*legendNodes.length
     let height = (node_size+stroke_width)*2 + 5 + 16
     svg.attr('viewBox',`0 0 ${width},${height}`)
     svg.attr('width',width/2)
@@ -61,7 +61,7 @@ export const build_legends =( svg, data, onLabel) => {
                 index += 1
                 let offset = node_size+stroke_width
                 console.log('index', index)
-                node.cx = offset + ((node_size+stroke_width)*2*index)
+                node.cx = offset + ((node_size*1.5+stroke_width)*2*index)
                 console.log(node.cx)
                 return node.cx
             })
@@ -89,7 +89,7 @@ export const build_legends =( svg, data, onLabel) => {
         .attr('transform', node=> {
             index += 1
             let offset = stroke_width
-            node.x = offset + ((node_size+stroke_width)*2*index) 
+            node.x = offset + ((node_size*1.5+stroke_width)*2*index) 
 
             return `translate( ${node.x},0)`
         }) 

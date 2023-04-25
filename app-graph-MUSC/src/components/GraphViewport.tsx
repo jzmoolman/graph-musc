@@ -5,8 +5,8 @@ import { Graph } from './Graph';
 import { Filters } from './Filters';
 import { FinalVerdict } from '../tools/graphtools';
 
-import { GeneCardV3 } from '../componentsv2/GenecardV3';
-import { load_gene_affects_risk_organ } from '../data/neo4j/gene-affect-organ.neo4j';
+import { GeneCard } from '../componentsv2/GeneCard';
+      // import { load_gene_affects_risk_organ } from '../data/neo4j/gene-affect-organ.neo4j';
 import { Neo4jContext } from 'use-neo4j';
 
 type GraphProps = {
@@ -32,8 +32,7 @@ export const GraphViewport = ( {
     const context = useContext(Neo4jContext), driver = context.driver   
 
     const [graphName, setGraphName] = useState<GraphName>(name)
-    const [gene, setGene] = useState('')
-
+    // Sure wath hack I did here
     const refresh = useRef(true)
     if ( refresh.current) {
         refresh.current = true;
@@ -43,26 +42,28 @@ export const GraphViewport = ( {
     }
     
     const [graphScheme, setGraphScheme] = useState(defaultGraphScheme)
+    
     const [genes, setGenes] = useState<string[]>([])
     const [organs, setOrgans] = useState<string[]>([])
     const [diseases, setDiseases] = useState<string[]>([])
     const [syndromes, setSyndromes] = useState<string[]>([])
     const [finalVerdict, setFinalVerdict] = useState<FinalVerdict>('Confirmed')
     const [gender, setGender] = useState<string>('Male')
+    // used to display the Genecard
+    const [gene, setGene] = useState<string>('None')
     const [dim, setDim] = useState<Dimension>( {width:600, height:600})
+    //const [data, setData] = useState<any>(null);
+   
     const ref = useRef<HTMLInputElement>(null)
-    const [data, setData] = useState<any>(null);
-    
-    console.log('--->Debug: GraphViewport.tsx', gender) 
 
-    const handleData = (data: any) => {
-        console.log('--->Debug: GraphViewport.tsx.handleData data', data) 
-        setData(data)
-    }
+    // const handleData = (data: any) => {
+    //     console.log('--->Debug: GraphViewport.tsx.handleData data', data) 
+    //     setData(data)
+    // }
 
-    useEffect(()=>{
-        load_gene_affects_risk_organ(driver, {onData: handleData })
-    },[gene]) 
+    // useEffect(()=>{
+    //     load_gene_affects_risk_organ(driver, {onData: handleData })
+    // },[gene]) 
 
     useEffect(()=> {
         window.addEventListener("resize", handleResize )
@@ -144,7 +145,7 @@ export const GraphViewport = ( {
     }
 
     const handleGeneCardClose = () => {
-        setGene('')
+        setGene('None')
     }
 
     switch (name) { 
@@ -241,7 +242,6 @@ export const GraphViewport = ( {
                     enableTitle
                     enableBack
                     enableZoom
-                    geneData={data}
                     onMouseOver={handleMouseOver}
                     onMouseOut={handleMouseOut}
                     onGeneClick={handleGeneClick}
@@ -273,8 +273,8 @@ export const GraphViewport = ( {
                 
             </Box>
         </Paper>
-        {data?
-            <GeneCardV3 data={data} visable={gene!==''} gene={gene} gender={'male'} onClose={handleGeneCardClose}/>:
+        {gene !== 'None'?
+            <GeneCard visable={true} gene={gene} onClose={handleGeneCardClose}/>:
             <></>
         }
     </>

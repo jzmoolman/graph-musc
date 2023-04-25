@@ -7,22 +7,16 @@ import {
 
 import { Gene } from '../gene.neo4j'
 import { Disease } from '../disease.neo4j'
+import { Cause } from './_relationships_.neo4j'
 
 
 
-type Cause = {
-    id: string,
-    gender: string,
-    finalVerdict: number,
-    diseaseName: string,
-    diseaseType: string,
-    predominantCancerSubType: string,
-}
+
 
 export type GeneCauseDisease = {
     gene: Gene,
     cause: Cause,
-    disease:Disease,
+    disease: Disease,
 }
 
 type loadProps = {
@@ -95,6 +89,7 @@ export const load_gene_cause_disease = async (
                     mechanism: g.properties.mechanism,
                 },
                 cause: {
+                    type: 'CAUSE',
                     id: Integer.toString(c.identity),
                     gender: c.properties.gender,
                     finalVerdict: c.properties.finalVerdict,

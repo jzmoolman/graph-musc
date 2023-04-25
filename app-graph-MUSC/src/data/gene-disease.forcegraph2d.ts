@@ -1,7 +1,7 @@
 
 import { GraphData } from 'react-force-graph-2d'
 import { GeneCauseDisease } from './neo4j/gene-cause-disease.neo4j'
-import { DiseaseNode, GeneNode, SubtypeNode, defaultGraphSchemeV2 } from './types.forcegraph'
+import { DiseaseNode, GeneNode, SubtypeNode, defaultGraphSchemeV2 } from './forcegraph/types.forcegraph'
 
 export const build_gene_disease_forcegraph2d = (data:GeneCauseDisease[])  => {
     let result : GraphData = { 

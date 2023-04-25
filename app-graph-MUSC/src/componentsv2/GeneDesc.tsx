@@ -1,16 +1,11 @@
 
-import React, { 
-    useContext,
-    useEffect,
-    useState } from 'react'
-import { Neo4jContext } from 'use-neo4j'
+import React from 'react'
 import { Box } from '@mui/material'
-import { Gene, loadGenes } from '../data/gene.neo4j'
-import { Gene_OrganRisks } from '../data/neo4j/gene-affect-organ.neo4j'
+import { GeneNode } from '../data/forcegraph/types.forcegraph'
 
 
 type GeneDescProps = {
-    gene: Gene_OrganRisks
+    gene: GeneNode
 }
 
 export const GeneDesc = ({gene}:GeneDescProps) => {
@@ -21,12 +16,12 @@ export const GeneDesc = ({gene}:GeneDescProps) => {
         {gene?<>
         <div>
             <span>
-                <b> Fullname:</b> {gene.gene.fullName}
+                <b> Fullname:</b> {gene.fullName}
             </span>
         </div>
         <div>
             <span>
-                <b>Alternative Name:</b> {gene.gene.altName}
+                <b>Alternative Name:</b> {gene.altName}
             </span>
                 <br></br>
         </div>
@@ -36,7 +31,7 @@ export const GeneDesc = ({gene}:GeneDescProps) => {
                 Description
         </Box>
         <div>
-                {gene.gene.description}
+                {gene.description}
         </div>
         </>
         :<span>Loading ...</span>}

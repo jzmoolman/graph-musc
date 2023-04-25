@@ -73,7 +73,7 @@ export const load_syndrome_gene_cause_disease = async (
         ${WHERE}\
         RETURN s,a,g,c,d`
 
-    console.log('---->Debug: load_gene_cause_disease', query)
+    // console.log('---->Debug: load_gene_cause_disease', query)
 
     let session = driver.session()
 

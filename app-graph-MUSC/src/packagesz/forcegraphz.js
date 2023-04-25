@@ -113,8 +113,8 @@ export const buildForceGraph = (svg, nodes, links, onmouseenter,
         .call(drag(simulation));
 
     // Triangle
-    const triangle_group = svg.select('#triagle-group').node()
-            ?svg.select('#triagle-group')
+    const triangle_group = svg.select('#triangle-group').node()
+            ?svg.select('#triangle-group')
             :svg.append('g')
                 .attr('id','triangle-group')
 

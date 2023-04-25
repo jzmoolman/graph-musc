@@ -5,21 +5,23 @@ import * as d3 from "d3"
 
 const DEBUG_ON = 0
 
-export function GeneRiskChart({data, gene, gender}) {
+export function GeneRiskChart({
+    gender, // default gender
+    data, // gene,
+}) {
+
+    console.log('---->Debug: GeneRiskChart', data)
+
         const ref = useRef(null);
 
-    console.log('Debug: GeneriskChart')
-    let currentGeneSelect = gene
-    let currentGenderSelect = gender
-    console.log('Debug: currentGeneSelect', currentGeneSelect)
-    console.log('Debug: currentGenderSelect', currentGenderSelect)
+    let currentGender = gender
 
     useEffect( ()=>   {
         d3.select(ref.current)
             .selectAll('*')
             .remove()
         buildGraph();
-    }, [currentGenderSelect, currentGeneSelect])
+    }, [])
 
     function buildGraph({
         marginTop = 30, // the top margin, in pixels
@@ -30,42 +32,7 @@ export function GeneRiskChart({data, gene, gender}) {
         height = 600, // the outer height of the chart, in pixels
 
     } = {}) {
-
-        if (!currentGeneSelect || !currentGenderSelect) return
-
-        const gene = data.find( d => d.id === currentGeneSelect )
-
-        let filterCancers = gene.cancers.filter(cancer => {
-            if ( currentGenderSelect === 'male') {
-                cancer.risk = (d) => {
-                    return +d.male_risk
-                }
-                cancer.populationRisk = (d) => {
-                    return +d.male_populationRisk
-                }
-                if ( +cancer.male_populationRisk !== 0) {
-                    return true
-                } else {
-                    return false
-                }
-            } else if ( currentGenderSelect === 'female') {
-                cancer.risk = (d) => {
-                    return +d.female_risk
-                }
-                cancer.populationRisk = (d) => {
-                    return +d.female_populationRisk
-                }
-                if ( +cancer.female_populationRisk !== 0) {
-                    return true
-                } else {
-                    return false
-                }
-            } else {
-                // Data invalid format: gender option 1 -> male
-                //                      gender option 2 -> female
-                return false
-            }
-        })
+        const gene = data
 
         const x = d3.scaleLinear()
             .domain([0,100])
@@ -75,19 +42,19 @@ export function GeneRiskChart({data, gene, gender}) {
         const y_bandwidth = 50 
         const y_padding = 0.1
         // Calculate the height required for chart
-        height = marginTop + filterCancers.length*(y_bandwidth + y_padding) + marginBottom
+        height = marginTop + data.organs.length*(y_bandwidth + y_padding) + marginBottom
         console.log('height', height)
 
 
         const y = d3.scaleBand()
-            .domain(filterCancers.map( d=> d.id))
+            .domain(data.organs.map( d=> d.id))
             .range([marginTop, height-marginBottom])
             .padding(y_padding)
             .round(true)
         console.log('y.bandwidth()', y.bandwidth())
 
         const color = d3.scaleSequential()
-            .domain([0, d3.max(filterCancers, d => d.male_risk)])
+            .domain([0, d3.max(data.organs, d => d.male_risk)])
             .domain([0, 40])
             .interpolator(d3.interpolateBlues)
 
@@ -100,23 +67,23 @@ export function GeneRiskChart({data, gene, gender}) {
         // Population risk - Rect 
         svg.append('g')
             .selectAll('rect')
-            .data(filterCancers)
+            .data(data.organs)
             .join('rect')
                 .attr('fill', d => color(20) )
                 .attr('y', d => y(d.id) )
                 .attr('x', x(0) )
-                .attr('width', d => x( d.populationRisk(d)) - x(0) )
+                .attr('width', d => x(d.population_risk) - x(0) )
                 .attr('height', y.bandwidth() / 2)
 
         // Carrier Gene Risk - Rect
         svg.append('g')
             .selectAll('rect')
-            .data(filterCancers)
+            .data(data.organs)
             .join('rect')
                 .attr('fill', d => color(25))
                 .attr('y', d => y(d.id) + y.bandwidth()/2)
                 .attr('x', x(0) )
-                .attr('width', d=> x( d.risk(d)) - x(0))
+                .attr('width', d=> x( d.risk) - x(0))
                 .attr('height', y.bandwidth()/2);
         
 
@@ -126,15 +93,15 @@ export function GeneRiskChart({data, gene, gender}) {
                 .attr('text-anchor','start')
                 .attr('transform', `translate(0,${y.bandwidth()/2 })`)
             .selectAll('text')
-            .data(filterCancers)
+            .data(data.organs)
             .join('text')
                 .attr('font-size', y.bandwidth()/4)
-                .attr('x', d => x(d.populationRisk(d)) )
+                .attr('x', d => x(d.population_risk))
                 .attr('y', d => y(d.id) )
                 // Cennter Bandwidht / 2  / 4 == move 1/4th up
                 .attr('dx', 5 )
                 .attr('dy', -y.bandwidth()/8 )
-                .text(d => d.populationRisk(d) + '%' )
+                .text(d => d.population_risk + '%' )
 
         // Carrier Risk  - Text
         svg.append('g')
@@ -142,14 +109,14 @@ export function GeneRiskChart({data, gene, gender}) {
                 .attr('text-anchor','start')
                 .attr('transform', `translate(0,${y.bandwidth() })`)
             .selectAll('text')
-            .data(filterCancers)
+            .data(data.organs)
             .join('text')
                 .attr('font-size', y.bandwidth()/4)
-                .attr('x', d => x(d.risk(d)) )
+                .attr('x', d => x(d.risk))
                 .attr('y', d => y(d.id) )
                 .attr('dx', 5 )
                 .attr('dy', -y.bandwidth()/8 )
-                .text(d => d.risk(d) + '%' )
+                .text(d => d.risk + '%' )
 
         svg.append('g')
                 .attr('transform', `translate(0,${marginTop})`)
@@ -220,7 +187,7 @@ export function GeneRiskChart({data, gene, gender}) {
                 .attr('font-size', fontSize)
                 .attr('x',  marginLeft)
                 .attr('y',  height - marginTop + 20)
-            .text(`${currentGenderSelect==='male'?'Male':'Female'} ${currentGeneSelect} cancer risk between the ages 25 and 85 `)
+            .text(`${currentGender==='Male'?'Male':'Female'} ${data.name} organ penetrance between the ages 25 and 85 `)
 
         // X-axis Additional descriiptions
         svg.append('g')
@@ -231,29 +198,20 @@ export function GeneRiskChart({data, gene, gender}) {
                 .attr('y', 0)
                 .attr('width', width)
                 .attr('height', height)
-            .text(`${currentGenderSelect==='male'?'Male':'Female'} ${currentGeneSelect} cancer risk between the ages 25 and 85 `)
-    }
-
-    function handleGeneChange(e) {
-        currentGeneSelect = e.target.value
-        d3.select(ref.current)
-            .selectAll('*')
-            .remove()
-        buildGraph()
+            .text(`${currentGender==='Male'?'Male':'Female'} ${data.name} organ penetrance between the ages 25 and 85 `)
     }
     
     function handleGenderChange(e) {
-        currentGenderSelect = e.target.value
+        currentGender = e.target.value
         console.log(e.target.value)
         d3.select(ref.current)
             .selectAll('*')
             .remove()
         buildGraph()
     }
-
     
     return (<div>
-        {DEBUG_ON?
+        {/* {DEBUG_ON?
         <div>
             <select
                 onChange={handleGeneChange}
@@ -272,7 +230,7 @@ export function GeneRiskChart({data, gene, gender}) {
                 <option key='male' value='male'>Male</option>
                 <option key='female' value='female'>Female</option>
             </select>
-        </div>:<></>}
+        </div>:<></>} */}
         <div ref={ref}> 
         </div>
     </div>)

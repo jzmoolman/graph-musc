@@ -1,7 +1,7 @@
 
 import { GraphData, NodeObject } from "react-force-graph-2d";
 
-import { Gene_OrganRisks, Gene_Organs, OrganRisk } from "./neo4j/gene-affect-organ.neo4j";
+import { Gene_OrganRisks, Gene_Organs, OrganRisk } from "./neo4j/gene-_-organ.neo4j";
 import { Gene } from "./gene.neo4j";
 import { defaultGraphScheme } from "../tools/graphtools";
 import { Organ } from "./organ.neo4j";

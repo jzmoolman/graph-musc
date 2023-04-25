@@ -14,25 +14,13 @@ import {
         paintNode,
     } from '../tools/graphtools'
 
-import { GeneNode, Node } from '../data/types.forcegraph'
-
-// import { 
-//     loadGeneOrganData,
-//     loadGeneDiseaseData,
-//     loadGeneDiseaseSubtypeData,
-//     loadOrganGeneData,
-//     loadDiseaseData,
-//     loadSyndromeDiseaseData,
-//     loadSyndromeGeneDiseaseData,
-//  } from '../tools/graphdata'
+import { GeneNode, Node } from '../data/forcegraph/types.forcegraph'
 
 import { Box, Button, Hidden, useTheme,  } from '@mui/material'
 import gene_organ_img from '../assets/gene-organ.png'
 import gene_subtype_img from '../assets/gene-subtype.png'
-import { GeneAffectOrgan, Gene_Organs, load_gene_affect_organ, load_gene_affects_organ_filter_specialist } from '../data/neo4j/gene-affect-organ.neo4j'
-import { build_gene_affect_organ_forcegraph2d, build_gene_affects_organ_graph_old } from '../data/forcegraph/gene-organ.forcegraph'
-import { Gene_OrganDiseases } from '../data/gene-organdiseases.ne04j_0001'
-import { build_gene_organ_disease_graph } from '../data/gene-organ-disease.forcegraph'
+import { GeneAffectOrgan,  load_gene_affect_organ,  } from '../data/neo4j/gene-_-organ.neo4j'
+import { build_gene_affect_organ_forcegraph2d,  } from '../data/forcegraph/gene-_-organ.forcegraph'
 import { GeneCauseDisease, load_gene_cause_disease } from '../data/neo4j/gene-cause-disease.neo4j'
 import { build_gene_disease_forcegraph2d, build_gene_disease_subtype_foregraph2d } from '../data/gene-disease.forcegraph2d'
 import { build_syndrome_disease, build_syndrome_gene_disease,  } from '../data/syndrome-disease.forcegraph2d'
@@ -63,7 +51,7 @@ type GraphProps = {
     enableTitle?: boolean
     enableBack?: boolean
     enableZoom?: boolean
-    geneData?:any[]
+    geneData?: any[]
     onClick?: () => void
     onMouseOver?: () => void  
     onMouseOut?: () => void
@@ -85,7 +73,6 @@ export const Graph = ( {
     enableHover,
     enableBack,
     enableZoom,
-    geneData,
     onClick,
     onMouseOver,
     onMouseOut,
@@ -142,15 +129,7 @@ export const Graph = ( {
 
     useEffect( () => {
 
-        const onData = (data: Force2DData) =>{
-            setData(data)
-        }
         // Gene Centric
-        // const handleGene_Organs_Data = ( data: Gene_Organs[]) => {
-        //     // console.log('---->Debug: handleGene_Organs_Data data', data)
-        //     let _data = build_gene_affects_organ_graph_old(data);
-        //     setData(_data)
-        // }
         const handleGeneOrganData = ( data: GeneAffectOrgan[]) => {
             // console.log('---->Debug: handleGene_Organs_Data data', data)
             let _data = build_gene_affect_organ_forcegraph2d(data);
@@ -165,19 +144,16 @@ export const Graph = ( {
         }
        
         const handleGeneDiseaseSubtypeData =(data: GeneCauseDisease[]) => {
-            console.log('---->Debug: handleGeneDiseaseSubtypeData data', data)
+            // console.log('---->Debug: handleGeneDiseaseSubtypeData data', data)
             let _data = build_gene_disease_subtype_foregraph2d(data);
-            console.log('---->Debug: handleGeneDiseaseSubtypeData data', _data)
-            setData(_data)
-
-        }
-
-
-        const handleGene_OrganDisease_Data = (data: Gene_OrganDiseases[]) => {
-            // console.log('---->Debug: handleGene_OrganDisease_Data data', data)
-            let _data = build_gene_organ_disease_graph(data);
+            // console.log('---->Debug: handleGeneDiseaseSubtypeData data', _data)
             setData(_data)
         }
+        // Organ Centric
+        // use the same data build_gene_affect_organ_forcegraph2d
+
+        // Disease Centric
+        // use the samea data handleGeneDiseaseData
 
         const handleSydromeDiseaseData = (data: SyndromeGeneCauseDisease[]) => {
             // console.log('---->Debug: handleSydromeDiseaseData data', data)
@@ -192,7 +168,9 @@ export const Graph = ( {
             // console.log('---->Debug: handleGeneDiseaseData _data', _data)
             setData(_data)
         }
+
         switch (name) {
+            // Gene Centric
             case 'gene-organ': {
                 load_gene_affect_organ( driver, {
                     specialist: specialist, 
@@ -224,6 +202,8 @@ export const Graph = ( {
                 })
                 break
             }
+
+            // Organ Centric
             case 'organ-gene': {
                 load_gene_affect_organ( driver, {
                     specialist: specialist, 
@@ -234,6 +214,8 @@ export const Graph = ( {
                 })
                 break
             }
+
+            //  Disease Centric
             case 'disease-gene': {
                 load_gene_cause_disease(driver, {
                     specialist: specialist,
@@ -243,6 +225,8 @@ export const Graph = ( {
                 })
                 break
             }
+            
+            // Syndrome Centric
             case 'syndrome-disease': {
                 load_syndrome_gene_cause_disease(driver, {
                     specialist: specialist,
@@ -253,6 +237,7 @@ export const Graph = ( {
                 })
                 break
             }
+
             case 'syndrome-gene-disease': {
                 load_syndrome_gene_cause_disease(driver, {
                     specialist: specialist,
@@ -261,7 +246,6 @@ export const Graph = ( {
                     diseaseFilter: diseases,
                     onData: handleSydromeGeneDiseaseData,
                 })
-                break
                 break
             }
         }

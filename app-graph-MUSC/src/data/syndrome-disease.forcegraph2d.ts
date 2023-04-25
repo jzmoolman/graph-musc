@@ -1,6 +1,6 @@
 
 import { GraphData } from "react-force-graph-2d";
-import { SyndromeNode,DiseaseNode, defaultGraphSchemeV2, GeneNode } from "./types.forcegraph";
+import { SyndromeNode,DiseaseNode, defaultGraphSchemeV2, GeneNode } from "./forcegraph/types.forcegraph";
 import { SyndromeGeneCauseDisease } from "./syndryome-gene-disesae.neo4j";
 
 
