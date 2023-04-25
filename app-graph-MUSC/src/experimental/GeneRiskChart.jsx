@@ -12,14 +12,28 @@ export function GeneRiskChart({
 
     console.log('---->Debug: GeneRiskChart', data)
 
-        const ref = useRef(null);
+    const ref = useRef(null);
 
     let currentGender = gender
+
+    let filteredData = filterGender(currentGender, data)
+
+    function filterGender(gender, data) {
+        console.log('---->Debug: GeneRiskChart filterGender gender', gender)
+        console.log('---->Debug: GeneRiskChart filterGender data', data)
+        let result = {
+            ...data,
+            organs: data.organs.filter( organ =>  organ.gender === gender || organ.gender === 'Either')
+        }
+        console.log('---->Debug: GeneRiskChart filterGender data', result)
+        return result
+    }
 
     useEffect( ()=>   {
         d3.select(ref.current)
             .selectAll('*')
             .remove()
+        filteredData = filterGender(currentGender, data) 
         buildGraph();
     }, [])
 
@@ -47,14 +61,14 @@ export function GeneRiskChart({
 
 
         const y = d3.scaleBand()
-            .domain(data.organs.map( d=> d.id))
+            .domain(filteredData.organs.map( d=> d.name))
             .range([marginTop, height-marginBottom])
             .padding(y_padding)
             .round(true)
         console.log('y.bandwidth()', y.bandwidth())
 
         const color = d3.scaleSequential()
-            .domain([0, d3.max(data.organs, d => d.male_risk)])
+            .domain([0, d3.max(filteredData.organs, d => d.male_risk)])
             .domain([0, 40])
             .interpolator(d3.interpolateBlues)
 
@@ -67,10 +81,10 @@ export function GeneRiskChart({
         // Population risk - Rect 
         svg.append('g')
             .selectAll('rect')
-            .data(data.organs)
+            .data(filteredData.organs)
             .join('rect')
                 .attr('fill', d => color(20) )
-                .attr('y', d => y(d.id) )
+                .attr('y', d => y(d.name) )
                 .attr('x', x(0) )
                 .attr('width', d => x(d.population_risk) - x(0) )
                 .attr('height', y.bandwidth() / 2)
@@ -78,10 +92,10 @@ export function GeneRiskChart({
         // Carrier Gene Risk - Rect
         svg.append('g')
             .selectAll('rect')
-            .data(data.organs)
+            .data(filteredData.organs)
             .join('rect')
                 .attr('fill', d => color(25))
-                .attr('y', d => y(d.id) + y.bandwidth()/2)
+                .attr('y', d => y(d.name) + y.bandwidth()/2)
                 .attr('x', x(0) )
                 .attr('width', d=> x( d.risk) - x(0))
                 .attr('height', y.bandwidth()/2);
@@ -93,11 +107,11 @@ export function GeneRiskChart({
                 .attr('text-anchor','start')
                 .attr('transform', `translate(0,${y.bandwidth()/2 })`)
             .selectAll('text')
-            .data(data.organs)
+            .data(filteredData.organs)
             .join('text')
                 .attr('font-size', y.bandwidth()/4)
                 .attr('x', d => x(d.population_risk))
-                .attr('y', d => y(d.id) )
+                .attr('y', d => y(d.name) )
                 // Cennter Bandwidht / 2  / 4 == move 1/4th up
                 .attr('dx', 5 )
                 .attr('dy', -y.bandwidth()/8 )
@@ -109,11 +123,11 @@ export function GeneRiskChart({
                 .attr('text-anchor','start')
                 .attr('transform', `translate(0,${y.bandwidth() })`)
             .selectAll('text')
-            .data(data.organs)
+            .data(filteredData.organs)
             .join('text')
                 .attr('font-size', y.bandwidth()/4)
                 .attr('x', d => x(d.risk))
-                .attr('y', d => y(d.id) )
+                .attr('y', d => y(d.name) )
                 .attr('dx', 5 )
                 .attr('dy', -y.bandwidth()/8 )
                 .text(d => d.risk + '%' )
@@ -207,32 +221,22 @@ export function GeneRiskChart({
         d3.select(ref.current)
             .selectAll('*')
             .remove()
+
+        filteredData = filterGender(currentGender, data)
         buildGraph()
     }
     
     return (<div>
-        {/* {DEBUG_ON?
+        <div ref={ref}> </div>
         <div>
-            <select
-                onChange={handleGeneChange}
-            >
-                <option>Please choose one option</option>
-                {data.map((option, index) => {
-                    return <option key={index} >
-                        {option.id}
-                    </option>
-                })}
-            </select>
-            <select
+            <label htmlFor='barchar-gender-select'>Gender</label>
+            <select id='barchar-gender-select'
                 onChange={handleGenderChange}
             >
-                <option >Please choose one option</option>
-                <option key='male' value='male'>Male</option>
-                <option key='female' value='female'>Female</option>
+                <option key='Male' value='Male'>Male</option>
+                <option key='Female' value='Female'>Female</option>
             </select>
-        </div>:<></>} */}
-        <div ref={ref}> 
-        </div>
+        </div> 
     </div>)
 
 }

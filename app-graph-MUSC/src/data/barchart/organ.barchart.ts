@@ -28,10 +28,10 @@ export const build_gene_organ_barchart = (gender: string, data: GeneAffectPenetr
 
     data.forEach(gene_affect_risk_organ => {
 
-        if ( result.name !== gene_affect_risk_organ.gene.name  ) { 
-            //error data contain more than one organ!!!
-            return result
-        }
+        // if ( result.name !== gene_affect_risk_organ.gene.name  ) { 
+        //     //error data contain more than one organ!!!
+        //     return result
+        // }
 
         let organBarChart: OrganBarChart
 
