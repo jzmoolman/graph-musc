@@ -154,7 +154,7 @@ export const HomeGraphSite = () => {
                         width={getWidth(0)-16}
                         height={300}
                         name={'gene-organ'}
-                        specialist={specialist}
+                        specialist={'None'}
                         genes={preferredGenes}
                         organs={[]}
                         syndromes={[]}
@@ -214,7 +214,7 @@ export const HomeGraphSite = () => {
                         width={getWidth(2)-16}
                         height={300}
                         name={'organ-gene'}
-                        specialist={specialist}
+                        specialist={'None'}
                         genes={[]}
                         organs={preferredOrgans}
                         syndromes={[]}
@@ -269,7 +269,7 @@ export const HomeGraphSite = () => {
                         width={getWidth(3)-16}
                         height={300}
                         name={'disease-gene'}
-                        specialist={specialist}
+                        specialist={'None'}
                         gender='None'
                         genes={[]}
                         organs={[]}
@@ -278,7 +278,7 @@ export const HomeGraphSite = () => {
                         finalVerdict='Confirmed'
                         graphScheme={defaultGraphScheme}
                         enableZoom={false}
-                        onClick={handleClickSyndrome}
+                        onClick={handleClickDisease}
                     />:<Box width={getWidth(3) -16}></Box>}
                     <Box 
                         color='black' 
@@ -323,7 +323,7 @@ export const HomeGraphSite = () => {
                         width={getWidth(4)-16}
                         height={300}
                         name={'syndrome-disease'}
-                        specialist={specialist}
+                        specialist={'None'}
                         genes={[]}
                         organs={[]}
                         syndromes={preferredSyndrome}
@@ -332,7 +332,7 @@ export const HomeGraphSite = () => {
                         gender='None'
                         graphScheme={defaultGraphScheme}
                         enableZoom={false}
-                        onClick={handleClickDisease}
+                        onClick={handleClickSyndrome}
                     />:<Box width={getWidth(4)-16}></Box>}
                     <Box 
                         color='black' 

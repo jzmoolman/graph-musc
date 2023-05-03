@@ -206,7 +206,7 @@ export const paintNode = (
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle'
     ctx.fillStyle = (node as { stroke: string }).stroke
-    
+    // ctx.fillStyle = 'black'    
     y = y - lineHeight*((lines2.length-1)/2)
     for ( let i = 0; i < lines2.length; i++ ) {
         let line = lines2[i]

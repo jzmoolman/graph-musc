@@ -46,7 +46,16 @@ export const load_gene_cause_disease = async (
    
     let query = ''
     if (specialist !== 'None' ) {
-
+        query = 
+        `MATCH (n:LKP_SPECIALISTS_BY_ORGAN)\
+            WHERE n.PrimarySpecialist ='${specialist}'\        
+            WITH COLLECT(DISTINCT n.Organ_System) AS organs\
+        MATCH p=(g:gene)-[a:AFFECT {finalVerdict:1}]->(o:organ)\
+            WHERE o.name in organs\
+            WITH COLLECT( DISTINCT g.name) AS genes\
+        MATCH (g)-[c:CAUSE {finalVerdict:1}]->(d:disease)
+        WHERE g.name in genes
+        RETURN g,c,d`
     } else {
         //Example
         // MATCH p=(g:gene {name:'BRCA2'})-[c:CAUSE {finalVerdict:1}]->(d:disease)
@@ -67,7 +76,7 @@ export const load_gene_cause_disease = async (
 
             query += ' RETURN g, c, d'
 
-        // console.log('---->Debug: load_gene_cause_disease', query)
+        console.log('---->Debug: load_gene_cause_disease', query)
 
     }
 

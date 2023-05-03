@@ -4,9 +4,10 @@ import { CustomSelect } from './CustomSelect'
 import { GraphName, GraphScheme } from '../tools/graphtools'
 import { Dropdown } from './Dropdown'
 import { Neo4jContext } from 'use-neo4j'
-import {  loadOrgan, loadDisease, loadSyndrome } from '../tools/graphdata'
 import { defaultGraphSchemeV2 } from '../data/forcegraph/types.forcegraph'
 import { GeneAffectOrgan, load_gene_affect_organ } from '../data/neo4j/gene-_-organ.neo4j'
+import { GeneCauseDisease, load_gene_cause_disease } from '../data/neo4j/gene-cause-disease.neo4j'
+import { SyndromeGeneCauseDisease, load_syndrome_gene_cause_disease } from '../data/neo4j/syndryome-gene-disesae.neo4j'
 
 const getGraphName = (name: string): GraphName => {
     switch (name) {
@@ -102,16 +103,35 @@ export const Filters = ({
                 break;
             }
             case 'organ-gene': {
-                loadOrgan(driver, specialist, handleData)
+                load_gene_affect_organ( driver, 
+                    {   
+                        specialist: specialist,
+                        geneFilter: genes,
+                        organFilter: organs,
+                        onData:handleDataOrgan
+                    }, )
+                // loadOrgan(driver, specialist, handleData)
                 break;
             }
             case 'disease-gene': {
-                loadDisease(driver, specialist, handleData)
+                load_gene_cause_disease(driver,                     {   
+                        specialist: specialist,
+                        geneFilter: genes,
+                        diseaseFilter: organs,
+                        onData:handleDataDisease
+                    }, )
                 break;
             }
             case 'syndrome-disease':
             case 'syndrome-gene-disease': {
-                loadSyndrome(driver, specialist, handleData)
+                load_syndrome_gene_cause_disease(driver,                     {   
+                        specialist: specialist,
+                        geneFilter: genes,
+                        diseaseFilter: organs,
+                        onData:handleDataSyndrome
+                    }, )
+                break;
+                // loadSyndrome(driver, specialist, handleData)
             }
         }
     },[])
@@ -122,6 +142,42 @@ export const Filters = ({
             let index = _data.findIndex( s=> s===gene_affect_organ.gene.name)
             if (index === -1) {
                 _data.push(gene_affect_organ.gene.name)
+            }
+        })
+        console.log('--->Debug: count genes', _data.length)
+        setData(_data.sort())
+    }
+    
+    const handleDataOrgan = (data:GeneAffectOrgan[]) => { 
+        let _data : string[]= []
+        data.forEach( gene_affect_organ => {
+            let index = _data.findIndex( s=> s===gene_affect_organ.organ.name)
+            if (index === -1) {
+                _data.push(gene_affect_organ.organ.name)
+            }
+        })
+        console.log('--->Debug: count genes', _data.length)
+        setData(_data.sort())
+    }
+
+    const handleDataDisease = (data:GeneCauseDisease[]) => { 
+        let _data : string[]= []
+        data.forEach( gene_cause_disease => {
+            let index = _data.findIndex( s=> s===gene_cause_disease.disease.name)
+            if (index === -1) {
+                _data.push(gene_cause_disease.disease.name)
+            }
+        })
+        console.log('--->Debug: count genes', _data.length)
+        setData(_data.sort())
+    }
+    
+    const handleDataSyndrome = (data:SyndromeGeneCauseDisease[]) => { 
+        let _data : string[]= []
+        data.forEach( gene_cause_disease => {
+            let index = _data.findIndex( s=> s===gene_cause_disease.syndrome.name)
+            if (index === -1) {
+                _data.push(gene_cause_disease.syndrome.name)
             }
         })
         console.log('--->Debug: count genes', _data.length)
@@ -144,20 +200,6 @@ export const Filters = ({
             }
         });
         return result
-    }
-
-    
-    const handleData2 = (data: any[]) => {
-        console.log('---->Debug: Filters.tsx handleData2 data=', data)
-        switch (name) { 
-            case 'gene-organ': 
-            case 'gene-disease': 
-            case 'gene-disease-subtype':  {
-                let list = build_lookup(data, 'name').sort()
-                setData(list)
-                break;
-            }
-        }
     }
 
     const handleGraphChange = (name: string) => {
@@ -228,11 +270,11 @@ export const Filters = ({
                 </>)
             case 'gene-disease':
                 return  (<>
-                    This graph shows all [<span style={{color: defaultGraphSchemeV2.gene_stroke}}>gene</span>]-[<span style={{color: graphScheme.diseaseNode}}>disease</span>] associations.
+                    This graph shows all [<span style={{color: defaultGraphSchemeV2.gene_stroke}}>gene</span>]-[<span style={{color: defaultGraphSchemeV2.disease_stroke}}>disease</span>] associations.
                 </>)
             case 'gene-disease-subtype':
                 return  (<>
-                    This graph shows all [<span style={{color: graphScheme.diseaseNode}}>gene</span>]-[<span style={{color: graphScheme.diseaseNode}}>disease</span>]-[<span style={{color: graphScheme.diseaseSubtypeNode}}>subtype</span>] associations.
+                    This graph shows all [<span style={{color: defaultGraphSchemeV2.gene_stroke}}>gene</span>]-[<span style={{color: defaultGraphSchemeV2.disease_stroke}}>disease</span>]-[<span style={{color: defaultGraphSchemeV2.subtype_stroke}}>subtype</span>] associations.
                 </>)
             case 'organ-gene': 
                 return (<>
@@ -240,15 +282,15 @@ export const Filters = ({
                 </>)
             case 'disease-gene':
                 return (<>
-                    This graph shows ALL [<span style={{color: graphScheme.diseaseNode}}>disease</span>]-[<span style={{color: defaultGraphSchemeV2.gene_stroke }}>gene</span>] associations.
+                    This graph shows ALL [<span style={{color: defaultGraphSchemeV2.disease_stroke}}>disease</span>]-[<span style={{color: defaultGraphSchemeV2.gene_stroke }}>gene</span>] associations.
                 </>)
             case 'syndrome-disease': 
                 return (<>
-                    This graph shows ALL [<span style={{color: graphScheme.syndromeNode}}>Syndrome</span>]-[<span style={{color: graphScheme.diseaseNode}}>disease</span>] associations.
+                    This graph shows ALL [<span style={{color: defaultGraphSchemeV2.syndrome_stroke}}>Syndrome</span>]-[<span style={{color: defaultGraphSchemeV2.disease_stroke}}>disease</span>] associations.
                 </>)
             case 'syndrome-gene-disease': 
                 return (<>
-                    This graph shows ALL [<span style={{color: graphScheme.syndromeNode}}>Syndrome</span>]-[<span style={{color: graphScheme.geneNode}}>gene</span>]-[<span style={{color: graphScheme.diseaseNode}}>disease</span>] associations.
+                    This graph shows ALL [<span style={{color: defaultGraphSchemeV2.syndrome_stroke }}>Syndrome</span>]-[<span style={{color: defaultGraphSchemeV2.gene_stroke}}>gene</span>]-[<span style={{color: defaultGraphSchemeV2.disease_stroke}}>disease</span>] associations.
                 </>)
             default: return  <>Undefined:  + name </>
         }
@@ -304,6 +346,7 @@ export const Filters = ({
             case 'syndrome-gene-disease': 
                 return (<>
                     <Typography 
+                        component='div'
                         sx={{
                             textAlign:'left',
                             marginLeft: 1,
@@ -338,16 +381,16 @@ export const Filters = ({
                 </>)
             case 'organ-gene': 
                 return (<>
-                    To limit the graph to one or just a few [<span style={{color: defaultGraphSchemeV2.gene_stroke}}>organs</span>], select as many [<span style={{color: defaultGraphSchemeV2.organ_fill}}>organs</span>] as you wish compare.
+                    To limit the graph to one or just a few [<span style={{color: defaultGraphSchemeV2.organ_stroke}}>organs</span>], select as many [<span style={{color: defaultGraphSchemeV2.organ_stroke}}>organs</span>] as you wish compare.
                 </>)
             case 'disease-gene': 
                 return (<>
-                    To limit the graph to one or just a few [<span style={{color: defaultGraphSchemeV2.disease_fill}}>organs</span>], select as many [<span style={{color: defaultGraphSchemeV2.organ_fill}}>organs</span>] as you wish compare.
+                    To limit the graph to one or just a few [<span style={{color: defaultGraphSchemeV2.disease_stroke}}>diseases</span>], select as many [<span style={{color: defaultGraphSchemeV2.disease_stroke}}>diseases</span>] as you wish compare.
                 </>)
             case 'syndrome-disease':
             case 'syndrome-gene-disease':
                 return (<>
-                    To limit the graph to one or just a few [<span style={{color: defaultGraphSchemeV2.syndrome_fill}}>syndromes</span>], select as many [<span style={{color: defaultGraphSchemeV2.syndrome_fill}}>syndromes</span>] as you wish compare.
+                    To limit the graph to one or just a few [<span style={{color: defaultGraphSchemeV2.syndrome_stroke}}>syndromes</span>], select as many [<span style={{color: defaultGraphSchemeV2.syndrome_stroke}}>syndromes</span>] as you wish compare.
                 </>)
             default : 
             return (<>Not Implemented</>)

@@ -32,7 +32,7 @@ export const load_gene_affect_organ = async (
         organFilter = [],
         onData}: GeneEffectOrganProps
 ) => {
-    // console.log('---->Debug: load_gene_affects_organ geneFilter', geneFilter)
+    console.log('---->Debug: load_gene_affects_organ geneFilter', geneFilter)
 
     let result : GeneAffectOrgan[] = []
     if (driver == null) {

@@ -24,7 +24,7 @@ import { build_gene_affect_organ_forcegraph2d,  } from '../data/forcegraph/gene-
 import { GeneCauseDisease, load_gene_cause_disease } from '../data/neo4j/gene-cause-disease.neo4j'
 import { build_gene_disease_forcegraph2d, build_gene_disease_subtype_foregraph2d } from '../data/gene-disease.forcegraph2d'
 import { build_syndrome_disease, build_syndrome_gene_disease,  } from '../data/syndrome-disease.forcegraph2d'
-import { SyndromeGeneCauseDisease, load_syndrome_gene_cause_disease } from '../data/syndryome-gene-disesae.neo4j'
+import { SyndromeGeneCauseDisease, load_syndrome_gene_cause_disease } from '../data/neo4j/syndryome-gene-disesae.neo4j'
 
 
 const getimg = (name: GraphName) => {
@@ -172,8 +172,10 @@ export const Graph = ( {
         switch (name) {
             // Gene Centric
             case 'gene-organ': {
+                // Any limit to specialist if no gene filter is applied
+                console.log('---->Debug: GraphViewport UseEffect genes, specialist', genes, specialist, gender)
                 load_gene_affect_organ( driver, {
-                    specialist: specialist, 
+                    specialist: genes.length === 0?specialist: 'None', 
                     gender: gender,
                     geneFilter: genes,
                     organFilter: organs,
@@ -184,7 +186,7 @@ export const Graph = ( {
             case 'gene-disease': {
                 // load_gene_affect_organs_affect_disease(driver, {
                     load_gene_cause_disease(driver,{
-                    specialist: specialist,
+                    specialist: genes.length === 0?specialist: 'None', 
                     gender: gender,
                     geneFilter: genes,
                     diseaseFilter: diseases,
@@ -194,7 +196,7 @@ export const Graph = ( {
             }
             case 'gene-disease-subtype': {
                 load_gene_cause_disease(driver,{
-                    specialist: specialist,
+                    specialist: genes.length === 0?specialist: 'None', 
                     gender: gender,
                     geneFilter: genes,
                     diseaseFilter: diseases,
@@ -206,7 +208,7 @@ export const Graph = ( {
             // Organ Centric
             case 'organ-gene': {
                 load_gene_affect_organ( driver, {
-                    specialist: specialist, 
+                    specialist: organs.length === 0?specialist: 'None', 
                     gender: gender,
                     geneFilter: genes,
                     organFilter: organs,
@@ -218,7 +220,8 @@ export const Graph = ( {
             //  Disease Centric
             case 'disease-gene': {
                 load_gene_cause_disease(driver, {
-                    specialist: specialist,
+                    specialist: diseases.length === 0?specialist: 'None', 
+                    // specialist: specialist,
                     geneFilter: genes,
                     diseaseFilter: diseases,
                     onData: handleGeneDiseaseData,
@@ -229,7 +232,7 @@ export const Graph = ( {
             // Syndrome Centric
             case 'syndrome-disease': {
                 load_syndrome_gene_cause_disease(driver, {
-                    specialist: specialist,
+                    specialist: syndromes.length === 0?specialist: 'None', 
                     syndromeFilter: syndromes,
                     geneFilter: genes,
                     diseaseFilter: diseases,

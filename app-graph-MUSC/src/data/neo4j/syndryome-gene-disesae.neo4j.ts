@@ -3,11 +3,11 @@ import { Integer } from 'neo4j-driver-core'
 
 import { 
     arrayToStrV2,
-} from '../tools/graphtools'
+} from '../../tools/graphtools'
 
-import { Gene } from './gene.neo4j'
-import { Disease } from './disease.neo4j'
-import { Syndrome } from './syndrome.neo4j'
+import { Gene } from '../gene.neo4j'
+import { Disease } from '../disease.neo4j'
+import { Syndrome } from '../syndrome.neo4j'
 
 
 
@@ -53,25 +53,47 @@ export const load_syndrome_gene_cause_disease = async (
         return result
     }
    
-    let WHERE = 'WHERE 1=1' // Dummy WHERE that is always true
-
-    if (syndromeFilter.length > 0) {
-        WHERE += ` AND s.name in ${arrayToStrV2(syndromeFilter)}`
-    }
-    if (geneFilter.length > 0) {
-        WHERE += ` AND g.name in ${arrayToStrV2(geneFilter)}`
-    }
-    if (diseaseFilter.length > 0) {
-        WHERE += ` AND d.name in ${arrayToStrV2(diseaseFilter)}`
-    }
-
     // Example
     // MATCH (s:syndrome)<-[a:ASSOCIATED]-(g:gene {name:'BRCA1'})-[c:CAUSE {finalVerdict:1}]->(d:disease)
     // RETURN s,a,g,c,d
-    
-    const query = `MATCH (s:syndrome)<-[a:ASSOCIATED]-(g:gene)-[c:CAUSE {finalVerdict:1}]->(d:disease)\
-        ${WHERE}\
+
+    let query = ''
+    if (specialist !== 'None' ) {
+        query = 
+        `MATCH (n:LKP_SPECIALISTS_BY_ORGAN)\
+            WHERE n.PrimarySpecialist ='${specialist}'\        
+            WITH COLLECT(DISTINCT n.Organ_System) AS organs\
+        MATCH p=(g:gene)-[a:AFFECT {finalVerdict:1}]->(o:organ)\
+            WHERE o.name in organs\
+            WITH COLLECT( DISTINCT g.name) AS genes\
+        MATCH (s:syndrome)<-[a:ASSOCIATED]-(g:gene)-[c:CAUSE {finalVerdict:1}]->(d:disease)\
+        WHERE g.name in genes
         RETURN s,a,g,c,d`
+    } else {
+        //Example
+        // MATCH p=(g:gene {name:'BRCA2'})-[c:CAUSE {finalVerdict:1}]->(d:disease)
+        //      WHERE 1=1
+        //      RETURN g,c,d
+        query = 
+            `MATCH (s:syndrome)<-[a:ASSOCIATED]-(g:gene)-[c:CAUSE {finalVerdict:1}]->(d:disease)\
+            WHERE 1=1\n` // Dummy WHERE that is always true
+            if  ( gender !== 'None' ) {
+                // query += ` AND a.gender in ["${gender}","Either"]\n` 
+                query += ` AND c.gender in ["${gender}","Either"]\n` 
+            }
+            if (syndromeFilter.length > 0) {
+                query += ` AND s.name in ${arrayToStrV2(syndromeFilter)}`
+            }
+            if (geneFilter.length > 0) {
+                query += ` AND g.name in ${arrayToStrV2(geneFilter)}\n`
+            }
+            if (diseaseFilter.length > 0) {
+                query += ` AND d.name in ${arrayToStrV2(diseaseFilter)}\n`
+            }
+            query += 'RETURN s,a,g,c,d'
+    }
+
+    
 
     // console.log('---->Debug: load_gene_cause_disease', query)
 
