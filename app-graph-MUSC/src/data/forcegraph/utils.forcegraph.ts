@@ -5,18 +5,46 @@ export const paintNode = (
     nodeObject: NodeObject, 
     ctx: CanvasRenderingContext2D, 
     GlobalScale: number) => {
+    
+        // console.log('---->Debug: paintNode')
+    // console.log('nodeObject', nodeObject )
+    const node = nodeObject as Node
+
+    let fontSize = node.size/10 //default node Size  is 30
+    let widthSize = 12
+    
+    if (GlobalScale > 4 && GlobalScale < 6) {
+        fontSize = node.size/13
+        widthSize = 14
+    } else if ( GlobalScale > 6) {
+        fontSize = node.size/GlobalScale
+
+    }
+
+    fontSize = node.size/2/GlobalScale
+    if (GlobalScale < 3 ) {
+        fontSize = node.size/10
+    }
+    
+
+    widthSize = 12
 
         function trimWord(word: string) {
+            let measure = ctx.measureText(word)
+            if (measure.width < widthSize) {
+                // Word fit nothing to do
+                return word
+            }
             let result = word.slice(0,-1)
-            console.log('trimword result', result)
+            // console.log('trimword result', result)
             // return word
             let i = 0
             while (true) {
-                console.log('while loop', i)
+                // console.log('while loop', i)
                 i++
                 if ( i > 50) break
                 let measure = ctx.measureText(result + '...')
-                if (measure.width < 12) {
+                if (measure.width < widthSize) {
                     break
                 }
                 if (result.length < 2) break
@@ -25,10 +53,8 @@ export const paintNode = (
             return result + '...';
         }
     
-    console.log('---->Debug: paintNode')
-    console.log('nodeObject', nodeObject )
-    const node = nodeObject as Node
-    const fontSize = node.size/10 //default node Size  is 30
+
+
     ctx.font = `${fontSize}px Libre Franklin`
    
     const words = (nodeObject as { name : string}).name.split(' ')
@@ -38,9 +64,8 @@ export const paintNode = (
     words.forEach( word => {
         let tmpLine = line===''?word: line + ' ' + word
         let measure = ctx.measureText(tmpLine)
-        // console.log('measure.width', measure.width/GlobalScale )
-        if (measure.width < 12) {
-            console.log('tmpLine', tmpLine )
+        console.log('GlobalScale',GlobalScale )
+        if (measure.width < widthSize) {
             line = tmpLine
         } else {
             if ( line !== '' ) {
@@ -58,8 +83,6 @@ export const paintNode = (
     if (line !== '') {
         lines.push(trimWord(line))
     }
-
-    console.log('lines', lines )
 
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle'
