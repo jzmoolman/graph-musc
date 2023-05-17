@@ -5,36 +5,58 @@ export const paintNode = (
     nodeObject: NodeObject, 
     ctx: CanvasRenderingContext2D, 
     GlobalScale: number) => {
+
+        function trimWord(word: string) {
+            let result = word.slice(0,-1)
+            console.log('trimword result', result)
+            // return word
+            let i = 0
+            while (true) {
+                console.log('while loop', i)
+                i++
+                if ( i > 50) break
+                let measure = ctx.measureText(result + '...')
+                if (measure.width < 12) {
+                    break
+                }
+                if (result.length < 2) break
+                result = result.slice(0,-1);
+            }
+            return result + '...';
+        }
     
     console.log('---->Debug: paintNode')
     console.log('nodeObject', nodeObject )
     const node = nodeObject as Node
     const fontSize = node.size/10 //default node Size  is 30
+    ctx.font = `${fontSize}px Libre Franklin`
    
     const words = (nodeObject as { name : string}).name.split(' ')
     // console.log('words', words )
     let lines = []
     let line = ''
     words.forEach( word => {
-        ctx.font = `${fontSize}px Libre Franklin`
         let tmpLine = line===''?word: line + ' ' + word
         let measure = ctx.measureText(tmpLine)
         // console.log('measure.width', measure.width/GlobalScale )
-        if (measure.width < 15) {
+        if (measure.width < 12) {
             console.log('tmpLine', tmpLine )
             line = tmpLine
         } else {
             if ( line !== '' ) {
-                //single word is to long for node
+                lines.push(trimWord(line))
+                line = word 
+            } else {
+                //single word line and is to long for node
                 // Trim and add ...
-                lines.push(line)
-            }
-            line = word 
+                lines.push(trimWord(word))
+                line = ''
+            } 
         }
     })
 
     if (line !== '') {
-        lines.push(line)
+        lines.push(trimWord(line))
     }
 
     console.log('lines', lines )

@@ -82,8 +82,8 @@ export interface CustomNodeObject extends NodeObject {
     name: string
     nodeColor: string
     fontColor: string
-    nodeVal: number
-    nodeRelSize: number
+    // nodeVal: number
+    // nodeRelSize: number
     scaleFont: number
 }
 
