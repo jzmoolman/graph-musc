@@ -8,10 +8,8 @@ import { useNavigate } from 'react-router-dom'
 
 import { 
         FinalVerdict,
-        Force2DData,
         GraphName,
-        GraphScheme,
-        paintNode,
+        ForceGraphScheme,
     } from '../tools/graphtools'
 
 import { GeneNode, Node } from '../data/forcegraph/types.forcegraph'
@@ -25,6 +23,7 @@ import { GeneCauseDisease, load_gene_cause_disease } from '../data/neo4j/gene-ca
 import { build_gene_disease_forcegraph2d, build_gene_disease_subtype_foregraph2d } from '../data/gene-disease.forcegraph2d'
 import { build_syndrome_disease, build_syndrome_gene_disease,  } from '../data/syndrome-disease.forcegraph2d'
 import { SyndromeGeneCauseDisease, load_syndrome_gene_cause_disease } from '../data/neo4j/syndryome-gene-disesae.neo4j'
+import { paintNode } from '../data/forcegraph/utils.forcegraph'
 
 
 const getimg = (name: GraphName) => {
@@ -46,7 +45,7 @@ type GraphProps = {
     diseases: string[]
     finalVerdict: FinalVerdict
     gender: string,
-    graphScheme: GraphScheme
+    graphScheme: ForceGraphScheme
     enableHover?: boolean
     enableTitle?: boolean
     enableBack?: boolean
@@ -125,7 +124,7 @@ export const Graph = ( {
     }
 
     const context = useContext(Neo4jContext), driver = context.driver
-    const [data, setData] =  useState<Force2DData>( {nodes: [], links: []} )
+    const [data, setData] =  useState<GraphData>( {nodes: [], links: []} )
 
     useEffect( () => {
 

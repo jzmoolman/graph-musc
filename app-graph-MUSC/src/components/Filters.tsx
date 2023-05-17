@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import  { Box, Typography } from '@mui/material'
 import { CustomSelect } from './CustomSelect'
-import { GraphName, GraphScheme } from '../tools/graphtools'
+import { GraphName } from '../tools/graphtools'
 import { Dropdown } from './Dropdown'
 import { Neo4jContext } from 'use-neo4j'
 import { defaultGraphSchemeV2 } from '../data/forcegraph/types.forcegraph'
@@ -53,7 +53,7 @@ type FiltersProps = {
     syndromes: string[]
     finalVerdict: string
     gender: string
-    graphScheme: GraphScheme
+    // graphScheme: GraphScheme
     onGraphChange?: (name: GraphName) => void
     onGeneChange?: (selcetd: string[]) => void
     onOrganChange?: (selcetd: string[]) => void
@@ -72,7 +72,7 @@ export const Filters = ({
         syndromes, 
         finalVerdict,
         gender,
-        graphScheme, 
+        // graphScheme, 
         onGraphChange,
         onGeneChange,
         onOrganChange,

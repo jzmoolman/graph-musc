@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useContext } from 'react'
 import  { Box,  Paper,} from '@mui/material'
-import { GraphScheme, defaultGraphScheme, GraphName } from '../tools/graphtools';
+import { ForceGraphScheme, GraphName, defaultForceGraphScheme } from '../tools/graphtools';
 import { Graph } from './Graph';
 import { Filters } from './Filters';
 import { FinalVerdict } from '../tools/graphtools';
@@ -41,7 +41,7 @@ export const GraphViewport = ( {
         }
     }
     
-    const [graphScheme, setGraphScheme] = useState(defaultGraphScheme)
+    const [graphScheme, setGraphScheme] = useState(defaultForceGraphScheme)
     
     const [genes, setGenes] = useState<string[]>([])
     const [organs, setOrgans] = useState<string[]>([])
@@ -124,7 +124,7 @@ export const GraphViewport = ( {
         }
     }
 
-    const handleConfiguationChange = (graphScheme:GraphScheme) => {
+    const handleConfiguationChange = (graphScheme:ForceGraphScheme) => {
         setGraphScheme(graphScheme)
     }
 
@@ -260,7 +260,7 @@ export const GraphViewport = ( {
                         syndromes={syndromes}
                         finalVerdict={finalVerdict}
                         gender={gender}
-                        graphScheme={graphScheme}
+                        // graphScheme={graphScheme}
                         onGraphChange={handleGraphChange}
                         onGeneChange={handleGeneChange}
                         onOrganChange={handleOrganChange}

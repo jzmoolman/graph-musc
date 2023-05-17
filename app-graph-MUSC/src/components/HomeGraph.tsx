@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import  { Box,  Button,  Paper, Typography } from '@mui/material'
 import { Graph } from './Graph';
-import { defaultGraphScheme } from '../tools/graphtools';
 import { useNavigate } from 'react-router-dom'
 import { MuscHeader } from './MuscDecs';
+import { defaultForceGraphScheme } from '../tools/graphtools';
 
 type Dimension = {
     width: number
@@ -129,7 +129,7 @@ export const HomeGraph = () => {
                         diseases={[]}
                         finalVerdict='Confirmed'
                         gender='All'
-                        graphScheme={defaultGraphScheme}
+                        graphScheme={defaultForceGraphScheme}
                         enableZoom={false}
                         onClick={handleClickNone}
                     />
@@ -182,7 +182,7 @@ export const HomeGraph = () => {
                         diseases={[]}
                         finalVerdict='Confirmed'
                         gender='All'
-                        graphScheme={defaultGraphScheme}
+                        graphScheme={defaultForceGraphScheme}
                         enableZoom={false}
                         onClick={handleClickGI}
                     />

@@ -1,10 +1,10 @@
 
 import { NodeObject }  from 'react-force-graph-2d'
 
-// export type Force2DData = {
-//     nodes : any[]
-//     links: any[]
-// }
+export type Force2DData = {
+    nodes : any[]
+    links: any[]
+}
 
 export type CentricView = 'gene' | 'organ'
 export type GraphName = 'gene-organ' | 'gene-disease' | 'gene-disease-subtype' | 'organ-gene' | 'disease-gene' | 'syndrome-disease' | 'syndrome-gene-disease'
@@ -13,17 +13,45 @@ export type GraphNameV2 = 'gene-organ' | 'gene-disease' | 'gene-disease-subtype'
 export type NodeType = 'Gene' | 'Organ' | 'Disease' | 'Syndrome' | 'Subtype'
 export type FinalVerdict = 'Confirmed' | 'Maybe' | 'Both'
 
-export type ForceGraphScheme = {
+export type GraphScheme = {
+    geneNode: string
+    geneFont: string
+    organNode: string
+    organFont: string
+    diseaseNode: string
+    diseaseFont: string
+    diseaseSubtypeNode: string
+    diseaseSubtypeFont: string
+    syndromeNode: string
+    syndromeFont: string
     nodeVal: number,
     nodeRelSize: number
-    nodeSize: number,
+    scaleFont: number
     fitViewPort: boolean
 }
 
-export const defaultForceGraphScheme: ForceGraphScheme = {
+export const defaultGraphScheme: GraphScheme = {
+    // geneNode: 'Blue',
+    // geneNode: '#03a9f4 ', //LightBlue
+    //geneNode: '#0277bd',
+    geneNode: '#01579b',
+    geneFont: 'White',
+    // organNode: 'Red',
+    // organNode: '#b71c1c',
+    organNode: '#c62828',
+    organFont: 'White',
+    // diseaseNode: 'Purple',
+    diseaseNode: '#673ab7',
+    diseaseFont: 'White',
+    diseaseSubtypeNode: 'Green',
+    diseaseSubtypeFont: 'White',
+    // syndromeNode: '#DE970B',  // Organge 
+    // syndromeNode: '#c0ca33',
+    syndromeNode: '#ff5722',
+    syndromeFont: 'Black', 
     nodeVal: 1,
     nodeRelSize: 7,
-    nodeSize: 30, 
+    scaleFont: 30, // Percentage out of 100
     fitViewPort: false
 }
 
@@ -131,15 +159,15 @@ export const paintNode = (
     ctx: CanvasRenderingContext2D, 
     GlobalScale: number) => {
     
-    const scaleDown = (line: string, fontSize: number): number => {
-        ctx.font = `${fontSize}px Libre Franklin`
+    const scaleDown = (line: string, scale: number): number => {
+        ctx.font = `${scale}px Libre Franklin`
         let measure = ctx.measureText(line)
         if (measure.width < 12) {
             // Base case 
             // console.log(measure.width)
-            return fontSize
+            return scale
         } else {
-            return scaleDown(line, fontSize*0.95)
+            return scaleDown(line, scale*0.85)
         }
     }
 
@@ -193,7 +221,6 @@ export const paintNodev2 = (
     node: NodeObject, 
     ctx: CanvasRenderingContext2D, 
     GlobalScale: number) => {
-
     
     const scaleDown = (line: string, scale: number): number => {
         ctx.font = `${scale}px Libre Franklin`

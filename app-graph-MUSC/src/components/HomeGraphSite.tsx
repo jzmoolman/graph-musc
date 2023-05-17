@@ -3,7 +3,7 @@ import { renderToStaticMarkup } from "react-dom/server"
 import { useParams } from 'react-router-dom'
 import  { Box,  Button,  Paper, Typography } from '@mui/material'
 import { Graph } from './Graph';
-import { defaultGraphScheme } from '../tools/graphtools';
+// import { defaultGraphScheme } from '../tools/graphtools';
 import { useNavigate } from 'react-router-dom'
 
 import { MuscFooter, MuscHeader, MuscHeader2, MuscHeader3, MuscLoading, MuscSpecialistNotFound } from './MuscDecs';
@@ -18,6 +18,7 @@ import {
 
 import { loadSpecialists } from '../data/specialist.neo4j';
 import { getPreferredGenesBySpecialist, getPreferredOrgansBySpecialist, getPreferredDiseaseBySpecialist, getPreferredSyndromeBySpecialist } from '../data/specialist.data';
+import { defaultForceGraphScheme } from '../tools/graphtools';
 
 type Dimension = {
     width: number
@@ -161,7 +162,7 @@ export const HomeGraphSite = () => {
                         diseases={[]}
                         finalVerdict='Confirmed'
                         gender='None'
-                        graphScheme={defaultGraphScheme}
+                        graphScheme={defaultForceGraphScheme}
                         enableZoom={false}
                         onClick={handleClickGene}
                     />
@@ -221,7 +222,7 @@ export const HomeGraphSite = () => {
                         diseases={[]}
                         finalVerdict='Confirmed'
                         gender='None'
-                        graphScheme={defaultGraphScheme}
+                        graphScheme={defaultForceGraphScheme}
                         enableZoom={false}
                         onClick={handleClickOrgan}
                     />:<Box width={getWidth(2)}></Box>}
@@ -276,7 +277,7 @@ export const HomeGraphSite = () => {
                         syndromes={[]}
                         diseases={preferredDisease}
                         finalVerdict='Confirmed'
-                        graphScheme={defaultGraphScheme}
+                        graphScheme={defaultForceGraphScheme}
                         enableZoom={false}
                         onClick={handleClickDisease}
                     />:<Box width={getWidth(3) -16}></Box>}
@@ -330,7 +331,7 @@ export const HomeGraphSite = () => {
                         diseases={[]}
                         finalVerdict='Confirmed'
                         gender='None'
-                        graphScheme={defaultGraphScheme}
+                        graphScheme={defaultForceGraphScheme}
                         enableZoom={false}
                         onClick={handleClickSyndrome}
                     />:<Box width={getWidth(4)-16}></Box>}

@@ -3,12 +3,13 @@ import { useRef } from 'react'
 import  { Box , Grid, Button, TextField } from '@mui/material'
 import  { FormGroup, FormControlLabel, Switch } from '@mui/material'
 import { ColorSelect } from './ColorSelect'
-import { defaultGraphScheme, GraphScheme } from '../tools/graphtools'
+import { ForceGraphScheme, defaultForceGraphScheme } from '../tools/graphtools'
+import { defaultGraphSchemeV2 } from '../data/forcegraph/types.forcegraph'
 
 
 type ConfigurationProps = {
-    graphScheme: GraphScheme
-    onChange? : (graphScheme: GraphScheme) => void
+    graphScheme: ForceGraphScheme
+    onChange? : (graphScheme: ForceGraphScheme) => void
 }
 
 export const Configuration = ( { graphScheme, onChange }: ConfigurationProps ) => {
@@ -30,20 +31,20 @@ export const Configuration = ( { graphScheme, onChange }: ConfigurationProps ) =
     const handleApplyClick = () => {
         console.log('Apply Click')
         console.log(geneNodeRef.current.value)
-        const _graphScheme : GraphScheme = {
-            geneNode:  geneNodeRef.current.value,
-            geneFont: geneFontRef.current.value,
-            organNode: organNodeRef.current.value,
-            organFont: organFontRef.current.value,
-            diseaseNode: diseaseNodeRef.current.value,
-            diseaseFont: diseaseFontRef.current.value,            
-            diseaseSubtypeNode: diseaseSubtypeNodeRef.current.value,
-            diseaseSubtypeFont: diseaseSubtypeFontRef.current.value,
-            syndromeNode: defaultGraphScheme.syndromeNode,
-            syndromeFont: defaultGraphScheme.syndromeFont,
-            nodeVal: nodeValRef.current ? +nodeValRef.current.value: defaultGraphScheme.nodeVal,
-            nodeRelSize: nodeRelSizeRef.current ? +nodeRelSizeRef.current.value: defaultGraphScheme.nodeRelSize,
-            scaleFont: scaleFontRef.current ? +scaleFontRef.current.value : defaultGraphScheme.scaleFont,
+        const _graphScheme : ForceGraphScheme = {
+            // geneNode:  geneNodeRef.current.value,
+            // geneFont: geneFontRef.current.value,
+            // organNode: organNodeRef.current.value,
+            // organFont: organFontRef.current.value,
+            // diseaseNode: diseaseNodeRef.current.value,
+            // diseaseFont: diseaseFontRef.current.value,            
+            // diseaseSubtypeNode: diseaseSubtypeNodeRef.current.value,
+            // diseaseSubtypeFont: diseaseSubtypeFontRef.current.value,
+            // syndromeNode: defaultGraphScheme.syndromeNode,
+            // syndromeFont: defaultGraphScheme.syndromeFont,
+            nodeVal: nodeValRef.current ? +nodeValRef.current.value: defaultForceGraphScheme.nodeVal,
+            nodeRelSize: nodeRelSizeRef.current ? +nodeRelSizeRef.current.value: defaultForceGraphScheme.nodeRelSize,
+            nodeSize: scaleFontRef.current ? +scaleFontRef.current.value : defaultForceGraphScheme.nodeSize,
             fitViewPort: false
         }
 
@@ -60,12 +61,12 @@ export const Configuration = ( { graphScheme, onChange }: ConfigurationProps ) =
             </Grid>
             <Grid item xs={6} >
                 <Box  >
-                    <ColorSelect inputRef={geneNodeRef} label='Node' select={graphScheme.geneNode}/>
+                    <ColorSelect inputRef={geneNodeRef} label='Node' select={defaultGraphSchemeV2.gene_fill}/>
                 </Box>
             </Grid>
             <Grid item xs={6} >
                 <Box  >
-                    <ColorSelect inputRef={geneFontRef} label='Font' select={graphScheme.geneFont}/>
+                    <ColorSelect inputRef={geneFontRef} label='Font' select={defaultGraphSchemeV2.gene_stroke}/>
                 </Box>
             </Grid>
             <Grid item xs={12} >
@@ -75,12 +76,12 @@ export const Configuration = ( { graphScheme, onChange }: ConfigurationProps ) =
             </Grid>
             <Grid item xs={6} >
                 <Box  >
-                    <ColorSelect inputRef={organNodeRef} label='Node' select={graphScheme.organNode}/>
+                    <ColorSelect inputRef={organNodeRef} label='Node' select={defaultGraphSchemeV2.organ_fill}/>
                 </Box>
             </Grid>
             <Grid item xs={6} >
                 <Box  >
-                    <ColorSelect inputRef={organFontRef} label='Font' select={graphScheme.organFont}/>
+                    <ColorSelect inputRef={organFontRef} label='Font' select={defaultGraphSchemeV2.organ_stroke}/>
                 </Box>
             </Grid>
 
@@ -91,12 +92,12 @@ export const Configuration = ( { graphScheme, onChange }: ConfigurationProps ) =
             </Grid>
             <Grid item xs={6} >
                 <Box  >
-                    <ColorSelect inputRef={diseaseNodeRef} label='Node' select={graphScheme.diseaseNode}/>
+                    <ColorSelect inputRef={diseaseNodeRef} label='Node' select={defaultGraphSchemeV2.disease_fill}/>
                 </Box>
             </Grid>
             <Grid item xs={6} >
                 <Box  >
-                    <ColorSelect inputRef={diseaseFontRef} label='Font' select={graphScheme.diseaseFont}/>
+                    <ColorSelect inputRef={diseaseFontRef} label='Font' select={defaultGraphSchemeV2.disease_stroke}/>
                 </Box>
             </Grid>
 
@@ -107,12 +108,12 @@ export const Configuration = ( { graphScheme, onChange }: ConfigurationProps ) =
             </Grid>
             <Grid item xs={6} >
                 <Box  >
-                    <ColorSelect inputRef={syndromeNodeRef} label='Node' select={graphScheme.syndromeNode}/>
+                    <ColorSelect inputRef={syndromeNodeRef} label='Node' select={defaultGraphSchemeV2.syndrome_fill}/>
                 </Box>
             </Grid>
             <Grid item xs={6} >
                 <Box  >
-                    <ColorSelect inputRef={syndromeFontRef} label='Font' select={graphScheme.syndromeFont}/>
+                    <ColorSelect inputRef={syndromeFontRef} label='Font' select={defaultGraphSchemeV2.syndrome_stroke}/>
                 </Box>
             </Grid>
             <Grid item xs={12} >
@@ -134,7 +135,7 @@ export const Configuration = ( { graphScheme, onChange }: ConfigurationProps ) =
             </Grid>
             <Grid item xs={6} >
                 <Box>
-                    <TextField inputRef={scaleFontRef}  label='Scale Font' variant='standard' type='number' defaultValue={graphScheme.scaleFont}/>
+                    <TextField inputRef={scaleFontRef}  label='Node Sise Font' variant='standard' type='number' defaultValue={graphScheme.nodeSize}/>
                 </Box>
             </Grid>
             <Grid item xs={12} >
