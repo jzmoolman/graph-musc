@@ -42,10 +42,10 @@ export const load_gene_affect_organ = async (
 
     let query = ''
     if (specialist !== 'None' ) {
-        query = `MATCH (n:LKP_SPECIALISTS_BY_ORGAN)\
-        WHERE n.PrimarySpecialist ='${specialist}'\
-        WITH COLLECT(DISTINCT n.Organ_System) AS organs\
-        MATCH p=(g:gene)-[a:AFFECT {finalVerdict:1}]->(o:organ)\
+        query = `MATCH (n:LKP_SPECIALISTS_BY_ORGAN)\n
+        WHERE n.PrimarySpecialist ='${specialist}'\n
+        WITH COLLECT(DISTINCT n.Organ_System) AS organs\n
+        MATCH p=(g:gene)-[a:AFFECT {finalVerdict:1}]->(o:organ)\n
         WHERE o.name in organs\n`
         if  ( gender !== 'None' ) {
             query += `AND a.gender in ["${gender}","Either"]` 

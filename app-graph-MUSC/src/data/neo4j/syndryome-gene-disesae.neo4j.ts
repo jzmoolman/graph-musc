@@ -46,7 +46,7 @@ export const load_syndrome_gene_cause_disease = async (
         diseaseFilter = [],
         onData}: loadProps
 ) => {
-    // console.log('---->Debug: load_syndrome_gene_cause_disease')
+    console.log('---->Debug: load_syndrome_gene_cause_disease')
     let result : SyndromeGeneCauseDisease[] = []
     if (driver == null) {
         console.log('error: Driver not loaded')
@@ -60,15 +60,19 @@ export const load_syndrome_gene_cause_disease = async (
     let query = ''
     if (specialist !== 'None' ) {
         query = 
-        `MATCH (n:LKP_SPECIALISTS_BY_ORGAN)\
-            WHERE n.PrimarySpecialist ='${specialist}'\        
-            WITH COLLECT(DISTINCT n.Organ_System) AS organs\
-        MATCH p=(g:gene)-[a:AFFECT {finalVerdict:1}]->(o:organ)\
+        `MATCH (n:LKP_SPECIALISTS_BY_ORGAN)\n
+            WHERE n.PrimarySpecialist ='${specialist}'\n       
+            WITH COLLECT(DISTINCT n.Organ_System) AS organs\n
+        MATCH p=(g:gene)-[a:AFFECT {finalVerdict:1}]->(o:organ)\n
             WHERE o.name in organs\
             WITH COLLECT( DISTINCT g.name) AS genes\
         MATCH (s:syndrome)<-[a:ASSOCIATED]-(g:gene)-[c:CAUSE {finalVerdict:1}]->(d:disease)\
-        WHERE g.name in genes
-        RETURN s,a,g,c,d`
+        WHERE g.name in genes\n`
+        if ( gender !== 'Node')  {
+            query += `AND a.gender in ["${gender}","Either"]\n`
+
+        }
+        query += 'RETURN s,a,g,c,d'
     } else {
         //Example
         // MATCH p=(g:gene {name:'BRCA2'})-[c:CAUSE {finalVerdict:1}]->(d:disease)
@@ -95,7 +99,7 @@ export const load_syndrome_gene_cause_disease = async (
 
     
 
-    // console.log('---->Debug: load_gene_cause_disease', query)
+    console.log('---->Debug: load_gene_cause_disease', query)
 
     let session = driver.session()
 

@@ -6,9 +6,10 @@ export const paintNode = (
     ctx: CanvasRenderingContext2D, 
     GlobalScale: number) => {
     
-        // console.log('---->Debug: paintNode')
+    // console.log('---->Debug: paintNode')
     // console.log('nodeObject', nodeObject )
     const node = nodeObject as Node
+
 
     let fontSize = node.size/10 //default node Size  is 30
     let widthSize = 12
@@ -64,7 +65,7 @@ export const paintNode = (
     words.forEach( word => {
         let tmpLine = line===''?word: line + ' ' + word
         let measure = ctx.measureText(tmpLine)
-        console.log('GlobalScale',GlobalScale )
+        // console.log('GlobalScale',GlobalScale )
         if (measure.width < widthSize) {
             line = tmpLine
         } else {

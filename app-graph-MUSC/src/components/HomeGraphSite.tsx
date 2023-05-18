@@ -1,21 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { renderToStaticMarkup } from "react-dom/server"
 import { useParams } from 'react-router-dom'
 import  { Box,  Button,  Paper, Typography } from '@mui/material'
 import { Graph } from './Graph';
-// import { defaultGraphScheme } from '../tools/graphtools';
 import { useNavigate } from 'react-router-dom'
-
-import { MuscFooter, MuscHeader, MuscHeader2, MuscHeader3, MuscLoading, MuscSpecialistNotFound } from './MuscDecs';
+import { MuscFooter, MuscHeader, MuscHeader2,  MuscLoading, MuscSpecialistNotFound } from './MuscDecs';
 import { Neo4jContext } from 'use-neo4j';
-import { 
-    // loadSpecialists, 
-    // loadPreferredGenesBySpecialist, 
-    // loadPreferredOrgansBySpecialist,
-    // loadPreferredSyndromeBySpecialist,
-    // loadPreferredDiseaseBySpecialist
-} from '../tools/graphdata';
-
 import { loadSpecialists } from '../data/specialist.neo4j';
 import { getPreferredGenesBySpecialist, getPreferredOrgansBySpecialist, getPreferredDiseaseBySpecialist, getPreferredSyndromeBySpecialist } from '../data/specialist.data';
 import { defaultForceGraphScheme } from '../tools/graphtools';
