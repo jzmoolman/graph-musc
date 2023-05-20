@@ -11,22 +11,72 @@ export const paintNode = (
     const node = nodeObject as Node
 
 
-    let fontSize = node.size/10 //default node Size  is 30
+    let fontSize = node.size/2 //default node Size  is 30
     let widthSize = 12
-    
-    if (GlobalScale > 4 && GlobalScale < 6) {
-        fontSize = node.size/13
-        widthSize = 14
-    } else if ( GlobalScale > 6) {
-        fontSize = node.size/GlobalScale
-
-    }
-
-    fontSize = node.size/2/GlobalScale
+    // A    
     if (GlobalScale < 3 ) {
-        fontSize = node.size/10
+        fontSize = node.size/3/3
+    } else if (GlobalScale > 3 && GlobalScale < 9) {
+        //reverse scale affect, fonrt remain the same size
+        // fontSize = node.size/3/GlobalScale
+        fontSize = node.size/3/3
+    } else {
+        // fontSize = node.size/3/GlobalScale
+        fontSize = node.size/3/3
     }
-    
+    // B
+    if (GlobalScale < 3 ) {
+        fontSize = node.size/4/GlobalScale   // 12
+
+    } else if (GlobalScale > 3 && GlobalScale < 10) {
+        let fontScale = (GlobalScale-3)/6  // % for scaling text
+        fontSize = node.size/(4-(fontScale*2) )/GlobalScale            // 6
+    } else {
+        // Now scale the GlobalScale
+        let scale = GlobalScale-9+1             // % for scaling text
+        if (9/scale < 1)
+          scale = 9
+
+        fontSize = node.size/1/(9/scale)        // 6
+        fontSize = node.size/30        // 6
+    }
+
+    //c
+    if ( GlobalScale <= 1) {
+        console.log('GLOBAL SCALE', GlobalScale)
+        fontSize = node.size/node.size   // 12
+
+    } else if (GlobalScale < 3 ) {
+        fontSize = node.size/4/3   // 12
+
+    } else if (GlobalScale > 4 && GlobalScale < 15) {
+        let fontScale = (GlobalScale-3)/6  // % for scaling text
+        fontSize = node.size/(4-(fontScale*2) )/GlobalScale            // 6
+
+    } else {
+        // Now scale the GlobalScale
+        let scale = GlobalScale-15+1             // % for scaling text
+        if (9/scale < 1)
+          scale = 9
+
+        fontSize = node.size/1/(9/scale)        // 6
+        fontSize = node.size/30        // 6
+    }
+    //D 
+    console.log('GLOBAL SCALE', GlobalScale)
+    if( GlobalScale < 3) {
+        fontSize = node.size/9 // Fits atleast 6 characters  
+    } else if (GlobalScale > 3  && GlobalScale < 6) {
+        let scalefont = GlobalScale-3
+        if (scalefont > 3 ) {
+            scalefont = 3
+        }
+       fontSize = (node.size/(9-scalefont))/(GlobalScale/3)
+    } else {
+        //  fontSize = (node.size/10)
+        fontSize = 2.5 
+    }
+    console.log('fontSize', fontSize)
 
     widthSize = 12
 
@@ -87,20 +137,19 @@ export const paintNode = (
 
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle'
-    ctx.fillStyle = (node as { stroke: string }).stroke
+    // ctx.fillStyle = (node as { stroke: string }).stroke
+    ctx.fillStyle = 'rgb(60,60,60)'
     const x = node.x?node.x:0
     let y = node.y?node.y:0
     
     // only display the first two lines
+    ctx.font = `600 ${fontSize}px Libre Franklin`
     if (lines.length === 1) {
-        ctx.font = `${fontSize}px Libre Franklin`
         ctx.fillText(lines[0], x, y)
     } else if (lines.length === 2) {
-        ctx.font = `${fontSize}px Libre Franklin`
         ctx.fillText(lines[0], x, y-fontSize/2)
         ctx.fillText(lines[1], x, y+fontSize/2)
     } else {
-        ctx.font = `${fontSize}px Libre Franklin`
         ctx.fillText(lines[0], x, y-fontSize/2)
         ctx.fillText(lines[1], x, y+fontSize/2)
         ctx.fillText('...', x, y+fontSize)

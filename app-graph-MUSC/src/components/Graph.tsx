@@ -220,6 +220,7 @@ export const Graph = ( {
             case 'disease-gene': {
                 load_gene_cause_disease(driver, {
                     specialist: diseases.length === 0?specialist: 'None', 
+                    gender: gender,
                     // specialist: specialist,
                     geneFilter: genes,
                     diseaseFilter: diseases,
@@ -232,6 +233,7 @@ export const Graph = ( {
             case 'syndrome-disease': {
                 load_syndrome_gene_cause_disease(driver, {
                     specialist: syndromes.length === 0?specialist: 'None', 
+                    gender: gender,
                     syndromeFilter: syndromes,
                     geneFilter: genes,
                     diseaseFilter: diseases,
@@ -243,6 +245,7 @@ export const Graph = ( {
             case 'syndrome-gene-disease': {
                 load_syndrome_gene_cause_disease(driver, {
                     specialist: specialist,
+                    gender: gender,
                     syndromeFilter: syndromes,
                     geneFilter: genes,
                     diseaseFilter: diseases,
