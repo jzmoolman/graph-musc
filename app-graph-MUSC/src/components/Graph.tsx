@@ -220,7 +220,6 @@ export const Graph = ( {
             case 'disease-gene': {
                 load_gene_cause_disease(driver, {
                     specialist: diseases.length === 0?specialist: 'None', 
-                    gender: gender,
                     // specialist: specialist,
                     geneFilter: genes,
                     diseaseFilter: diseases,
@@ -331,6 +330,7 @@ export const Graph = ( {
                 cooldownTicks={100}
                 onEngineStop={handleEngineStop}
                 nodeVal={graphScheme.nodeVal}
+                // NodeRelSize determine the node size 
                 nodeRelSize={graphScheme.nodeRelSize}
                 nodeCanvasObjectMode={() => 'after'}
                 nodeCanvasObject={paintNode}
