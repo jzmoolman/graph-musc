@@ -1,9 +1,9 @@
 
 import { GraphData } from "react-force-graph-2d";
-import { DiseaseNode, Node } from "./forcegraph/types.forcegraph";
+import { DiseaseNode, Node } from "./types.forcegraph";
 
-import { Gene_OrganDiseases } from "./gene-organdiseases.ne04j_0001";
-import { GeneNode, OrganNode, defaultGraphSchemeV2 } from "./forcegraph/types.forcegraph";
+import { Gene_OrganDiseases } from "../gene-organdiseases.ne04j_0001";
+import { GeneNode, OrganNode, defaultGraphSchemeV2 } from "./types.forcegraph";
 
 // General Affect collect all organs with no risk data 
 // Used with Force-Graph-2d
@@ -19,7 +19,7 @@ export const build_gene_organ_disease_graph = (data:Gene_OrganDiseases[])  => {
             type : 'gene',
             fill: defaultGraphSchemeV2.gene_fill,
             stroke: defaultGraphSchemeV2.gene_stroke,
-            size: 30,
+            size: 16,
             text_anchor: 'middle',
             proportions: [],
             ...gene_organdiseases.gene
@@ -44,7 +44,7 @@ export const build_gene_organ_disease_graph = (data:Gene_OrganDiseases[])  => {
 
                     fill: defaultGraphSchemeV2.organ_fill,
                     stroke: defaultGraphSchemeV2.organ_stroke,
-                    size: 30,
+                    size: 16,
                     text_anchor: 'auto-start-end',
                     proportions: [],
                     ...organ_disease.organ
@@ -70,7 +70,7 @@ export const build_gene_organ_disease_graph = (data:Gene_OrganDiseases[])  => {
 
                     fill: defaultGraphSchemeV2.disease_fill,
                     stroke: defaultGraphSchemeV2.disease_stroke,
-                    size: 30,
+                    size: 16,
                     text_anchor: 'auto-start-end',
                     proportions: [],
                     ...organ_disease.disease

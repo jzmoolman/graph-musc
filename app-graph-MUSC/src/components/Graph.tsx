@@ -20,8 +20,8 @@ import gene_subtype_img from '../assets/gene-subtype.png'
 import { GeneAffectOrgan,  load_gene_affect_organ,  } from '../data/neo4j/gene-_-organ.neo4j'
 import { build_gene_affect_organ_forcegraph2d,  } from '../data/forcegraph/gene-_-organ.forcegraph'
 import { GeneCauseDisease, load_gene_cause_disease } from '../data/neo4j/gene-cause-disease.neo4j'
-import { build_gene_disease_forcegraph2d, build_gene_disease_subtype_foregraph2d } from '../data/gene-disease.forcegraph2d'
-import { build_syndrome_disease, build_syndrome_gene_disease,  } from '../data/syndrome-disease.forcegraph2d'
+import { build_gene_disease_forcegraph2d, build_gene_disease_subtype_foregraph2d } from '../data/forcegraph/gene-disease.forcegraph2d'
+import { build_syndrome_disease, build_syndrome_gene_disease,  } from '../data/forcegraph/syndrome-disease.forcegraph2d'
 import { SyndromeGeneCauseDisease, load_syndrome_gene_cause_disease } from '../data/neo4j/syndryome-gene-disesae.neo4j'
 import { paintNode } from '../data/forcegraph/utils.forcegraph'
 
@@ -329,9 +329,10 @@ export const Graph = ( {
                 linkDirectionalArrowLength={2} 
                 cooldownTicks={100}
                 onEngineStop={handleEngineStop}
-                nodeVal={graphScheme.nodeVal}
-                // NodeRelSize determine the node size 
-                nodeRelSize={graphScheme.nodeRelSize}
+                // Same as the default
+                nodeRelSize={6}
+                nodeVal={1}
+                
                 nodeCanvasObjectMode={() => 'after'}
                 nodeCanvasObject={paintNode}
                 onNodeClick={handleNodeClick}

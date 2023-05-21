@@ -23,7 +23,7 @@ export const build_gene_affect_organ_forcegraph2d = (data:GeneAffectOrgan[])  =>
                 type : 'gene',
                 fill: defaultGraphSchemeV2.gene_fill,
                 stroke:defaultGraphSchemeV2.gene_stroke,
-                size: 30,
+                size: 16,
                 text_anchor: 'middle',
                 proportions: [],
                 ...gene_affect_organ.gene
@@ -43,7 +43,7 @@ export const build_gene_affect_organ_forcegraph2d = (data:GeneAffectOrgan[])  =>
                 type: 'organ',
                 fill:defaultGraphSchemeV2.organ_fill,
                 stroke:defaultGraphSchemeV2.organ_stroke,
-                size: 30,
+                size: 16,
                 text_anchor: 'auto-start-end',
                 proportions: [],
                 ...gene_affect_organ.organ

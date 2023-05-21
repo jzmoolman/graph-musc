@@ -1,7 +1,7 @@
 
 import { GraphData } from 'react-force-graph-2d'
-import { GeneCauseDisease } from './neo4j/gene-cause-disease.neo4j'
-import { DiseaseNode, GeneNode, SubtypeNode, defaultGraphSchemeV2 } from './forcegraph/types.forcegraph'
+import { GeneCauseDisease } from '../neo4j/gene-cause-disease.neo4j'
+import { DiseaseNode, GeneNode, SubtypeNode, defaultGraphSchemeV2 } from './types.forcegraph'
 
 export const build_gene_disease_forcegraph2d = (data:GeneCauseDisease[])  => {
     let result : GraphData = { 
@@ -21,7 +21,7 @@ export const build_gene_disease_forcegraph2d = (data:GeneCauseDisease[])  => {
                 type : 'gene',
                 fill: defaultGraphSchemeV2.gene_fill,
                 stroke:defaultGraphSchemeV2.gene_stroke,
-                size: 30,
+                size: 16,
                 text_anchor: 'middle',
                 proportions: [],
                 ...gene_cause_disease.gene
@@ -39,7 +39,7 @@ export const build_gene_disease_forcegraph2d = (data:GeneCauseDisease[])  => {
                 type : 'disease',
                 fill: defaultGraphSchemeV2.disease_fill,
                 stroke:defaultGraphSchemeV2.disease_stroke,
-                size: 30,
+                size: 16,
                 text_anchor: 'middle',
                 proportions: [],
                 ...gene_cause_disease.disease
@@ -71,7 +71,7 @@ export const build_gene_disease_subtype_foregraph2d = (data:GeneCauseDisease[]) 
                 type : 'gene',
                 fill: defaultGraphSchemeV2.gene_fill,
                 stroke:defaultGraphSchemeV2.gene_stroke,
-                size: 30,
+                size: 16,
                 text_anchor: 'middle',
                 proportions: [],
                 ...gene_cause_disease.gene
@@ -89,7 +89,7 @@ export const build_gene_disease_subtype_foregraph2d = (data:GeneCauseDisease[]) 
                 type : 'disease',
                 fill: defaultGraphSchemeV2.disease_fill,
                 stroke:defaultGraphSchemeV2.disease_stroke,
-                size: 30,
+                size: 16,
                 text_anchor: 'middle',
                 proportions: [],
                 ...gene_cause_disease.disease
@@ -112,7 +112,7 @@ export const build_gene_disease_subtype_foregraph2d = (data:GeneCauseDisease[]) 
                     type: 'subtype',
                     fill: defaultGraphSchemeV2.subtype_fill, 
                     stroke: defaultGraphSchemeV2.subtype_stroke, 
-                    size: 30,
+                    size: 16,
                     text_anchor: 'middle',
                     proportions: [],
                     id: gene_cause_disease.cause.id,
