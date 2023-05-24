@@ -6,12 +6,15 @@ import { Syndrome } from "../syndrome.neo4j";
 import { Subtype } from "../subtype.data";
 import { Penetrance } from "../neo4j/_relationships_.neo4j";
 
+
+
 export type Node = NodeObject  & {
     group: string,
     type: string,
     fill: string,
     stroke: string,
-    size: number,
+    fontSize: number,
+    nodeSize: number, // Only used by forcegraph
     //attr
     text_anchor: string,
     // Experiment

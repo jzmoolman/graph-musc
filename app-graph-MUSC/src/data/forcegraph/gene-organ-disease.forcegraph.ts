@@ -19,7 +19,8 @@ export const build_gene_organ_disease_graph = (data:Gene_OrganDiseases[])  => {
             type : 'gene',
             fill: defaultGraphSchemeV2.gene_fill,
             stroke: defaultGraphSchemeV2.gene_stroke,
-            size: 16,
+            nodeSize: 30,
+            fontSize: 16,
             text_anchor: 'middle',
             proportions: [],
             ...gene_organdiseases.gene
@@ -44,7 +45,8 @@ export const build_gene_organ_disease_graph = (data:Gene_OrganDiseases[])  => {
 
                     fill: defaultGraphSchemeV2.organ_fill,
                     stroke: defaultGraphSchemeV2.organ_stroke,
-                    size: 16,
+                    nodeSize: 30,
+                    fontSize: 16,
                     text_anchor: 'auto-start-end',
                     proportions: [],
                     ...organ_disease.organ
@@ -70,7 +72,8 @@ export const build_gene_organ_disease_graph = (data:Gene_OrganDiseases[])  => {
 
                     fill: defaultGraphSchemeV2.disease_fill,
                     stroke: defaultGraphSchemeV2.disease_stroke,
-                    size: 16,
+                    nodeSize: 30,
+                    fontSize: 16,
                     text_anchor: 'auto-start-end',
                     proportions: [],
                     ...organ_disease.disease

@@ -52,6 +52,9 @@ export const load_syndrome_gene_cause_disease = async (
         console.log('error: Driver not loaded')
         return result
     }
+
+    console.log('--->Debug load_syndrome_gene_cause_disease')
+    console.log('--->Debug gender', gender)
    
     // Example
     // MATCH (s:syndrome)<-[a:ASSOCIATED]-(g:gene {name:'BRCA1'})-[c:CAUSE {finalVerdict:1}]->(d:disease)
@@ -69,7 +72,7 @@ export const load_syndrome_gene_cause_disease = async (
         MATCH (s:syndrome)<-[a:ASSOCIATED]-(g:gene)-[c:CAUSE {finalVerdict:1}]->(d:disease)\
         WHERE g.name in genes\n`
         if ( gender !== 'Node')  {
-            query += `AND a.gender in ["${gender}","Either"]\n`
+            query += `AND c.gender in ["${gender}","Either"]\n`
 
         }
         query += 'RETURN s,a,g,c,d'
@@ -82,7 +85,6 @@ export const load_syndrome_gene_cause_disease = async (
             `MATCH (s:syndrome)<-[a:ASSOCIATED]-(g:gene)-[c:CAUSE {finalVerdict:1}]->(d:disease)\
             WHERE 1=1\n` // Dummy WHERE that is always true
             if  ( gender !== 'None' ) {
-                // query += ` AND a.gender in ["${gender}","Either"]\n` 
                 query += ` AND c.gender in ["${gender}","Either"]\n` 
             }
             if (syndromeFilter.length > 0) {

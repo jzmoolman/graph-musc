@@ -1,7 +1,7 @@
 
 import { GraphData } from "react-force-graph-2d";
 import { SyndromeNode,DiseaseNode, defaultGraphSchemeV2, GeneNode } from "./types.forcegraph";
-import { SyndromeGeneCauseDisease } from "../neo4j/syndryome-gene-disesae.neo4j";
+import { SyndromeGeneCauseDisease } from "../neo4j/syndryome-gene-disease.neo4j";
 
 
 
@@ -23,7 +23,8 @@ export const build_syndrome_disease = (data:SyndromeGeneCauseDisease[])  => {
                 type : 'syndrome',
                 fill: defaultGraphSchemeV2.syndrome_fill,
                 stroke:defaultGraphSchemeV2.syndrome_stroke,
-                size: 16,
+                nodeSize: 30,
+                fontSize: 16,
                 text_anchor: 'middle',
                 proportions: [],
                 ...syndrome_gene_caused_disease.syndrome
@@ -41,7 +42,8 @@ export const build_syndrome_disease = (data:SyndromeGeneCauseDisease[])  => {
                 type : 'disease',
                 fill: defaultGraphSchemeV2.disease_fill,
                 stroke:defaultGraphSchemeV2.disease_stroke,
-                size: 16,
+                nodeSize: 30,
+                fontSize: 16,
                 text_anchor: 'middle',
                 proportions: [],
                 ...syndrome_gene_caused_disease.disease
@@ -71,7 +73,8 @@ export const build_syndrome_gene_disease = (data:SyndromeGeneCauseDisease[])  =>
                 type : 'syndrome',
                 fill: defaultGraphSchemeV2.syndrome_fill,
                 stroke:defaultGraphSchemeV2.syndrome_stroke,
-                size: 30,
+                nodeSize: 30,
+                fontSize: 16,
                 text_anchor: 'middle',
                 proportions: [],
                 ...syndrome_gene_caused_disease.syndrome
@@ -89,7 +92,8 @@ export const build_syndrome_gene_disease = (data:SyndromeGeneCauseDisease[])  =>
                 type : 'gene',
                 fill: defaultGraphSchemeV2.gene_fill,
                 stroke:defaultGraphSchemeV2.gene_stroke,
-                size: 30,
+                nodeSize: 30,
+                fontSize: 16,
                 text_anchor: 'middle',
                 proportions: [],
                 ...syndrome_gene_caused_disease.gene
@@ -107,7 +111,8 @@ export const build_syndrome_gene_disease = (data:SyndromeGeneCauseDisease[])  =>
                 type : 'disease',
                 fill: defaultGraphSchemeV2.disease_fill,
                 stroke:defaultGraphSchemeV2.disease_stroke,
-                size: 30,
+                nodeSize: 30,
+                fontSize: 16,
                 text_anchor: 'middle',
                 proportions: [],
                 ...syndrome_gene_caused_disease.disease

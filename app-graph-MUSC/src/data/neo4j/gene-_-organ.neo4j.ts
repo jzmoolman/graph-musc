@@ -145,6 +145,7 @@ export const load_gene_affect_risk_organ = async (
         console.log('error: Driver not loaded')
         return result
     }
+    // Example
     // MATCH p=(g:gene {name:'BRCA1'})-[r:AFFECT|RISK]->(o:organ)
     // WHERE 1=1
     // AND ((r:AFFECT AND (r.gender = 'Male' OR r.gender ='Either'))
@@ -238,9 +239,9 @@ export const load_gene_affect_risk_organ = async (
     }
 }
 
+
+
 // CHECK ALL CODE BELOW
-
-
 
 // export interface Gene_Organs {
 //     gene: Gene,

@@ -23,14 +23,14 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
 }
 
 const user = 'neo4j'
-const password = 'p6YURX5bFlooyM3vRQizhc0uXY_cSpP_gfgJJQ7v_j8'
-const password2 = 'n2YRPwz5WoXAn_sU6VVNzGg0BJYC5tyWptfbg2eDKd8'
+const password_production = 'p6YURX5bFlooyM3vRQizhc0uXY_cSpP_gfgJJQ7v_j8'
+const password_beta = 'n2YRPwz5WoXAn_sU6VVNzGg0BJYC5tyWptfbg2eDKd8'
 
 
 
 
 // const driver = neo4j.driver(uri, neo4j.auth.basic(user, password))
-const driver = neo4j.driver(uri2, neo4j.auth.basic(user, password2))
+const driver = neo4j.driver(uri2, neo4j.auth.basic(user, password_beta))
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

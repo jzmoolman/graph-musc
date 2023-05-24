@@ -22,7 +22,7 @@ import { build_gene_affect_organ_forcegraph2d,  } from '../data/forcegraph/gene-
 import { GeneCauseDisease, load_gene_cause_disease } from '../data/neo4j/gene-cause-disease.neo4j'
 import { build_gene_disease_forcegraph2d, build_gene_disease_subtype_foregraph2d } from '../data/forcegraph/gene-disease.forcegraph2d'
 import { build_syndrome_disease, build_syndrome_gene_disease,  } from '../data/forcegraph/syndrome-disease.forcegraph2d'
-import { SyndromeGeneCauseDisease, load_syndrome_gene_cause_disease } from '../data/neo4j/syndryome-gene-disesae.neo4j'
+import { SyndromeGeneCauseDisease, load_syndrome_gene_cause_disease } from '../data/neo4j/syndryome-gene-disease.neo4j'
 import { paintNode } from '../data/forcegraph/utils.forcegraph'
 
 
@@ -77,6 +77,9 @@ export const Graph = ( {
     onMouseOut,
     onGeneClick,
 } : GraphProps ) => {
+
+    console.log('--->Debug: Graph')
+    console.log('--->Debug: gender', gender)
     
     const [mounted, setMounted] = useState(false)
     const [nodeClicked, setNodeClicked] = useState<NodeObject|null>(null)
@@ -243,7 +246,7 @@ export const Graph = ( {
 
             case 'syndrome-gene-disease': {
                 load_syndrome_gene_cause_disease(driver, {
-                    specialist: specialist,
+                    specialist: syndromes.length === 0?specialist: 'None', 
                     gender: gender,
                     syndromeFilter: syndromes,
                     geneFilter: genes,

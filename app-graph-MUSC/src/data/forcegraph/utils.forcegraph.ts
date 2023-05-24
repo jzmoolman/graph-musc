@@ -32,9 +32,9 @@ export const paintNode = (
 
     // console.log('---->Debug: paintNode')
     const node = nodeObject as Node
-    console.log('---->Debug: node', node)
-    console.log('Global', GlobalScale )
-    // console.log('node.size', node.size )
+    //console.log('---->Debug: node', node)
+    //console.log('Global', GlobalScale )
+    //console.log('node.size', node.size )
 
     const x = node.x?node.x:0
     let y = node.y?node.y:0
@@ -54,16 +54,16 @@ export const paintNode = (
     let fontSize 
     let width = nodeRelSize * 2 - 2; // Alloaw some space for the border
     if( GlobalScale < 3) {
-        fontSize = node.size/nodeRelSize  
+        fontSize = node.fontSize/nodeRelSize  
     } else if (GlobalScale > 3  && GlobalScale < 6) {
-       fontSize = (node.size/nodeRelSize)/(GlobalScale/3)
+       fontSize = (node.fontSize/nodeRelSize)/(GlobalScale/3)
     } else {
         //  fontSize = (node.size/10)
-       fontSize = (node.size/nodeRelSize)/(6/3)
+       fontSize = (node.fontSize/nodeRelSize)/(6/3)
     }
 
     // fontSize = node.size/nodeRelSize  
-    console.log('node.size', fontSize )
+    // console.log('node.size', fontSize )
     ctx.font = `${fontSize}px Libre Franklin`
    
     const words = (nodeObject as { name : string}).name.split(' ')

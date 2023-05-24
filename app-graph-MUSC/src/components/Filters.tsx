@@ -7,7 +7,7 @@ import { Neo4jContext } from 'use-neo4j'
 import { defaultGraphSchemeV2 } from '../data/forcegraph/types.forcegraph'
 import { GeneAffectOrgan, load_gene_affect_organ } from '../data/neo4j/gene-_-organ.neo4j'
 import { GeneCauseDisease, load_gene_cause_disease } from '../data/neo4j/gene-cause-disease.neo4j'
-import { SyndromeGeneCauseDisease, load_syndrome_gene_cause_disease } from '../data/neo4j/syndryome-gene-disesae.neo4j'
+import { SyndromeGeneCauseDisease, load_syndrome_gene_cause_disease } from '../data/neo4j/syndryome-gene-disease.neo4j'
 
 const getGraphName = (name: string): GraphName => {
     switch (name) {

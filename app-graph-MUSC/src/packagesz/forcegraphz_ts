@@ -1,11 +1,21 @@
-// Forked from GeneRiskGrzph_002
+// Forked from GeneRiskGrzph.js
+// running into much typescript errors
 import * as d3 from "d3"
+// Borrow structure from forcegraph2d
+import { GraphData } from "react-force-graph-2d"
 
 const MANY_BODY_STRENGTH = -30
 
-export const buildForceGraph = (svg, nodes, links, onmouseenter,
-     onmouseleave,
-     cx, cy) => {
+type buildForceGraphProps {
+    svg: d3.Selection<null, any, null, undefined>,
+    data: GraphData,
+    onmouseenter:(d: any) => void,
+    onmouseleave:(d: any) => void,
+    cx: number,
+    cy: number
+}
+
+export const buildForceGraph = ({svg, data, onmouseenter, onmouseleave, cx, cy}: buildForceGraphProps) => {
     // console.log('---->Debug: Forcegraphz.js.buildForceGraph', nodes)
 
     const width = +svg.attr('width')
@@ -29,12 +39,10 @@ export const buildForceGraph = (svg, nodes, links, onmouseenter,
 
     // console.log('---->Debug width', svg.attr('width'))
 
-
-
     const forceNode = d3.forceManyBody()
         .strength(MANY_BODY_STRENGTH);
 
-    const forceLink = d3.forceLink(links)
+    const forceLink = d3.forceLink(data.links as any)
         .id(d => d.id)
         .strength(1) 
         .distance(d=> d.distance?d.distance:160);
@@ -71,7 +79,7 @@ export const buildForceGraph = (svg, nodes, links, onmouseenter,
         .join('circle')
             .classed('circle-node', true)
             .attr('fill', node =>  node.fill)
-            .attr('r', node =>  node.nodeSize)
+            .attr('r', node =>  node.size)
             .attr('stroke', node => node.stroke)
             .attr('stroke-width', 2)
         .on('mouseenter', mouseenter)
@@ -93,20 +101,20 @@ export const buildForceGraph = (svg, nodes, links, onmouseenter,
             .attr('id', (d,i)=> 'clip_' + i)
         .append('rect')
             .attr('height', node => {
-                console.log('---->Debug force-graph type', node.name)
-                console.log('---->Debug force-graph %', node.proportions[0].value)
-                return node.nodeSize * 2 * node.proportions[0].value
+                return node.size * node.proportions[0].value
             })
-            .attr('width', node =>  node.nodeSize * 2)
+            .attr('width', node =>  node.size * 2)
 
     const circle_fill_node = circle_fill_group
         .selectAll('.circle_fill_node')
         .data(nodes.filter(d => d.type === 'circle-fill' && d.proportions.length > 0))
+        // .data(nodes.filter(d =>  d.proportions > 0)t
+            // .data(nodes)
         .join('circle')
             .classed('circle_fill_node', true)
             .attr('clip-path', (d,i)=> `url(#clip_${i})`)
             .attr('fill',  d => d.stroke)
-            .attr('r', d =>  d.nodeSize)
+            .attr('r', d =>  d.size)
         .on('click', click)
         .on('mouseenter', mouseenter)
         .on('mouseleave', mouseleave)
@@ -213,9 +221,9 @@ export const buildForceGraph = (svg, nodes, links, onmouseenter,
             .attr('x', (d) => {
                 if (d.text_anchor === 'auto-start-end' ) {
                     if ( d.x > centerX) {
-                        return d.x - d.fontSize*1.15
+                        return d.x - d.size*1.15
                     } else {
-                        return d.x + d.fontSize*1.15
+                        return d.x + d.size*1.15
                     }
                 } else {
                     return d.x
@@ -230,8 +238,8 @@ export const buildForceGraph = (svg, nodes, links, onmouseenter,
             })
 
         clip_path
-            .attr('x', node => node.x-node.nodeSize)
-            .attr('y', node => node.y-node.nodeSize)
+            .attr('x', node => node.x-node.size)
+            .attr('y', node => node.y-node.size)
 
         circle_fill_node
             .attr('cx', d => d.x)
@@ -247,8 +255,8 @@ export const buildForceGraph = (svg, nodes, links, onmouseenter,
         triangle_node 
             // .attr('cx', d => d.x)
             // .attr('cy', d => d.y)
-            .attr('points', d => `${d.nodeSize/2},0 0,${d.nodeSize} ${d.nodeSize},${d.nodeSize}`)
-            .attr('transform', d =>  `translate( ${d.x - d.nodeSize/2} ,${d.y - d.nodeSize/2} )`)
+            .attr('points', d => `${d.size/2},0 0,${d.size} ${d.size},${d.size}`)
+            .attr('transform', d =>  `translate( ${d.x - d.size/2} ,${d.y - d.size/2} )`)
 
         // svg.select('#hover-box')
         //     .attr('x', 20)

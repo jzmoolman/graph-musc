@@ -4,7 +4,7 @@ MATCH (n:LKP_GENE_SYNDROME)
 WHERE NOT(n.GeneMasterName = 'Unknown'
     OR n.SyndromeMasterName = 'Unknown')
 WITH DISTINCT n.SyndromeMasterName as name
-MERGE (s:syndrome {name:name});
+CREATE (s:syndrome {name:name});
 
 MATCH (gslk:LKP_GENE_SYNDROME)
 MATCH (g:gene)
@@ -25,6 +25,8 @@ SET s.types = types,
     s.verbiages = verbiages
 
 
+
+//OLD WAY
 //SyndromeVerbiage - Olde way - rather store the diffefrent type with in syndrome node, 
 // MVATCH (s:syndrome)
 // MATCH (sv:LKP_SYNDROME_VERBIAGE) 
