@@ -42,10 +42,18 @@ export function GeneRiskChart({
         marginRight = 10, // the right margin, in pixels
         marginBottom = 60, // the bottom margin, in pixels
         marginLeft = 90, // the left margin, in pixels
-        width = 500, // the outer width of the chart, in pixel
-        height = 600, // the outer height of the chart, in pixels
+        width = 700, // the outer width of the chart, in pixel
+        height = 500, // the outer height of the chart, in pixels
 
     } = {}) {
+        console.log('---->Debug buildGraph height', height)
+
+        const svg = d3.select(ref.current)
+            .attr("width", width)
+            .attr("height", height) 
+            // .attr("viewBox", [0, 0, width, height])
+            // .attr("style", "max-width: 100%; height: auto; height: intrinsic;")
+
         const gene = data
 
         const x = d3.scaleLinear()
@@ -53,30 +61,25 @@ export function GeneRiskChart({
             .range([marginLeft, width-marginRight])
             .interpolate(d3.interpolateRound)
         
-        const y_bandwidth = 50 
+        const y_bandwidth = 60 
         const y_padding = 0.1
         // Calculate the height required for chart
-        height = marginTop + data.organs.length*(y_bandwidth + y_padding) + marginBottom
-        console.log('height', height)
-
-
+        // Get back to use this 
+        let virtual_height = marginTop + filteredData.organs.length*(y_bandwidth + y_padding) + marginBottom
+        
         const y = d3.scaleBand()
             .domain(filteredData.organs.map( d=> d.name))
-            .range([marginTop, height-marginBottom])
+            .range([marginTop, virtual_height-marginBottom])
             .padding(y_padding)
             .round(true)
         console.log('y.bandwidth()', y.bandwidth())
 
         const color = d3.scaleSequential()
+            //male risk is wrong shoud be risk
             .domain([0, d3.max(filteredData.organs, d => d.male_risk)])
             .domain([0, 40])
             .interpolator(d3.interpolateBlues)
 
-        const svg = d3.select(ref.current).append('svg')
-            .attr("width", width)
-            .attr("height", height) 
-            .attr("viewBox", [0, 0, width, height])
-            .attr("style", "max-width: 100%; height: auto; height: intrinsic;")
 
         // Population risk - Rect 
         svg.append('g')
@@ -85,9 +88,11 @@ export function GeneRiskChart({
             .join('rect')
                 .attr('fill', d => color(20) )
                 .attr('y', d => y(d.name) )
+                // .attr('y', (d,i) => marginTop+ i*y_bandwidth+2 )
                 .attr('x', x(0) )
                 .attr('width', d => x(d.population_risk) - x(0) )
                 .attr('height', y.bandwidth() / 2)
+                // .attr('height', y_bandwidth / 2 -4)
 
         // Carrier Gene Risk - Rect
         svg.append('g')
@@ -96,9 +101,11 @@ export function GeneRiskChart({
             .join('rect')
                 .attr('fill', d => color(25))
                 .attr('y', d => y(d.name) + y.bandwidth()/2)
+                // .attr('y', (d,i) => marginTop + i*(y_bandwidth+2) + y_bandwidth/2 )
                 .attr('x', x(0) )
                 .attr('width', d=> x( d.risk) - x(0))
                 .attr('height', y.bandwidth()/2);
+                // .attr('height', y_bandwidth/2 -4);
         
 
         // Population Risk  - Text
@@ -106,15 +113,19 @@ export function GeneRiskChart({
                 .attr('fill', 'black')
                 .attr('text-anchor','start')
                 .attr('transform', `translate(0,${y.bandwidth()/2 })`)
+                // .attr('transform', `translate(0,${y_bandwidth/2 })`)
             .selectAll('text')
             .data(filteredData.organs)
             .join('text')
-                .attr('font-size', y.bandwidth()/4)
+                .attr('font-size', y.bandwidth()/3)
+                // .attr('font-size', y_bandwidth/4)
                 .attr('x', d => x(d.population_risk))
-                .attr('y', d => y(d.name) )
+                // .attr('y', d => y(d.name) )
+                .attr('y', (d,i) => marginTop+ i*y_bandwidth+2 )
                 // Cennter Bandwidht / 2  / 4 == move 1/4th up
                 .attr('dx', 5 )
                 .attr('dy', -y.bandwidth()/8 )
+                // .attr('dy', -y_bandwidth/8 )
                 .text(d => d.population_risk + '%' )
 
         // Carrier Risk  - Text
@@ -122,14 +133,18 @@ export function GeneRiskChart({
                 .attr('fill', 'black')
                 .attr('text-anchor','start')
                 .attr('transform', `translate(0,${y.bandwidth() })`)
+                // .attr('transform', `translate(0,${y_bandwidth })`)
             .selectAll('text')
             .data(filteredData.organs)
             .join('text')
-                .attr('font-size', y.bandwidth()/4)
+                .attr('font-size', y.bandwidth()/3)
+                // .attr('font-size', y_bandwidth/4)
                 .attr('x', d => x(d.risk))
                 .attr('y', d => y(d.name) )
+                // .attr('y', (d,i) => marginTop + i*(y_bandwidth)-2)
                 .attr('dx', 5 )
                 .attr('dy', -y.bandwidth()/8 )
+                // .attr('dy', -y_bandwidth/8 )
                 .text(d => d.risk + '%' )
 
         svg.append('g')
@@ -203,11 +218,11 @@ export function GeneRiskChart({
                 .attr('y',  height - marginTop + 20)
             .text(`${currentGender==='Male'?'Male':'Female'} ${data.name} organ penetrance between the ages 25 and 85 `)
 
-        // X-axis Additional descriiptions
+        // X-axis Additional descriptions
         svg.append('g')
             .append('rect')
                 .attr('fill', 'rgba(0,0,0,0)')
-                .attr('stroke', '#2378ae')
+                // .attr('stroke', '#2378ae')
                 .attr('x', 0 )
                 .attr('y', 0)
                 .attr('width', width)
@@ -226,17 +241,29 @@ export function GeneRiskChart({
         buildGraph()
     }
     
-    return (<div>
-        <div ref={ref}> </div>
-        <div>
-            <label htmlFor='barchar-gender-select'>Gender</label>
-            <select id='barchar-gender-select'
-                onChange={handleGenderChange}
+    return (<>
+        <div id='GeneRiskChart-Container'
+            style={{
+                border: '1px solid #73AD21',
+            }}
+        >   <svg ref={ref}>
+            
+            </svg> 
+            <div id='GeneRiskChart-Notes'
+                style={{
+                    textAlign: 'center'
+
+                }}
             >
-                <option key='Male' value='Male'>Male</option>
-                <option key='Female' value='Female'>Female</option>
-            </select>
+                <label htmlFor='barchar-gender-select'>Gender</label>
+                <select id='barchar-gender-select'
+                    onChange={handleGenderChange}
+                >
+                    <option key='Male' value='Male'>Male</option>
+                    <option key='Female' value='Female'>Female</option>
+                </select>
+            </div>
         </div> 
-    </div>)
+    </>)
 
 }

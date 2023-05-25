@@ -183,7 +183,7 @@ export const GeneRiskGraph = ({
     dataFiltered = filterGender(gender, data)
 
     return (<>
-        <div id='generiskgraph-container' 
+        <div id='GeneRiskGraph-Container' 
             style={debug?{
                 position: 'absolute',
                 top: '10px',
@@ -197,7 +197,7 @@ export const GeneRiskGraph = ({
         }  
         >
             <svg  
-                width={750}
+                width={'auto'}
                 height={500}
                 style={debug?{
                     border: '3px solid red',
@@ -224,7 +224,7 @@ export const GeneRiskGraph = ({
                 <NodeLegends data={dataFiltered} onLabel={handleLabel}></NodeLegends>
                 <NodeProperties></NodeProperties>
             </div>
-            <div 
+            <div id='GeneRiskGraph-Notes' 
                 style={{
                     textAlign: 'center'
 

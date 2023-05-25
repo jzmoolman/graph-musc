@@ -34,6 +34,7 @@ export const Header = ({
     let { specialist } = useParams()
 
     // console.log('---->Debug: Header.tsx.Header specialist', specialist )
+    // Check that specialist exists 
     if ( typeof specialist === undefined) {
         specialist = 'None'
     } else {
