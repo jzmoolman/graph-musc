@@ -171,7 +171,7 @@ export const load_gene_affect_risk_organ = async (
         query += ` AND o.name in ${arrayToStrV2(organFilter)}\n`
     }
     query += ` RETURN g, r, o\n`
-    // console.log('---->Debug: load_gene_affect_risk_organ query:',  query )
+    console.log('---->Debug: load_gene_affect_risk_organ query:',  query )
 
     let session = driver.session()
 

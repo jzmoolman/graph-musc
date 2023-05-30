@@ -4,7 +4,7 @@ import { Organ } from "../organ.neo4j";
 import { Disease } from "../disease.neo4j";
 import { Syndrome } from "../syndrome.neo4j";
 import { Subtype } from "../subtype.data";
-import { Penetrance } from "../neo4j/_relationships_.neo4j";
+import { Affect, Penetrance } from "../neo4j/_relationships_.neo4j";
 
 
 
@@ -68,14 +68,15 @@ export const defaultGraphSchemeV2: GraphSchemeV2 = {
 
 export type GeneNode = Gene & Node 
 export type OrganNode = Organ & Node
-export type OrganGenderNode = Organ & Node & {
+export type OrganAffectNode = Organ & Node & {
     original_id: string,
-    gender: string,
+    affect: Affect
 }
 export type OrganPenetranceNode = Organ  & Node & {
     original_id: string,
     penetrance: Penetrance,
 }
+
 export type DiseaseNode = Disease & Node
 export type SyndromeNode = Syndrome & Node
 export type SubtypeNode =  Subtype & Node

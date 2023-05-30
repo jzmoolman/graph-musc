@@ -1,9 +1,9 @@
 
 import { GraphData } from "react-force-graph-2d";
-import { defaultGraphSchemeV2, GeneNode, GREY_FILL, GREY_STROKE, Node, OrganGenderNode, OrganNode, OrganPenetranceNode } from "./types.forcegraph"
+import { defaultGraphSchemeV2, GeneNode, GREY_FILL, GREY_STROKE, Node, OrganAffectNode, OrganNode, OrganPenetranceNode } from "./types.forcegraph"
 import { GeneAffectOrgan, GeneAffectPenetranceOrgan  } from "../neo4j/gene-_-organ.neo4j";
 import { Organ } from "../organ.neo4j";
-import { Penetrance  } from "../neo4j/_relationships_.neo4j";
+import { Affect, Penetrance  } from "../neo4j/_relationships_.neo4j";
 
 export const build_gene_affect_organ_forcegraph2d = (data:GeneAffectOrgan[])  => {
     let result : GraphData = { 
@@ -73,7 +73,7 @@ export interface OrganRisk extends Organ {
     population_risk: number,
 }
 
-export const build_gene_affecs_risk_organ_forcegraph = (gender: string, data: GeneAffectPenetranceOrgan[]) => {
+export const build_gene_affecs_risk_organ_forcegraph = (data: GeneAffectPenetranceOrgan[]) => {
     // console.log('---->Debug: build_gene_affecs_risk_organ_forcegraph', data)
 
     let result : GraphData = { 
@@ -107,27 +107,27 @@ export const build_gene_affecs_risk_organ_forcegraph = (gender: string, data: Ge
             // OrganNode represent an organ without prenetrence
             
             node = result.nodes.find(d => d.id === gene_affect_risk_organ.relation.id )
-            let organGenderNode: OrganGenderNode
+            let organAffectNode: OrganAffectNode
             if (node) {
-                organGenderNode = node as OrganGenderNode
+                organAffectNode = node as OrganAffectNode
             } else {
-                organGenderNode = {
+                organAffectNode = {
                     original_id: gene_affect_risk_organ.organ.id,
-                    group: 'Organ',
+                    group: 'OrganAffect',
                     type : 'triangle',
                     fill: GREY_FILL,
                     stroke: GREY_STROKE,
                     nodeSize: 30/2, // Show the trianle node small in relation to the other type of nodes
                     fontSize: 10,
                     text_anchor: 'auto-start-end',
-                    gender: gene_affect_risk_organ.relation.gender,
+                    affect: gene_affect_risk_organ.relation as Affect,
                     proportions: [],
                     ...gene_affect_risk_organ.organ,
                     id:gene_affect_risk_organ.relation.id 
                 }
-                result.nodes.push(organGenderNode)
+                result.nodes.push(organAffectNode)
             } 
-            result.links.push( {source: geneNode.id, target: organGenderNode.id})
+            result.links.push( {source: geneNode.id, target: organAffectNode.id})
         }
         
 

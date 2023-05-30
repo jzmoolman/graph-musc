@@ -19,7 +19,7 @@ import { NCCN } from './NCCN'
 import { Neo4jContext } from 'use-neo4j'
 import { GeneAffectPenetranceOrgan, load_gene_affect_risk_organ } from '../data/neo4j/gene-_-organ.neo4j'
 import { build_gene_affecs_risk_organ_forcegraph } from '../data/forcegraph/gene-_-organ.forcegraph'
-import { Node,  OrganGenderNode,  OrganPenetranceNode } from '../data/forcegraph/types.forcegraph'
+import { Node,   OrganPenetranceNode } from '../data/forcegraph/types.forcegraph'
 import { GeneDesc } from './GeneDesc'
 import { GeneNode } from '../data/forcegraph/types.forcegraph'
 import { GraphData, NodeObject } from 'react-force-graph-2d'
@@ -47,6 +47,7 @@ export const GeneCard = ({
 
     const [data, setData] = useState<Data|undefined>(undefined)
     const [gender, setGender] = useState<string>('None')
+    let penetranceGroup = true
 
     const filterAffectWhenPenetrance = (data: GraphData): GraphData => {
         let filterNodes : NodeObject[] = []
@@ -95,7 +96,7 @@ export const GeneCard = ({
         console.log('--->Debug: Genecard handleData', data)
 
         let _data: Data = {
-            forceGraphData: filterAffectWhenPenetrance(build_gene_affecs_risk_organ_forcegraph(gender, data)),
+            forceGraphData: filterAffectWhenPenetrance(build_gene_affecs_risk_organ_forcegraph(data)),
             geneBarChart: build_gene_organ_barchart('Male', data),
         }
         setData(_data)
