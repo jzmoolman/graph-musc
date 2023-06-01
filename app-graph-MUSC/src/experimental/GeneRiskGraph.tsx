@@ -35,6 +35,7 @@ export const GeneRiskGraph = ({
     const [currentNode, setCurrentNode] = useState<any>(node)
 
     let currentGender = gender
+    let diseaseType = 'Both'
     let noPenetranceGroup = 'Group'
 
     useEffect( ()=>   {
@@ -64,6 +65,19 @@ export const GeneRiskGraph = ({
         dataFiltered = filterGender(currentGender, data)
         groupFiltered = groupNoPenetrance(noPenetranceGroup, dataFiltered)
         buildGraph()
+    }
+   
+    function handleDiseasetypeChange(e:any) {
+        diseaseType = e.target.value
+        d3.select(ref.current)
+            .selectAll('*')
+            .remove()
+        console.log('---->Debug: GeneRiskGraph handleGenderChange', currentGender)
+        dataFiltered = filterGender(currentGender, data)
+        dataFiltered = filterDiseaseType(diseaseType, data)
+        groupFiltered = groupNoPenetrance(noPenetranceGroup, dataFiltered)
+        buildGraph()
+
     }
     
     function handleNoPenetranceChange(e:any) {
@@ -144,7 +158,7 @@ export const GeneRiskGraph = ({
                 <GeneNodeProperties></GeneNodeProperties> : <p></p>
                 :<p></p>
             }
-            {currentNode?currentNode.group==='Organ'?
+            {currentNode?currentNode.group==='OrganAffect'?
                 <OrganNodeProperties></OrganNodeProperties> : <p></p>
             :<p></p>
             }
@@ -153,6 +167,48 @@ export const GeneRiskGraph = ({
             :<p></p>
             }
         </>)
+    }
+    
+    const filterDiseaseType = (diseaseType: string, data: GraphData): GraphData => {
+        let filterNodes : NodeObject[] = []
+
+        // console.log('---->Debug: GeneCard filterDiseaseType data', data)
+        let not_diseaseType = ''
+        if (diseaseType === 'Both') {
+            return data
+        } if ( diseaseType ==='Cancer') { 
+            not_diseaseType = 'Beneign'
+        } if ( diseaseType === 'Beneign') {
+            not_diseaseType = 'Cancer'
+        }
+
+        data.nodes.forEach(d => {
+            if ((d as Node).group === 'OrganAffect'  ) {
+                if ((d as OrganAffectNode).affect.diseaseType === not_diseaseType ) { 
+                    filterNodes.push(d)
+                }
+            }
+            // Is all OrganPenetrance dieaseType Cancer
+        })
+        
+        let result: GraphData = {
+            nodes : data.nodes.filter( data => !filterNodes.includes(data)),
+            links : data.links.filter( data => {
+                
+                if (filterNodes.findIndex( searchElement => { 
+                    let id = typeof data.target === 'object'? data.target.id: data.target
+                    return (searchElement as Node).id === id
+                }) === -1) { 
+                    return true
+                } else {
+                    return false
+                }
+            }) 
+        }
+        // console.log('---->Debug: GeneCard filterCauseWhenPenetrance result', result)
+
+        return result
+
     }
 
     const filterGender = (gender: string, data: GraphData): GraphData => {
@@ -323,6 +379,17 @@ export const GeneRiskGraph = ({
                     {/* <option>Please choose one option</option> */}
                     <option key='male' value='Male'>Male</option>
                     <option key='female' value='Female'>Female</option>
+                </select>
+                {/* Disease Type  */}
+                <label htmlFor='graph-diseasetype-select'>Disease Type</label>
+                <select id='graph-diseasetype-select'
+                    onChange={handleDiseasetypeChange}
+                >
+                    {/* <option>Please choose one option</option> */}
+                    <option key='Both' value='Both'>Both</option>
+                    <option key='Cancer' value='Cancer'>Cancer</option>
+                    <option key='Benign' value='Benign'>Benign</option>
+ "
                 </select>
 
                 {/* Group by Organ iff organ is OrganAffect aka as no penetrance  */}
