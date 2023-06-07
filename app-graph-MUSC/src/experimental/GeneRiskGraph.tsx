@@ -256,7 +256,7 @@ export const GeneRiskGraph = ({
     const filterGender = (gender: string, data: GraphData): GraphData => {
         let filterNodes : NodeObject[] = []
 
-        // console.log('---->Debug: GeneCard filterGender data', data)
+        console.log('---->Debug: GeneCard filterGender data', data)
         let not_gender = ''
         if (gender === 'Male') {
             not_gender = 'Female'
@@ -269,15 +269,16 @@ export const GeneRiskGraph = ({
                 if ((d as OrganPenetranceNode).penetrance.gender === not_gender ) { 
                     filterNodes.push(d)
                 }
-            } else if ((d as Node).group === 'Organ') {
+            // } else if ((d as Node).group === 'OrganAccept') {
+            } else if ((d as Node).group === 'OrganAffect') {
                 if ((d as OrganAffectNode).affect.gender === not_gender ) { 
                     filterNodes.push(d)
                 }
             }
         })
 
-        // console.log('---->Debug: GeneCard filterGender filterNodes gender', gender)
-        // console.log('---->Debug: GeneCard filterGender filterNodes filterNodes', filterNodes)
+        console.log('---->Debug: GeneCard filterGender filterNodes gender', gender)
+        console.log('---->Debug: GeneCard filterGender filterNodes filterNodes', filterNodes)
         
         let result: GraphData = {
             nodes : data.nodes.filter( data => !filterNodes.includes(data)),
@@ -293,7 +294,7 @@ export const GeneRiskGraph = ({
                 }
             }) 
         }
-        // console.log('---->Debug: GeneCard filterCauseWhenPenetrance result', result)
+        console.log('---->Debug: GeneCard filterGender result', result)
 
         return result
 
