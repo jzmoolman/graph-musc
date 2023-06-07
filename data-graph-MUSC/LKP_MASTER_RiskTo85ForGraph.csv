@@ -128,8 +128,6 @@ Population,Hepatobiliary,Male,25,1.22,?
 Population,Hepatobiliary,Female,25,0.46,?
 Population,Kidney,Male,25,1.88,Kidney
 Population,Kidney,Female,25,1.87,Kidney
-Population,Kidney,Male,25,1.07,Kidney
-Population,Kidney,Female,25,1.06,Kidney
 Population,Leukemia,Male,25,1.39,?Blood
 Population,Leukemia,Female,25,0.9,?Blood
 Population,Malignant peripheral nerve sheath tumor,Female,25,0,?

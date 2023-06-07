@@ -31,7 +31,7 @@ export const GeneRiskGraph = ({
 
     const ref = useRef(null);
     let node 
-    let dataFiltered : GraphData
+    let dataFiltered : GraphData = { nodes: [], links: []}
     const [currentNode, setCurrentNode] = useState<any>(node)
 
     let currentGender = gender
@@ -55,53 +55,52 @@ export const GeneRiskGraph = ({
         console.log('---->Debug: GeneRiskGraph handlemouseleave', d)
         setCurrentNode(null)
     }
+
+    function filterData() {
+        dataFiltered = filterAffectWhenPenetrance(data)
+        dataFiltered = filterGender(currentGender, dataFiltered)
+        dataFiltered = filterDiseaseType(diseaseType, dataFiltered)
+        dataFiltered = groupNoPenetrance(noPenetranceGroup, dataFiltered)
+    }
     
     function handleGenderChange(e:any) {
+        // console.log('---->Debug: GeneRiskGraph handleGenderChange', currentGender)
         currentGender = e.target.value
         d3.select(ref.current)
             .selectAll('*')
             .remove()
-        console.log('---->Debug: GeneRiskGraph handleGenderChange', currentGender)
-        dataFiltered = filterGender(currentGender, data)
-        groupFiltered = groupNoPenetrance(noPenetranceGroup, dataFiltered)
         buildGraph()
     }
    
     function handleDiseasetypeChange(e:any) {
+        // console.log('---->Debug: GeneRiskGraph handleDiseasetypeChange', currentGender)
         diseaseType = e.target.value
         d3.select(ref.current)
             .selectAll('*')
             .remove()
-        console.log('---->Debug: GeneRiskGraph handleGenderChange', currentGender)
-        dataFiltered = filterGender(currentGender, data)
-        dataFiltered = filterDiseaseType(diseaseType, data)
-        groupFiltered = groupNoPenetrance(noPenetranceGroup, dataFiltered)
         buildGraph()
 
     }
     
     function handleNoPenetranceChange(e:any) {
-
+        console.log('---->Debug: GeneRiskGraph handleNoPenetranceChange', noPenetranceGroup)
         noPenetranceGroup = e.target.value
         d3.select(ref.current)
             .selectAll('*')
             .remove()
-        console.log('---->Debug: GeneRiskGraph handleNoPenetranceChange', noPenetranceGroup)
-        dataFiltered = filterGender(currentGender, data)
-        groupFiltered = groupNoPenetrance(noPenetranceGroup, dataFiltered)
         buildGraph()
     }
     
     const buildGraph = () => {
         // console.log('---->Debug: GeneRiskGraph.buildGraph')
-
         const svg = d3.select(ref.current)
         const cx = +svg.attr('width')/3
         const cy = +svg.attr('height')/2
 
         // console.log('---->Debug: svg', svg)
         // buildForceGraph(svg, dataFiltered.nodes, dataFiltered.links, handleMouseEnter, handleMouseLeave,cx,cy )
-        buildForceGraph(svg, groupFiltered.nodes, groupFiltered.links, handleMouseEnter, handleMouseLeave,cx,cy )
+        filterData()
+        buildForceGraph(svg, dataFiltered.nodes, dataFiltered.links, handleMouseEnter, handleMouseLeave,cx,cy )
     }
 
     const handleLabel = (node: Node) => {
@@ -169,6 +168,49 @@ export const GeneRiskGraph = ({
         </>)
     }
     
+    const filterAffectWhenPenetrance = (data: GraphData): GraphData => {
+        let filterNodes : NodeObject[] = []
+
+        console.log('---->Debug: GeneCard filterAffectWhenPenetrance data', data)
+
+        data.nodes.forEach(d => {
+            if((d as Node).group === 'OrganAffect') {
+                // Filter Affect-Organ if Penetetrance-organ exists 
+                let node = data.nodes.find(node => {
+                    if ((node as Node).group === 'OrganPenetrance' && (node as OrganPenetranceNode).original_id === (d as OrganPenetranceNode).original_id ) {
+                        return true
+                    } else {
+                        return false
+                    }
+                }) 
+                if (node) {
+                    filterNodes.push(d)
+                }
+            }
+        })
+        console.log('---->Debug: GeneCard filterCauseWhenPenetrance filterNodes', filterNodes)
+        
+        let result: GraphData = {
+            nodes : data.nodes.filter( data => !filterNodes.includes(data)),
+            links : data.links.filter( data => {
+                
+                if (filterNodes.findIndex( searchElement => { 
+                    // make commit
+                    // the target property of links can be eiter string(id) or object that contains the id
+                    let id = typeof data.target === 'object'? data.target.id: data.target
+                    return (searchElement as Node).id === id
+                }) === -1) { 
+                    return true
+                } else {
+                    return false
+                }
+            }) 
+        }
+        console.log('---->Debug: GeneCard filterCauseWhenPenetrance result', result)
+
+        return result
+    }
+
     const filterDiseaseType = (diseaseType: string, data: GraphData): GraphData => {
         let filterNodes : NodeObject[] = []
 
@@ -272,22 +314,29 @@ export const GeneRiskGraph = ({
             
             data.nodes.forEach(node => {
                 if ((node as Node).group === 'Gene') {
+                    //The data should only contain one gene
                     gene = node as GeneNode
                 } else if ((node as Node).group === 'OrganAffect') {
-                    // console.log('---->Debug: GeneCard for each node ', (node as OrganAffectNode).group)
+                    console.log('---->Debug: GeneCard for each node ', (node as OrganAffectNode).group)
                     let organAffectNode : OrganAffectNode = {
                         ...node as OrganAffectNode,
+                        affect : {
+                            type: (node as OrganAffectNode).affect.type,
+                            id: 'Grouped',
+                            gender: 'Grouped',
+                            finalVerdict: (node as OrganAffectNode).affect.finalVerdict,
+                            diseaseName : 'Grouped',
+                            diseaseType : 'Grouped',
+                            predominantCancerSubType : 'Grouped',
+                        }
                     }
-                    //Override
-                    organAffectNode.id = (node as OrganAffectNode).name
-                    organAffectNode.affect.diseaseName = 'Grouped'
-                    organAffectNode.affect.diseaseType = 'Grouped'
-                    organAffectNode.affect.predominantCancerSubType = 'Grouped'
+
                     if (groupNodes.findIndex(d=> (d as OrganAffectNode).name === (node as OrganAffectNode).name) === -1) {
                         console.log('---->Debug: GeneCard Create Group ', (node as OrganAffectNode).name)
                         groupNodes.push(organAffectNode)
 
                     }
+                    // filter all node if group is OrganAffect
                     filterNodes.push(node)
                     //return only one node
                 }
@@ -320,8 +369,9 @@ export const GeneRiskGraph = ({
         return result 
     }
     
-    dataFiltered = filterGender(gender, data)
-    let groupFiltered = groupNoPenetrance(noPenetranceGroup, dataFiltered)
+    // dataFiltered = filterGender(gender, data)
+    // dataFiltered = filterDiseaseType(diseaseType, dataFiltered)
+    // dataFiltered = groupNoPenetrance(noPenetranceGroup, dataFiltered)
 
     return (<>
         <div id='GeneRiskGraph-Container' 
@@ -362,7 +412,7 @@ export const GeneRiskGraph = ({
                     backgroundColor: 'rgba(220,220,220,0.9)'
                 }} 
             >
-                <NodeLegends data={groupFiltered} onLabel={handleLabel}></NodeLegends>
+                <NodeLegends data={dataFiltered} onLabel={handleLabel}></NodeLegends>
                 <NodeProperties></NodeProperties>
             </div>
             <div id='GeneRiskGraph-Notes' 

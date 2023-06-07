@@ -49,54 +49,13 @@ export const GeneCard = ({
     const [gender, setGender] = useState<string>('None')
     let penetranceGroup = true
 
-    const filterAffectWhenPenetrance = (data: GraphData): GraphData => {
-        let filterNodes : NodeObject[] = []
-
-        console.log('---->Debug: GeneCard filterAffectWhenPenetrance data', data)
-
-        data.nodes.forEach(d => {
-            if((d as Node).group === 'Organ') {
-                // Filter Affect-Organ if Penetetrance-organ exists 
-                let node = data.nodes.find(node => {
-                    if ((node as Node).group === 'OrganPenetrance' && (node as OrganPenetranceNode).original_id === (d as OrganPenetranceNode).original_id ) {
-                        return true
-                    } else {
-                        return false
-                    }
-                }) 
-                if (node) {
-                    filterNodes.push(d)
-                }
-            }
-        })
-        console.log('---->Debug: GeneCard filterCauseWhenPenetrance filterNodes', filterNodes)
-        
-        let result: GraphData = {
-            nodes : data.nodes.filter( data => !filterNodes.includes(data)),
-            links : data.links.filter( data => {
-                
-                if (filterNodes.findIndex( searchElement => { 
-                    let id = typeof data.target === 'object'? data.target.id: data.target
-                    return (searchElement as Node).id === id
-                }) === -1) { 
-                    return true
-                } else {
-                    return false
-                }
-            }) 
-        }
-        console.log('---->Debug: GeneCard filterCauseWhenPenetrance result', result)
-
-        return result
-
-    }
 
 
     const handleData =(data: GeneAffectPenetranceOrgan[]) => {
         console.log('--->Debug: Genecard handleData', data)
 
         let _data: Data = {
-            forceGraphData: filterAffectWhenPenetrance(build_gene_affecs_risk_organ_forcegraph(data)),
+            forceGraphData: build_gene_affecs_risk_organ_forcegraph(data),
             geneBarChart: build_gene_organ_barchart('Male', data),
         }
         setData(_data)
