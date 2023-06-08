@@ -32,7 +32,6 @@ export const GraphViewport = ( {
     const context = useContext(Neo4jContext), driver = context.driver   
 
     const [graphName, setGraphName] = useState<GraphName>(name)
-    // Sure wath hack I did here
     const refresh = useRef(true)
     if ( refresh.current) {
         refresh.current = true;

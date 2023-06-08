@@ -101,7 +101,7 @@ export const load_syndrome_gene_cause_disease = async (
 
     
 
-    console.log('---->Debug: load_gene_cause_disease', query)
+    console.log('---->Debug: load_syndrome_gene_cause_disease', query)
 
     let session = driver.session()
 

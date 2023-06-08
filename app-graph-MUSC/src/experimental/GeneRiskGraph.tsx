@@ -277,8 +277,8 @@ export const GeneRiskGraph = ({
             }
         })
 
-        console.log('---->Debug: GeneCard filterGender filterNodes gender', gender)
-        console.log('---->Debug: GeneCard filterGender filterNodes filterNodes', filterNodes)
+        // console.log('---->Debug: GeneCard filterGender filterNodes gender', gender)
+        // console.log('---->Debug: GeneCard filterGender filterNodes filterNodes', filterNodes)
         
         let result: GraphData = {
             nodes : data.nodes.filter( data => !filterNodes.includes(data)),
