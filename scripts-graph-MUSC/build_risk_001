@@ -7,13 +7,11 @@ MATCH (g:gene)-[r:RISK]->(o:organ) DELETE r;
 
 // Build relationship (gene-)[RISK]->(organ)
 
-MATCH (g:gene)
-MATCH (o:organ)
+MATCH (g:gene)-[:AFFECT]->(o:organ)
 MATCH (rl:LKP_MASTER_RISKTO85FORGRAPH)
 WHERE rl.gene = g.name
 AND rl.organ = o.name  
-// either filter on organ or rl for unknown organ name
-AND rl.organ <> 'Unknown'
+
 CALL { WITH rl
   MATCH (rli:LKP_MASTER_RISKTO85FORGRAPH 
     {

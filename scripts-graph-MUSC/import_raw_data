@@ -26,13 +26,15 @@ MERGE (g:LKP_GENECANCERFORPRINTOUT {
 });
 
 
-MATCH (s:LKP_GENE_SYNDROME) DELETE (s);
+MATCH (s:LKP_GENE_SYNDROME) DETACH DELETE (s);
 LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/jzmoolman/graph-musc/master/data-graph-MUSC/LKP_Gene_Syndrome.csv'
 AS row
 WITH row   
+WHERE row.GeneMasterName IS NOT NULL
 MERGE (s:LKP_GENE_SYNDROME {
   GeneMasterName: coalesce(row.GeneMasterName,'Unknown'),
   SyndromeMasterName: coalesce(row.SyndromeMasterName,'Unknown')
+
 });
 
 MATCH (s:LKP_GENE_DISEASE_ASSOCIATION) DELETE (s);

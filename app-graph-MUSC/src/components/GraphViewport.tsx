@@ -47,7 +47,7 @@ export const GraphViewport = ( {
     const [diseases, setDiseases] = useState<string[]>([])
     const [syndromes, setSyndromes] = useState<string[]>([])
     const [finalVerdict, setFinalVerdict] = useState<FinalVerdict>('Confirmed')
-    const [gender, setGender] = useState<string>('Male')
+    const [gender, setGender] = useState<string>('Female')
     // used to display the Genecard
     const [gene, setGene] = useState<string>('None')
     const [dim, setDim] = useState<Dimension>( {width:600, height:600})

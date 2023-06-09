@@ -104,8 +104,8 @@ export const GeneRiskGraph = ({
     }
 
     const handleLabel = (node: Node) => {
-        // console.log('debug: handleLabel ', data.label)
-        if (node.group === 'Organ') {
+        console.log('debug: handleLabel ', node)
+        if (node.group === 'OrganAffect') {
             return 'No Penetrance'
         
         } if (node.group === 'OrganPenetrance') {
@@ -369,10 +369,7 @@ export const GeneRiskGraph = ({
         }
         return result 
     }
-    
-    // dataFiltered = filterGender(gender, data)
-    // dataFiltered = filterDiseaseType(diseaseType, dataFiltered)
-    // dataFiltered = groupNoPenetrance(noPenetranceGroup, dataFiltered)
+    //  filterData() 
 
     return (<>
         <div id='GeneRiskGraph-Container' 
@@ -413,7 +410,8 @@ export const GeneRiskGraph = ({
                     backgroundColor: 'rgba(220,220,220,0.9)'
                 }} 
             >
-                <NodeLegends data={dataFiltered} onLabel={handleLabel}></NodeLegends>
+                {/* Legends are based on the full dataset not on the filtered dataset */}
+                <NodeLegends data={data} onLabel={handleLabel}></NodeLegends> 
                 <NodeProperties></NodeProperties>
             </div>
             <div id='GeneRiskGraph-Notes' 

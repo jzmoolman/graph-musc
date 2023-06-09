@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState} from 'react'
 import CSS from 'csstype' 
 
-import { GeneRiskGraph } from "../experimental/GeneRiskGraph"
+import { GeneRiskGraph } from "./GeneRiskGraph"
 import { GeneRiskChart } from "../experimental/GeneRiskChart"
 import { 
     Box,
@@ -19,10 +19,10 @@ import { NCCN } from './NCCN'
 import { Neo4jContext } from 'use-neo4j'
 import { GeneAffectPenetranceOrgan, load_gene_affect_risk_organ } from '../data/neo4j/gene-_-organ.neo4j'
 import { build_gene_affecs_risk_organ_forcegraph } from '../data/forcegraph/gene-_-organ.forcegraph'
-import { Node,   OrganPenetranceNode } from '../data/forcegraph/types.forcegraph'
+import { Node } from '../data/forcegraph/types.forcegraph'
 import { GeneDesc } from './GeneDesc'
 import { GeneNode } from '../data/forcegraph/types.forcegraph'
-import { GraphData, NodeObject } from 'react-force-graph-2d'
+import { GraphData } from 'react-force-graph-2d'
 import { GeneBarChart, build_gene_organ_barchart } from '../data/barchart/organ.barchart'
 
 type Data = { 
