@@ -36,8 +36,8 @@ export const build_legends =( svg, data, onLabel) => {
     let width = (node_size*1.5+stroke_width)*2*legendNodes.length
     let height = (node_size+stroke_width)*2 + 5 + 16
     svg.attr('viewBox',`0 0 ${width},${height}`)
-    svg.attr('width',width/2)
-    svg.attr('height',height/2)
+    svg.attr('width',width/1.5)
+    svg.attr('height',height/1.5)
 
 
   
@@ -57,6 +57,7 @@ export const build_legends =( svg, data, onLabel) => {
             .attr('r', node =>  node_size) 
             .attr('stroke', node => node.stroke)
             .attr('stroke-width', stroke_width)
+            
             .attr('cx', node => { 
                 index += 1
                 let offset = node_size+stroke_width
@@ -71,8 +72,8 @@ export const build_legends =( svg, data, onLabel) => {
              })
 
     // Triangle
-    const triangle_group = svg.select('#triagle-group').node()
-        ?svg.select('#triagle-group')
+    const triangle_group = svg.select('#triangle-group').node()
+        ?svg.select('#triangle-group')
         :svg.append('g')
             .attr('id','triangle-group')
 

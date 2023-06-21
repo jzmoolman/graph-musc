@@ -3,17 +3,28 @@
 // Dependencies
 // build_gene_organ_disease 
 
+// The following two queries used to be one execution block.  However this will filter out 
+// all genes that property DisplayAltname <> 1 out, hence the g.description will not up set.:w
+
 
 MATCH (g:gene)
 MATCH (n:LKP_GENE_AKA) 
-MATCH (gal:LKP_GENE_DISEASE_ASSOCIATION)
 
 WHERE  g.name = n.GeneMasterName 
-    AND n.DisplayAltNameGene = 1
-    AND g.name = gal.Gene_Name 
-WITH g,gal.Concatenated as concatenated, apoc.text.join(collect(n.AltNameGene), ',') as GeneAltName
+    AND n.DisplayAltNameGene = 1 // ?
+WITH g, apoc.text.join(collect(n.AltNameGene), ',') as GeneAltName
 
 // RETURN  collect(n.AltNameGene), apoc.text.join(collect(n.AltNameGene), ',') 
 SET
-  g.altName = GeneAltName,
+  g.altName = GeneAltName;
+
+MATCH (g:gene)
+MATCH (gal:LKP_GENE_DISEASE_ASSOCIATION)
+
+WHERE 
+    g.name = gal.Gene_Name 
+WITH g, gal.Concatenated as concatenated
+
+// RETURN  collect(n.AltNameGene), apoc.text.join(collect(n.AltNameGene), ',') 
+SET
   g.description = concatenated;

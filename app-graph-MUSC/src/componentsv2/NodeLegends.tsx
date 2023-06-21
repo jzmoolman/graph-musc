@@ -18,7 +18,7 @@ export const NodeLegends = ({
     const ref = useRef<SVGSVGElement>(null)
 
     useEffect (()=>{
-        console.log('---->Debug: NodeProperties.useEffect legend_ref', ref)
+        // console.log('---->Debug: NodeProperties.useEffect legend_ref', ref)
         const svg = d3.select(ref.current)
         // console.log('---->Debug: NodeProperties.useEffect svg', svg_1)
         build_legends(svg, data, onLabel)
