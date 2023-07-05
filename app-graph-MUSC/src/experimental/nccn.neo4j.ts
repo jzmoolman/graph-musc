@@ -54,13 +54,13 @@ export const  loadNCCNDataV2 = async (
     CALL apoc.cypher.run("
     MATCH (sp:LKP_SPECIALISTS_BY_ORGAN)<-[rsp:NCCN_ORGSPEC]-(n:NCCN_GUIDELINES)<-[rn:NCCN_MGENE]-(g:gene) 
     ${whereCLAUSE} 
-    WITH n ORDER BY n.OrganSystem, n.Modality, n.Gender  RETURN n.OrganSystem as organ, COLLECT({modality: n.Modality, gender: n.Gender, recommendation: n.OriginalAction}) as data, apoc.text.join([n.GuidelineBody, n.GuidelineName, n.GuidelineVersion, n.GuidelineYear], '_') as footnote, toInteger(1) as organ_specialist 
+    WITH n ORDER BY n.OrganSystem, n.Modality, n.Gender  RETURN n.OrganSystem as organ, COLLECT(DISTINCT {modality: n.Modality, gender: n.Gender, recommendation: n.OriginalAction}) as data, apoc.text.join([n.GuidelineBody, n.GuidelineName, n.GuidelineVersion, n.GuidelineYear], '_') as footnote, toInteger(1) as organ_specialist 
     UNION 
     MATCH (sp1:LKP_SPECIALISTS_BY_ORGAN)<-[rsp:NCCN_ORGSPEC]-(n:NCCN_GUIDELINES)<-[rn:NCCN_MGENE]-(g:gene) 
     WITH collect(sp1.Organ_System) as OrganSystem
     MATCH (sp2:LKP_SPECIALISTS_BY_ORGAN)<-[rsp:NCCN_ORGSPEC]-(n2:NCCN_GUIDELINES)<-[rn:NCCN_MGENE]-(g:gene) 
     ${whereCLAUSE} AND not sp2.Organ_System in OrganSystem
-    WITH n2 ORDER BY n2.OrganSystem, n2.Modality, n2.Gender  RETURN n2.OrganSystem as organ, COLLECT({modality: n2.Modality, gender: n2.Gender, recommendation: n2.OriginalAction}) as data, apoc.text.join([n2.GuidelineBody, n2.GuidelineName, n2.GuidelineVersion, n2.GuidelineYear], '_') as footnote, toInteger(0) as organ_specialist
+    WITH n2 ORDER BY n2.OrganSystem, n2.Modality, n2.Gender  RETURN n2.OrganSystem as organ, COLLECT(DISTINCT {modality: n2.Modality, gender: n2.Gender, recommendation: n2.OriginalAction}) as data, apoc.text.join([n2.GuidelineBody, n2.GuidelineName, n2.GuidelineVersion, n2.GuidelineYear], '_') as footnote, toInteger(0) as organ_specialist
     ",
     {}) yield value
     WITH value.organ as organ, value.organ_specialist as organ_specialist, value.data as data, value.footnote as footnote
