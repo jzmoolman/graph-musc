@@ -125,6 +125,8 @@ export const load_syndrome_gene_cause_disease = async (
                     fullName: g.properties.fullName,
                     altName: g.properties.altName,
                     description: g.properties.description,
+                    pmids: g.properties.pmids,
+                    references: g.properties.references,
                     mechanism: g.properties.mechanism,
                 },
                 cause: {

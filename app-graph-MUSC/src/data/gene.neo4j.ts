@@ -12,6 +12,8 @@ export interface Gene {
     fullName: string
     altName: string
     description: string
+    pmids: string
+    references: string
     mechanism: string
 }
 
@@ -56,6 +58,8 @@ export const  loadGenes = async (
                 fullName: g.properties.fullName,
                 altName: g.properties.altName,
                 description: g.properties.description,
+                pmids: g.properties.pmids,
+                references: g.properties.references,
                 mechanism: g.properties.machanism
             }
             result.push(gene)
@@ -110,6 +114,8 @@ export const  loadGenes_hasFinalVerdict = async (
                 fullName: g.properties.fullName,
                 altName: g.properties.altName,
                 description: g.properties.description,
+                pmids: g.properties.pmids,
+                references: g.properties.references,
                 mechanism: g.properties.machanism
             }
             result.push(gene)

@@ -82,6 +82,8 @@ export const load_gene_affect_organ = async (
                     fullName: g.properties.fullName,
                     altName: g.properties.altName,
                     description: g.properties.description,
+                    pmids: g.properties.pmids,
+                    references: g.properties.references,
                     mechanism: g.properties.mechanism,
                 },
                 affect: {
@@ -215,6 +217,8 @@ export const load_gene_affect_risk_organ = async (
                     fullName: g.properties.fullName,
                     altName: g.properties.altName,
                     description: g.properties.description,
+                    pmids: g.properties.pmids,
+                    references: g.properties.references,
                     mechanism: g.properties.mechanism,
                 },
                 relation: relation,

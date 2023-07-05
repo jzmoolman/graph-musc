@@ -23,8 +23,10 @@ MATCH (gal:LKP_GENE_DISEASE_ASSOCIATION)
 
 WHERE 
     g.name = gal.Gene_Name 
-WITH g, gal.Concatenated as concatenated
+WITH g, gal.Concatenated as concatenated, gal.Pmids as pmids, gal.References as references
 
 // RETURN  collect(n.AltNameGene), apoc.text.join(collect(n.AltNameGene), ',') 
 SET
-  g.description = concatenated;
+  g.description = concatenated,
+  g.pmids = pmids,
+  g.references = references;
