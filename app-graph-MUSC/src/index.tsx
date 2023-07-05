@@ -15,12 +15,12 @@ let password
 
 if(process.env.REACT_APP_VERSION === 'prd'){
   // heroku prd build code
-  console.log('Production')
+  //console.log('Production')
   uri = process.env.REACT_APP_PRD_URI!
   password = process.env.REACT_APP_PRD_PWD!
 } else {
   // heroku beta & development build code
-  console.log('Beta/Development')
+  //console.log('Beta/Development')
   uri = process.env.REACT_APP_BETA_URI!
   password = process.env.REACT_APP_BETA_PWD!
 }

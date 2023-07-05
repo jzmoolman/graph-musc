@@ -11,7 +11,7 @@ type GeneDescProps = {
 
 
 export const GeneDesc = ({gene}:GeneDescProps) => {
-    console.log('----->Debug: GeneDesc.gene ', gene)
+    //console.log('----->Debug: GeneDesc.gene ', gene)
 
     let description: string
     let pmids: string[]
@@ -28,11 +28,11 @@ export const GeneDesc = ({gene}:GeneDescProps) => {
         if (description != undefined){        
         pmids = gene.pmids.split("|")
 
-        console.log('----->Debug: GeneDesc.gene.pmids', pmids)
+        //console.log('----->Debug: GeneDesc.gene.pmids', pmids)
 
         references = gene.references.split("|")
 
-        console.log('----->Debug: GeneDesc.gene.references', references)
+        //console.log('----->Debug: GeneDesc.gene.references', references)
 
         for (var i = 0; i < pmids.length; i++) {
 
@@ -57,7 +57,7 @@ export const GeneDesc = ({gene}:GeneDescProps) => {
             }
         }
 
-        console.log('----->Debug: GeneDesc.gene.listReferences', htmlReferences)
+       // console.log('----->Debug: GeneDesc.gene.listReferences', htmlReferences)
 
         description = description.replaceAll('(PMID:', '');
 
