@@ -38,7 +38,7 @@ MERGE (s:LKP_GENE_SYNDROME {
 });
 
 MATCH (s:LKP_GENE_CARD_REFERENCES) DELETE (s);
-LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/arm-diaz/pubmed-cited-reference-searching/master/src/assets/LKP_GeneCard_References.csv'
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/jzmoolman/graph-musc/beta/data-graph-MUSC/LKP_GeneCard_References.csv'
 AS row
 WITH row
 MERGE (s:LKP_GENE_CARD_REFERENCES {
@@ -47,7 +47,7 @@ MERGE (s:LKP_GENE_CARD_REFERENCES {
 });
 
 MATCH (s:LKP_GENE_DISEASE_ASSOCIATION) DELETE (s);
-LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/arm-diaz/pubmed-cited-reference-searching/master/src/assets/LKP_Gene_Disease_AssociationWithReferences.csv'
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/jzmoolman/graph-musc/beta/data-graph-MUSC/LKP_Gene_Disease_AssociationWithReferences.csv'
 AS row
 WITH row
 MERGE (s:LKP_GENE_DISEASE_ASSOCIATION {
