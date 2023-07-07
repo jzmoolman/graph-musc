@@ -23,7 +23,7 @@ export const GeneDesc = ({gene}:GeneDescProps) => {
 
         description = gene.description;
 
-        console.log('----->Debug: GeneDesc.gene.description', description)
+        //console.log('----->Debug: GeneDesc.gene.description', description)
 
         if (description != undefined){        
         pmids = gene.pmids.split("|")
@@ -37,13 +37,13 @@ export const GeneDesc = ({gene}:GeneDescProps) => {
         for (var i = 0; i < pmids.length; i++) {
 
             if(description.includes(pmids[i] + ',')){
-                description = description.replaceAll(pmids[i] + ',', `<sup> <a href="https://pubmed.ncbi.nlm.nih.gov/${pmids[i]}/" target="_blank"> [${i + 1}] </a></sup>`);
+                description = description.replaceAll(pmids[i] + ',', `<sup STYLE="font-size:50%"> <a href="https://pubmed.ncbi.nlm.nih.gov/${pmids[i]}/" target="_blank"> [${i + 1}] </a></sup>`);
 
             } 
             
             if (description.includes(pmids[i] + ')')) {
 
-                description = description.replaceAll(pmids[i] + ')', `<sup> <a href="https://pubmed.ncbi.nlm.nih.gov/${pmids[i]}/" target="_blank"> [${i + 1}] </a></sup>`);
+                description = description.replaceAll(pmids[i] + ')', `<sup STYLE="font-size:50%"> <a href="https://pubmed.ncbi.nlm.nih.gov/${pmids[i]}/" target="_blank"> [${i + 1}] </a></sup>`);
 
             }
 
@@ -59,7 +59,7 @@ export const GeneDesc = ({gene}:GeneDescProps) => {
 
        // console.log('----->Debug: GeneDesc.gene.listReferences', htmlReferences)
 
-        description = description.replaceAll('(PMID:', '');
+        description = description.replaceAll(' (PMID:', '');
 
 
         }
