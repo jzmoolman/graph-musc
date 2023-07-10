@@ -1,0 +1,18 @@
+# Prodcution
+NEO4J_URI=neo4j+s://a290e4e9.databases.neo4j.io
+NEO4J_USERNAME=neo4j
+NEO4J_PASSWORD=LRyUtnrytWZQr6ZG8WumUR-XnwOHicI9fFAQ06Cr6Jw
+AURA_INSTANCEID=a290e4e9
+AURA_INSTANCENAME=Instance01
+
+cat simple_match | /usr/local/opt/neo4j/bin/cypher-shell -u neo4j -p $NEO4J_PASSWORD -a $NEO4J_URI > out_production.neo
+
+# Beta
+# zach@scapticom.co.za 
+NEO4J_URI=neo4j+s://21918b16.databases.neo4j.io
+NEO4J_USERNAME=neo4j
+NEO4J_PASSWORD=n2YRPwz5WoXAn_sU6VVNzGg0BJYC5tyWptfbg2eDKd8
+AURA_INSTANCEID=21918b16
+AURA_INSTANCENAME=Instance01
+
+cat simple_match | /usr/local/opt/neo4j/bin/cypher-shell -u neo4j -p $NEO4J_PASSWORD -a $NEO4J_URI > out_beta.neo

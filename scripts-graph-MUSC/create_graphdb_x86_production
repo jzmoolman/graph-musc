@@ -1,0 +1,14 @@
+# Wait 60 seconds before connecting using these details, or login to https://console.neo4j.io to validate the Aura Instance is available
+NEO4J_URI=neo4j+s://a290e4e9.databases.neo4j.io
+NEO4J_USERNAME=neo4j
+NEO4J_PASSWORD=LRyUtnrytWZQr6ZG8WumUR-XnwOHicI9fFAQ06Cr6Jw
+AURA_INSTANCEID=a290e4e9
+AURA_INSTANCENAME=Instance01
+
+cat import_raw_data | /usr/local/opt/neo4j/bin/cypher-shell -u neo4j -p $NEO4J_PASSWORD -a $NEO4J_URI 
+cat build_gene_organ_disease  | /usr/local/opt/neo4j/bin/cypher-shell -u neo4j -p $NEO4J_PASSWORD -a $NEO4J_URI 
+cat expand_gene  | /usr/local/opt/neo4j/bin/cypher-shell -u neo4j -p $NEO4J_PASSWORD -a $NEO4J_URI 
+cat build_syndrome  | /usr/local/opt/neo4j/bin/cypher-shell -u neo4j -p $NEO4J_PASSWORD -a $NEO4J_URI 
+cat build_risk  | /usr/local/opt/neo4j/bin/cypher-shell -u neo4j -p $NEO4J_PASSWORD -a $NEO4J_URI 
+cat build_nccn_guidelines  | /usr/local/opt/neo4j/bin/cypher-shell -u neo4j -p $NEO4J_PASSWORD -a $NEO4J_URI 
+
