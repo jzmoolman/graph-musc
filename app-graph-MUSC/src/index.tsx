@@ -5,35 +5,34 @@ import './index.css';
 
 import App from './App'; 
 
-
-
 import reportWebVitals from './reportWebVitals';
 
 import { Neo4jProvider} from 'use-neo4j';
 import neo4j  from  'neo4j-driver'
 
+let uri
+let password
 
-// Never merge this with beta
-const uri = 'neo4j+s://813893ea.databases.neo4j.io'
-// let uri2
-// if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-//     // development build code
-//     uri2 = 'neo4j+s://21918b16.databases.neo4j.io'
-// } else {
-//     // production build code
-//     uri2 = 'neo4j+s://21918b16.databases.neo4j.io'
-// }
+if(process.env.REACT_APP_VERSION === 'prd'){
+  // heroku prd build code
+  //console.log('Production')
+  uri = process.env.REACT_APP_PRD_URI!
+  password = process.env.REACT_APP_PRD_PWD!
+} else {
+  // heroku beta & development build code
+  //console.log('Beta/Development')
+  uri = process.env.REACT_APP_BETA_URI!
+  password = process.env.REACT_APP_BETA_PWD!
+}
 
 const user = 'neo4j'
-// Never merge this with beta
-const password_production = 'p6YURX5bFlooyM3vRQizhc0uXY_cSpP_gfgJJQ7v_j8'
-// const password_beta = 'n2YRPwz5WoXAn_sU6VVNzGg0BJYC5tyWptfbg2eDKd8'
 
+const driver = neo4j.driver(uri, neo4j.auth.basic(user, password))
 
-
-
-// const driver = neo4j.driver(uri, neo4j.auth.basic(user, password))
-const driver = neo4j.driver(uri, neo4j.auth.basic(user, password_production))
+//const uri = 'neo4j+s://813893ea.databases.neo4j.io'
+//const password_production = 'p6YURX5bFlooyM3vRQizhc0uXY_cSpP_gfgJJQ7v_j8'
+//const password_beta = 'n2YRPwz5WoXAn_sU6VVNzGg0BJYC5tyWptfbg2eDKd8'
+//const uri2 = 'neo4j+s://21918b16.databases.neo4j.io'
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
