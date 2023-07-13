@@ -6,7 +6,8 @@ import * as d3 from "d3"
 const DEBUG_ON = 0
 
 export function GeneRiskChart({
-    gender, // default gender
+    gender,               
+    onGenderChange,             
     data, // gene,
 }) {
 
@@ -14,7 +15,7 @@ export function GeneRiskChart({
 
     const ref = useRef(null);
 
-    let currentGender = gender
+    let currentGender = gender  
 
     let filteredData = filterGender(currentGender, data)
 
@@ -33,7 +34,7 @@ export function GeneRiskChart({
         d3.select(ref.current)
             .selectAll('*')
             .remove()
-        filteredData = filterGender(currentGender, data) 
+        filteredData = filterGender(gender, data)               // jmh changed to gender
         buildGraph();
     }, [])
 
@@ -216,7 +217,7 @@ export function GeneRiskChart({
                 .attr('font-size', fontSize)
                 .attr('x',  marginLeft)
                 .attr('y',  height - marginTop + 20)
-            .text(`${currentGender==='Male'?'Male':'Female'} ${data.name} organ penetrance between the ages 25 and 85 `)
+             .text(`${gender==='Male'?'Male':'Female'} ${data.name} organ penetrance between the ages 25 and 85 `)  // JMH changed to gender
 
         // X-axis Additional descriptions
         svg.append('g')
@@ -227,17 +228,20 @@ export function GeneRiskChart({
                 .attr('y', 0)
                 .attr('width', width)
                 .attr('height', height)
-            .text(`${currentGender==='Male'?'Male':'Female'} ${data.name} organ penetrance between the ages 25 and 85 `)
+            .text(`${gender==='Male'?'Male':'Female'} ${data.name} organ penetrance between the ages 25 and 85 `) //JMH changed to gender
     }
     
     function handleGenderChange(e) {
         currentGender = e.target.value
+        onGenderChange(e.target.value) // JMH added reflect the change up the chain
+              console.log('---->Debug GeneRiskChart -handleGenderChange user chose:', e.target.value)
+              console.log('---->Debug GeneRiskChart -handleGenderChange gender changed to:', gender)
         console.log(e.target.value)
         d3.select(ref.current)
             .selectAll('*')
             .remove()
 
-        filteredData = filterGender(currentGender, data)
+        filteredData = filterGender(gender, data) // JMH changed to gender 
         buildGraph()
     }
     
@@ -257,6 +261,7 @@ export function GeneRiskChart({
             >
                 <label htmlFor='barchar-gender-select'>Gender</label>
                 <select id='barchar-gender-select'
+                    value={gender}  
                     onChange={handleGenderChange}
                 >
                     <option key='Male' value='Male'>Male</option>
