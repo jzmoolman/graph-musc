@@ -37,13 +37,24 @@ MERGE (s:LKP_GENE_SYNDROME {
 
 });
 
+MATCH (s:LKP_GENE_CARD_REFERENCES) DELETE (s);
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/jzmoolman/graph-musc/beta/data-graph-MUSC/LKP_GeneCard_References.csv'
+AS row
+WITH row
+MERGE (s:LKP_GENE_CARD_REFERENCES {
+    Id: row['id'],
+    PubmedId: row['pubmed_id']
+});
+
 MATCH (s:LKP_GENE_DISEASE_ASSOCIATION) DELETE (s);
-LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/jzmoolman/graph-musc/master/data-graph-MUSC/LKP_Gene_Disease_Association.csv'
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/jzmoolman/graph-musc/beta/data-graph-MUSC/LKP_Gene_Disease_AssociationWithReferences.csv'
 AS row
 WITH row
 MERGE (s:LKP_GENE_DISEASE_ASSOCIATION {
     Gene_Name: coalesce(row['GENE NAME'],'Unknown'),
-    Concatenated: coalesce(row.Concatenated,'Unknown')
+    Concatenated: coalesce(row.Concatenated,'Unknown'),
+    Pmids: coalesce(row.pmids,'Unknown'),
+    References: coalesce(row.references,'Unknown')
 });
 
 MATCH (s:LKP_GENE_AKA) DELETE (s);

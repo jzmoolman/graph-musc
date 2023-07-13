@@ -100,7 +100,7 @@ export const NCCNTable = ({data}:NCCNTableProps) => {
 
                     row.data.forEach((element)  => {
                             nccnRender.push(
-                                <TableRow key={element.modality}>
+                                <TableRow key={element.modality+element.gender}>
                                 <StyledTableCell2 component="th" scope="row">{element.modality}</StyledTableCell2>
                                 <StyledTableCell2 align="justify">{element.gender}</StyledTableCell2>
                                 <StyledTableCell2 align="justify">{element.recommendation}</StyledTableCell2>
@@ -116,7 +116,7 @@ export const NCCNTable = ({data}:NCCNTableProps) => {
 
                     row.data.forEach((element)  => {
                         nccnRender.push(
-                            <TableRow key={element.modality}>
+                            <TableRow key={element.modality+element.gender}>
                             <StyledTableCell component="th" scope="row">{element.modality}</StyledTableCell>
                             <StyledTableCell align="justify">{element.gender}</StyledTableCell>
                             <StyledTableCell align="justify">{element.recommendation}</StyledTableCell>
