@@ -19,6 +19,7 @@ type Cause = {
     predominantCancerSubType: number,
 }
 
+// Result is (syndrome)-[associated]-[gene]-[cause]-[disease] 
 export type SyndromeGeneCauseDisease = {
     syndrome: Syndrome,
     gene: Gene,
