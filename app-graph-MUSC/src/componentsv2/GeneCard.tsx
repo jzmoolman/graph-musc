@@ -46,7 +46,7 @@ export const GeneCard = ({
     const context = useContext(Neo4jContext), driver = context.driver   
 
     const [data, setData] = useState<Data|undefined>(undefined)
-    const [gender, setGender] = useState<string>('None')
+    const [gender, setGender] = useState<string>('Female')
     let penetranceGroup = true
 
 
@@ -62,9 +62,9 @@ export const GeneCard = ({
     }
 
     useEffect(()=>{
-        // Load all genders, Genecard will filter gender
+        // Load all genders, Genecard will filter gender  
         load_gene_affect_risk_organ(driver, {
-            gender: gender,
+            gender: 'None',                         
             geneFilter: [gene], 
             organFilter:[],
             onData: handleData
@@ -81,11 +81,8 @@ export const GeneCard = ({
         // setCurrentGene(e.target.value)
     }
     
-    const  handleGenderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        // let options = {...currentOptions}
-        // options.gender = event.target.value 
-        // setCurrentOptions(options)
-        setGender(e.target.value)
+    const  handleGenderChange = (newGender: string) => {  
+             setGender(newGender)
     }
 
     const handleClose = () => {
@@ -181,12 +178,14 @@ export const GeneCard = ({
                         <TabPanel value={tabIndex} index={1}>
                             <GeneRiskGraph 
                                 data={data.forceGraphData?data.forceGraphData:{nodes: [], links:[]}} 
-                                gender='Male'
+                                gender = {gender} 
+                                onGenderChange = {handleGenderChange} 
                             />
                         </TabPanel>
                         <TabPanel value={tabIndex} index={2}>
                             <GeneRiskChart 
-                                gender='Male'
+                                gender = {gender}
+                                onGenderChange = {handleGenderChange} 
                                 data={data.geneBarChart}
                             /> 
                         </TabPanel>

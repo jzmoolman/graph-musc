@@ -22,5 +22,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+app-graph-MUSC/package-lock.json
+
 **/zo_BACKUP
 **zo_TS
