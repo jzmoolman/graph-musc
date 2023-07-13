@@ -12,7 +12,7 @@ import {
         ForceGraphScheme,
     } from '../tools/graphtools'
 
-import { GeneNode, Node } from '../data/forcegraph/types.forcegraph'
+import { GeneNode, SyndromeNode, Node } from '../data/forcegraph/types.forcegraph'
 
 import { Box, Button, Hidden, useTheme,  } from '@mui/material'
 import gene_organ_img from '../assets/gene-organ.png'
@@ -55,6 +55,8 @@ type GraphProps = {
     onMouseOver?: () => void  
     onMouseOut?: () => void
     onGeneClick?: (gene: string) => void
+    onSyndromeClick?: (syndrome: string) => void
+
 }
 export const Graph = ( { 
     width=600, 
@@ -76,6 +78,7 @@ export const Graph = ( {
     onMouseOver,
     onMouseOut,
     onGeneClick,
+    onSyndromeClick,
 } : GraphProps ) => {
 
     console.log('--->Debug: Graph')
@@ -110,6 +113,11 @@ export const Graph = ( {
             if (onGeneClick) {
                 // console.log('--->Debug: handleNodeClick.gene', _node.name)
                 onGeneClick((node as GeneNode).name)
+            }
+        } else if ((node as Node).type === 'syndrome' ) {
+            if (onSyndromeClick) {
+                // console.log('--->Debug: handleNodeClick.gene', _node.name)
+                onSyndromeClick((node as SyndromeNode).name)
             }
         } 
         setNodeClicked(node)

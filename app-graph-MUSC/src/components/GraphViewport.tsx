@@ -6,6 +6,7 @@ import { Filters } from './Filters';
 import { FinalVerdict } from '../tools/graphtools';
 
 import { GeneCard } from '../componentsv2/GeneCard';
+import { SyndromeCard } from '../componentsv2/SyndromeCard';
       // import { load_gene_affects_risk_organ } from '../data/neo4j/gene-affect-organ.neo4j';
 import { Neo4jContext } from 'use-neo4j';
 
@@ -50,6 +51,8 @@ export const GraphViewport = ( {
     const [gender, setGender] = useState<string>('Female')
     // used to display the Genecard
     const [gene, setGene] = useState<string>('None')
+    // used to display the Syndromecard
+    const [syndrome, setSyndrome] = useState<string>('None')
     const [dim, setDim] = useState<Dimension>( {width:600, height:600})
     //const [data, setData] = useState<any>(null);
    
@@ -146,6 +149,15 @@ export const GraphViewport = ( {
     const handleGeneCardClose = () => {
         setGene('None')
     }
+
+    const handleSyndromeClick = (syndrome: string) => {
+        console.log('---->handleGraphSyndromeClicked.gene', syndrome)
+       setSyndrome(syndrome)
+   }
+
+   const handleSyndromeCardClose = () => {
+       setSyndrome('None')
+   }
 
     switch (name) { 
         case 'gene-organ':
@@ -244,6 +256,7 @@ export const GraphViewport = ( {
                     onMouseOver={handleMouseOver}
                     onMouseOut={handleMouseOut}
                     onGeneClick={handleGeneClick}
+                    onSyndromeClick={handleSyndromeClick}
                 />
                 <Box style={{
                         // background: 'grey',
@@ -274,6 +287,10 @@ export const GraphViewport = ( {
         </Paper>
         {gene !== 'None'?
             <GeneCard visable={true} gene={gene} onClose={handleGeneCardClose}/>:
+            <></>
+        }
+        {syndrome !== 'None'?
+            <SyndromeCard visable={true} syndrome={syndrome} onClose={handleSyndromeCardClose}/>:
             <></>
         }
     </>
