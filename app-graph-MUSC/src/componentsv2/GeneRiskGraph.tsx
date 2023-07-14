@@ -17,24 +17,25 @@ type GeneRiskGraphProps = {
     data :GraphData,
     // gene?: Gene_OrganRisks,
     gender: string,
+    onGenderChange: (gender:string) => void,      
     debug?: boolean,
 }
 
 export const GeneRiskGraph = ({ 
         data,
-        gender,  // default gender
+        gender,                  
+        onGenderChange,             
         debug=DEBUG,
     }: GeneRiskGraphProps) => {
     console.log("---->Debug: GeneRiskGraph")
     console.log("---->Debug: data", data)
-    // console.log("---->Debug: GeneRiskGraph gender", gender)
+    console.log("---->Debug: GeneRiskGraph gender", gender)  
 
     const ref = useRef(null);
     let node 
     let dataFiltered : GraphData = { nodes: [], links: []}
     const [currentNode, setCurrentNode] = useState<any>(node)
 
-    let currentGender = gender
     let diseaseType = 'Both'
     let noPenetranceGroup = 'Group'
 
@@ -58,20 +59,23 @@ export const GeneRiskGraph = ({
 
     function filterData() {
         dataFiltered = filterAffectWhenPenetrance(data)
-        dataFiltered = filterGender(currentGender, dataFiltered)
+        //dataFiltered = filterGender(currentGender, dataFiltered)
+        dataFiltered = filterGender(gender, dataFiltered)  
         dataFiltered = filterDiseaseType(diseaseType, dataFiltered)
         dataFiltered = groupNoPenetrance(noPenetranceGroup, dataFiltered)
     }
     
-    function handleGenderChange(e:any) {
-        // console.log('---->Debug: GeneRiskGraph handleGenderChange', currentGender)
-        currentGender = e.target.value
+    function handleGenderChange(e:any) {  
+        //console.log('---->Debug: GeneRiskGraph handleGenderChange currentGender=', currentGender) 
+          onGenderChange(e.target.value) // reflect the change up the chain
+        console.log('---->Debug: GeneRiskGraph handleGenderChange gender=', gender) //jmh added
         d3.select(ref.current)
             .selectAll('*')
             .remove()
         buildGraph()
     }
    
+
     function handleDiseasetypeChange(e:any) {
         // console.log('---->Debug: GeneRiskGraph handleDiseasetypeChange', currentGender)
         diseaseType = e.target.value
@@ -123,9 +127,9 @@ export const GeneRiskGraph = ({
         const GeneNodeProperties =() => {
             return (<>
                 {/* <p> {currentNode.group} ({currentNode.id})</p> */}
-                <p>  {currentNode.group} {currentNode.name}</p>
-                <p> Full name {currentNode.fullName}</p>
-                <p> Alternative names {currentNode.altName}</p>
+                <p> <b>{currentNode.name}</b></p>
+                <p> Full name: <b>{currentNode.fullName}</b></p>
+                <p> Alternative names: <b>{currentNode.altName}</b></p>
             </>)
         }
         
@@ -133,11 +137,11 @@ export const GeneRiskGraph = ({
             const organ = currentNode as OrganAffectNode
             return (<>
                 {/* <p> {currentNode.group} ({currentNode.id})</p> */}
-                <p>{currentNode.group} {organ.name}</p>
-                <p>Gender {organ.affect.gender}</p>
-                <p>Disease  {organ.affect.diseaseName}</p>
-                <p>Type   {organ.affect.diseaseType}</p>
-                <p>Predominant disease   {organ.affect.predominantCancerSubType}</p>
+                <p><b>{organ.name}</b></p>
+                {organ.affect.gender === 'Grouped'? <> </>:<p>Gender: <b>{organ.affect.gender}</b></p>}
+                {organ.affect.diseaseName === 'Grouped'? <> </>:<p>Disease: <b>{organ.affect.diseaseName}</b></p>}
+                {organ.affect.diseaseType === 'Grouped'? <> </>:<p>Type:  <b>{organ.affect.diseaseType}</b></p>}
+                {organ.affect.predominantCancerSubType === 'Grouped'? <> </>:<p>Predominant disease:   {organ.affect.predominantCancerSubType}</p>}
 
             </>)
         }
@@ -145,10 +149,29 @@ export const GeneRiskGraph = ({
         const OrganPentranceNodeProperties =() => {
             return (<>
                 {/* <p> {currentNode.group} ({currentNode.id})</p> */}
-                <p>Organ {currentNode.name}</p>
-                <p>Gender {currentNode.penetrance.gender}</p>
-                <p>Penetrance {currentNode.penetrance.risk}%</p>
-                <p>Population Penetrance {currentNode.penetrance.population_risk}%</p>
+                <p><b>{currentNode.name}</b></p>
+                <p>Gender: <b>{currentNode.penetrance.gender}</b></p>
+                <p><b>Penetrance</b>
+                <br></br>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th colSpan={2}></th>
+                            </tr>
+                            <tr> 
+                                <td>Gene: </td>
+                                <td align="right"><b>{currentNode.penetrance.risk}%</b></td>
+                            </tr>
+                            <tr>
+                                <td>Population: </td>
+                                <td align="right"><b>{currentNode.penetrance.population_risk}%</b></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </p>
+              {/*  <p> Gene: <b>{currentNode.penetrance.risk}%</b></p>
+                <p> Population: <b>{currentNode.penetrance.population_risk}%</b></p>
+              */}
             </>)
         }
 
@@ -423,6 +446,7 @@ export const GeneRiskGraph = ({
                 {/* Filter gender */}
                 <label htmlFor='graph-gender-select'>Gender</label>
                 <select id='graph-gender-select'
+                    value={gender}  
                     onChange={handleGenderChange}
                 >
                     {/* <option>Please choose one option</option> */}

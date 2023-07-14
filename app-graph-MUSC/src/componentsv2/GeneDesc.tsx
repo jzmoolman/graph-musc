@@ -74,6 +74,7 @@ export const GeneDesc = ({gene}:GeneDescProps) => {
                 <b> Fullname:</b> {gene.fullName}
             </span>
         </div>
+        <br></br>
         <div>
             <span>
                 <b>Alternative Name:</b> {gene.altName}
