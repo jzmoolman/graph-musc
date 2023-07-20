@@ -165,9 +165,7 @@ export const SyndromeCard = ({
                         }}
                     >
                         <TabPanel value={tabIndex} index={0}>
-                            {
-                            <iframe src='https://drive.google.com/file/d/14cz-yx9XXmbtq-8sjnS9boDutWh3srZs/preview' width='100%' height='800px' frameBorder='0'></iframe>
-                            }
+                         {data?<SyndromeDesc syndrome={getSyndromeNode()}></SyndromeDesc>:<></>}
                         </TabPanel>
                     </Box>
                 </CardContent>

@@ -16,26 +16,22 @@ export const SyndromeDesc = ({syndrome}:SyndromeDescProps) => {
 
     return (<div> 
         {syndrome?<>
+        <div key={"1"} className="NCCNCard">
+            Produced by AI (ChatGPT)    
+            <br/>
+            Prompts created by Emalie Houk, Kiersten Meeder
+            <br/>
+            ChatGPT queries by Nicole Uzzo, Emalie Houk
+            <br/>
+            Reviewed for accuracy by Nicole Uzzo, Emalie Houk
+            <br/>
+            Please make any suggestions regarding accuracy to keh270@MUSC.edu
+        </div>
+        <br/>
         <div>
-            <span>
-                <b> Fullname:</b> {syndrome.name}
-            </span>
-        </div>
-        <br></br>
-        <div>
-            <span>
-                <b>Alternative Name:</b> {syndrome.name}
-            </span>
-                <br></br>
-        </div>
-        <div style={{height:20}}>
-        </div>
-        <Box sx={{fontWeight: 'bold'}}>
-                Description
-        </Box>
-        <div>
-                {syndrome.verbiages}
-        </div>
+            <iframe src='https://drive.google.com/file/d/14cz-yx9XXmbtq-8sjnS9boDutWh3srZs/preview' width='100%' height='800px' frameBorder='0'></iframe>
+
+        </div>               
         </>
         :<span>Loading ...</span>}
       </div>
