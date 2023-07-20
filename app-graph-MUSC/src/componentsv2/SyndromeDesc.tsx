@@ -1,8 +1,6 @@
 
 import React from 'react'
-import { Box } from '@mui/material'
 import { SyndromeNode } from '../data/forcegraph/types.forcegraph'
-import {Interweave} from 'interweave';
 
 
 type SyndromeDescProps = {
