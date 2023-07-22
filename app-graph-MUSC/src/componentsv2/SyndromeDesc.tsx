@@ -28,12 +28,11 @@ export const SyndromeDesc = ({syndrome}:SyndromeDescProps) => {
 
     return (<div> 
         {syndrome?<>
-        {produced_by}
-        <br/>
         <div>
             <iframe src={syndrome.google_drive_link} width='100%' height='800px' frameBorder='0'></iframe>
 
-        </div>               
+        </div>
+        {produced_by}             
         </>
         :<span>Loading ...</span>}
       </div>
