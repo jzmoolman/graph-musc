@@ -7,3 +7,5 @@ Run commands in the directory: **graph-musc**
 3) `git remote -v` check heroku endpoint name
 4) `git remote rename heroku heroku-staging` rename heroku endpoint
 5) git push heroku-staging `git subtree split --prefix app-graph-MUSC  master`:master --force
+
+git push heroku-staging `git subtree split --prefix app-graph-MUSC  feat/AD/chatgpt-syndrome-card`:master --force

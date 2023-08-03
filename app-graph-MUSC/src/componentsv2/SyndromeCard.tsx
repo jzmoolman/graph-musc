@@ -165,7 +165,7 @@ export const SyndromeCard = ({
                         }}
                     >
                         <TabPanel value={tabIndex} index={0}>
-                            {data?<SyndromeDesc syndrome={getSyndromeNode()}></SyndromeDesc>:<></>}
+                         {data?<SyndromeDesc syndrome={getSyndromeNode()}></SyndromeDesc>:<></>}
                         </TabPanel>
                     </Box>
                 </CardContent>

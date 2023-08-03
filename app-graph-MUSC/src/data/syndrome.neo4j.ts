@@ -7,6 +7,7 @@ export interface Syndrome {
     name: string
     types: []
     verbiages: []
+    google_drive_link: string
 }
 
 type loadProps = {
@@ -56,6 +57,7 @@ export const load_syndrome = async (
                 name: s.properties.name,
                 types: s.propertes.types,
                 verbiages: s.propertes.verbiages,
+                google_drive_link: s.properties.google_drive_link
             }
             result.push(data)
         })

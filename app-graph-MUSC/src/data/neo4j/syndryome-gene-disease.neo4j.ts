@@ -119,6 +119,7 @@ export const load_syndrome_gene_cause_disease = async (
                     name: s.properties.name,
                     types: s.properties.types?s.properties.types:[],
                     verbiages: s.properties.verbiages?s.properties.verbiages:[],
+                    google_drive_link: s.properties.google_drive_link
                 },
                 gene:  { 
                     id: Integer.toString(g.identity),
