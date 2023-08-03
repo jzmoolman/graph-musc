@@ -26,7 +26,7 @@ MERGE (g:LKP_GENECANCERFORPRINTOUT {
 });
 
 MATCH (s:LKP_CHATGPT_SYNDROME) DETACH DELETE (s);
-LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/jzmoolman/graph-musc/feat/AD/chatgpt-syndrome-card/data-graph-MUSC/LKP_SyndromesChatGPT.csv'
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/jzmoolman/graph-musc/feat/AD/beta/data-graph-MUSC/LKP_SyndromesChatGPT.csv'
 AS row
 WITH row
 MERGE (s:LKP_CHATGPT_SYNDROME {
