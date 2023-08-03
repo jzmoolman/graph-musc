@@ -40,20 +40,20 @@ export const GeneRiskGraph = ({
     let noPenetranceGroup = 'Group'
 
     useEffect( ()=>   {
-        d3.select(ref.current)
-            .selectAll('*')
-            .remove()
+        // d3.select(ref.current)
+        //     .selectAll('*')
+        //     .remove()
         buildGraph();
 
     }, [])
 
     const handleMouseEnter = (d:any)  => {
-        console.log('---->Debug: GeneRiskGraph handlemouseenter', d)
+        // console.log('---->Debug: GeneRiskGraph handlemouseenter', d)
         setCurrentNode(d)
     }
     
     const handleMouseLeave = (d:any)  => {
-        console.log('---->Debug: GeneRiskGraph handlemouseleave', d)
+        // console.log('---->Debug: GeneRiskGraph handlemouseleave', d)
         setCurrentNode(null)
     }
 
@@ -68,7 +68,7 @@ export const GeneRiskGraph = ({
     function handleGenderChange(e:any) {  
         //console.log('---->Debug: GeneRiskGraph handleGenderChange currentGender=', currentGender) 
           onGenderChange(e.target.value) // reflect the change up the chain
-        console.log('---->Debug: GeneRiskGraph handleGenderChange gender=', gender) //jmh added
+        // console.log('---->Debug: GeneRiskGraph handleGenderChange gender=', gender) //jmh added
         d3.select(ref.current)
             .selectAll('*')
             .remove()
@@ -87,7 +87,7 @@ export const GeneRiskGraph = ({
     }
     
     function handleNoPenetranceChange(e:any) {
-        console.log('---->Debug: GeneRiskGraph handleNoPenetranceChange', noPenetranceGroup)
+        // console.log('---->Debug: GeneRiskGraph handleNoPenetranceChange', noPenetranceGroup)
         noPenetranceGroup = e.target.value
         d3.select(ref.current)
             .selectAll('*')
@@ -98,13 +98,17 @@ export const GeneRiskGraph = ({
     const buildGraph = () => {
         // console.log('---->Debug: GeneRiskGraph.buildGraph')
         const svg = d3.select(ref.current)
-        const cx = +svg.attr('width')/3
-        const cy = +svg.attr('height')/2
-
-        // console.log('---->Debug: svg', svg)
-        // buildForceGraph(svg, dataFiltered.nodes, dataFiltered.links, handleMouseEnter, handleMouseLeave,cx,cy )
+        console.log('---->Debug: width', svg.style('width'))
+        let width = svg.style('width').slice(0,-2)
+        let tmp = +width
+        if ( Number.isNaN(tmp)) {
+            tmp = 0
+        }
+        // dcx diff offset from center
+        let dcx =   (tmp-250-20)/2 - tmp/2
+        console.log('---->Debug: dcx', dcx)
         filterData()
-        buildForceGraph(svg, dataFiltered.nodes, dataFiltered.links, handleMouseEnter, handleMouseLeave,cx,cy )
+        buildForceGraph(svg, dataFiltered.nodes, dataFiltered.links, handleMouseEnter, handleMouseLeave,dcx, 0)
     }
 
     const handleLabel = (node: Node) => {
@@ -409,7 +413,7 @@ export const GeneRiskGraph = ({
         }  
         >
             <svg  
-                width={'auto'}
+                width={'100%'}
                 height={500}
                 style={debug?{
                     border: '3px solid red',

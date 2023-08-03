@@ -4,11 +4,14 @@ import { Box, createTheme, ThemeProvider } from '@mui/material'
 import { Home } from './components/Home'
 import { HomeGraphSite } from './components/HomeGraphSite'
 import { Header } from './components/Header'
-import { DivTest } from './experimental/DivTest'
-import { DivTest2 } from './experimental/divtest2'
 import { Neo4jContext } from 'use-neo4j'
 
 import './App.css'  
+
+// Test components
+import { DivTest } from './experimental/DivTest'
+import { DivTest2 } from './experimental/divtest2'
+import { TestForceGraph } from './experimental/TestForceGraph'
 
 const theme = createTheme({
     typography: { 
@@ -57,6 +60,7 @@ export const App = () => {
                                     gender={'male'}
                                 />
                                 :<div></div>}/> */}
+                        <Route path='testforcegraph' element= {<TestForceGraph/>}/>
                         <Route path='divtest' element= {<DivTest></DivTest>}/>
                         <Route path='divtest2' element= {<DivTest2></DivTest2>}/>
 

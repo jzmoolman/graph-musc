@@ -1,35 +1,22 @@
 // Forked from GeneRiskGrzph_002
+import { LineWeight } from "@mui/icons-material"
 import * as d3 from "d3"
 
 const MANY_BODY_STRENGTH = -30
 
 export const buildForceGraph = (svg, nodes, links, onmouseenter,
      onmouseleave,
-     cx, cy) => {
-    // console.log('---->Debug: Forcegraphz.js.buildForceGraph', nodes)
+     dcx, dcy) => {
+    console.log('---->Debug Frocegraphz: buildForceGraph')
 
-    const width = +svg.attr('width')
-    //const height = +svg.attr('height')
-    const height = 500
-
-    console.log('---->Debug width', width)
-    console.log('---->Debug cx', cx)
-    console.log('---->Debug cy', cy)
-    let centerX = width/2;
-    if (typeof cx !== undefined ){
-        centerX = cx
-
-    }
-    let centerY = height/2;
-    if (typeof cy !== undefined ){
-        centerX = cy
-    }
-    console.log(centerX)
-    console.log(centerY)
-
-    // console.log('---->Debug width', svg.attr('width'))
-
-
+    const width = svg.style('width')
+    const height = svg.style('height')
+    console.log('---->Debug: width', width.slice(0,-2))
+    console.log('---->Debug height', height.slice(0,-2))
+    let centerX = Number(width.slice(0,-2))/2 + dcx;
+    let centerY = Number(height.slice(0,-2))/2 + dcy;
+    console.log('---->Debug centerX', centerX)
+    console.log('---->Debug centerY', centerY)
 
     const forceNode = d3.forceManyBody()
         .strength(MANY_BODY_STRENGTH);
@@ -144,7 +131,7 @@ export const buildForceGraph = (svg, nodes, links, onmouseenter,
         .innerRadius(0);
 
     const pieNode = svg.selectAll(".pienode")
-        .data(nodes.filter(d => d.proportions.length > 0 && d.type === 'circle-pie' ))
+        .data(nodes.filter(d => d.type === 'circle-pie' && d.proportions.length > 0 ))
         .enter()
             .append('g')
                 .classed('pienode', true)
@@ -293,24 +280,24 @@ export const buildForceGraph = (svg, nodes, links, onmouseenter,
         delete d.fx;
         delete d.fy;
         d3.select(this)
-            .classed("fixed", false);
+            .classed('fixed', false);
         delete d.fixed;
         simulation.alpha(1).restart();  
     }
     
     function mousehover(event, d) {
-        console.log('mouse hover')
+        console.log('---->Debug Frocegraphz: mouse hover')
     }
     
     function mouseenter(event, d) {
-        console.log('---->Debug: Forcegraphz mouse enter')
+        console.log('---->Debug Frocegraphz: Forcegraphz mouse enter')
         if (onmouseenter) {
             onmouseenter(d)
         }
     }
     
     function mouseleave(event, d) {
-        console.log('---->Debug: Forcegraphz mouse leave')
+        console.log('---->Debug Frocegraphz: Forcegraphz mouse leave')
         if (onmouseleave) {
             onmouseleave(d)
         }
