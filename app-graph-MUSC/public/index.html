@@ -40,4 +40,21 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
   </body>
+  <script src="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/df-messenger.js"></script>
+  <df-messenger
+    project-id="black-beacon-298323"
+    agent-id="6989b290-5682-4235-b966-2ed4b8bac544"
+    language-code="en">
+    <df-messenger-chat-bubble
+     chat-title="medical-bot">
+    </df-messenger-chat-bubble>
+  </df-messenger>
+  <style>
+    df-messenger {
+      z-index: 999;
+      position: fixed;
+      bottom: 16px;
+      right: 16px;
+    }
+  </style>
 </html>
